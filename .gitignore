@@ -5,6 +5,7 @@ backend/.pytest-tmp/
 **/__pycache__/
 frontend/node_modules/
 frontend/dist/
+frontend/.build-tmp/
 *.pyc
 .env
 .idea/
