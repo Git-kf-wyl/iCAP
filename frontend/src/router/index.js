@@ -1,4 +1,5 @@
 import {useAuth} from '../blue/stores/auth.js'
+import {beginNavigation,endNavigation} from '../navigation.js'
 import { createRouter, createWebHistory } from 'vue-router';
 const homePage = () => import('@/components/homePage.vue');
 const rankingScore = () => import('../components/rankingScore/rankingScore.vue');
@@ -183,13 +184,18 @@ const router = createRouter({
     ],
 })
 router.beforeEach(async to => {
+    beginNavigation(to.fullPath)
     const token = localStorage.getItem('ic_token')
     if (!to.meta.public && !token) return {path:'/login',query:{redirect:to.fullPath}}
     if (token) {
-        const valid=await useAuth().refreshProfile()
+        const valid=await useAuth().validateNavigation(() => router.replace({path:'/login',query:{redirect:router.currentRoute.value.fullPath}}))
         if (!valid && !to.meta.public) return {path:'/login',query:{redirect:to.fullPath}}
         if (valid && to.meta.public) return '/'
     }
+    // Load the authenticated frame alongside the destination, rather than after it.
+    if (!to.meta.authPage) import('../components/visualization.vue').catch(() => {})
     document.title = 'InnovationCore AI Platform'
 })
+router.afterEach(to => endNavigation(to.fullPath))
+router.onError(() => endNavigation())
 export default router;

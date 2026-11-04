@@ -65,7 +65,7 @@
             </el-dropdown>
           </el-tooltip>
           <el-tooltip content="用户登出" placement="top" effect="dark">
-            <el-button type="primary" link size="large" style="width:100px" @click="loginOut">
+            <el-button type="primary" link size="large" style="width:100px" :loading="loggingOut" :disabled="loggingOut" @click="loginOut">
               <el-icon>
                 <User />
               </el-icon>
@@ -480,10 +480,15 @@ watch(() => route.path, (newPath) => {
   currentModule.value = resolveModuleFromPath(newPath);
 });
 
+const loggingOut = ref(false);
 const loginOut = async () => {
-  await auth.logout();
-  localStorage.removeItem('username');
-  location.assign('/login');
+  if (loggingOut.value) return;
+  loggingOut.value = true;
+  try {
+    const revoked = await auth.logout();
+    if (!revoked) ElMessage.warning('本地已退出，服务器会话注销未确认');
+    location.assign('/login');
+  } finally { loggingOut.value = false; }
 }
 const handleUpdate = () => auth.refreshProfile();
 

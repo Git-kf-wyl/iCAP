@@ -26,6 +26,16 @@ from app.yellow_runtime import YellowRuntime, legacy_model, write_json
 app=create_app()
 from app.private_assets import protect_assets
 protect_assets(app)
+
+@app.middleware('http')
+async def server_timing(request:Request,call_next):
+    started=time.perf_counter()
+    response=await call_next(request)
+    elapsed=(time.perf_counter()-started)*1000
+    response.headers['Server-Timing']=f'app;dur={elapsed:.1f}'
+    if elapsed>1000 and request.url.path.startswith(('/api/','/v1/')):
+        logging.getLogger('icap.web').warning('slow_request %s %s %.0fms',request.method,request.url.path,elapsed)
+    return response
 # Register all APIs before the native SPA fallback.
 spa=[r for r in app.router.routes if getattr(r,'path',None)=='/{spa_path:path}']
 app.router.routes[:]=[r for r in app.router.routes if r not in spa and not getattr(r,'path','').startswith(('/api/school','/api/data-governance'))]
@@ -94,7 +104,7 @@ def evaluation_template(actor=Depends(authorized)):
 
 @app.get('/v1/preview/report/pdf')
 async def report_pdf(filepath:str,actor=Depends(authorized)):
-    root=runtime.initialize(actor)
+    root=await asyncio.to_thread(runtime.initialize,actor)
     validate_paths(filepath,root,'filepath')
     from app.report_preview import preview_pdf
     return await preview_pdf(root,filepath)
@@ -154,7 +164,7 @@ async def stream_chat(request:Request,actor=Depends(authorized)):
     config=data.get('config') or {}
     if isinstance(config,list):config={p['key']:p.get('value') for p in config if isinstance(p,dict) and 'key' in p}
     if not isinstance(config,dict):raise HTTPException(422,'模型参数必须为对象')
-    root=runtime.initialize(actor)
+    root=await asyncio.to_thread(runtime.initialize,actor)
     key=hashlib.sha256((str(data.get('chat_id','default'))+'|'+str(identifier)).encode()).hexdigest()
     path=root/'chats'/f'{key}.json'
     history=json.loads(path.read_text('utf-8')) if path.is_file() else []
@@ -239,7 +249,7 @@ async def yellow_api(path:str,request:Request,actor=Depends(authorized)):
     if path in DENIED or path.startswith(EXTERNAL_PREFIXES):
         raise HTTPException(503,'此功能依赖的外部服务尚未部署；当前账户与模型访问由 iCAP 管理')
     if path=='run_simultaneous_interpretation':raise HTTPException(422,'当前 DeepSeek 接口不支持语音识别或语音合成')
-    root=runtime.initialize(actor)
+    root=await asyncio.to_thread(runtime.initialize,actor)
     query=list(request.query_params.multi_items())
     for key,value in query:validate_paths(value,root,key.removesuffix('[]'))
     data=None;content=await request.body()

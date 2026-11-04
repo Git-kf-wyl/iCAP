@@ -37,7 +37,9 @@ def test_source_and_credentials_are_not_public(platform):
     client,adapter,users,admin=platform
     client.cookies.clear()
     for path in ['/api/platform/capabilities','/v1/get_model_info','/llm_bench/app.js']:
-        assert client.get(path).status_code==401
+        response=client.get(path)
+        assert response.status_code==401
+        assert response.headers['Server-Timing'].startswith('app;dur=')
     manifest=json.loads((Path(__file__).resolve().parents[2]/'frontend/dist/.vite/manifest.json').read_text('utf-8'))
     dependencies=set()
     def public_assets(key):

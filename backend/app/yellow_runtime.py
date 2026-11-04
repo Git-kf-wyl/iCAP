@@ -67,6 +67,11 @@ class YellowRuntime:
         return self.base/'users'/key
 
     def initialize(self,actor):
+        # Parallel homepage reads may initialize the same new account together.
+        with self.lock:
+            return self._initialize(actor)
+
+    def _initialize(self,actor):
         root=self.workspace(actor)
         first=not (root/'backend/config/tasks.json').exists()
         for folder in ['backend/config','backend/database','backend/report/output','uploads','outputs','logs','testsuite/TestSuite','testsuite/TestSuiteRulerII','testsuite/TestSuiteDev','paper_agent_results']:

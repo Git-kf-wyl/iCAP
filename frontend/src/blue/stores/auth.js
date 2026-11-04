@@ -8,6 +8,10 @@ export const useAuth = defineStore('auth', () => {
   const userId = ref(localStorage.getItem('ic_user_id') || '')
   const role = ref(localStorage.getItem('ic_role') || '')
   const securityQuestionsConfigured = ref(localStorage.getItem('ic_has_security_questions') === 'true')
+  let verifiedToken = ''
+  let verifiedAt = 0
+  let profileRequest = null
+  let logoutRequest = null
   function saveProfile(result) {
     username.value = result.username || result.email || result.phone || ''
     userId.value = result.id == null ? '' : String(result.id)
@@ -27,6 +31,8 @@ export const useAuth = defineStore('auth', () => {
     token.value = result.access_token
     localStorage.setItem('ic_token', token.value)
     saveProfile(result)
+    verifiedToken = token.value
+    verifiedAt = Date.now()
   }
   async function login(credentials) {
     saveSession(await api.post('/auth/login', credentials, { publicAuth: true, silentError: true }))
@@ -51,18 +57,47 @@ export const useAuth = defineStore('auth', () => {
   }
   async function refreshProfile() {
     if (!token.value) return false
-    try {
-      saveProfile(await api.get('/auth/me', { silentError: true, skipAuthRedirect: true }))
-      return true
-    } catch (error) {
-      if (error.response?.status === 401) {
-        clearSession()
-        return false
+    const session = token.value
+    if (profileRequest?.token === session) return profileRequest.promise
+    const request = { token: session }
+    request.promise = (async () => {
+      try {
+        const profile = await api.get('/auth/me', { silentError: true, skipAuthRedirect: true })
+        // A previous login's response must never overwrite the current session.
+        if (token.value !== session) return false
+        saveProfile(profile)
+        verifiedToken = session
+        verifiedAt = Date.now()
+        return true
+      } catch (error) {
+        if (token.value !== session) return false
+        if (error.response?.status === 401) {
+          clearSession()
+          return false
+        }
+        throw error
+      } finally {
+        if (profileRequest === request) profileRequest = null
       }
-      throw error
+    })()
+    profileRequest = request
+    return request.promise
+  }
+  function validateNavigation(onInvalid) {
+    if (!token.value) return Promise.resolve(false)
+    if (verifiedToken === token.value) {
+      // API requests and feature files still enforce server-side authorization.
+      // Revalidate in the background instead of gating every menu click on WAN RTT.
+      if (Date.now() - verifiedAt > 60000 && !profileRequest) refreshProfile().then(valid => {
+        if (!valid && !token.value) onInvalid?.()
+      }).catch(() => {})
+      return Promise.resolve(true)
     }
+    return refreshProfile()
   }
   function clearSession() {
+    verifiedToken = ''
+    verifiedAt = 0
     token.value = ''
     username.value = ''
     userId.value = ''
@@ -76,12 +111,16 @@ export const useAuth = defineStore('auth', () => {
     localStorage.removeItem('ic_has_security_questions')
   }
   async function logout() {
-    let revoked = true
-    try {
-      if (token.value) await api.post('/auth/logout', null, { silentError: true, skipAuthRedirect: true })
-    } catch { revoked = false }
-    finally { clearSession() }
-    return revoked
+    if (logoutRequest) return logoutRequest
+    logoutRequest = (async () => {
+      let revoked = true
+      try {
+        if (token.value) await api.post('/auth/logout', null, { silentError: true, skipAuthRedirect: true })
+      } catch { revoked = false }
+      finally { clearSession() }
+      return revoked
+    })()
+    try { return await logoutRequest } finally { logoutRequest = null }
   }
-  return { token, username, userId, role, securityQuestionsConfigured, login, register, getSecurityQuestions, resetPassword, changePassword, setupSecurityQuestions, refreshProfile, logout }
+  return { token, username, userId, role, securityQuestionsConfigured, login, register, getSecurityQuestions, resetPassword, changePassword, setupSecurityQuestions, refreshProfile, validateNavigation, logout }
 })

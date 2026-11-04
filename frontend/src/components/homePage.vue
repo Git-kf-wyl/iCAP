@@ -165,7 +165,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onBeforeUnmount, computed, nextTick } from "vue";
+import { ref, onMounted, onBeforeUnmount, computed, nextTick, defineAsyncComponent } from "vue";
 import { useRouter } from "vue-router";
 import {
   Promotion,
@@ -181,7 +181,7 @@ import {
 import { getCurrentFullRes, getMultiModelData } from "@/api/dataService.js";
 import { getAllPublishedTasks } from "@/api/runService.js";
 import { useStore } from "vuex";
-import rankingScoreBarChart from "@/charts/rankingScoreBarChart.vue";
+const rankingScoreBarChart = defineAsyncComponent(() => import("@/charts/rankingScoreBarChart.vue"));
 import { ModelService } from "@/services/modelService.js";
 import { useReportPreviewStore } from "@/stores/reportPreview.js";
 
@@ -704,105 +704,109 @@ const goToRuler2SubCategory = (subKey: string) => {
 
 // ===================== 生命周期 =====================
 onMounted(async () => {
-  // 获取最新已发布报告信息（名称 + id），供展示和跳转复用
-  try {
-    const resp = await getAllPublishedTasks();
-    const tasks = resp.data || [];
-    if (tasks.length > 0) {
-      reportName.value = `最新报告：${tasks[0].report_name}`;
-      latestReportId.value = tasks[0].id;
-    }
-  } catch (err) {
-    console.warn("获取最新发布报告信息失败:", err);
-  }
-
-  // 加载大语言模型数据（同时获取其中的 ruler2 数据，包含 aisf_llm_gaixie）
   let ruler2FromFullRes = {};
-  try {
-    const llmRes = await getCurrentFullRes();
-    llmRawData.value = llmRes.data?.ruler1 || {};
-    ruler2FromFullRes = llmRes.data?.ruler2 || {};
-  } catch (err) {
-    console.error("Failed to load LLM ranking data:", err);
-  } finally {
-    llmLoading.value = false;
-    agentLoading.value = false;
-  }
-
-  // 加载视觉模型数据
-  try {
-    const multiRes = await getMultiModelData();
-    const multiR1 = multiRes.data?.ruler1 || {};
-    // 只保留包含视觉数据集 key 的模型
-    const visionFiltered: Record<string, any> = {};
-    Object.entries(multiR1).forEach(
-      ([modelName, modelGroup]: [string, any]) => {
-        const hasVision = (modelGroup?.result || []).some((item: any) =>
-          VISION_DATASET_KEYS.includes(item.dataset_name)
-        );
-        if (hasVision) {
-          visionFiltered[modelName] = modelGroup;
-        }
+  let ruler2FromMultiRes = {};
+  // These independent reads must start together over a high-latency WAN.
+  const reportsReady = (async () => {
+    try {
+      const resp = await getAllPublishedTasks();
+      const tasks = resp.data || [];
+      if (tasks.length > 0) {
+        reportName.value = `最新报告：${tasks[0].report_name}`;
+        latestReportId.value = tasks[0].id;
       }
-    );
-    visionRawData.value = visionFiltered;
-
-    // 从同一份 multiR1 数据中筛选音频模型
-    const audioFiltered: Record<string, any> = {};
-    Object.entries(multiR1).forEach(
-      ([modelName, modelGroup]: [string, any]) => {
-        const hasAudio = (modelGroup?.result || []).some((item: any) =>
-          AUDIO_DATASET_KEYS.includes(item.dataset_name)
-        );
-        if (hasAudio) {
-          audioFiltered[modelName] = modelGroup;
+    } catch (err) {
+      console.warn("获取最新发布报告信息失败:", err);
+    }
+  })();
+  const llmReady = (async () => {
+    try {
+      const llmRes = await getCurrentFullRes();
+      llmRawData.value = llmRes.data?.ruler1 || {};
+      ruler2FromFullRes = llmRes.data?.ruler2 || {};
+    } catch (err) {
+      console.error("Failed to load LLM ranking data:", err);
+    } finally {
+      llmLoading.value = false;
+      agentLoading.value = false;
+    }
+  })();
+  const multiReady = (async () => {
+    try {
+      const multiRes = await getMultiModelData();
+      const multiR1 = multiRes.data?.ruler1 || {};
+      // 只保留包含视觉数据集 key 的模型
+      const visionFiltered: Record<string, any> = {};
+      Object.entries(multiR1).forEach(
+        ([modelName, modelGroup]: [string, any]) => {
+          const hasVision = (modelGroup?.result || []).some((item: any) =>
+            VISION_DATASET_KEYS.includes(item.dataset_name)
+          );
+          if (hasVision) {
+            visionFiltered[modelName] = modelGroup;
+          }
         }
-      }
-    );
-    audioRawData.value = audioFiltered;
+      );
+      visionRawData.value = visionFiltered;
 
-    // 合并 ruler2 数据：getCurrentFullRes 包含 aisf_llm_gaixie，
-    // getMultiModelData 包含 aisf_banxue、aisf_gui_plan、aisf_gui_vla
-    // 注意：两个 API 可能包含相同模型，需要合并 result 数组而非覆盖
-    const multiRuler2 = multiRes.data?.ruler2 || {};
-    const fullRuler2 = ruler2FromFullRes || {};
-    const mergedRuler2: Record<string, any> = {};
-    // 先合并 multiRuler2 的所有模型
-    Object.entries(multiRuler2).forEach(
-      ([modelName, modelGroup]: [string, any]) => {
+      // 从同一份 multiR1 数据中筛选音频模型
+      const audioFiltered: Record<string, any> = {};
+      Object.entries(multiR1).forEach(
+        ([modelName, modelGroup]: [string, any]) => {
+          const hasAudio = (modelGroup?.result || []).some((item: any) =>
+            AUDIO_DATASET_KEYS.includes(item.dataset_name)
+          );
+          if (hasAudio) {
+            audioFiltered[modelName] = modelGroup;
+          }
+        }
+      );
+      audioRawData.value = audioFiltered;
+
+      ruler2FromMultiRes = multiRes.data?.ruler2 || {};
+
+    } catch (err) {
+      console.error("Failed to load vision/audio/ruler2 ranking data:", err);
+    } finally {
+      visionLoading.value = false;
+      audioLoading.value = false;
+    }
+  })();
+  await Promise.all([reportsReady, llmReady, multiReady]);
+  // 合并 ruler2 数据：getCurrentFullRes 包含 aisf_llm_gaixie，
+  // getMultiModelData 包含 aisf_banxue、aisf_gui_plan、aisf_gui_vla
+  // 注意：两个 API 可能包含相同模型，需要合并 result 数组而非覆盖
+  const multiRuler2 = ruler2FromMultiRes;
+  const fullRuler2 = ruler2FromFullRes || {};
+  const mergedRuler2: Record<string, any> = {};
+  // 先合并 multiRuler2 的所有模型
+  Object.entries(multiRuler2).forEach(
+    ([modelName, modelGroup]: [string, any]) => {
+      mergedRuler2[modelName] = JSON.parse(JSON.stringify(modelGroup));
+    }
+  );
+  // 再将 fullRuler2 中模型的 result 合并进来（按 dataset_name 去重）
+  Object.entries(fullRuler2).forEach(
+    ([modelName, modelGroup]: [string, any]) => {
+      if (mergedRuler2[modelName]) {
+        // 合并 result 数组，按 dataset_name 去重
+        const existingNames = new Set(
+          (mergedRuler2[modelName]?.result || []).map(
+            (r: any) => r.dataset_name
+          )
+        );
+        (modelGroup?.result || []).forEach((item: any) => {
+          if (!existingNames.has(item.dataset_name)) {
+            mergedRuler2[modelName].result.push(item);
+          }
+        });
+      } else {
         mergedRuler2[modelName] = JSON.parse(JSON.stringify(modelGroup));
       }
-    );
-    // 再将 fullRuler2 中模型的 result 合并进来（按 dataset_name 去重）
-    Object.entries(fullRuler2).forEach(
-      ([modelName, modelGroup]: [string, any]) => {
-        if (mergedRuler2[modelName]) {
-          // 合并 result 数组，按 dataset_name 去重
-          const existingNames = new Set(
-            (mergedRuler2[modelName]?.result || []).map(
-              (r: any) => r.dataset_name
-            )
-          );
-          (modelGroup?.result || []).forEach((item: any) => {
-            if (!existingNames.has(item.dataset_name)) {
-              mergedRuler2[modelName].result.push(item);
-            }
-          });
-        } else {
-          mergedRuler2[modelName] = JSON.parse(JSON.stringify(modelGroup));
-        }
-      }
-    );
-    ruler2RawData.value = mergedRuler2;
-  } catch (err) {
-    console.error("Failed to load vision/audio/ruler2 ranking data:", err);
-  } finally {
-    visionLoading.value = false;
-    audioLoading.value = false;
-    ruler2Loading.value = false;
-  }
-
-  // 数据加载完成后同步头部高度
+    }
+  );
+  ruler2RawData.value = mergedRuler2;
+  ruler2Loading.value = false;
   await nextTick();
   syncHeaderHeights();
 });
