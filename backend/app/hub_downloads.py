@@ -39,7 +39,7 @@ class HubDownloads:
         try:
             if provider=='hg':
                 from huggingface_hub import HfApi
-                rows=HfApi(token=False).list_repo_tree(repo,repo_type=kind,recursive=True)
+                rows=HfApi(token=False,endpoint=os.getenv('HF_ENDPOINT','https://huggingface.co')).list_repo_tree(repo,repo_type=kind,recursive=True)
             else:
                 from modelscope_hub.api import HubApi
                 rows=HubApi().list_repo_files(repo,repo_type=kind,recursive=True)
@@ -86,7 +86,7 @@ class HubDownloads:
                     try:
                         if provider=='hg':
                             from huggingface_hub import hf_hub_download
-                            hf_hub_download(info['repo_name'],name,repo_type=info['repo_type'],local_dir=folder,token=False)
+                            hf_hub_download(info['repo_name'],name,repo_type=info['repo_type'],local_dir=folder,token=False,endpoint=os.getenv('HF_ENDPOINT','https://huggingface.co'))
                         else:
                             from modelscope.hub.file_download import model_file_download,dataset_file_download
                             function=dataset_file_download if info['repo_type']=='dataset' else model_file_download

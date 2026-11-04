@@ -42,6 +42,7 @@ try:
 ExecStart=
 ExecStart=/opt/icap-yellow-venv/bin/python -m uvicorn adapter:app --host 127.0.0.1 --port 8081 --workers 1 --proxy-headers --forwarded-allow-ips=127.0.0.1
 Environment=YELLOW_CODE_SANDBOX_ENABLED=true
+Environment=HF_ENDPOINT=https://hf-mirror.com
 ''')
     dropin.chmod(0o644)
     switch(candidate)

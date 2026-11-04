@@ -42,6 +42,7 @@ os.environ['HOME']='/var/lib/icap-yellow-check'
 os.environ['SKILL_EVOLVE_HERMES_ENABLED']='true'
 os.environ['ICAP_HERMES_RUNTIME']='/opt/icap-hermes'
 os.environ['YELLOW_CODE_SANDBOX_ENABLED']='true'
+os.environ['HF_ENDPOINT']='https://hf-mirror.com'
 sys.path.insert(0,os.getcwd())
 import uvicorn
 uvicorn.run('adapter:app',host='127.0.0.1',port=8083,workers=1)
