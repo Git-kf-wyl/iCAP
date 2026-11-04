@@ -15,6 +15,10 @@ archive=Path('/tmp')/(release+'.tar.gz')
 root=Path('/opt/icap/releases')/release
 root.mkdir(mode=0o750)
 with tarfile.open(archive) as bundle:bundle.extractall(root,filter='data')
+patch=Path('/tmp/candidate-patch.tar.gz')
+if patch.is_file():
+    shutil.rmtree(root/'frontend/dist')
+    with tarfile.open(patch) as bundle:bundle.extractall(root,filter='data')
 account=pwd.getpwnam('icap')
 for path in [root,*root.rglob('*')]:
     os.chown(path,0,account.pw_gid);path.chmod(0o750 if path.is_dir() else 0o640)

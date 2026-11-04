@@ -76,7 +76,7 @@ def check_run_test_progress(task_id):
     if task is None:
         return (jsonify({'error': '任务不存在'}), 404)
     if task['status'] == 'failed':
-        return jsonify({'task_id': task_id, 'status': 'failed', 'res': task['error']})
+        return jsonify({'task_id': task_id, 'status': 'failed', 'res': task.get('error') or task.get('description','评测失败')})
     return (jsonify(task), 200)
 
 def _pack_files_to_zip(file_paths, dataset_name, base_dir):
