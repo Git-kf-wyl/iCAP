@@ -1,4 +1,4 @@
-import pangu from '@/assets/pangu.png'
+const defaultIcon = '/images/icap-mark-v1.svg'
 import qwen from '@/assets/qwen.png'
 import deepseek from '@/assets/deepseek.png'
 import llama from '@/assets/llama.png'
@@ -71,7 +71,7 @@ class ModelService {
 
     static getModelIcon(modelId) {
         if (!modelId) {
-            return pangu;
+            return defaultIcon;
         }
 
         const lowerCaseModelId = modelId.toLowerCase();
@@ -79,7 +79,7 @@ class ModelService {
         const iconMap = {
             'qwen': qwen,
             'qwq': qwen,
-            'pangu': pangu,
+            'pangu': defaultIcon,
             'deepseek': deepseek,
             'llama': llama,
             'minicpm': openBmb,
@@ -100,7 +100,7 @@ class ModelService {
             }
         }
 
-        return pangu;
+        return defaultIcon;
     }
 
     static getModelDesc(modelId) {

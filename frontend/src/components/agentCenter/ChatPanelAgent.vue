@@ -673,7 +673,7 @@ onMounted(async () => {
     <div class="header">
       <div class="modelInfo">
         <!-- <img class="modelIcon" :src="ModelService.getModelIcon(props.modelId)" alt="avatar" /> -->
-        <img class="modelIcon" src="/images/netcore.png" alt="avatar" />
+        <img class="modelIcon" src="/images/icap-mark-v1.svg" alt="avatar" />
         <h4>{{props.title?props.title:'PPT生成助手'}}</h4>
       </div>
     </div>
@@ -732,7 +732,7 @@ onMounted(async () => {
           </div>
         </div>
         <div class="message-row" :class="msg.role" v-else>
-          <img class="modelIcon" src="/images/netcore.png" alt="avatar" />
+          <img class="modelIcon" src="/images/icap-mark-v1.svg" alt="avatar" />
           <div style="display: flex; flex-direction: column" v-if="props.title!=='DeepResearch'">
             <el-collapse
               v-if="findThinking(msg.content, modelId)"

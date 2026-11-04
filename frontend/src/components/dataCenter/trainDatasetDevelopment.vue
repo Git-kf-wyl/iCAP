@@ -267,7 +267,7 @@
                       </div>
                       <div class="other_info">
                         <div class="info_left">
-                          <el-avatar :size="30" src="/images/icon.png"></el-avatar>
+                          <el-avatar :size="30" src="/images/icap-mark-v1.svg"></el-avatar>
                           <div>{{ item.group || "domain" }}</div>
                         </div>
                         <div class="info_left">
@@ -393,7 +393,7 @@
                       </div>
                       <div class="other_info">
                         <div class="info_left">
-                          <el-avatar :size="30" src="/images/icon.png"></el-avatar>
+                          <el-avatar :size="30" src="/images/icap-mark-v1.svg"></el-avatar>
                           <div>{{ item.group || "dev" }}</div>
                         </div>
                         <div class="info_left">

@@ -28,7 +28,7 @@
       <div style="height:100px"></div>
       <div class="pageOneContainer">
         <div class="first-image-container">
-          <img src="/images/ailabICON.png" alt="AI Lab Logo" />
+          <img src="/images/icap-mark-v1.svg" alt="iCAP" style="width:64px;height:64px" />
         </div>
         <div class="second-image-container">
           <img src="/images/evaluationReport_06.png" style="width: 100%" />
@@ -48,7 +48,7 @@
             >{{evalReportData.length > 0 ? evalReportData[0].content : ''}}</span>
           </div>
         </div>
-        <span class="FirstPageTeam">AI Lab团队</span>
+        <span class="FirstPageTeam">iCAP</span>
         <div v-if="isEditing[0]" class="FirstPageTeam">
           <el-input
             v-model="evalReportData[1].content"
@@ -65,7 +65,7 @@
     </div>
 
     <div class="cardContainer" ref="pageref1">
-      <img src="/images/evaluationReport_01.png" style="width:100%;height:100%" />
+      <img src="/images/report-intro-v1.svg" alt="模型评测体系概览" style="width:100%;height:100%" />
     </div>
 
     <div class="cardContainer" ref="pageref2">
@@ -134,11 +134,11 @@
     </div>
 
     <div class="cardContainer" ref="pageref3">
-      <img src="/images/evaluationReport_08.png" style="width:100%;height:100%" />
+      <img src="/images/report-contents-v1.svg" alt="报告目录" style="width:100%;height:100%" />
     </div>
 
     <div class="cardContainer" ref="pageref4">
-      <img src="/images/evaluationReport_03.png" style="width:100%;height:100%" />
+      <img src="/images/report-overview-v1.svg" alt="第1部分：测评体系" style="width:100%;height:100%" />
     </div>
 
     <div class="cardContainer" ref="pageref5">
@@ -158,7 +158,7 @@
     </div>
 
     <div class="cardContainer" ref="pageref6">
-      <img src="/images/evaluationReport_04.png" style="width:100%;height:100%" />
+      <img src="/images/report-general-v1.svg" alt="第2部分：通用能力测评" style="width:100%;height:100%" />
     </div>
 
     <div class="cardContainer" ref="pageref7">
@@ -617,7 +617,7 @@
     </div>
 
     <div class="cardContainer" ref="pageref16">
-      <img src="/images/evaluationReport_05.png" style="width:100%;height:100%" />
+      <img src="/images/report-domain-v1.svg" alt="第3部分：领域能力测评" style="width:100%;height:100%" />
     </div>
 
     <div class="cardContainer" ref="pageref17">

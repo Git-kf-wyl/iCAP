@@ -7,8 +7,8 @@
         <div style="display: flex; align-items: center; cursor: pointer; flex-shrink: 0;" @click="goToHome">
           <img
             style="width: 70px; height: 70px; margin-left: 30px"
-            src="/images/netcore.png"
-            alt="Element logo"
+            src="/images/icap-mark-v1.svg"
+            alt="iCAP"
           />
           <span class="iconMenuTitle">InnovationCore</span>
           <span class="iconMenuTitle">AI</span>
@@ -96,8 +96,8 @@
           >
             <!-- <img
             style="width: 100%; height: auto;object-fit: cover; object-position: center; position: relative; left: 2px; top: 8px;"
-            src="/images/ailab.png"
-            alt="Element logo"
+            src="/images/icap-mark-v1.svg"
+            alt="iCAP"
             />-->
               <!-- ===== MaaS服务 模块菜单 ===== -->
               <template v-if="currentModule === 'maas'">

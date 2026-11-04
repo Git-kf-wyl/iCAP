@@ -21,7 +21,7 @@
         <div class="other_info">
           <el-avatar
             :size="30"
-            :src="item.is_open_source ? '/images/hugface.svg' : '/images/icon.png'"
+            :src="item.is_open_source ? '/images/hugface.svg' : '/images/icap-mark-v1.svg'"
           ></el-avatar>
           <div>{{ item.group || groupDefault }}</div>
           <div class="littleInfo_1" v-if="item.establish_time">

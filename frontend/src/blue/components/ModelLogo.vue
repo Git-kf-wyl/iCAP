@@ -4,14 +4,12 @@ import deepseekLogo from '../assets/deepseek.svg'
 
 const props = defineProps({ model: { type: Object, required: true } })
 const source = computed(() => props.model.logo_url ||
-  (props.model.provider?.toLowerCase() === 'deepseek' ? deepseekLogo : ''))
-const initials = computed(() => (props.model.provider || props.model.name || 'AI').slice(0, 2).toUpperCase())
+  (props.model.provider?.toLowerCase() === 'deepseek' ? deepseekLogo : '/images/icap-mark-v1.svg'))
 </script>
 
 <template>
   <span class="model-logo">
-    <img v-if="source" :src="source" :alt="`${model.provider} Logo`" />
-    <span v-else>{{ initials }}</span>
+    <img :src="source" :alt="`${model.provider || 'iCAP'} Logo`" />
   </span>
 </template>
 

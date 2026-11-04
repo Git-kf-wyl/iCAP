@@ -940,6 +940,8 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
             if candidate==dist/'index.html':return index_page(request)
             if candidate.is_file() and candidate.is_relative_to(dist.resolve()):
                 return FileResponse(candidate)
+            if spa_path.startswith('images/') or spa_path=='favicon.ico':
+                raise HTTPException(404,'资源不存在')
             return index_page(request)
 
     return app
