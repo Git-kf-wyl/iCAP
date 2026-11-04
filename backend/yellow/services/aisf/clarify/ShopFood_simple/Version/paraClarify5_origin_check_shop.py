@@ -1,0 +1,160 @@
+# Private iCAP Yellow business implementation. Do not publish.
+import json
+import time
+from datetime import datetime
+import pendulum
+import re
+import pandas as pd
+import requests
+import os
+import logger
+import copy
+import prompt as tested_Prompt
+import prompt_paraClarify_0816 as prompt_paraClarify
+import getContext
+url = 'http://9.15.87.116:8084/v1/chat/completions'
+model_name = 'Qwen3-32B'
+dirs_name = str(datetime.now().strftime('%Y-%m-%d_%H'))
+my_logger = logger.Logger('paraClarify_test_food_and_shop' + str(datetime.now().strftime('%Y-%m-%d_%H-%M-%S')), log_dir='./' + dirs_name + '/Logger/05_1shop/')
+
+def read_from_excel(filename):
+    test_cases = []
+    df = pd.read_excel(filename)
+    for index, row in df.iterrows():
+        input_data = row['Input']
+        id_data = row['ID']
+        compare_answer = row['参数澄清Test Answer']
+        expected_answer = row['Test answer']
+        test_cases.append({'id': id_data, 'Input': input_data, 'compare_answer': compare_answer, 'Test answer': expected_answer})
+    return test_cases
+
+def write_to_excel(filename, out_data, successCount, successesRate, usePrompt, average_Time, max_elaspse_time, min_elaspse_time):
+    df1 = pd.DataFrame(out_data)
+    data = {'Test Result': ['Success Rate'], str(successCount) + '/' + str(len(out_data)): [str(successesRate)], 'Average_Time': average_Time, 'Max_Elapse_Time': max_elaspse_time, 'Min_Elapse_Time': min_elaspse_time, '参数澄清Prompt': usePrompt, '评判正确模型Prompt': prompt_paraClarify.Food_Reply_Agent3, '评判满意度Prompt': '模型澄清内容 vs 历史偏好'}
+    df2 = pd.DataFrame(data)
+    folder_path = os.path.dirname(filename)
+    if folder_path:
+        os.makedirs(folder_path, exist_ok=True)
+    with pd.ExcelWriter(filename) as writer:
+        df1.to_excel(writer, sheet_name='LLM test result', index=False)
+        df2.to_excel(writer, sheet_name='Test Result Summary', index=False)
+
+def read_and_update_excel(filename, out_data, sheet_name='LLM test'):
+    try:
+        with pd.ExcelFile(filename) as excel_file:
+            df = excel_file.parse(sheet_name)
+        if len(out_data) != len(df):
+            raise ValueError('out_data 的长度与 Excel 文件中的行数不一致！')
+        df['Input'] = [item['Input'] for item in out_data]
+        with pd.ExcelWriter(filename, mode='w', engine='openpyxl') as writer:
+            df.to_excel(writer, index=False, sheet_name=sheet_name)
+    except Exception as e:
+        print(f'操作失败：{e}')
+
+def connectModel(clarifyInput):
+    headers = {'Content-Type': 'application/json'}
+    body = {'model': model_name, 'messages': clarifyInput, 'temperature': 0}
+    start_time = time.time()
+    response = requests.post(url, json=body, headers=headers)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    my_logger.info('花费了:' + str(elapsed_time) + '秒')
+    tokens = json.loads(response.text)['usage']
+    my_logger.info('tokens为:' + str(tokens))
+    message = json.loads(response.text)['choices'][0]['message']['content']
+    return (message, elapsed_time, tokens)
+
+def extract_contents_from_strings(text_list):
+    """
+    从字符串列表中提取 "content": "..." 的内容，并拼接成字符串
+
+    Args:
+        text_list (list): 包含 "content": "..." 的字符串列表
+
+    Returns:
+        str: 所有提取到的内容拼接成的字符串
+    """
+    if not isinstance(text_list, list):
+        raise ValueError('输入必须是一个字符串列表')
+    extracted_contents = []
+    pattern = '"content"\\s*:\\s*"([^"]*)"'
+    for text in text_list:
+        if not isinstance(text, str):
+            continue
+        newText = text.encode().decode('utf-8')
+        matches = re.findall(pattern, newText)
+        extracted_contents.extend(matches)
+    return ''.join(extracted_contents).encode().decode('utf-8')
+
+def extract_clean_text(text):
+    """去除 HTML 标签并清理空白字符"""
+    text = re.sub('<[^>]+>', '', text)
+    text = re.sub('\\s+', ' ', text).strip()
+    return text
+
+def parse_think_response_clean(message_body):
+    """
+    解析消息体，分割出 think 内容和回答内容（纯文本）
+    返回: (think_content, answer_content)
+          如果没有 </think>，则 think_content=None
+    """
+    my_logger.info(message_body)
+    parts = message_body.split('</think>', 1)
+    if len(parts) == 2:
+        answer_content = extract_clean_text(parts[1])
+    else:
+        answer_content = extract_clean_text(message_body)
+    return answer_content
+
+def getClarifyAnswer(data):
+    data = data.replace('```', '')
+    data = data.replace('json', '')
+    res = json.loads(data)
+    status = res.get('澄清状态', '')
+    product = res.get('商品属性', {})
+    question = res.get('澄清问题', '')
+    result = {'澄清状态': str(status), '商品属性': product, '澄清问题': str(question)}
+    return result
+
+def getAnswer(data):
+    data = data.replace('```', '')
+    data = data.replace('json', '')
+    res = json.loads(data)
+    Content = res['问答回应']
+    result = {'问答回应': str(Content)}
+    return result
+
+def getTime():
+    years = pendulum.now().format('YYYY-MM-DD')
+    weeks = pendulum.now().format('dddd')
+    weekdays = {'Monday': '星期一', 'Tuesday': '星期二', 'Wednesday': '星期三', 'Thursday': '星期四', 'Friday': '星期五', 'Saturday': '星期六', 'Sunday': '星期天'}
+    return years + weekdays[weeks]
+
+def getIsSatisfied(data):
+    data = data.replace('[', '')
+    data = data.replace(']', '')
+    res = json.loads(data)
+    answer = res['满意度']
+    content = res['评测依据']
+    result = {'满意度': str(answer), '评测依据': str(content)}
+    return result
+
+def save_success_rate(file_path, success_rate):
+    df1 = pd.DataFrame(success_rate)
+    with pd.ExcelWriter(file_path) as writer:
+        df1.to_excel(writer, sheet_name='LLM test result', index=False)
+
+def is_successful(LLMAnswer, TestAnswer):
+    try:
+        TestAnswer = TestAnswer.replace("'", '"')
+        LLMAnswer = LLMAnswer.replace("'", '"')
+        TestAnswer = json.loads(TestAnswer)
+        LLMAnswer = json.loads(LLMAnswer)
+    except Exception as e:
+        my_logger.error('字符串转化为JSON错误' + str(e))
+        return (0, '模型输出格式有误')
+    for key in TestAnswer:
+        if key == '品牌名称':
+            if key not in LLMAnswer or TestAnswer[key] != LLMAnswer[key]:
+                return (0, '模型提取' + key + '参数错误')
+    return (1, '模型提取参数正确')

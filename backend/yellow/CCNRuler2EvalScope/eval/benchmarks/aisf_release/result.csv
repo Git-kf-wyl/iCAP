@@ -1,0 +1,33 @@
+﻿任务,指令,图片位置,参考答案,模型输出,结果
+点击“电影演出”,点击“电影演出”,ads_0709_img/mt1.jpg,wait(time='5s'),"{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [40, 89]}}",F
+帮我买一份曹氏（用户未登录，进入手动接入）,点击“马上登录”,mt_001/1.jpg,"click(bbox=<bbox>[828,2020,1038,2104]</bbox>)","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [942, 2070]}}",T
+我明天上午8点需要从南京南站打车到南京站。,拉起高德出行app,"img/0711/014/didi_zy_0711_014_1.png
+","click(bbox=<bbox>[315,1280,460,1427]</bbox>)
+","The user wants to open the Geod map app. From the image, I can identify the ""高德地图"" icon, which looks like a map with a paper plane, located at coordinates (347, 606). 
+
+Action: Click on the ""高德地图"" icon to open the app.
+
+Final Answer: {""action"": ""click"", ""coordinate"": [378, 1452]}",F
+刚买了套新的雨刷，发现雨刷擦玻璃还总有水渍，听说伍尔特玻璃水还不错，我想试试。,点击搜索框中间位置，忽略已输入内容,jd_stf_0708_img/jd_stf_001/1.png,"click(bbox=<bbox>[164,246,848,336]</bbox>)","The user wants to click on the middle section of the search box, which is currently containing a searched term ""eva泡沫板"". To clear the search field and prepare for a new search, I need to click at the middle position within the search box to remove the text. Based on the visual information, the middle of the search input area is where the user instruction directs me to click to clear the search box.
+
+Action: Click on the middle of the search box where the text ""eva泡沫板"" resides.
+
+Final Answer: {""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [482, 283]}}",T
+帮我下单一份附近的麻辣香锅,点击页面顶部“首页”右侧的标签，标签可能是“秒送 外卖”,jd_wyc_0709_img\jd_wyc_0709_01\1.png,"click(bbox=<bbox>[335,147,552,210]</bbox>)","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [411, 173]}}",T
+帮我点一份麻辣香锅，要距离最近的店铺，单人套餐，锅底口味都可以，中辣，立即配送，要一份餐具,点击左上角外卖图标,mt_wym_0707_img/mt_wym_001/meituan_wym_0707_1.png,"click(bbox=<bbox>[44,344,204,554]</bbox>)","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [119, 525]}}",T
+我向买一瓶伍尔特玻璃水。,点击搜索框中间位置，忽略已输入内容,"tb_jxs_0708_img/tb_jxs_001/taobao_0001_1.png
+","click(bbox=<bbox>[160,192,758,278]</bbox>)
+","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [309, 231]}}",T
+帮我点一份麻辣香锅，我马上要吃,拉起淘宝app,tbta_ykf_0709_img/tbta_ykf_001/1.png,"click(bbox=<bbox>[676,1532,836,1696]</bbox>)
+","<tool_call>
+{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [739, 1655]}}
+</tool_call>",T
+购买7月12号北京飞上海的机票,点击机票图标,xc_hbt_0709_img/xc_hbt_001/1.png,"click(bbox=<bbox>[518,320,736,510]</bbox>)","{""name"": ""mobile_use"", ""arguments"": {""action"": ""left_click"", ""coordinate"": [628, 409]}}",T
+我要买一台创维85A7E电视。,点击页面右上方“筛选”,jd_stf_0717_img/jd_stf_111/1.png,"click(bbox=<bbox>[866,372,1070,462]</bbox>)","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [969, 420]}}",T
+珍珠奶茶,选择“可选温度”分类下的“冰”选项，如果“冰”选项已经高亮选中，则terminate，否则进行点击,jd_wyc_0717_img\jd_wyc_0717_01\1.png,finished(content=''),"{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [97, 1441]}}",F
+帮我点一份麻辣香锅，要距离最近的店铺，单人套餐，锅底口味都可以，中辣，立即配送，要一份餐具,点击“鲜香肥牛单人餐”右侧的“选规格”,mt_wym_0717_img/mt_wym_002/1.jpg,"click(bbox=<bbox>[884,572,1052,646]</bbox>)","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [974, 608]}}",T
+梦特娇皮鞋买一双。,点击“筛选”,tb_qj_0718_img/tb_71/tb_0071_1.png,"click(bbox=<bbox>[942,1048,1070,1116]</bbox>)
+","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [1019, 1080]}}",T
+选规格样例补充,温度选择“冰”，如果“冰”选项已经高亮选中，则terminate，否则进行点击,tb__food_0722_fill\1.png,finished(content=),"{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [204, 1470]}}",F
+筛选电竞酒店单人间带早餐,点击筛选选项，如果筛选选项已经高亮选中，则terminate，否则进行点击,xc_hbt_0717_img/xc_hbt_01/1.png,"click(bbox=<bbox>[1036,290,1248,396]</bbox>)
+","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [1144, 340]}}",T

@@ -1,0 +1,563 @@
+{
+  "aisf_intent_dev": {
+    "dataset_name": "aisf_intent_dev",
+    "local_path": "./testsuite/TestSuiteDev/aisf_intent_dev",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "aisf的意图识别开发态测试集，包括出行，工具调用，购物，美食，APP提取",
+    "subset_list": [
+      "FoodieAgent",
+      "AnyShoppingAgent",
+      "LifeAssistantAgent",
+      "SystemAgent",
+      "APP提取"
+    ],
+    "default_subsets": [
+      "FoodieAgent",
+      "AnyShoppingAgent",
+      "LifeAssistantAgent",
+      "SystemAgent",
+      "APP提取"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "testcase_tags": [
+      "AISF"
+    ],
+    "content": "",
+    "establish_time": "2025-08-05 15:56:11",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "1aa0a6e2-842c-4390-b3c7-9db519d23a41/single_intent_data_v7.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "input_path": "./testsuite/TestSuiteDev/aisf_intent_dev",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aisf_vla_dev": {
+    "dataset_name": "aisf_vla_dev",
+    "input_path": "./testsuite/TestSuiteDev/aisf_vla_dev",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "AISF多模态VLA开发态测评集，包括B卷、D卷和广告-单步用例等场景",
+    "subset_list": [
+      "B",
+      "D",
+      "ADS"
+    ],
+    "default_subsets": [
+      "B",
+      "D",
+      "ADS"
+    ],
+    "testcase_tags": [
+      "VLA"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-11-19 19:31:32",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "753c744f-696c-42c2-92c5-b45bdcf8b611/广告-单步用例.xlsx",
+      "b8509572-aded-4f1f-a418-2b193e248804/testcase_D.xlsx",
+      "95590417-a854-4920-9c5e-ace8e9d84013/testcase_B.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "dataSet_cases": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aisf_function_call_dev": {
+    "dataset_name": "aisf_function_call_dev",
+    "input_path": "./testsuite/TestSuiteDev/aisf_function_call_dev",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "AISF工具调用开发场景",
+    "subset_list": [
+      "default"
+    ],
+    "default_subsets": [
+      "default"
+    ],
+    "testcase_tags": [
+      "AISF"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-10-15 10:58:00",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "cc67c11e-fa1a-4dd1-8378-391ff8b633f6/testcases0906.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aisf_clarify_dev": {
+    "dataset_name": "aisf_clarify_dev",
+    "input_path": "./testsuite/TestSuiteDev/aisf_clarify_dev",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "AISF Clarify Test",
+    "subset_list": [
+      "shopping",
+      "foodie",
+      "taxi-simple",
+      "trip",
+      "airplane",
+      "hotel"
+    ],
+    "default_subsets": [
+      "shopping",
+      "foodie",
+      "taxi-simple",
+      "trip",
+      "airplane",
+      "hotel"
+    ],
+    "testcase_tags": [
+      "AISF"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-10-13 11:07:00",
+    "is_open_source": false,
+    "need_llmjudge": true,
+    "file_list": [
+      "0831ec4a-99a1-4c99-93a3-87f127b6ba8e/foodie_judge.md",
+      "80d4eb8e-51e7-4c38-af5d-a56fa7b6704d/hotel_judge.md",
+      "275ec35b-ea86-4ae9-b626-f18df56803f3/airplane_judge.md",
+      "30bbc265-2ede-4009-a62d-7d77b9174868/hotel.md",
+      "6362e607-9258-4ef8-abfc-d8280112e767/airplane.md",
+      "f5196f8d-edb2-4035-a300-54de536743a1/foodie.md",
+      "566da17d-7487-4fcb-bad9-2eeb5eb37046/shopping_judge.md",
+      "335bb261-d88c-4f42-9b7c-8f65a1e8a20a/taxi-simple_judge.md",
+      "851d6b7c-8eef-43db-8c55-c5d734f1fac8/taxi-simple.md",
+      "950031b9-026f-4cc1-b018-f8c0f98bde90/trip_judge.md",
+      "44545dc2-df04-4925-8564-a2013f20877c/shopping.md",
+      "ba063b2e-d824-49aa-8fbe-0e79caeafacb/trip.md",
+      "2aacd1b4-5999-483f-aa51-42e0bc5a0ad3/airplane.csv",
+      "ad5cf6d9-3008-4e89-bdff-5432909d0105/hotel.csv",
+      "68f4c4bd-6cee-4f10-8c38-e5709b4cdba5/foodie.csv",
+      "0ad300c7-9f65-42e6-ba9a-7ef52841c5f4/taxi-simple.csv",
+      "e4f1fd7f-248d-41a2-a5be-46c5271b6e02/shopping.csv",
+      "050ad7e6-5cae-480d-bf13-33a6c212c0fc/trip.csv"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aisf_memory_attribute_dev": {
+    "dataset_name": "aisf_memory_attribute_dev",
+    "input_path": "./testsuite/TestSuiteDev/aisf_memory_attribute_dev",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "AISF属性萃取测评集",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "AISF"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-10-27 11:44:50",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "c5f03a66-f605-4ad4-be76-377b9b9da03f/testofattribute.xlsx",
+      "3460c93d-ba81-4c61-a181-f4165632fc29/testofdetermine.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aisf_memory_city_dev": {
+    "dataset_name": "aisf_memory_city_dev",
+    "input_path": "./testsuite/TestSuiteDev/aisf_memory_city_dev",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "AISF城市名提取测评集",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "AISF"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-09-02 19:49:00",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "54e579ff-4e5e-4bd0-a5bb-4459cf072d9c/testofcity.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aisf_memory_extract_dev": {
+    "dataset_name": "aisf_memory_extract_dev",
+    "input_path": "./testsuite/TestSuiteDev/aisf_memory_extract_dev",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "AISF事实记忆萃取测评集",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "AISF"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-09-02 19:49:04",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "74254ea5-f8c3-41a3-bd13-8ae29b32bfa4/testofextract.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aisf_memory_recal_dev": {
+    "dataset_name": "aisf_memory_recal_dev",
+    "input_path": "./testsuite/TestSuiteDev/aisf_memory_recal_dev",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "AISF记忆召回测评集",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "AISF"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-09-02 19:49:10",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "07fe81ab-0814-4eb5-84aa-eba6d64e280e/testofrecall.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aisf_memory_timehotel_dev": {
+    "dataset_name": "aisf_memory_timehotel_dev",
+    "input_path": "./testsuite/TestSuiteDev/aisf_memory_timehotel_dev",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "AISF时间酒店信息提取测评集",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "AISF"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-09-02 19:49:18",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "b873644f-35a1-40b7-8c08-c7038804b192/timeHotel.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aisf_memory_theme_determine_dev": {
+    "dataset_name": "aisf_memory_theme_determine_dev",
+    "input_path": "./testsuite/TestSuiteDev/aisf_memory_theme_determine_dev",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "AISF主题记忆决策测评集",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "AISF"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-10-20 17:17:48",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "1f98dd84-eae2-4a2a-b93b-7229585074c4/testofdetermine.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "simultaneous_interpretation": {
+    "dataset_name": "simultaneous_interpretation",
+    "input_path": "./testsuite/TestSuiteDev/mt/simultaneous_interpretation",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-08-26 21:50:50",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "df596254-b56b-4a4f-b4df-14708140bcd9/en_src.txt",
+      "f9379bdf-e911-4ead-bca5-58dbea668e66/src.txt",
+      "7a8d32c7-ab93-4195-99f3-b9f25749e7d2/ziyanSets_07.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aisf_box_dev": {
+    "dataset_name": "aisf_box_dev",
+    "input_path": "./testsuite/TestSuiteDev/aisf_box_dev",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "AISF算力主机开发态快意图测试集",
+    "subset_list": [
+      "default"
+    ],
+    "default_subsets": [
+      "default"
+    ],
+    "testcase_tags": [
+      "AISF"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-09-22 20:15:00",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "be52c88a-44da-4597-a615-0eee18e9c421/0918.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aisf_box_classify_dev": {
+    "dataset_name": "aisf_box_classify_dev",
+    "input_path": "./testsuite/TestSuiteDev/aisf_box_classify_dev",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "aisf算力主机慢意图感知规划",
+    "subset_list": [
+      "default"
+    ],
+    "default_subsets": [
+      "default"
+    ],
+    "testcase_tags": [
+      "AISF"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-08-28 19:56:22",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "b3c65736-4161-4912-978d-e568127c0907/classify_test_data_v1.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aisf_box_tool_dev": {
+    "dataset_name": "aisf_box_tool_dev",
+    "input_path": "./testsuite/TestSuiteDev/aisf_box_tool_dev",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "算力主机慢意图工具调用：A卷/通话/公共/健身",
+    "subset_list": [
+      "default"
+    ],
+    "default_subsets": [
+      "default"
+    ],
+    "testcase_tags": [
+      "AISF"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-12-02 09:42:56",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "60503723-8e00-478b-90f8-9b9f20a3385a/test-0919-common.xlsx",
+      "29fc510e-7b8d-4f37-8502-769ce9df6afe/test-0919-fitness.xlsx",
+      "cb12bd96-4ee1-4f8e-af79-42dc2fc3daf1/test-0919-avcall.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aisf_memory_hotel_name_dev": {
+    "dataset_name": "aisf_memory_hotel_name_dev",
+    "input_path": "./testsuite/TestSuiteDev/aisf_memory_hotel_name_dev",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "AISF记忆酒店名字测试集",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "AISF"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-10-30 18:04:52",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "f5e4ea35-d5b8-4956-826f-61d71472feb8/hotel_names.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "3",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  }
+}

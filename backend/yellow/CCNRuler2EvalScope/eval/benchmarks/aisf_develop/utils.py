@@ -1,0 +1,385 @@
+# Private iCAP Yellow implementation. Do not publish.
+import os
+import pandas as pd
+import requests
+import json
+import re
+import time
+import base64
+import re
+import json
+import math
+import logging
+import requests
+import time
+import yaml
+import openpyxl
+from eval.benchmarks.aisf_develop.auto_judge_func import *
+from eval.benchmarks.aisf_develop.qwen_resize import smart_resize
+from PIL import Image
+
+def read_from_excel(file_path, sheet_index=0, column_index=1):
+    test_cases = []
+    workbook = openpyxl.load_workbook(file_path)
+    sheet = workbook.worksheets[sheet_index]
+    for row in range(1, sheet.max_row + 1):
+        cell_value = sheet.cell(row=row, column=column_index).value
+        test_cases.append(cell_value)
+    return test_cases
+
+def read_from_excel_aisf_intent(filename):
+    test_cases = []
+    df = pd.read_excel(filename, keep_default_na=False)
+    for index, row in df.iterrows():
+        case_id = row['任务类型']
+        input_data = row['query']
+        expected_answer = row['app']
+        test_cases.append({'任务类型': case_id, 'query': input_data, 'app': expected_answer})
+    return test_cases
+
+def read_from_excel_aisf_intent_category(filename):
+    test_cases = []
+    df = pd.read_excel(filename, keep_default_na=False)
+    for index, row in df.iterrows():
+        case_id = row['任务类型']
+        input_data = row['query']
+        correct_answer = row['correct answer']
+        test_cases.append({'任务类型': case_id, 'query': input_data, 'correct answer': correct_answer})
+    return test_cases
+
+def read_from_excel_aisf_toolcall(filename):
+    test_cases = []
+    df = pd.read_excel(filename, keep_default_na=False)
+    for index, row in df.iterrows():
+        field = row['FIELD']
+        input_data = row['QUERY']
+        expected_answer = row['ANSWERS']
+        test_cases.append({'field': field, 'query': input_data, 'answer': expected_answer})
+    return test_cases
+
+def read_multicolums_from_excel(file_path, sheet_index=0, column_indexes=[1, 2]):
+    test_dict = {}
+    test_lists = []
+    workbook = openpyxl.load_workbook(file_path)
+    sheet = workbook.worksheets[sheet_index]
+    for row in range(1, sheet.max_row + 1):
+        for col in column_indexes:
+            cell_value = sheet.cell(row=row, column=col).value
+            test_dict[f'column{col}'] = cell_value
+        test_lists.append(test_dict.copy())
+    return test_lists
+
+def read_from_csv(filename):
+    test_cases = []
+    df = pd.read_csv(filename, encoding='utf-8')
+    for index, row in df.iterrows():
+        test_cases.append(row['1'])
+    return test_cases
+
+def read_from_excel_aisf_speci_choose(filename):
+    test_cases = []
+    df = pd.read_excel(filename, keep_default_na=False)
+    for index, row in df.iterrows():
+        input_data = row['input']
+        chosen_data = row['to_chose']
+        test_cases.append({'input': input_data, 'to_chose': chosen_data})
+    return test_cases
+
+def box_classify_process_results(answer, predict):
+    try:
+        if pd.isna(predict) or predict.strip() == '':
+            return 0
+        response_jsonl = json.loads(predict)
+        if not isinstance(response_jsonl, list) or len(response_jsonl) != 1:
+            return 0
+        response = response_jsonl[0]
+        agent_name = response['agent_name']
+        if agent_name is None:
+            return 0
+        return 1 if agent_name == answer else 0
+    except (json.JSONDecodeError, KeyError, AttributeError) as e:
+        return 0
+
+def click_test(action, screenshot_file, order, resp_type):
+    model_resp_cfg = resp_type
+    bbox_pattern = model_resp_cfg['regex']
+    width, height = Image.open(screenshot_file).size
+    match = re.findall(bbox_pattern, action)
+    if len(match) == 0:
+        match = re.findall(DEFAULT_REGEX, action)
+    xmin, ymin, xmax, ymax, x, y = (-999, -999, -999, -999, -999, -999)
+    if len(match) > 0:
+        try:
+            xmin, ymin, xmax, ymax = list(map(int, match[0]))
+        except:
+            try:
+                x, y = list(map(int, match[0]))
+            except:
+                logging.error(f'===err=== action err {match[0]}')
+                return 0
+    else:
+        logging.error(f'===err=== action err {action}')
+        return 0
+    if xmin >= 0:
+        if model_resp_cfg['isMillile']:
+            xmin = int(xmin / 999 * width)
+            ymin = int(ymin / 999 * height)
+            xmax = int(xmax / 999 * width)
+            ymax = int(ymax / 999 * height)
+        x, y = (int((xmin + xmax) / 2), int((ymin + ymax) / 2))
+    elif x >= 0:
+        if model_resp_cfg['isMillile']:
+            x = int(x / 999 * width)
+            y = int(y / 999 * height)
+    if model_resp_cfg['resize']:
+        new_height, new_width = smart_resize(height, width)
+        x = int(x * width / new_width)
+        y = int(y * height / new_height)
+    iter_ret = judge_click(order, x, y, width, height)
+    if iter_ret is None:
+        logging.error(f'test case: [{iter}] is error!! the order is [{order}]')
+        return 0
+    return iter_ret
+
+def swipe_screen_test(action, screenshot_file, order):
+    width, height = Image.open(screenshot_file).size
+    position = action.split('<bbox>')[1].split('</bbox>')[0].strip('[').strip(']')
+    direction = action.split('direction')[1].split('=')[1].strip(')')
+    xmin, ymin, xmax, ymax = map(int, position.split(','))
+    xmin = int(xmin / 999 * width)
+    ymin = int(ymin / 999 * height)
+    xmax = int(xmax / 999 * width)
+    ymax = int(ymax / 999 * height)
+    x, y = (int((xmin + xmax) / 2), int((ymin + ymax) / 2))
+    return judge_scroll(xmin, ymin, xmax, ymax, width, height, order)
+
+def scroll_test(action, screenshot_file, order, resp_type):
+    width, height = Image.open(screenshot_file).size
+    try:
+        bbox_pattern = '(\\d+), *(\\d+).*?(\\d+), *(\\d+)'
+        match = re.findall(bbox_pattern, action)
+        xmin, ymin, xmax, ymax = list(map(int, match[0]))
+    except:
+        try:
+            bbox_pattern = "start_box=\\'[<\\|box_start\\|>]*\\((\\d+), *(\\d+)\\)[<\\|box_end\\|>]*\\', *end_box=\\'[<\\|box_start\\|>]*\\((\\d+), *(\\d+)\\)"
+            match = re.findall(bbox_pattern, action)
+            xmin, ymin, xmax, ymax = list(map(int, match[0]))
+        except:
+            return 0
+    if resp_type['isMillile']:
+        xmin = int(xmin / 999 * width)
+        ymin = int(ymin / 999 * height)
+        xmax = int(xmax / 999 * width)
+        ymax = int(ymax / 999 * height)
+    if resp_type['resize']:
+        new_height, new_width = smart_resize(height, width)
+        xmin = int(xmin * width / new_width)
+        ymin = int(ymin * height / new_height)
+        xmax = int(xmax * width / new_width)
+        ymax = int(ymax * height / new_height)
+    return judge_scroll(xmin, ymin, xmax, ymax, width, height, order)
+
+def set_text_test(action, screenshot_file, order):
+    text = action.split('text="')[-1].split('"')[0]
+    print('text:', text)
+    return judge_type(text, order)
+
+def type_test(action, order, resp_type):
+    if resp_type['resize']:
+        text = action.split(':')[-1].split('"')[1]
+    else:
+        text = action.split("content='")[-1].split("'")[0]
+    return judge_type(text, order)
+
+def long_press_test(action, screenshot_file, order, resp_type):
+    width, height = Image.open(screenshot_file).size
+    xmin, ymin, xmax, ymax, x, y = (-999, -999, -999, -999, -999, -999)
+    try:
+        bbox_pattern = '(\\d+), *(\\d+), *(\\d+), *(\\d+)'
+        match = re.findall(bbox_pattern, action)
+        xmin, ymin, xmax, ymax = list(map(int, match[0]))
+    except:
+        try:
+            bbox_pattern = '(\\d+), *(\\d+)'
+            match = re.findall(bbox_pattern, action)
+            x, y = list(map(int, match[0]))
+        except:
+            return 0
+    if xmin > 0:
+        x = int((xmin + xmax) / 2)
+        y = int((ymin + ymax) / 2)
+    if resp_type['isMillile']:
+        x = int(x / 999 * width)
+        y = int(y / 999 * height)
+    if resp_type['resize']:
+        new_height, new_width = smart_resize(height, width)
+        x = int(x * width / new_width)
+        y = int(y * height / new_height)
+    return judge_long_press(x, y, width, height, order)
+
+def open_app_test(action, screenshot_file, order):
+    if 'open_app' not in action:
+        return 0
+    app_name = action.split("app_name='")[-1].split("'")[0]
+    return judge_open_app(app_name, order)
+ITER = 0
+
+def process_results(answer, predict, raw_input_d, resp_type, base_dir):
+    global ITER
+    ITER += 1
+    action = predict
+    order = answer
+    screenshot_file = os.path.join(base_dir, raw_input_d['img'])
+    screenshot_file = screenshot_file.replace('\n', '')
+    screenshot_file = screenshot_file.replace('\\', '/')
+    if 'click' in action or 'handle_exception' in action:
+        res = click_test(action, screenshot_file, order, resp_type)
+        return res
+    elif 'swipe_screen' in action:
+        res = swipe_screen_test(action, screenshot_file, order)
+        return res
+    elif 'scroll' in action:
+        res = scroll_test(action, screenshot_file, order, resp_type)
+        return res
+    elif 'set_text' in action:
+        res = set_text_test(action, screenshot_file, order)
+        return res
+    elif 'type' in action:
+        res = type_test(action, order, resp_type)
+        return res
+    elif 'press_back' in action:
+        res = judge_back(order)
+        return res
+    elif 'press_home' in action:
+        res = judge_home(order)
+        return res
+    elif 'wait' in action:
+        res = judge_wait(order)
+        return res
+    elif 'finished' in action:
+        res = judge_finish(order)
+        return res
+    elif 'enter' in action:
+        res = judge_enter(order)
+        return res
+    elif 'long_press' in action:
+        res = long_press_test(action, screenshot_file, order, resp_type)
+        return res
+    elif 'swipe' in action:
+        return scroll_test(action, screenshot_file, order, resp_type)
+    elif 'terminate' in action:
+        return judge_finish(order)
+    elif 'system_button' in action and 'Back' in action:
+        return judge_back(order)
+    elif 'system_button' in action and 'Home' in action:
+        return judge_home(order)
+    elif get_order_type(order) is None:
+        return 1
+    else:
+        return 0
+    return 1
+
+def box_tool_process_results(answer, predict, field, intent):
+    if '参数提取' in field:
+        return eval_params_extract(predict, answer, intent)
+    elif str(answer) == str(predict):
+        return 1
+    else:
+        return 0
+
+def eval_params_extract(predict: str, answer: str, intent: str):
+    try:
+        response_jsonl = json.loads(predict)
+        answer_jsonl = json.loads(answer)
+        if 'function' not in response_jsonl or 'arguments' not in response_jsonl:
+            return 0
+        if response_jsonl['function'] != intent:
+            return 0
+        response_jsonl = response_jsonl['arguments']
+        if response_jsonl == answer_jsonl:
+            return 1
+        else:
+            response_key = response_jsonl.keys()
+            answer_key = answer_jsonl.keys()
+            if len(response_key) == len(answer_key):
+                for each_key in response_key:
+                    if each_key in answer_key:
+                        each_value = response_jsonl[each_key]
+                        answer_value = answer_jsonl[each_key]
+                        str1_split = re.split('[，,]', each_value)
+                        str2_split = re.split('[，,]', answer_value)
+                        if sorted(str1_split) != sorted(str2_split):
+                            return 0
+                    else:
+                        return 0
+                return 1
+            else:
+                return 0
+    except Exception as e:
+        return 0
+
+def eval_toolcall(predict: str, answer: str):
+    try:
+        response_jsonl = json.loads(predict)
+        answer_jsonl = json.loads(answer)
+        if 'name' not in response_jsonl or 'arguments' not in response_jsonl:
+            return 0
+        if response_jsonl['name'] != answer_jsonl['name']:
+            return 0
+        response_jsonl = response_jsonl['arguments']
+        answer_jsonl = answer_jsonl['arguments']
+        if response_jsonl == answer_jsonl:
+            return 1
+        else:
+            response_key = response_jsonl.keys()
+            answer_key = answer_jsonl.keys()
+            if len(response_key) == len(answer_key):
+                for each_key in response_key:
+                    if each_key in answer_key:
+                        each_value = response_jsonl[each_key]
+                        answer_value = answer_jsonl[each_key]
+                        str1_split = re.split('[，,]', each_value)
+                        str2_split = re.split('[，,]', answer_value)
+                        if sorted(str1_split) != sorted(str2_split):
+                            return 0
+                    else:
+                        return 0
+                return 1
+            else:
+                return 0
+    except Exception as e:
+        return 0
+
+def box_process_results(answer, predict, field):
+    if '参数提取' in field:
+        return box_eval_params_extract(predict, answer)
+    elif str(answer) == str(predict):
+        return 1
+    else:
+        return 0
+
+def box_eval_params_extract(predict: str, answer: str):
+    try:
+        response_jsonl = json.loads(predict)
+        answer_jsonl = json.loads(answer)
+        if response_jsonl == answer_jsonl:
+            return 1
+        else:
+            response_key = response_jsonl.keys()
+            answer_key = answer_jsonl.keys()
+            if len(response_key) == len(answer_key):
+                for each_key in response_key:
+                    if each_key in answer_key:
+                        each_value = response_jsonl[each_key]
+                        answer_value = answer_jsonl[each_key]
+                        str1_split = re.split('[，,]', each_value)
+                        str2_split = re.split('[，,]', answer_value)
+                        if sorted(str1_split) != sorted(str2_split):
+                            return 0
+                    else:
+                        return 0
+                return 1
+            else:
+                return 0
+    except Exception as e:
+        return 0

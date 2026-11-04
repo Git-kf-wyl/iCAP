@@ -1,0 +1,200 @@
+{
+  "QWQ-32B": [
+    {
+      "dataset_name": "humaneval",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "macro_score": 1.0,
+              "name": [
+                "default"
+              ],
+              "num": 1,
+              "score": 1.0,
+              "subsets": [
+                {
+                  "name": "openai_humaneval",
+                  "num": 1,
+                  "score": 1.0,
+                  "time": "00:05:44"
+                }
+              ]
+            }
+          ],
+          "macro_score": 1.0,
+          "name": "AveragePass@1",
+          "num": 1,
+          "score": 1.0
+        }
+      ],
+      "model_name": "QWQ-32B",
+      "name": "QWQ-32B_humaneval",
+      "score": 1.0
+    },
+    {
+      "dataset_name": "ifeval",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "macro_score": 1.0,
+              "name": [
+                "default"
+              ],
+              "num": 4,
+              "score": 1.0,
+              "subsets": [
+                {
+                  "name": "default",
+                  "num": 4,
+                  "score": 1.0,
+                  "time": "00:02:07"
+                }
+              ]
+            }
+          ],
+          "macro_score": 1.0,
+          "name": "prompt_level_strict_acc",
+          "num": 4,
+          "score": 1.0
+        }
+      ],
+      "model_name": "QWQ-32B",
+      "name": "QWQ-32B_ifeval",
+      "score": 1.0
+    }
+  ],
+  "Qwen3-8B": [
+    {
+      "dataset_name": "aime24",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "macro_score": 0.0,
+              "name": [
+                "default"
+              ],
+              "num": 1,
+              "score": 0.0,
+              "subsets": [
+                {
+                  "name": "default",
+                  "num": 1,
+                  "score": 0.0,
+                  "time": "00:01:02"
+                }
+              ]
+            }
+          ],
+          "macro_score": 0.0,
+          "name": "AveragePass@1",
+          "num": 1,
+          "score": 0.0
+        }
+      ],
+      "model_name": "Qwen3-8B",
+      "name": "Qwen3-8B_aime24",
+      "score": 0.0
+    },
+    {
+      "dataset_name": "ifeval",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "macro_score": 1.0,
+              "name": [
+                "default"
+              ],
+              "num": 4,
+              "score": 1.0,
+              "subsets": [
+                {
+                  "name": "default",
+                  "num": 4,
+                  "score": 1.0,
+                  "time": "00:00:15"
+                }
+              ]
+            }
+          ],
+          "macro_score": 1.0,
+          "name": "prompt_level_strict_acc",
+          "num": 4,
+          "score": 1.0
+        }
+      ],
+      "model_name": "Qwen3-8B",
+      "name": "Qwen3-8B_ifeval",
+      "score": 1.0
+    }
+  ],
+  "Qwen3-8B-DS": [
+    {
+      "dataset_name": "aime24",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "macro_score": 0.75,
+              "name": [
+                "default"
+              ],
+              "num": 1,
+              "score": 0.75,
+              "subsets": [
+                {
+                  "name": "default",
+                  "num": 1,
+                  "score": 0.75,
+                  "time": "00:01:01"
+                }
+              ]
+            }
+          ],
+          "macro_score": 0.75,
+          "name": "AveragePass@1",
+          "num": 1,
+          "score": 0.75
+        }
+      ],
+      "model_name": "Qwen3-8B-DS",
+      "name": "Qwen3-8B-DS_aime24",
+      "score": 0.75
+    },
+    {
+      "dataset_name": "ifeval",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "macro_score": 0.0,
+              "name": [
+                "default"
+              ],
+              "num": 4,
+              "score": 0.0,
+              "subsets": [
+                {
+                  "name": "default",
+                  "num": 4,
+                  "score": 0.0,
+                  "time": "00:00:12"
+                }
+              ]
+            }
+          ],
+          "macro_score": 0.0,
+          "name": "prompt_level_strict_acc",
+          "num": 4,
+          "score": 0.0
+        }
+      ],
+      "model_name": "Qwen3-8B-DS",
+      "name": "Qwen3-8B-DS_ifeval",
+      "score": 0.0
+    }
+  ]
+}

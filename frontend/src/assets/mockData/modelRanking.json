@@ -1,0 +1,390 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Qwen3-235B-A22B",
+      "createTime": "2025-06-11 12:10:14",
+      "type": "Chat",
+      "parameters": "671B",
+      "totalScores": {
+        "average": 78.7,
+        "MMLU": 78.7,
+        "AIME2024": 78.7,
+        "LiveCodeBench": 78.7,
+        "GPQA-Diamond": 78.7,
+        "BFCL": 78.7,
+        "IFEval": 78.7
+      },
+      "operationScores": {
+        "average": 78.7,
+        "E2EAlert": 78.7,
+        "MML": 78.7,
+        "Expert": 78.7,
+        "NewScene": 78.7
+      },
+      "serviceScores": {
+        "average": 78.7,
+        "toolSelection": 78.7,
+        "parameterExtraction": 78.7,
+        "intentRecognition": 78.7,
+        "style": 78.7,
+        "emotion": 78.7
+      },
+      "computingPowerScores": {
+        "intentRecognition": 78.7
+      },
+      "AISFScores": {
+        "intentRecognition": 78.7
+      },
+      "father": "Alibaba"
+    },
+    {
+      "id": 2,
+      "name": "Qwen3-30B-A3B",
+      "createTime": "2025-06-11 12:10:14",
+      "type": "Chat",
+      "parameters": "30B",
+      "totalScores": {
+        "average": 78.7,
+        "MMLU": 78.7,
+        "AIME2024": 78.7,
+        "LiveCodeBench": 78.7,
+        "GPQA-Diamond": 78.7,
+        "BFCL": 78.7,
+        "IFEval": 78.7
+      },
+      "operationScores": {
+        "average": 76.8,
+        "E2EAlert": 76.8,
+        "MML": 76.8,
+        "Expert": 76.8,
+        "NewScene": 76.8
+      },
+      "serviceScores": {
+        "average": 76.8,
+        "toolSelection": 76.8,
+        "parameterExtraction": 76.8,
+        "intentRecognition": 76.8,
+        "style": 76.8,
+        "emotion": 76.8
+      },
+      "computingPowerScores": {
+        "intentRecognition": 76.8
+      },
+      "AISFScores": {
+        "intentRecognition": 76.8
+      },
+      "father": "Alibaba"
+    },
+    {
+      "id": 3,
+      "name": "Qwen3-32B",
+      "createTime": "2025-06-11 12:10:14",
+      "type": "Chat",
+      "parameters": "671B",
+      "totalScores": {
+        "average": 78.7,
+        "MMLU": 78.7,
+        "AIME2024": 78.7,
+        "LiveCodeBench": 78.7,
+        "GPQA-Diamond": 78.7,
+        "BFCL": 78.7,
+        "IFEval": 78.7
+      },
+      "operationScores": {
+        "average": 76.5,
+        "E2EAlert": 76.5,
+        "MML": 76.5,
+        "Expert": 76.5,
+        "NewScene": 76.5
+      },
+      "serviceScores": {
+        "average": 76.5,
+        "toolSelection": 76.5,
+        "parameterExtraction": 76.5,
+        "intentRecognition": 76.5,
+        "style": 76.5,
+        "emotion": 76.5
+      },
+      "computingPowerScores": {
+        "intentRecognition": 76.5
+      },
+      "AISFScores": {
+        "intentRecognition": 76.5
+      },
+      "father": "Alibaba"
+    },
+    {
+      "id": 4,
+      "name": "Qwen3-8B",
+      "createTime": "2025-06-11 12:10:14",
+      "type": "Chat",
+      "parameters": "671B",
+      "totalScores": {
+        "average": 78.7,
+        "MMLU": 78.7,
+        "AIME2024": 78.7,
+        "LiveCodeBench": 78.7,
+        "GPQA-Diamond": 78.7,
+        "BFCL": 78.7,
+        "IFEval": 78.7
+      },
+      "operationScores": {
+        "average": 68.8,
+        "E2EAlert": 68.8,
+        "MML": 68.8,
+        "Expert": 68.8,
+        "NewScene": 68.8
+      },
+      "serviceScores": {
+        "average": 68.8,
+        "toolSelection": 68.8,
+        "parameterExtraction": 68.8,
+        "intentRecognition": 68.8,
+        "style": 68.8,
+        "emotion": 68.8
+      },
+      "computingPowerScores": {
+        "intentRecognition": 68.8
+      },
+      "AISFScores": {
+        "intentRecognition": 68.8
+      },
+      "father": "Alibaba"
+    },
+    {
+      "id": 5,
+      "name": "GLM-Z1-32B-0414",
+      "createTime": "2025-06-11 12:10:14",
+      "type": "Chat",
+      "parameters": "671B",
+      "totalScores": {
+        "average": 78.7,
+        "MMLU": 78.7,
+        "AIME2024": 78.7,
+        "LiveCodeBench": 78.7,
+        "GPQA-Diamond": 78.7,
+        "BFCL": 78.7,
+        "IFEval": 78.7
+      },
+      "operationScores": {
+        "average": 74.3,
+        "E2EAlert": 74.3,
+        "MML": 74.3,
+        "Expert": 74.3,
+        "NewScene": 74.3
+      },
+      "serviceScores": {
+        "average": 74.3,
+        "toolSelection": 74.3,
+        "parameterExtraction": 74.3,
+        "intentRecognition": 74.3,
+        "style": 74.3,
+        "emotion": 74.3
+      },
+      "computingPowerScores": {
+        "intentRecognition": 74.3
+      },
+      "AISFScores": {
+        "intentRecognition": 74.3
+      },
+      "father": "Zhipu AI"
+    },
+    {
+      "id": 6,
+      "name": "DeepSeek-V3-0324",
+      "createTime": "2025-06-11 12:10:14",
+      "type": "Chat",
+      "parameters": "671B",
+      "totalScores": {
+        "average": 78.7,
+        "MMLU": 78.7,
+        "AIME2024": 78.7,
+        "LiveCodeBench": 78.7,
+        "GPQA-Diamond": 78.7,
+        "BFCL": 78.7,
+        "IFEval": 78.7
+      },
+      "operationScores": {
+        "average": 71.8,
+        "E2EAlert": 71.8,
+        "MML": 71.8,
+        "Expert": 71.8,
+        "NewScene": 71.8
+      },
+      "serviceScores": {
+        "average": 71.8,
+        "toolSelection": 71.8,
+        "parameterExtraction": 71.8,
+        "intentRecognition": 71.8,
+        "style": 71.8,
+        "emotion": 71.8
+      },
+      "computingPowerScores": {
+        "intentRecognition": 71.8
+      },
+      "AISFScores": {
+        "intentRecognition": 71.8
+      },
+      "father": "DeepSeek"
+    },
+    {
+      "id": 7,
+      "name": "DeepSeek-R1",
+      "createTime": "2025-06-11 12:10:14",
+      "type": "Chat",
+      "parameters": "671B",
+      "totalScores": {
+        "average": 78.7,
+        "MMLU": 78.7,
+        "AIME2024": 78.7,
+        "LiveCodeBench": 78.7,
+        "GPQA-Diamond": 78.7,
+        "BFCL": 78.7,
+        "IFEval": 78.7
+      },
+      "operationScores": {
+        "average": 75.1,
+        "E2EAlert": 75.1,
+        "MML": 75.1,
+        "Expert": 75.1,
+        "NewScene": 75.1
+      },
+      "serviceScores": {
+        "average": 75.1,
+        "toolSelection": 75.1,
+        "parameterExtraction": 75.1,
+        "intentRecognition": 75.1,
+        "style": 75.1,
+        "emotion": 75.1
+      },
+      "computingPowerScores": {
+        "intentRecognition": 75.1
+      },
+      "AISFScores": {
+        "intentRecognition": 75.1
+      },
+      "father": "DeepSeek"
+    },
+    {
+      "id": 8,
+      "name": "Qwen-QwQ-32B",
+      "createTime": "2025-06-11 12:10:14",
+      "type": "Chat",
+      "parameters": "671B",
+      "totalScores": {
+        "average": 78.7,
+        "MMLU": 78.7,
+        "AIME2024": 78.7,
+        "LiveCodeBench": 78.7,
+        "GPQA-Diamond": 78.7,
+        "BFCL": 78.7,
+        "IFEval": 78.7
+      },
+      "operationScores": {
+        "average": 73.8,
+        "E2EAlert": 73.8,
+        "MML": 73.8,
+        "Expert": 73.8,
+        "NewScene": 73.8
+      },
+      "serviceScores":
+      {
+        "average": 73.8,
+        "toolSelection": 73.8,
+        "parameterExtraction": 73.8,
+        "intentRecognition": 73.8,
+        "style": 73.8,
+        "emotion": 73.8
+      },
+      "computingPowerScores":
+      {
+        "intentRecognition": 73.8
+      },
+      "AISFScores": {
+        "intentRecognition": 73.8
+      },
+      "father": "Alibaba"
+    },
+    {
+      "id": 9,
+      "name": "Qwen2.5-72B-Instruct",
+      "createTime": "2025-06-11 12:10:14",
+      "type": "Chat",
+      "parameters": "671B",
+      "totalScores": {
+        "average": 78.7,
+        "MMLU": 78.7,
+        "AIME2024": 78.7,
+        "LiveCodeBench": 78.7,
+        "GPQA-Diamond": 78.7,
+        "BFCL": 78.7,
+        "IFEval": 78.7
+      },
+      "operationScores":
+      {
+        "average": 56.3,
+        "E2EAlert": 56.3,
+        "MML": 56.3,
+        "Expert": 56.3,
+        "NewScene": 56.3
+      },
+      "serviceScores":
+      {
+        "average": 56.3,
+        "toolSelection": 56.3,
+        "parameterExtraction": 56.3,
+        "intentRecognition": 56.3,
+        "style": 56.3,
+        "emotion": 56.3
+      },
+      "computingPowerScores":
+      {
+        "intentRecognition": 56.3
+      },
+      "AISFScores":
+      {
+        "intentRecognition": 56.3
+      },
+      "father": "Alibaba"
+    },
+    {
+      "id": 10,
+      "name": "Llama3-70B-Instruct",
+      "createTime": "2025-06-11 12:10:14",
+      "type": "Chat",
+      "parameters": "671B",
+      "totalScores": {
+        "average": 78.7,
+        "MMLU": 78.7,
+        "AIME2024": 78.7,
+        "LiveCodeBench": 78.7,
+        "GPQA-Diamond": 78.7,
+        "BFCL": 78.7,
+        "IFEval": 78.7
+      },
+      "operationScores": {
+        "average": 53.4,
+        "E2EAlert": 53.4,
+        "MML": 53.4,
+        "Expert": 53.4,
+        "NewScene": 53.4
+      },
+      "serviceScores": {
+        "average": 53.4,
+        "toolSelection": 53.4,
+        "parameterExtraction": 53.4,
+        "intentRecognition": 53.4,
+        "style": 53.4,
+        "emotion": 53.4
+      },
+      "computingPowerScores": {
+        "intentRecognition": 53.4
+      },
+      "AISFScores": {
+        "intentRecognition": 53.4
+      },
+      "father": "Meta"
+    }
+  ]
+}

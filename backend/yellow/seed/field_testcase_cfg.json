@@ -1,0 +1,337 @@
+{
+  "service_intent": {
+    "dataset_name": "service_intent",
+    "input_path": "./TestSuiteRulerII/service_intent",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "testcase_tags": [
+      "???????"
+    ],
+    "content": "",
+    "establish_time": "2025-07-30 22:24:23",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/????_test.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/??д????_test.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/????????_test.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???????_test.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/?г?滮_test.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/??????_test.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???????_test.json"
+    ],
+    "few_file_list": [],
+    "is_field": "2",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "service_tool_select": {
+    "dataset_name": "service_tool_select",
+    "input_path": "./TestSuiteRulerII/service_tool_select",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "testcase_tags": [
+      "???????"
+    ],
+    "content": "",
+    "establish_time": "2025-07-30 22:25:48",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_chat_scene-default_50.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_check_schedule_scene-default_50.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_check_schedule_scene-tool_50.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_delete_schedule_scene-default_100.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_delete_schedule_scene-tool_50.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_set_schedule_scene-default_100.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_set_schedule_scene-tool_100.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_update_schedule_scene-default_50.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_update_schedule_scene-tool_50.json"
+    ],
+    "few_file_list": [],
+    "is_field": "2",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "service_parameter_extract": {
+    "dataset_name": "service_parameter_extract",
+    "input_path": "./TestSuiteRulerII/service_parameter_extract",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "testcase_tags": [
+      "???????"
+    ],
+    "content": "",
+    "establish_time": "2025-07-30 22:25:13",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_chat_scene-default_50.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_check_schedule_scene-default_50.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_check_schedule_scene-tool_50.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_delete_schedule_scene-default_100.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_delete_schedule_scene-tool_50.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_set_schedule_scene-default_100.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_set_schedule_scene-tool_100.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_update_schedule_scene-default_50.json",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test_data_update_schedule_scene-tool_50.json"
+    ],
+    "few_file_list": [],
+    "is_field": "2",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "service_style": {
+    "dataset_name": "service_style",
+    "input_path": "./TestSuiteRulerII/service_style",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "testcase_tags": [
+      "???????"
+    ],
+    "content": "",
+    "establish_time": "2025-07-30 22:25:29",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???????_??????.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???????_?????.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???????_?????Ц.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???????_?????.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???????_???????.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???????_????????.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???????_??????.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???????_??????.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???????_?????к?.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???????_??????.csv"
+    ],
+    "few_file_list": [],
+    "is_field": "2",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "service_emotion": {
+    "dataset_name": "service_emotion",
+    "input_path": "./TestSuiteRulerII/service_emotion",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "testcase_tags": [
+      "???????"
+    ],
+    "content": "",
+    "establish_time": "2025-07-30 22:23:55",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???colloquialization_file.txt",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???colloquialization_file.txt",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???colloquialization_file.txt",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/????colloquialization_file.txt",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/????colloquialization_file.txt",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/???colloquialization_file.txt",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/????colloquialization_file.txt"
+    ],
+    "few_file_list": [],
+    "is_field": "2",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aisf_intent": {
+    "dataset_name": "aisf_intent",
+    "input_path": "./TestSuiteRulerII/aisf_intent",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "aisf??????????????У????????????????",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "testcase_tags": [
+      "AISF"
+    ],
+    "content": "",
+    "establish_time": "2025-07-31 20:19:29",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/????滮-????.xlsx",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/????滮-???????.xlsx",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/????滮-???.xlsx",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/????滮-????.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "2",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "box_tool_use": {
+    "dataset_name": "box_tool_use",
+    "input_path": "./TestSuiteRulerII/box_tool_use",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "testcase_tags": [
+      "????????"
+    ],
+    "content": "",
+    "establish_time": "2025-07-30 22:23:11",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/call.jsonl",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/fit.jsonl",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/view.jsonl"
+    ],
+    "few_file_list": [],
+    "is_field": "2",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "om_task": {
+    "dataset_name": "om_task",
+    "input_path": "./TestSuiteRulerII/om_task",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "testcase_tags": [
+      "???????"
+    ],
+    "content": "",
+    "establish_time": "2025-07-30 22:23:32",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/DS_??????????????_·??1_·??3.xlsx",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/????????-V0.9_?????????.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "2",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aa": {
+    "dataset_name": "aa",
+    "input_path": "./TestSuiteRulerII/aa",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [],
+    "metric_list": [],
+    "establish_time": "2025-07-30 14:50:25",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/data.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": true,
+    "status": 0,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "wzy/wwww": {
+    "dataset_name": "wwww",
+    "input_path": "./TestSuiteRulerII/wzy/wwww",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "wwww",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "???????"
+    ],
+    "metric_list": [],
+    "establish_time": "2025-07-30 14:50:54",
+    "is_open_source": false,
+    "need_llmjudge": false,
+    "file_list": [
+      "b8611ddf-326b-420e-b161-737b5666f10a/data.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": true,
+    "status": 0,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  }
+}

@@ -1,0 +1,7425 @@
+[
+  {
+    "id": "fs_001",
+    "query_text": "你都记住我哪些信息了",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "all"
+    ]
+  },
+  {
+    "id": "fs_004",
+    "query_text": "帮我推荐一家适合我的健身房",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的运动偏好",
+      "用户的常住地或工作地址"
+    ]
+  },
+  {
+    "id": "fs_005",
+    "query_text": "给我推荐一本书",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的书籍偏好"
+    ]
+  },
+  {
+    "id": "fs_006",
+    "query_text": "帮我选一部今晚看的电影",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的电影偏好"
+    ]
+  },
+  {
+    "id": "fs_007",
+    "query_text": "有什么好吃的早餐推荐吗",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的饮食偏好",
+      "用户的饮食禁忌"
+    ]
+  },
+  {
+    "id": "fs_008",
+    "query_text": "帮我选一款适合我肤质的护肤品",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的肤质",
+      "用户的护肤偏好"
+    ]
+  },
+  {
+    "id": "fs_009",
+    "query_text": "推荐一家我老婆会喜欢的餐厅",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户妻子的饮食偏好",
+      "用户的常住地或公司地址"
+    ]
+  },
+  {
+    "id": "fs_010",
+    "query_text": "今天下午该干什么",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "用户今天下午的日程安排",
+      "用户的习惯偏好"
+    ]
+  },
+  {
+    "id": "fs_011",
+    "query_text": "这个周末有什么活动推荐",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的周末活动偏好",
+      "用户的休闲爱好"
+    ]
+  },
+  {
+    "id": "fs_012",
+    "query_text": "我好像有个约会忘了，帮我找一下",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户近期的约会或聚餐计划"
+    ]
+  },
+  {
+    "id": "fs_013",
+    "query_text": "我感觉我有件事没做，想不起来了",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户近期的待办事项或计划"
+    ]
+  },
+  {
+    "id": "fs_014",
+    "query_text": "今天北京天气怎么样",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_015",
+    "query_text": "特斯拉最新股价是多少",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_016",
+    "query_text": "2024年春节是哪天",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_017",
+    "query_text": "《流浪地球3》什么时候上映",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_018",
+    "query_text": "现在几点了",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_019",
+    "query_text": "我手机还有多少电",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_020",
+    "query_text": "北京南站到上海虹桥高铁时刻表",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_021",
+    "query_text": "天安门广场开放时间是什么",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_022",
+    "query_text": "讲个笑话",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_023",
+    "query_text": "帮我给妈妈订束鲜花",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户妈妈的收货地址",
+      "用户妈妈的花卉偏好"
+    ]
+  },
+  {
+    "id": "fs_024",
+    "query_text": "帮我打车去公司",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的工作单位地址"
+    ]
+  },
+  {
+    "id": "fs_025",
+    "query_text": "帮我买张回老家的火车票",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户老家的地址",
+      "用户的出行偏好"
+    ]
+  },
+  {
+    "id": "fs_026",
+    "query_text": "我老婆生日是哪天",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户妻子的生日"
+    ]
+  },
+  {
+    "id": "fs_027",
+    "query_text": "我的护照放在哪里了",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体物品位置或事件记录。",
+    "rewrite_queries": [
+      "用户护照的存放位置"
+    ]
+  },
+  {
+    "id": "fs_028",
+    "query_text": "我下个月的房贷什么时候还",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "用户的房贷还款日",
+      "用户的房贷信息"
+    ]
+  },
+  {
+    "id": "fs_029",
+    "query_text": "帮我看看下次信用卡还款日",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的信用卡还款日"
+    ]
+  },
+  {
+    "id": "fs_030",
+    "query_text": "帮我制定一个月的健身计划",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的健身目标",
+      "用户的运动偏好",
+      "用户的饮食偏好"
+    ]
+  },
+  {
+    "id": "fs_031",
+    "query_text": "帮我安排明天的行程",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户明天的日程计划",
+      "用户的工作时间安排"
+    ]
+  },
+  {
+    "id": "fs_032",
+    "query_text": "我需要给女儿买什么学习用品",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户女儿的年级或学习情况",
+      "用户女儿的偏好"
+    ]
+  },
+  {
+    "id": "fs_033",
+    "query_text": "公司年终聚餐，我能不能吃海鲜",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的饮食禁忌",
+      "用户的过敏信息"
+    ]
+  },
+  {
+    "id": "fs_034",
+    "query_text": "帮我买个和之前一样的耳机",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户常用的耳机品牌或型号"
+    ]
+  },
+  {
+    "id": "fs_035",
+    "query_text": "我该怎么跟我爸解释我的工作",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的职业",
+      "用户与父亲的关系背景"
+    ]
+  },
+  {
+    "id": "fs_036",
+    "query_text": "帮我给新家买个电视",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户新家预留的电视尺寸"
+    ]
+  },
+  {
+    "id": "fs_037",
+    "query_text": "我的名字是什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的名字"
+    ]
+  },
+  {
+    "id": "fs_038",
+    "query_text": "我的职业是什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的职业"
+    ]
+  },
+  {
+    "id": "fs_039",
+    "query_text": "我的电话号码是什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的电话号码"
+    ]
+  },
+  {
+    "id": "fs_042",
+    "query_text": "我平时都喜欢干什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的兴趣爱好",
+      "用户的日常活动"
+    ]
+  },
+  {
+    "id": "fs_046",
+    "query_text": "我的钥匙在哪里？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体物品位置或事件记录。",
+    "rewrite_queries": [
+      "用户钥匙的存放位置"
+    ]
+  },
+  {
+    "id": "fs_049",
+    "query_text": "你记住了，我喜欢什么片子吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的电影偏好"
+    ]
+  },
+  {
+    "id": "fs_050",
+    "query_text": "帮我看一下我钥匙在哪。",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户钥匙的存放位置"
+    ]
+  },
+  {
+    "id": "fs_051",
+    "query_text": "我钥匙放哪儿了。",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体物品位置或事件记录。",
+    "rewrite_queries": [
+      "用户放置钥匙的位置"
+    ]
+  },
+  {
+    "id": "fs_055",
+    "query_text": "知道我的年龄吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的年龄"
+    ]
+  },
+  {
+    "id": "fs_057",
+    "query_text": "你觉得我喜欢什么样的综艺？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的综艺偏好"
+    ]
+  },
+  {
+    "id": "fs_058",
+    "query_text": "你知道我喜欢哪些演员吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户喜欢的演员"
+    ]
+  },
+  {
+    "id": "fs_061",
+    "query_text": "我的车在哪儿。",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体物品位置或事件记录。",
+    "rewrite_queries": [
+      "用户车辆的停放位置"
+    ]
+  },
+  {
+    "id": "fs_062",
+    "query_text": "我的书在哪儿？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体物品位置或事件记录。",
+    "rewrite_queries": [
+      "用户书籍的存放位置"
+    ]
+  },
+  {
+    "id": "fs_063",
+    "query_text": "我需要买什么来着？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "用户近期的购物计划",
+      "用户的待办事项"
+    ]
+  },
+  {
+    "id": "fs_064",
+    "query_text": "我成绩多少？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（职业、住址、技能、设备等）。",
+    "rewrite_queries": [
+      "用户的考试成绩"
+    ]
+  },
+  {
+    "id": "fs_066",
+    "query_text": "我的兰花放哪儿了？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体物品位置或事件记录。",
+    "rewrite_queries": [
+      "用户兰花的存放位置"
+    ]
+  },
+  {
+    "id": "fs_068",
+    "query_text": "你知道我的爱好吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的爱好"
+    ]
+  },
+  {
+    "id": "fs_071",
+    "query_text": "我找不到我的车了，帮我找一下。",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的车辆信息",
+      "用户常停车的地点"
+    ]
+  },
+  {
+    "id": "fs_072",
+    "query_text": "我有啥计划来着？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的近期计划"
+    ]
+  },
+  {
+    "id": "fs_078",
+    "query_text": "根据我的喜好给我推荐一些影视作品。",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的影视作品偏好"
+    ]
+  },
+  {
+    "id": "fs_079",
+    "query_text": "给我推荐一些适合我的影视剧。",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的影视剧偏好"
+    ]
+  },
+  {
+    "id": "fs_081",
+    "query_text": "我喜欢吃辣吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的饮食偏好"
+    ]
+  },
+  {
+    "id": "fs_084",
+    "query_text": "我家在哪",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（职业、住址、技能、设备等）。",
+    "rewrite_queries": [
+      "用户的家庭地址"
+    ]
+  },
+  {
+    "id": "fs_085",
+    "query_text": "我在哪上班",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（职业、住址、技能、设备等）。",
+    "rewrite_queries": [
+      "用户的工作地点"
+    ]
+  },
+  {
+    "id": "fs_087",
+    "query_text": "帮我打车回家",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的家庭地址"
+    ]
+  },
+  {
+    "id": "fs_088",
+    "query_text": "我的生日快到了，记得当天提醒我订蛋糕",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的生日日期"
+    ]
+  },
+  {
+    "id": "fs_090",
+    "query_text": "我最近在计划一次旅行, 我觉得我带Lucky去旅行需要注意什么",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "Lucky的信息",
+      "用户的旅行偏好",
+      "用户与Lucky的旅行经历"
+    ]
+  },
+  {
+    "id": "fs_091",
+    "query_text": "我的家庭成员有哪些",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的家庭成员"
+    ]
+  },
+  {
+    "id": "fs_092",
+    "query_text": "小明的妹妹喜欢什么",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "小明妹妹的喜好"
+    ]
+  },
+  {
+    "id": "fs_093",
+    "query_text": "我的侄女喜欢什么",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户侄女的喜好"
+    ]
+  },
+  {
+    "id": "fs_094",
+    "query_text": "我做意大利面的第三步是什么",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体事件记录或个人操作步骤。",
+    "rewrite_queries": [
+      "用户做意大利面的步骤"
+    ]
+  },
+  {
+    "id": "fs_095",
+    "query_text": "提醒我在妈妈生日当天买一个生日蛋糕和一束花，并添加到日历提醒中",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户妈妈的生日日期"
+    ]
+  },
+  {
+    "id": "fs_096",
+    "query_text": "帮我预定去三亚的机票",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的出行偏好",
+      "用户常选的舱位和航空公司"
+    ]
+  },
+  {
+    "id": "fs_097",
+    "query_text": "帮我预定假期旅行的机票",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的假期旅行计划",
+      "用户的出行偏好",
+      "用户常选的舱位和航空公司"
+    ]
+  },
+  {
+    "id": "fs_098",
+    "query_text": "我旅行结束是哪天",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "用户旅行的结束日期"
+    ]
+  },
+  {
+    "id": "fs_099",
+    "query_text": "我要带一家人一起去旅行，帮我订票",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的旅行偏好",
+      "用户家庭成员信息"
+    ]
+  },
+  {
+    "id": "fs_100",
+    "query_text": "我旅行开始和结束分别是哪天",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "用户的旅行开始日期",
+      "用户的旅行结束日期"
+    ]
+  },
+  {
+    "id": "fs_101",
+    "query_text": "帮我推荐下大学同学聚餐的餐厅",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的大学同学聚餐偏好",
+      "用户常去的餐厅"
+    ]
+  },
+  {
+    "id": "fs_102",
+    "query_text": "周五晚上帮我推荐一家大学同学入住酒店附近的餐厅",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的大学同学入住的酒店位置",
+      "用户的餐饮偏好"
+    ]
+  },
+  {
+    "id": "fs_103",
+    "query_text": "周六中午和弟弟他们家庭聚餐，帮忙推荐一个弟弟家附近的餐厅",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "弟弟家的地址",
+      "用户的餐厅偏好"
+    ]
+  },
+  {
+    "id": "fs_105",
+    "query_text": "帮我预订一张参加小李婚礼的机票",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "小李的婚礼地点",
+      "小李的婚礼日期",
+      "用户的出行偏好",
+      "用户常选的舱位和航空公司"
+    ]
+  },
+  {
+    "id": "fs_106",
+    "query_text": "帮我打辆车去取给女儿预定的生日蛋糕",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的女儿的生日蛋糕预定信息",
+      "用户常用地点"
+    ]
+  },
+  {
+    "id": "fs_107",
+    "query_text": "妈妈生日快到了请帮我推荐一份礼物",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的妈妈的生日",
+      "用户的送礼偏好",
+      "用户的妈妈的兴趣爱好"
+    ]
+  },
+  {
+    "id": "fs_108",
+    "query_text": "双十二帮我买扫地机相关耗材",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的扫地机型号",
+      "用户常用的扫地机耗材品牌"
+    ]
+  },
+  {
+    "id": "fs_109",
+    "query_text": "帮忙给我的手机购买一个手机壳",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（职业、住址、技能、设备等）。",
+    "rewrite_queries": [
+      "用户手机的型号",
+      "用户偏好的手机壳类型"
+    ]
+  },
+  {
+    "id": "fs_110",
+    "query_text": "帮我购买一个和之前同样品牌的最新款手机",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户之前使用的手机品牌"
+    ]
+  },
+  {
+    "id": "fs_111",
+    "query_text": "女儿上学喝水，帮忙给女儿买个她喜欢的保温壶",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "女儿喜欢的保温壶品牌或款式"
+    ]
+  },
+  {
+    "id": "fs_112",
+    "query_text": "帮我给新家购买一个电视机",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的电视品牌偏好",
+      "用户的预算范围"
+    ]
+  },
+  {
+    "id": "fs_113",
+    "query_text": "下次版本例会是哪天",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "用户下次版本例会的日期"
+    ]
+  },
+  {
+    "id": "fs_115",
+    "query_text": "下次民主生活会日期是哪一天",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "下次民主生活会日期"
+    ]
+  },
+  {
+    "id": "fs_116",
+    "query_text": "我的生日是哪天",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的生日"
+    ]
+  },
+  {
+    "id": "fs_117",
+    "query_text": "晚上和同事聚餐，帮我推荐公司附近的餐厅",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "公司附近的餐厅",
+      "用户的饮食偏好"
+    ]
+  },
+  {
+    "id": "fs_119",
+    "query_text": "我新办的手机号码是多少？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的手机号"
+    ]
+  },
+  {
+    "id": "fs_122",
+    "query_text": "我的作息时间",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（职业、住址、技能、设备等）。",
+    "rewrite_queries": [
+      "用户的作息时间"
+    ]
+  },
+  {
+    "id": "fs_123",
+    "query_text": "我的工作单位是什么？职位是什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的工作单位",
+      "用户的职位"
+    ]
+  },
+  {
+    "id": "fs_124",
+    "query_text": "给我推荐一款旅行方案",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的旅行偏好",
+      "用户常去的旅行目的地",
+      "用户的旅行预算"
+    ]
+  },
+  {
+    "id": "fs_126",
+    "query_text": "周三要和好朋友约饭，有什么推荐的美食吗？有什么忌口吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的好朋友的忌口",
+      "用户的美食偏好"
+    ]
+  },
+  {
+    "id": "fs_128",
+    "query_text": "推荐个咖啡厅",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的咖啡厅偏好",
+      "用户常去的咖啡厅"
+    ]
+  },
+  {
+    "id": "fs_129",
+    "query_text": "根据我的收入帮我制定一个理财计划",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的收入情况",
+      "用户的理财目标",
+      "用户的财务状况",
+      "用户的理财偏好"
+    ]
+  },
+  {
+    "id": "fs_131",
+    "query_text": "查看一下我下周的行程",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "用户下周的行程"
+    ]
+  },
+  {
+    "id": "fs_132",
+    "query_text": "北京的同事邀请我下周聚餐，哪天比较好？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "用户下周的日程安排"
+    ]
+  },
+  {
+    "id": "fs_133",
+    "query_text": "明天好像要下雨，根据天气我的工作安排是什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的常驻工作地点",
+      "用户明天的工作安排"
+    ]
+  },
+  {
+    "id": "fs_134",
+    "query_text": "本来后天我们业务组有聚会，但是孩子通知我要去开家长会，我该怎么办？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的业务组聚会详情",
+      "用户孩子的家长会详情"
+    ]
+  },
+  {
+    "id": "fs_135",
+    "query_text": "帮我梳理一下我的教育背景",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的教育背景"
+    ]
+  },
+  {
+    "id": "fs_136",
+    "query_text": "我知道我有哪些语言技能吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（职业、住址、技能、设备等）。",
+    "rewrite_queries": [
+      "用户的语言技能"
+    ]
+  },
+  {
+    "id": "fs_137",
+    "query_text": "我在考虑找新工作，能给我一些建议吗",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的职业经历",
+      "用户的职业兴趣",
+      "用户的技能和专长"
+    ]
+  },
+  {
+    "id": "fs_138",
+    "query_text": "给我一份财务规划",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的财务状况",
+      "用户的收入情况",
+      "用户的支出情况",
+      "用户的储蓄目标",
+      "用户的投资偏好"
+    ]
+  },
+  {
+    "id": "fs_139",
+    "query_text": "帮我给我家人点喝的",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的家人信息",
+      "用户的家人饮品偏好"
+    ]
+  },
+  {
+    "id": "fs_140",
+    "query_text": "查看一下我的手机设备信息和电脑设备信息",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（职业、住址、技能、设备等）。",
+    "rewrite_queries": [
+      "用户的手机设备信息",
+      "用户的电脑设备信息"
+    ]
+  },
+  {
+    "id": "fs_142",
+    "query_text": "我想给我的电脑买个电脑包。",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（职业、住址、技能、设备等）。",
+    "rewrite_queries": [
+      "用户的电脑型号",
+      "用户偏好的电脑包品牌和样式"
+    ]
+  },
+  {
+    "id": "fs_143",
+    "query_text": "兄弟部门询问我会议时间，帮我看看需要安排在周五具体什么时间？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户周五的日程安排"
+    ]
+  },
+  {
+    "id": "fs_144",
+    "query_text": "我的未来定居规划是什么",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的未来定居规划"
+    ]
+  },
+  {
+    "id": "fs_145",
+    "query_text": "我老婆的学历怎么样",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户老婆的学历"
+    ]
+  },
+  {
+    "id": "fs_146",
+    "query_text": "出差回来要请朋友吃饭，安排在周几合适？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的朋友名单",
+      "用户的工作日程",
+      "用户的出差计划"
+    ]
+  },
+  {
+    "id": "fs_147",
+    "query_text": "我需要再买个手机了，推荐一下",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的手机偏好",
+      "用户常买的手机品牌"
+    ]
+  },
+  {
+    "id": "fs_148",
+    "query_text": "我办公和居家的时候有什么区别，帮我定制化一下活动",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户办公时的习惯",
+      "用户居家时的习惯"
+    ]
+  },
+  {
+    "id": "fs_149",
+    "query_text": "帮我导出我的联系方式，我要发给客户",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的联系方式"
+    ]
+  },
+  {
+    "id": "fs_150",
+    "query_text": "家里缺垃圾袋，我在日常购物时的环保偏好是什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的环保偏好",
+      "用户常购的垃圾袋品牌"
+    ]
+  },
+  {
+    "id": "fs_151",
+    "query_text": "最近项目太多了，不知道先做哪个了",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "用户的项目优先级",
+      "用户的项目截止日期",
+      "用户的项目重要性"
+    ]
+  },
+  {
+    "id": "fs_153",
+    "query_text": "我对社交场合有什么偏好？给我推荐点适合我的活动吧",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的社交场合偏好",
+      "用户喜欢的活动类型"
+    ]
+  },
+  {
+    "id": "fs_154",
+    "query_text": "我的工作是什么？研究哪个方向？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（职业、住址、技能、设备等）。",
+    "rewrite_queries": [
+      "用户的工作",
+      "用户的研究方向"
+    ]
+  },
+  {
+    "id": "fs_155",
+    "query_text": "我在不同城市的房产和场地分布都有什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人信息。",
+    "rewrite_queries": [
+      "用户在不同城市的房产信息",
+      "用户在不同城市的场地信息"
+    ]
+  },
+  {
+    "id": "fs_157",
+    "query_text": "项目最近到了紧要节点，凌晨我还在公司，给我推荐一些喝的吧",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的饮品偏好",
+      "用户对咖啡因的敏感程度"
+    ]
+  },
+  {
+    "id": "fs_159",
+    "query_text": "我最近要做的项目帮我列出来吧",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户近期的项目计划"
+    ]
+  },
+  {
+    "id": "fs_160",
+    "query_text": "最近表弟要结婚了，我得买一件西装，推荐一下购物平台",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的购物平台偏好",
+      "用户常买的西装品牌"
+    ]
+  },
+  {
+    "id": "fs_161",
+    "query_text": "最近想学python 编程，根据我的学习习惯给一些学习建议",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的学习习惯"
+    ]
+  },
+  {
+    "id": "fs_162",
+    "query_text": "我住院了，联系一下家人",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的家人联系方式"
+    ]
+  },
+  {
+    "id": "fs_163",
+    "query_text": "李华是谁",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "李华的关系"
+    ]
+  },
+  {
+    "id": "fs_164",
+    "query_text": "距离我发工资还有多久",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取计划、日程或日期相关信息。",
+    "rewrite_queries": [
+      "用户的发工资日期"
+    ]
+  },
+  {
+    "id": "fs_165",
+    "query_text": "我的电脑系统是什么，我看一下要不要升级",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人信息。",
+    "rewrite_queries": [
+      "用户的电脑系统"
+    ]
+  },
+  {
+    "id": "fs_167",
+    "query_text": "我妈问我工资明细，给她发一下",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的工资明细"
+    ]
+  },
+  {
+    "id": "fs_169",
+    "query_text": "我的性别是什么?",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人信息。",
+    "rewrite_queries": [
+      "用户的性别"
+    ]
+  },
+  {
+    "id": "fs_171",
+    "query_text": "我的常用手机号是多少？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人信息。",
+    "rewrite_queries": [
+      "用户的常用手机号"
+    ]
+  },
+  {
+    "id": "fs_172",
+    "query_text": "我是什么民族？饮食习惯如何？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的民族",
+      "用户的饮食习惯"
+    ]
+  },
+  {
+    "id": "fs_174",
+    "query_text": "我在公司是什么职位？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人信息。",
+    "rewrite_queries": [
+      "用户在公司的职位"
+    ]
+  },
+  {
+    "id": "fs_175",
+    "query_text": "我现在住在哪里？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的当前住址"
+    ]
+  },
+  {
+    "id": "fs_176",
+    "query_text": "我的最高学历是什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的最高学历"
+    ]
+  },
+  {
+    "id": "fs_177",
+    "query_text": "我结婚了吗？结婚多久了？有什么生育计划？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的婚姻状态",
+      "用户的结婚日期",
+      "用户的生育计划"
+    ]
+  },
+  {
+    "id": "fs_178",
+    "query_text": "我的教育经历是怎样的？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人信息。",
+    "rewrite_queries": [
+      "用户的教育经历"
+    ]
+  },
+  {
+    "id": "fs_179",
+    "query_text": "我家有几个人一起住？养宠物了吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的家庭成员数量",
+      "用户是否养宠物"
+    ]
+  },
+  {
+    "id": "fs_180",
+    "query_text": "我是独生子吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人信息。",
+    "rewrite_queries": [
+      "用户的家庭成员信息"
+    ]
+  },
+  {
+    "id": "fs_181",
+    "query_text": "我喜欢什么类型的音乐？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的音乐偏好"
+    ]
+  },
+  {
+    "id": "fs_183",
+    "query_text": "我喜欢什么样的幽默？会讲什么笑话？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的幽默偏好",
+      "用户喜欢的笑话类型"
+    ]
+  },
+  {
+    "id": "fs_184",
+    "query_text": "我喜欢玩什么游戏？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的喜好游戏"
+    ]
+  },
+  {
+    "id": "fs_186",
+    "query_text": "工作时听什么音乐？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（职业、住址、技能、设备等）。",
+    "rewrite_queries": [
+      "用户的工作时音乐偏好"
+    ]
+  },
+  {
+    "id": "fs_187",
+    "query_text": "我绝对不看什么类型的电影？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取偏好、习惯或态度信息。",
+    "rewrite_queries": [
+      "用户不喜欢的电影类型"
+    ]
+  },
+  {
+    "id": "fs_188",
+    "query_text": "我喜欢读什么书？最近在读什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的阅读偏好",
+      "用户最近在读的书"
+    ]
+  },
+  {
+    "id": "fs_189",
+    "query_text": "我为什么不玩手游？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取偏好、习惯或态度信息。",
+    "rewrite_queries": [
+      "用户不玩手游的原因"
+    ]
+  },
+  {
+    "id": "fs_190",
+    "query_text": "我喜欢怎么旅行？最近想去哪里？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的旅行偏好",
+      "用户最近的旅行计划"
+    ]
+  },
+  {
+    "id": "fs_191",
+    "query_text": "我旅行时带相机吗？喜欢拍什么？怎么管理照片？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户旅行时是否带相机",
+      "用户的摄影偏好",
+      "用户的照片管理习惯"
+    ]
+  },
+  {
+    "id": "fs_192",
+    "query_text": "我父母是做什么的？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（职业、住址、技能、设备等）。",
+    "rewrite_queries": [
+      "用户父母的职业"
+    ]
+  },
+  {
+    "id": "fs_193",
+    "query_text": "我每周运动几次？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的运动频率"
+    ]
+  },
+  {
+    "id": "fs_194",
+    "query_text": "我有几个最好的朋友？多久聚一次？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体事件记录或个人操作步骤。",
+    "rewrite_queries": [
+      "用户最好的朋友数量",
+      "用户与最好朋友的聚会频率"
+    ]
+  },
+  {
+    "id": "fs_195",
+    "query_text": "妻子做什么工作？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户妻子的工作"
+    ]
+  },
+  {
+    "id": "fs_196",
+    "query_text": "我和同事关系如何？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户与同事的关系"
+    ]
+  },
+  {
+    "id": "fs_197",
+    "query_text": "我的饮食习惯如何？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的饮食习惯"
+    ]
+  },
+  {
+    "id": "fs_198",
+    "query_text": "我主要用什么社交软件？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取偏好、习惯或态度信息。",
+    "rewrite_queries": [
+      "用户常用的社交软件"
+    ]
+  },
+  {
+    "id": "fs_199",
+    "query_text": "我现在工作状态如何？每周工作多久？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户当前的工作状态",
+      "用户每周的工作时长"
+    ]
+  },
+  {
+    "id": "fs_200",
+    "query_text": "我主要通过什么方式学习？最近在学什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的主要学习方式",
+      "用户最近的学习内容"
+    ]
+  },
+  {
+    "id": "fs_201",
+    "query_text": "我擅长什么编程技术？在学什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的编程技术擅长领域",
+      "用户当前学习的编程技术"
+    ]
+  },
+  {
+    "id": "fs_202",
+    "query_text": "我的职业目标是什么？短期和长期分别是什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的职业目标",
+      "用户的短期职业目标",
+      "用户的长期职业目标"
+    ]
+  },
+  {
+    "id": "fs_203",
+    "query_text": "我看好哪些行业领域？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的行业偏好"
+    ]
+  },
+  {
+    "id": "fs_204",
+    "query_text": "周末做什么运动？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的运动偏好"
+    ]
+  },
+  {
+    "id": "fs_205",
+    "query_text": "早餐通常吃什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的早餐偏好"
+    ]
+  },
+  {
+    "id": "fs_206",
+    "query_text": "我有什么健康问题？如何管理？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的健康问题",
+      "用户的健康管理建议"
+    ]
+  },
+  {
+    "id": "fs_207",
+    "query_text": "我通常几点起床睡觉？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的起床时间",
+      "用户的睡觉时间"
+    ]
+  },
+  {
+    "id": "fs_208",
+    "query_text": "我睡眠质量如何？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的睡眠质量"
+    ]
+  },
+  {
+    "id": "fs_209",
+    "query_text": "我购买大件前会做什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户购买大件前的习惯"
+    ]
+  },
+  {
+    "id": "fs_210",
+    "query_text": "我对什么商品价格敏感？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取偏好、习惯或态度信息。",
+    "rewrite_queries": [
+      "用户的商品价格敏感度"
+    ]
+  },
+  {
+    "id": "fs_211",
+    "query_text": "我消费的主要动机是什么？会冲动购物吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取偏好、习惯或态度信息。",
+    "rewrite_queries": [
+      "用户的消费动机",
+      "用户是否容易冲动购物"
+    ]
+  },
+  {
+    "id": "fs_212",
+    "query_text": "我有债务吗？每月还多少？信用如何？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的债务情况",
+      "用户的每月还款金额",
+      "用户的信用状况"
+    ]
+  },
+  {
+    "id": "fs_213",
+    "query_text": "我如何理财？有应急资金吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的财务状况",
+      "用户的应急资金情况"
+    ]
+  },
+  {
+    "id": "fs_214",
+    "query_text": "我最近有什么旅行计划？远期想去哪里？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的近期旅行计划",
+      "用户远期想去的旅行目的地"
+    ]
+  },
+  {
+    "id": "fs_215",
+    "query_text": "我平时怎么上下班？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的上下班方式"
+    ]
+  },
+  {
+    "id": "fs_216",
+    "query_text": "我周末通常做什么？长假呢？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户周末的活动习惯",
+      "用户长假的活动安排"
+    ]
+  },
+  {
+    "id": "fs_217",
+    "query_text": "我旅行时喜欢住什么样的酒店？看重什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的酒店偏好",
+      "用户选择酒店时看重的因素"
+    ]
+  },
+  {
+    "id": "fs_218",
+    "query_text": "我从哪里获取专业信息？看什么新闻？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的新闻偏好",
+      "用户关注的专业领域"
+    ]
+  },
+  {
+    "id": "fs_219",
+    "query_text": "我每天阅读多久？做笔记吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的每日阅读时长",
+      "用户的笔记习惯"
+    ]
+  },
+  {
+    "id": "fs_220",
+    "query_text": "我长途旅行怎么出行？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的出行偏好",
+      "用户常选的长途交通工具"
+    ]
+  },
+  {
+    "id": "fs_221",
+    "query_text": "我有宗教信仰吗？对宗教什么态度？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的宗教信仰",
+      "用户对宗教的态度"
+    ]
+  },
+  {
+    "id": "fs_223",
+    "query_text": "我房贷什么时候还款？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "用户的房贷还款日期"
+    ]
+  },
+  {
+    "id": "fs_225",
+    "query_text": "我的结婚纪念日是哪天？每年庆祝吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人信息。",
+    "rewrite_queries": [
+      "用户的结婚纪念日",
+      "用户是否每年庆祝结婚纪念日"
+    ]
+  },
+  {
+    "id": "fs_226",
+    "query_text": "我信用卡什么时候还款？怎么还？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "用户的信用卡还款日期",
+      "用户的信用卡还款方式"
+    ]
+  },
+  {
+    "id": "fs_228",
+    "query_text": "我最近有考试吗？什么时候？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取计划、日程或日期相关信息。",
+    "rewrite_queries": [
+      "用户的近期考试安排"
+    ]
+  },
+  {
+    "id": "fs_229",
+    "query_text": "我老家在哪里？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户老家的地址"
+    ]
+  },
+  {
+    "id": "fs_230",
+    "query_text": "我不喜欢怎样的活动或运动？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的不喜欢的活动",
+      "用户的不喜欢的运动"
+    ]
+  },
+  {
+    "id": "fs_231",
+    "query_text": "我属相是什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的属相"
+    ]
+  },
+  {
+    "id": "fs_232",
+    "query_text": "我星座是什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的星座"
+    ]
+  },
+  {
+    "id": "fs_233",
+    "query_text": "我不喜欢什么编程技术？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户不喜欢的编程技术"
+    ]
+  },
+  {
+    "id": "fs_234",
+    "query_text": "我注重什么生活需求？生活作息方面每天必须做什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的生活需求",
+      "用户的生活作息习惯"
+    ]
+  },
+  {
+    "id": "fs_235",
+    "query_text": "我职业选择有什么特点？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的职业选择偏好",
+      "用户过往的职业经历",
+      "用户的职业价值观"
+    ]
+  },
+  {
+    "id": "fs_236",
+    "query_text": "我和父母联系频繁吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户与父母的联系频率"
+    ]
+  },
+  {
+    "id": "fs_237",
+    "query_text": "每天喝多少水？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_238",
+    "query_text": "我的紧急联系人电话多少？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的紧急联系人电话"
+    ]
+  },
+  {
+    "id": "fs_239",
+    "query_text": "我有多少微信好友？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的微信好友数量"
+    ]
+  },
+  {
+    "id": "fs_240",
+    "query_text": "我一般睡多久？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户的睡眠时长"
+    ]
+  },
+  {
+    "id": "fs_241",
+    "query_text": "我喜欢什么设计风格的产品？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的喜好设计风格"
+    ]
+  },
+  {
+    "id": "fs_242",
+    "query_text": "我侧重体验消费的哪些方面呢？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的消费偏好",
+      "用户重视的体验消费方面"
+    ]
+  },
+  {
+    "id": "fs_243",
+    "query_text": "我和上司关系如何？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户与上司的关系"
+    ]
+  },
+  {
+    "id": "fs_244",
+    "query_text": "我阅读用什么工具?",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的阅读工具偏好"
+    ]
+  },
+  {
+    "id": "fs_245",
+    "query_text": "今早我几点醒的？醒来后做了哪些事？早餐吃了什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体时间点发生的事件记录。",
+    "rewrite_queries": [
+      "用户今早的起床时间",
+      "用户今早的活动记录",
+      "用户今天的早餐内容"
+    ]
+  },
+  {
+    "id": "fs_246",
+    "query_text": "昨晚洗澡时发现什么日用品快用完了？新洗发水感觉如何？刷牙时有什么异常？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体时间点发生的事件记录。",
+    "rewrite_queries": [
+      "用户常用的日用品",
+      "用户对新洗发水的评价",
+      "用户刷牙时的异常情况"
+    ]
+  },
+  {
+    "id": "fs_247",
+    "query_text": "今天中午吃了什么菜？哪个菜特别麻？结账时有什么优惠？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体事件记录或个人操作步骤。",
+    "rewrite_queries": [
+      "用户今天的午餐菜品",
+      "用户今天午餐中特别麻的菜品",
+      "用户今天午餐结账时的优惠信息"
+    ]
+  },
+  {
+    "id": "fs_248",
+    "query_text": "上周体检发现了什么健康问题？医生给了什么建议？什么时候复查？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户上周体检发现的健康问题",
+      "医生给用户的建议",
+      "用户的复查时间"
+    ]
+  },
+  {
+    "id": "fs_249",
+    "query_text": "昨晚看了什么电影？哪个片段最美？看电影时吃了什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体时间点发生的事件记录。",
+    "rewrite_queries": [
+      "用户昨晚看的电影",
+      "用户认为最美的电影片段",
+      "用户看电影时吃的食物"
+    ]
+  },
+  {
+    "id": "fs_250",
+    "query_text": "周六大扫除重点清洁了什么？发现了什么过期食品？午饭什么时候吃的？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体时间点发生的事件记录。",
+    "rewrite_queries": [
+      "周六的大扫除重点清洁的区域",
+      "周六发现的过期食品",
+      "周六午饭的时间"
+    ]
+  },
+  {
+    "id": "fs_251",
+    "query_text": "周日家庭聚会为什么庆祝？我带了什么？表妹分享了什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体时间点发生的事件记录。",
+    "rewrite_queries": [
+      "周日家庭聚会的庆祝原因",
+      "用户在家庭聚会中带的东西",
+      "用户表妹在家庭聚会上分享的内容"
+    ]
+  },
+  {
+    "id": "fs_252",
+    "query_text": "昨晚和谁视频了？聊了多久？主要聊了什么？约了什么计划？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户昨晚视频的对象",
+      "用户昨晚视频的时长",
+      "用户昨晚视频的主要内容",
+      "用户与视频对象的未来计划"
+    ]
+  },
+  {
+    "id": "fs_253",
+    "query_text": "周三团建做了什么？我唱了几首歌？有什么趣事？聚餐每人花多少钱？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体时间点发生的事件记录。",
+    "rewrite_queries": [
+      "周三团建的活动内容",
+      "用户在团建中唱的歌曲数量",
+      "团建中的趣事",
+      "团建聚餐的人均花费"
+    ]
+  },
+  {
+    "id": "fs_254",
+    "query_text": "今天在地铁上帮助了谁？对方有什么反应？下车时怎样了？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体时间点发生的事件记录。",
+    "rewrite_queries": [
+      "用户今天在地铁上帮助的人",
+      "对方的反应",
+      "下车时的情况"
+    ]
+  },
+  {
+    "id": "fs_255",
+    "query_text": "我在哪个平台回答了什么问题？收到了什么反响？后续做了什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人信息。",
+    "rewrite_queries": [
+      "用户回答问题的平台",
+      "用户回答的具体问题",
+      "用户收到的反响",
+      "用户后续的行动"
+    ]
+  },
+  {
+    "id": "fs_256",
+    "query_text": "昨天是什么日子？晚餐在哪里吃的？看到了什么景色？我送了什么礼物？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户昨天的行程",
+      "用户昨天晚餐的地点",
+      "用户昨天看到的景色",
+      "用户昨天送的礼物"
+    ]
+  },
+  {
+    "id": "fs_257",
+    "query_text": "最近在学什么编程语言？每天学多久？遇到什么难点？我怎么练习的？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取当前学习状态及技能信息。",
+    "rewrite_queries": [
+      "用户最近学习的编程语言",
+      "用户每天学习编程的时间",
+      "用户在学习编程时遇到的难点",
+      "用户的编程练习方法"
+    ]
+  },
+  {
+    "id": "fs_258",
+    "query_text": "上个月什么实验成功了？失败了几次？确认成功的依据是什么？导师怎么评价？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "上个月用户的实验记录",
+      "用户实验失败的次数",
+      "用户实验成功的依据",
+      "导师对用户实验的评价"
+    ]
+  },
+  {
+    "id": "fs_259",
+    "query_text": "今天下午向谁汇报了什么？领导问了什么问题？结果如何？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体事件记录或个人操作步骤。",
+    "rewrite_queries": [
+      "用户今天下午的汇报对象",
+      "用户今天下午的汇报内容",
+      "领导提出的问题",
+      "汇报的结果"
+    ]
+  },
+  {
+    "id": "fs_260",
+    "query_text": "我最近申请了什么职业发展项目？进展如何？这几天在做什么准备？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户最近申请的职业发展项目",
+      "用户职业发展项目的进展情况",
+      "用户最近的准备活动"
+    ]
+  },
+  {
+    "id": "fs_261",
+    "query_text": "去年在丽江做了什么？路况如何？晚上看到了什么？怎么纪念的？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "用户去年在丽江的行程",
+      "用户去年在丽江的见闻",
+      "用户去年在丽江的纪念方式"
+    ]
+  },
+  {
+    "id": "fs_262",
+    "query_text": "第一次陶艺做了什么作品？遇到什么困难？成品什么时候能好？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体时间点发生的事件记录。",
+    "rewrite_queries": [
+      "用户第一次陶艺的作品",
+      "用户第一次陶艺遇到的困难",
+      "用户第一次陶艺成品的完成时间"
+    ]
+  },
+  {
+    "id": "fs_263",
+    "query_text": "上周末看了什么演出？感觉如何？用了什么辅助？买了什么纪念品？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户上周末看的演出",
+      "用户对上周末演出的感受",
+      "用户在上周末演出中使用的辅助工具",
+      "用户在上周末演出中购买的纪念品"
+    ]
+  },
+  {
+    "id": "fs_264",
+    "query_text": "去年在泰国玩了什么冒险项目？一开始感觉如何？看到了什么景象？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体时间点发生的事件记录。",
+    "rewrite_queries": [
+      "用户去年在泰国玩的冒险项目",
+      "用户对泰国冒险项目的初始感受",
+      "用户在泰国冒险项目中看到的景象"
+    ]
+  },
+  {
+    "id": "fs_265",
+    "query_text": "最近开始学什么乐器？第一次练习感觉如何？学会了什么？计划怎么练？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户最近开始学习的乐器",
+      "用户对第一次乐器练习的感受",
+      "用户在乐器学习中已掌握的内容",
+      "用户的乐器练习计划"
+    ]
+  },
+  {
+    "id": "fs_266",
+    "query_text": "昨天买了什么衣服？试了多少件？原价和实付多少？店员说了什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户昨天购买的衣服信息",
+      "用户昨天试穿衣服的数量",
+      "用户昨天购买衣服的原价和实付金额",
+      "用户昨天与店员的对话内容"
+    ]
+  },
+  {
+    "id": "fs_267",
+    "query_text": "上周去银行办理了什么业务？金额和利率多少？什么时候开始计息？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户上周在银行办理的业务",
+      "用户上周办理银行业务的金额",
+      "用户上周办理银行业务的利率",
+      "用户上周办理银行业务的计息开始时间"
+    ]
+  },
+  {
+    "id": "fs_268",
+    "query_text": "今天上午去办了什么事？拍照时有什么小插曲？新护照有效期多久？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "用户今天上午的行程安排",
+      "用户拍照时的小插曲",
+      "用户新护照的有效期"
+    ]
+  },
+  {
+    "id": "fs_269",
+    "query_text": "周日修理了什么？发现什么问题？怎么解决的？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体时间点发生的事件记录。",
+    "rewrite_queries": [
+      "用户周日修理的物品",
+      "用户发现的问题",
+      "用户解决问题的方法"
+    ]
+  },
+  {
+    "id": "fs_270",
+    "query_text": "昨天陪谁去看牙医？治疗了什么？过程中我做了什么？医生嘱咐了什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "昨天陪谁去看牙医",
+      "昨天看牙医治疗的项目",
+      "昨天在牙医诊所的行为",
+      "昨天牙医的嘱咐"
+    ]
+  },
+  {
+    "id": "fs_271",
+    "query_text": "前天是什么日子？同事怎么庆祝的？经理在会上做了什么？我在社交媒体分享了吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人信息。",
+    "rewrite_queries": [
+      "前天的特殊日子",
+      "同事的庆祝方式",
+      "经理在会上的行为",
+      "用户在社交媒体的分享记录"
+    ]
+  },
+  {
+    "id": "fs_272",
+    "query_text": "上个月我的项目取得了什么成绩？获得了什么奖励？我怎么珍藏它？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "上个月用户的项目成绩",
+      "用户项目获得的奖励",
+      "用户珍藏物品的方式"
+    ]
+  },
+  {
+    "id": "fs_273",
+    "query_text": "昨晚回家路上发生了什么意外？结果怎样？对我有什么影响？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体时间点发生的事件记录。",
+    "rewrite_queries": [
+      "用户昨晚回家路上的意外事件",
+      "用户昨晚回家路上意外的结果",
+      "用户昨晚回家路上意外的影响"
+    ]
+  },
+  {
+    "id": "fs_274",
+    "query_text": "今年春节在哪里过的？有什么活动？我包饺子时发生了什么趣事？跨年做了什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "需要从情景记忆中获取具体时间点发生的事件记录。",
+    "rewrite_queries": [
+      "用户今年春节的地点",
+      "用户今年春节的活动",
+      "用户包饺子时发生的趣事",
+      "用户跨年时的活动"
+    ]
+  },
+  {
+    "id": "fs_275",
+    "query_text": "三个月前我做了什么重大职业决定？做决定前经历了什么？现在感觉如何？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户三个月前的重大职业决定",
+      "用户在做该职业决定前的经历",
+      "用户对该职业决定的当前感受"
+    ]
+  },
+  {
+    "id": "fs_276",
+    "query_text": "牛顿第二定律是什么公式？它解释了什么问题？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_277",
+    "query_text": "元素周期表前20个元素有哪些？氧在周期表中是什么状态？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_278",
+    "query_text": "勾股定理的公式是什么？举个例子说明它的应用。",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_279",
+    "query_text": "DNA是什么结构？碱基配对规则是什么？谁发现的？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_280",
+    "query_text": "太阳系八大行星有哪些？冥王星现在是什么分类？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_281",
+    "query_text": "地球有几大洲几大洋？最大的海洋是哪个？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_282",
+    "query_text": "温室效应是什么原因造成的？如何减缓全球变暖？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_283",
+    "query_text": "供求关系如何影响价格？举个例子说明。",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_284",
+    "query_text": "中国的政治体制是什么？最高国家权力机关是什么？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_285",
+    "query_text": "社会阶层是根据什么划分的？不同阶层有什么差异？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_286",
+    "query_text": "中国法律体系包括哪些层次？宪法有什么特殊地位？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_287",
+    "query_text": "马斯洛需求层次理论包含哪些需求？顺序是怎样的？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_288",
+    "query_text": "莎士比亚四大悲剧是哪几部？主要探讨什么主题？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_289",
+    "query_text": "印象派绘画的代表人物有哪些？有什么特点？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_290",
+    "query_text": "苏格拉底有什么名言？体现了他什么态度？他的教学方法是什么？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_291",
+    "query_text": "秦始皇有哪些重要功绩？对中国历史有什么影响？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_292",
+    "query_text": "佛教的四圣谛是什么？八正道的目的是什么？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_293",
+    "query_text": "戏剧的三一律是什么？谁提出的？在哪部著作中？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_294",
+    "query_text": "打雷时为什么不能站在大树下？正确的做法是什么？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_295",
+    "query_text": "煮米饭时米和水的比例是多少？煮好后为什么要焖一会儿？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_296",
+    "query_text": "成年人每天应该喝多少水？正确的喝水方法是什么？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_297",
+    "query_text": "给长辈敬酒时有什么礼仪要求？碰杯时要注意什么？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_298",
+    "query_text": "7天无理由退货适用于哪些商品？网购维权需要保留什么？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_299",
+    "query_text": "开车时有什么安全规定？高速公路上要保持多少车距？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_300",
+    "query_text": "Python是什么类型的语言？适合什么开发？有什么常用库？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_301",
+    "query_text": "心肺复苏的步骤是什么？按压有什么要求？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_302",
+    "query_text": "布鲁姆认知目标分为哪六个层次？这个分类有什么用？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_303",
+    "query_text": "精益生产的核心是什么？有哪七种浪费？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_304",
+    "query_text": "复利计算公式是什么？各参数代表什么？复利有什么特点？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_305",
+    "query_text": "水稻种植需要什么条件？有哪些生长阶段？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_306",
+    "query_text": "物流中的’最后一公里‘指什么？有什么特点？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_307",
+    "query_text": "太阳能光伏发电的原理是什么？主要用什么材料？有哪些类型？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_308",
+    "query_text": "混凝土强度如何表示？C30是什么意思？需要养护多久？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_309",
+    "query_text": "五星级酒店的评定标准包括哪些？对客房有什么要求？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_310",
+    "query_text": "影视作品的版权包括哪些权利？保护期多久？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_311",
+    "query_text": "旅游景区有几个等级？最高是什么？评定标准包括哪些？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不依赖用户个人记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_315",
+    "query_text": "帮我查询从公司到家的公共交通路线。",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的公司地址",
+      "用户的家庭地址"
+    ]
+  },
+  {
+    "id": "fs_317",
+    "query_text": "周五下班想和同事在公司附近聚餐，结合我最近的饮食习惯帮我推荐一些公司附近的餐厅。",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户公司的位置",
+      "用户最近的饮食习惯",
+      "用户公司附近的餐厅"
+    ]
+  },
+  {
+    "id": "fs_318",
+    "query_text": "我的女儿和妻子叫什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户女儿的名字",
+      "用户妻子的名字"
+    ]
+  },
+  {
+    "id": "fs_321",
+    "query_text": "下周五要和同事聚餐，我有什么需要忌口的吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要从记忆中获取日程、计划或待办相关信息。",
+    "rewrite_queries": [
+      "用户的饮食禁忌"
+    ]
+  },
+  {
+    "id": "fs_322",
+    "query_text": "有没有家附近凌晨一点还营业的餐馆？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户家的地址",
+      "用户家附近的24小时餐馆"
+    ]
+  },
+  {
+    "id": "fs_323",
+    "query_text": "这周末我想去看电影，找个我家附近的电影院。",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "需要从用户画像中获取个人基础信息（家庭、关系、习惯、财务等）。",
+    "rewrite_queries": [
+      "用户家附近的电影院"
+    ]
+  },
+  {
+    "id": "fs_324",
+    "query_text": "下周我有什么旅游计划？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户下周的旅游计划"
+    ]
+  },
+  {
+    "id": "fs_325",
+    "query_text": "结合我最近身体状况，帮我推荐下餐馆。",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的近期身体状况",
+      "用户的饮食偏好"
+    ]
+  },
+  {
+    "id": "fs_327",
+    "query_text": "我喜欢什么颜色？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的颜色偏好"
+    ]
+  },
+  {
+    "id": "fs_329",
+    "query_text": "窝,我特别喜欢周杰伦的歌，尤其是他的中国风歌曲。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_330",
+    "query_text": "还有林俊杰的嗓音我也很爱，播放列表里全是他们俩。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_331",
+    "query_text": "哦不过我不太喜欢周杰伦最近的那首太阳之子，还是他以前的歌好听。他是不是江郎才尽了啊？",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_332",
+    "query_text": "今天星期几？算了，记住我晚上听歌要低音少一点的，不然邻居投诉。",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_333",
+    "query_text": "推荐几首适合下雨天听的歌",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户关于音乐的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_334",
+    "query_text": "来首周杰伦的歌",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于周杰伦的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_335",
+    "query_text": "播放一首林俊杰的江南",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_336",
+    "query_text": "我每天早上7点半都要喝一杯美式咖啡，不加糖。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_337",
+    "query_text": "周末的话会改成9点喝拿铁。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_338",
+    "query_text": "我不喜欢吃鸡蛋。还有豆浆必须是甜的。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_339",
+    "query_text": "说错了，我只是不喜欢水煮蛋，对了，今天有什么大新闻吗？",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_341",
+    "query_text": "帮我推荐一份早餐搭配",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户关于早餐的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_342",
+    "query_text": "我对青霉素过敏，而且吃芒果会嘴巴发痒。还有我对花生也过敏，会呼吸困难。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_343",
+    "query_text": "我不喜欢去医院，太麻烦了。有什么过敏药可以吃吗？",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_344",
+    "query_text": "今天空气质量怎么样？哦对了，记住我最近在吃中药调理身体。",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_345",
+    "query_text": "刚刚吃了一盘公司的果切，感觉嘴麻麻的，怎么回事",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于过敏的记忆"
+    ]
+  },
+  {
+    "id": "fs_346",
+    "query_text": "阿莫西林我能吃吗？会不会过敏啊",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于阿莫西林的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_347",
+    "query_text": "我朋友送了我花生酱，我能吃吗",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于花生酱的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_348",
+    "query_text": "我打算今年12月25号去哈尔滨看冰雪大世界，住中央大街附近。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_349",
+    "query_text": "要带防滑的靴子和厚羽绒服。我想知道羽绒服要带多厚的？有什么牌子比较好",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "询问羽绒服厚度和品牌，属于通用购物知识，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_350",
+    "query_text": "哈尔滨那时候气温大概多少？还有记住我讨厌排队超过半小时。",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_351",
+    "query_text": "玩冰雪大世界要排队吗？大概排多久？我能接受吗",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于排队的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_352",
+    "query_text": "今年12.25怎么规划？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户关于12.25的日程安排"
+    ]
+  },
+  {
+    "id": "fs_353",
+    "query_text": "之前说计划在哈尔滨住哪里来着",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户关于哈尔滨的行程安排"
+    ]
+  },
+  {
+    "id": "fs_354",
+    "query_text": "我们部门经理叫张伟，很喜欢去打桌球。但是我不喜欢打桌球，觉得太吵。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_355",
+    "query_text": "我工位对面的李芳养了一只布偶猫。她人不错，就是爱炫耀猫。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_356",
+    "query_text": "今天有什么新闻？还有我不喜欢户外烧烤，油烟大。",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_357",
+    "query_text": "我们部门出去团建，经理也在，可以怎么安排？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户关于经理的记忆或偏好",
+      "用户关于团建的记忆或偏好",
+      "用户的饮食偏好"
+    ]
+  },
+  {
+    "id": "fs_358",
+    "query_text": "送李芳什么好？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于李芳的记忆"
+    ]
+  },
+  {
+    "id": "fs_359",
+    "query_text": "张伟的桌球水平怎么样？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于张伟的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_360",
+    "query_text": "今年中秋我家说要么去户外BBQ，要么在餐馆定一桌，哪个合适？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于户外BBQ的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_361",
+    "query_text": "我们家族每个月第一个周六晚上会聚餐，轮流做东。下个月轮到我家，得准备一桌川菜。对了，我不喜欢吃香菜和折耳根，千万别放。今天天气怎么样？",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_362",
+    "query_text": "这个周六晚上有什么安排？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户周六的行程安排"
+    ]
+  },
+  {
+    "id": "fs_363",
+    "query_text": "我的饮食偏好",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的饮食偏好"
+    ]
+  },
+  {
+    "id": "fs_364",
+    "query_text": "我买运动鞋只认耐克的Air Max系列，尺码42.5。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_365",
+    "query_text": "我以前也穿过阿迪达斯的Ultra Boost，但觉得鞋型太窄，现在不喜欢了。对了，帮我查一下明天北京到上海的机票。",
+    "decision": "NO_RECALL",
+    "reason_code": "external_fact_query",
+    "explanation": "查询特定日期和路线的机票信息，属于外部事实查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_366",
+    "query_text": "记住我跑步时喜欢穿厚袜子，所以鞋子要买大半码。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_367",
+    "query_text": "推荐一双适合跑步的鞋",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的运动偏好"
+    ]
+  },
+  {
+    "id": "fs_368",
+    "query_text": "我的鞋码是多少",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户喜欢的运动鞋品牌",
+      "用户的鞋码"
+    ]
+  },
+  {
+    "id": "fs_369",
+    "query_text": "我每周六都要上线原神，专门刷周本BOSS。周日晚上8点会和朋友联机永劫无间。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_370",
+    "query_text": "不过最近有点腻了原神，以后改成只刷必要的本，不刷全部。对了，我不喜欢英雄联盟，太耗时间。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_371",
+    "query_text": "今天有什么有趣的新闻吗？",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_372",
+    "query_text": "今天周几了？我好像有什么任务忘了",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户近期的任务或待办事项"
+    ]
+  },
+  {
+    "id": "fs_373",
+    "query_text": "有什么好玩的游戏推荐？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的游戏偏好"
+    ]
+  },
+  {
+    "id": "fs_374",
+    "query_text": "我正在自学日语，用的是标准日本语初级上册。每天晚上会背20个单词",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_375",
+    "query_text": "我不喜欢那种死记硬背的App，比如百词斩。帮我定个闹钟，明早7点起床背单词。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_376",
+    "query_text": "说错了，我以后准备每天早上6点半起床背单词，晚上改成复习语法。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_377",
+    "query_text": "推荐一些学习App",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的学习习惯"
+    ]
+  },
+  {
+    "id": "fs_378",
+    "query_text": "我今晚应该学什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的学习目标"
+    ]
+  },
+  {
+    "id": "fs_379",
+    "query_text": "我一般要背几个单词",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的学习习惯"
+    ]
+  },
+  {
+    "id": "fs_380",
+    "query_text": "我最爱看科幻片，尤其是星际穿越和阿凡达这种硬科幻。对了，我不喜欢超级英雄电影，觉得太幼稚。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_381",
+    "query_text": "帮我放一首周杰伦的七里香。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_382",
+    "query_text": "以前也看过流浪地球，觉得特效不错但剧情一般。现在更偏爱诺兰的片子。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_383",
+    "query_text": "推荐一部电影看看",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的电影偏好"
+    ]
+  },
+  {
+    "id": "fs_384",
+    "query_text": "吴京演的动作片我基本都看过，战狼系列刷了不下五遍。我不喜欢那种花里胡哨的武侠片，比如卧虎藏龙那种轻功。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_385",
+    "query_text": "对了，帮我查一下战狼3什么时候上映？",
+    "decision": "NO_RECALL",
+    "reason_code": "external_fact_query",
+    "explanation": "查询电影上映日期，属于外部事实查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_386",
+    "query_text": "哦，还有我以后准备支持国产动作片，不看好莱坞的了。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_387",
+    "query_text": "今天谁赢了NBA比赛？",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "查询实时赛事结果，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_388",
+    "query_text": "推荐部动作片",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的电影偏好"
+    ]
+  },
+  {
+    "id": "fs_389",
+    "query_text": "我是taylorswift的铁粉，她的Love Story是我的入坑曲。我还特别喜欢她的民谣风格专辑folklore。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_390",
+    "query_text": "我不喜欢那种电音舞曲，比如烟鬼，听着头疼。帮我调低音量到30%。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_391",
+    "query_text": "可是可是我是説我以前喜欢霉霉的流行曲，现在喜欢的民谣。还有我讨厌霉霉的粉丝骂战，太无聊。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_392",
+    "query_text": "明天上海会下雨吗？",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_393",
+    "query_text": "播放点适合学习时听的歌",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的音乐偏好"
+    ]
+  },
+  {
+    "id": "fs_394",
+    "query_text": "我喜欢的歌手是谁",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的音乐偏好"
+    ]
+  },
+  {
+    "id": "fs_396",
+    "query_text": "我胆子小，从来不看恐怖片和惊悚片，看了会失眠。以前试过看午夜凶铃，吓得三天没睡好。你能放有声书吗？",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_397",
+    "query_text": "对了，帮我打开客厅的灯。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_398",
+    "query_text": "现在连悬疑片都有点怕，比如看不见的客人那种反转也让我紧张。以后只敢看喜剧和动画片。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_399",
+    "query_text": "我想看个电影，推荐个刺激的",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的电影偏好"
+    ]
+  },
+  {
+    "id": "fs_400",
+    "query_text": "每天中午12点半到1点午休时，我会听古典吉他曲，比如爱的罗曼史。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_401",
+    "query_text": "现在12点40了，放点音乐",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的音乐偏好"
+    ]
+  },
+  {
+    "id": "fs_402",
+    "query_text": "我每周放学回来看海贼王最新一集",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_403",
+    "query_text": "推荐几部热血动漫",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的电影偏好"
+    ]
+  },
+  {
+    "id": "fs_404",
+    "query_text": "今天放假啦 我要看动漫",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的动漫偏好"
+    ]
+  },
+  {
+    "id": "fs_405",
+    "query_text": "我每天早上8点到8点半开车上班时，会听音乐类播客大内密谈。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_406",
+    "query_text": "下午6点下班路上喜欢听摇滚。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_407",
+    "query_text": "早上8点该开车了，有什么可听的？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的音乐偏好"
+    ]
+  },
+  {
+    "id": "fs_408",
+    "query_text": "下午6点呢？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户下午6点的行为偏好"
+    ]
+  },
+  {
+    "id": "fs_409",
+    "query_text": "每周五晚上10点浪姐更新我包追的。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_410",
+    "query_text": "我喜欢看内娱比较出圈的综艺",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_411",
+    "query_text": "我想看点没看过的综艺",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的娱乐偏好"
+    ]
+  },
+  {
+    "id": "fs_412",
+    "query_text": "最近有什么好看的推荐吗",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的娱乐偏好"
+    ]
+  },
+  {
+    "id": "fs_413",
+    "query_text": "我每个周日上午10点到11点会听京剧，最喜欢贵妃醉酒。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_414",
+    "query_text": "推荐点传统艺术",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的文化娱乐偏好"
+    ]
+  },
+  {
+    "id": "fs_415",
+    "query_text": "周日10点了，想听京剧",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于京剧的偏好"
+    ]
+  },
+  {
+    "id": "fs_416",
+    "query_text": "我每天6:30起床",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_417",
+    "query_text": "不过我习惯6.20先设个闹钟",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_418",
+    "query_text": "帮我设个明天早上的闹钟",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的作息时间"
+    ]
+  },
+  {
+    "id": "fs_419",
+    "query_text": "我平时几点起床",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的作息时间"
+    ]
+  },
+  {
+    "id": "fs_420",
+    "query_text": "我是回族的，不能吃猪肉。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_421",
+    "query_text": "我能吃鸡肉和牛肉",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_422",
+    "query_text": "我爸妈也不吃猪肉",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_423",
+    "query_text": "推荐一家附近的牛肉面馆",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的饮食偏好",
+      "用户的常用位置"
+    ]
+  },
+  {
+    "id": "fs_424",
+    "query_text": "推荐一个菜谱，适合全家吃的硬菜",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的饮食偏好",
+      "用户家人的饮食偏好"
+    ]
+  },
+  {
+    "id": "fs_425",
+    "query_text": "我每周一、三、五晚上7点到8点去健身房练力量。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_426",
+    "query_text": "主要是练背和腿，不喜欢跑步。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_427",
+    "query_text": "今晚7点有什么安排提醒",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户晚7点的行程安排"
+    ]
+  },
+  {
+    "id": "fs_428",
+    "query_text": "我和女朋友的恋爱纪念日是每年5月20号，那天一定要订花和餐厅。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_429",
+    "query_text": "我送过她一个拉布布，还有蓝牙耳机",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_430",
+    "query_text": "今天是520，有什么重要日子快到了吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的重要日"
+    ]
+  },
+  {
+    "id": "fs_431",
+    "query_text": "我给女朋友送过什么",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于女朋友的记忆"
+    ]
+  },
+  {
+    "id": "fs_432",
+    "query_text": "我背单词用“墨墨背单词”，刷真题用考研真相。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_433",
+    "query_text": "我的阅读最弱，尤其是长难句。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_434",
+    "query_text": "推荐一些英语学习App",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的学习习惯"
+    ]
+  },
+  {
+    "id": "fs_435",
+    "query_text": "我的阅读是强项吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的阅读偏好"
+    ]
+  },
+  {
+    "id": "fs_436",
+    "query_text": "我周四上午9点去盒马鲜生买菜了一箱纯牛奶和一把空心菜。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_437",
+    "query_text": "还买了一盒鸡蛋",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_438",
+    "query_text": "冰箱里空心菜是什么时候的了，还能吃吗",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于空心菜的记忆"
+    ]
+  },
+  {
+    "id": "fs_439",
+    "query_text": "我周末没事就去野钓，用的是手竿，最喜欢钓鲫鱼。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_440",
+    "query_text": "不过我我 从来不玩路亚，觉得太累。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_441",
+    "query_text": "推荐一个周末放松的活动",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的休闲爱好",
+      "用户的周末活动偏好"
+    ]
+  },
+  {
+    "id": "fs_442",
+    "query_text": "我儿子每周二和周四下午4点到5点半学钢琴，在少年宫3楼。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_443",
+    "query_text": "我要每次下课都要买一个冰淇淋奖励他。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_444",
+    "query_text": "今天周二下午4点，我该干嘛？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户下午4点的日程安排",
+      "用户的日常活动偏好"
+    ]
+  },
+  {
+    "id": "fs_445",
+    "query_text": "一月份我看了哪吒，二月份去看了飞驰人生3",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_446",
+    "query_text": "四月份去电影院看了F1",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_447",
+    "query_text": "今年看了哪些电影？",
+    "decision": "NO_RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户今年看过的电影"
+    ]
+  },
+  {
+    "id": "fs_448",
+    "query_text": "我的车停在B2，F区130号",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_449",
+    "query_text": "不对，是E区130号",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_450",
+    "query_text": "我的车停哪了",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户车辆的停放位置"
+    ]
+  },
+  {
+    "id": "fs_451",
+    "query_text": "我特别喜欢看大陆电影，尤其是张译主演的",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_452",
+    "query_text": "张译演的悬崖之上和一秒钟我都看过好几遍",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_453",
+    "query_text": "我不喜欢港台腔太重的配音，大陆电影就要原声",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_454",
+    "query_text": "我以前喜欢看欧美大片，现在觉得大陆剧情片更有深度",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_455",
+    "query_text": "推荐几部张译的电影，最好是没看过的",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户关于张译的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_457",
+    "query_text": "播放张译的大陆的电影",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户关于张译的记忆或偏好",
+      "用户关于大陆电影的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_458",
+    "query_text": "我之前最喜欢的明星演过哪些电影",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的电影偏好",
+      "用户喜欢的明星"
+    ]
+  },
+  {
+    "id": "fs_460",
+    "query_text": "我是陈奕迅的忠实歌迷，最喜欢他的富士山下",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_461",
+    "query_text": "我去了陈奕迅北京开演唱会，2019年那会",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_462",
+    "query_text": "今年本来要去张敬轩的演唱会，但是没去成",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_463",
+    "query_text": "我不喜欢演唱会现场太吵的电子混音，喜欢原版编曲",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_464",
+    "query_text": "我以前觉得看演唱会必须买内场票，现在觉得看台更有氛围",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_465",
+    "query_text": "播放粤语歌听听，陈奕迅的",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的音乐偏好"
+    ]
+  },
+  {
+    "id": "fs_466",
+    "query_text": "上次去陈奕迅演唱会是什么时候？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户参加演出的记录"
+    ]
+  },
+  {
+    "id": "fs_467",
+    "query_text": "今年他有演唱会吗？大概放哪些歌",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户近期关注的歌手或艺人",
+      "用户的音乐偏好",
+      "用户关于演唱会的偏好"
+    ]
+  },
+  {
+    "id": "fs_468",
+    "query_text": "今年我去了哪些演唱会？张敬轩的去过了吗",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户参加演出的记录"
+    ]
+  },
+  {
+    "id": "fs_469",
+    "query_text": "去演唱会买什么票适合我？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户参加演出的记录"
+    ]
+  },
+  {
+    "id": "fs_470",
+    "query_text": "我喜欢看日本动漫，尤其喜欢钢炼",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_471",
+    "query_text": "我不喜欢战斗番，特别是那种无脑打斗的，比如龙珠那样",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_472",
+    "query_text": "我心目中钢炼是top1,巨人是top2",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_473",
+    "query_text": "我以前只看热血番，现在转看智斗或治愈番",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_474",
+    "query_text": "三大民工漫我最喜欢死神的画风",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_475",
+    "query_text": "推荐一部日本动漫",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的动漫偏好"
+    ]
+  },
+  {
+    "id": "fs_476",
+    "query_text": "我最喜欢的动漫排名",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的动漫偏好"
+    ]
+  },
+  {
+    "id": "fs_477",
+    "query_text": "推荐一些画风好的动漫",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的动漫偏好"
+    ]
+  },
+  {
+    "id": "fs_479",
+    "query_text": "我最好的朋友叫张伟，他住在我家楼下",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_480",
+    "query_text": "以前最好的朋友是李明轩，现在绝交了",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_481",
+    "query_text": "张伟喜欢打篮球，还喜欢玩密室逃脱",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_482",
+    "query_text": "我和张伟上周末一起去爬了山",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_483",
+    "query_text": "我不喜欢和张伟一起唱K，因为他总跑调",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_484",
+    "query_text": "以前我每周约李明轩吃饭，现在每周和张伟打篮球",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_486",
+    "query_text": "我朋友张伟喜欢什么运动？帮我推荐一个一起玩的活动",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的运动偏好"
+    ]
+  },
+  {
+    "id": "fs_487",
+    "query_text": "你还记得我最好的朋友叫什么吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的社交关系信息"
+    ]
+  },
+  {
+    "id": "fs_489",
+    "query_text": "我生日快到了，你觉得我该请哪些朋友？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的社交关系信息"
+    ]
+  },
+  {
+    "id": "fs_492",
+    "query_text": "我以后每周五晚上8点都要和妈妈视频通话",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_493",
+    "query_text": "以前我是每周日晚上打的，现在改成周五了",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_494",
+    "query_text": "我妈喜欢聊家长里短，我不喜欢聊工作上的烦心事",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_495",
+    "query_text": "上周五我忘了通话，结果妈妈生气了",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_496",
+    "query_text": "我准备以后设个闹钟提醒自己",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_497",
+    "query_text": "今天周四了，提醒我明天要做什么事？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户明天的待办事项",
+      "用户的日程安排"
+    ]
+  },
+  {
+    "id": "fs_499",
+    "query_text": "你觉得我和妈妈视频的时候可以聊什么话题？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户同妈妈视频通话的相关信息"
+    ]
+  },
+  {
+    "id": "fs_500",
+    "query_text": "我上周有没有和妈妈通过话？你帮我记一下",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户同妈妈的童话记录"
+    ]
+  },
+  {
+    "id": "fs_501",
+    "query_text": "我妈妈生日快到了，我应该提前几天准备礼物？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户妈妈的生日",
+      "用户妈妈的相关信息"
+    ]
+  },
+  {
+    "id": "fs_502",
+    "query_text": "你记得我每周几和家里人通话吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户与家人的联系习惯"
+    ]
+  },
+  {
+    "id": "fs_503",
+    "query_text": "如果我周五加班，你觉得我应该改到哪天通话比较合适",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户与家人的联系习惯"
+    ]
+  },
+  {
+    "id": "fs_504",
+    "query_text": "我家住在阳光花园小区，3号楼202室",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_505",
+    "query_text": "家里有5口人：爸妈、我、妹妹和一只叫橘子的猫",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_506",
+    "query_text": "橘子是橘猫，特别爱跑出家门，每次都让我找半天",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_507",
+    "query_text": "我最讨厌给家里的长辈买鞋，因为尺码总搞错",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_508",
+    "query_text": "我有两个手机号：13800001234和13900005678",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_509",
+    "query_text": "我家住在哪个小区？几号楼？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的住址信息"
+    ]
+  },
+  {
+    "id": "fs_510",
+    "query_text": "帮我给家里每个人推荐一款鞋子",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户关于鞋的记忆或偏好",
+      "用户家人的信息"
+    ]
+  },
+  {
+    "id": "fs_511",
+    "query_text": "我家橘子为啥老爱跑出家门？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于橘子的记忆"
+    ]
+  },
+  {
+    "id": "fs_513",
+    "query_text": "我的两个手机号分别是多少",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的手机号码"
+    ]
+  },
+  {
+    "id": "fs_514",
+    "query_text": "我爱迟宫保鸡丁和糖醋排骨，最讨厌吃苦瓜和香菜",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_515",
+    "query_text": "我家就就在朝阳区大悦城附近",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_516",
+    "query_text": "我经常去那里早餐店买煎饼果子",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_517",
+    "query_text": "我家聚餐喜欢去海底捞",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_518",
+    "query_text": "我对海鲜不过敏，但不喜欢吃生蚝",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_519",
+    "query_text": "我喜欢吃草莓",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_520",
+    "query_text": "给我推荐菜谱，要我爱吃的",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的饮食偏好"
+    ]
+  },
+  {
+    "id": "fs_521",
+    "query_text": "附近有没有我喜欢的早餐卖",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的饮食偏好",
+      "用户的早餐偏好"
+    ]
+  },
+  {
+    "id": "fs_522",
+    "query_text": "推荐几家适合我家聚餐的餐馆",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的饮食偏好",
+      "用户的家庭地址"
+    ]
+  },
+  {
+    "id": "fs_523",
+    "query_text": "朋友叫我去吃海鲜大餐，我要去吗",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于海鲜的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_524",
+    "query_text": "最近有哪些水果有降价的,特别是我爱吃的",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户喜欢的水果"
+    ]
+  },
+  {
+    "id": "fs_525",
+    "query_text": "我无聊的时候喜欢拼乐高和看悬疑电影",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_526",
+    "query_text": "我最喜欢听的音乐类型是后摇，比如惘闻乐队",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_527",
+    "query_text": "最近在追的剧是繁花，觉得画面很美",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_528",
+    "query_text": "我喜欢玩策略类游戏，比如文明6，不喜欢射击游戏",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_529",
+    "query_text": "上次出门是上周六，去逛了颐和园",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_530",
+    "query_text": "有点无聊，我要做点啥好",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的兴趣爱好",
+      "用户的休闲活动偏好"
+    ]
+  },
+  {
+    "id": "fs_531",
+    "query_text": "推荐音乐",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的音乐偏好"
+    ]
+  },
+  {
+    "id": "fs_532",
+    "query_text": "我忘了我最近在看的那个剧是什么名字来着？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户近期的任务或待办事项"
+    ]
+  },
+  {
+    "id": "fs_533",
+    "query_text": "有什么游戏好玩？最好适合我的",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的游戏偏好"
+    ]
+  },
+  {
+    "id": "fs_534",
+    "query_text": "我上次出门是啥时候了，干了啥",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户上次外出的时间和活动记录"
+    ]
+  },
+  {
+    "id": "fs_535",
+    "query_text": "我是软件工程师，在一家互联网公司做后端开发",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_536",
+    "query_text": "最近在学Python数据分析",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_537",
+    "query_text": "我想今年考下PMP证书",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_538",
+    "query_text": "我一般通过B站看视频学习，偶尔上Coursera",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_539",
+    "query_text": "我不喜欢读大部头的教材，更喜欢看视频教程",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_540",
+    "query_text": "通通考考你，我现在是做什么的",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的工作"
+    ]
+  },
+  {
+    "id": "fs_541",
+    "query_text": "我最近在学什么",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的学习情况"
+    ]
+  },
+  {
+    "id": "fs_543",
+    "query_text": "特别是最近的考试，给我定个阶段计划吧",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户近期的任务或待办事项"
+    ]
+  },
+  {
+    "id": "fs_544",
+    "query_text": "我怎么缓解压力呢",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "问的是如何个性化缓解压力，需要召回用户的爱好和日常习惯。",
+    "rewrite_queries": [
+      "用户的放松方式或爱好",
+      "用户缓解压力的习惯"
+    ]
+  },
+  {
+    "id": "fs_545",
+    "query_text": "我以前住在海淀区中关村，上个月搬到了朝阳区青年路",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_546",
+    "query_text": "我朋友小王以前住我楼上，现在他搬到了通州",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_547",
+    "query_text": "我和小王周六一起去奥森公园野餐了",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_548",
+    "query_text": "我加入过一个羽毛球社区，每周二晚上活动",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_549",
+    "query_text": "最近一次和小王聚会是五天前，吃了烤肉",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_550",
+    "query_text": "我朋友说他搬家了，之前是住哪的？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的社交关系信息"
+    ]
+  },
+  {
+    "id": "fs_551",
+    "query_text": "想跟小王出去玩了，推荐一些活动",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的休闲爱好"
+    ]
+  },
+  {
+    "id": "fs_552",
+    "query_text": "我朋友跟我住同一个小区吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的社交关系信息"
+    ]
+  },
+  {
+    "id": "fs_553",
+    "query_text": "我最近一次和朋友聚会是什么时候？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的社交关系信息",
+      "用户聚会的相关信息"
+    ]
+  },
+  {
+    "id": "fs_554",
+    "query_text": "我有没有加入过什么社区？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户参加的社区或组织信息"
+    ]
+  },
+  {
+    "id": "fs_555",
+    "query_text": "去年五一我们全家去了杭州，住了西湖边的民宿",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_556",
+    "query_text": "去年国庆我们去了成都，看了大熊猫",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_557",
+    "query_text": "我不喜欢重复去同一个城市，每次都要新鲜感",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_558",
+    "query_text": "今年国庆计划去云南大理，已经订了机票",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_559",
+    "query_text": "住宿我喜欢有特色的客栈，不喜欢连锁酒店",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_560",
+    "query_text": "去年五一我们全家去哪了？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的旅行记录"
+    ]
+  },
+  {
+    "id": "fs_561",
+    "query_text": "我去年国庆去哪玩了？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的旅行记录"
+    ]
+  },
+  {
+    "id": "fs_562",
+    "query_text": "今年国庆去哪，推荐一下，不要去去过的地方了",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的旅行记录"
+    ]
+  },
+  {
+    "id": "fs_563",
+    "query_text": "定个计划，全家一起去玩",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的旅行记录",
+      "用户及家人的出行偏好"
+    ]
+  },
+  {
+    "id": "fs_564",
+    "query_text": "酒店推荐",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的旅行偏好",
+      "用户的住宿偏好"
+    ]
+  },
+  {
+    "id": "fs_565",
+    "query_text": "10月1日是我妈妈生日，10月14日是我的恋爱纪念日",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_566",
+    "query_text": "我和女朋友在一起三年了，纪念日每年都去第一次约会的餐厅",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_567",
+    "query_text": "去年纪念日我们吃了日料，然后看了电影",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_568",
+    "query_text": "我不喜欢过纪念日时送花，而且她也不喜欢",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_569",
+    "query_text": "今年她想要个惊喜，我正在想",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_570",
+    "query_text": "十月份有什么特殊日子",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户十月份的重要纪念日或特殊日期"
+    ]
+  },
+  {
+    "id": "fs_572",
+    "query_text": "上次纪念日是怎么过的",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的重要纪念日记录"
+    ]
+  },
+  {
+    "id": "fs_573",
+    "query_text": "今年纪念日给女朋友送点什么好嘞",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的社交关系信息"
+    ]
+  },
+  {
+    "id": "fs_574",
+    "query_text": "我每个月15号发工资，发薪当天会先还信用卡",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_575",
+    "query_text": "每个月20号还房贷，金额8000元",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_576",
+    "query_text": "我的信用卡还款日是每月5号，大概还3000左右",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_577",
+    "query_text": "上个月我忘记还水电费了，被催缴",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_578",
+    "query_text": "我不喜欢用自动还款，总担心扣错",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_579",
+    "query_text": "我每个月几号发工资？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的发工资日期"
+    ]
+  },
+  {
+    "id": "fs_580",
+    "query_text": "我发薪当天一般会做什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的发工资日期"
+    ]
+  },
+  {
+    "id": "fs_583",
+    "query_text": "我最近有没有忘记还什么款？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户近期的任务或待办事项"
+    ]
+  },
+  {
+    "id": "fs_584",
+    "query_text": "我最近一次重要考试是去年12月的雅思，考了7分",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_585",
+    "query_text": "哦我上次雅思听力8分，口语只有6分",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_586",
+    "query_text": "接下来我要准备明年6月的CFA一级考试",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_587",
+    "query_text": "我的晋升答辩预计在11月",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_588",
+    "query_text": "我考试前一般会刷真题和做思维导图",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_589",
+    "query_text": "我最近一次重要考试是什么时候？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的考试的相关记忆"
+    ]
+  },
+  {
+    "id": "fs_590",
+    "query_text": "我上次考试考得怎么样？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户考试的相关记忆"
+    ]
+  },
+  {
+    "id": "fs_591",
+    "query_text": "我接下来有什么认证考试要准备吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户认证考试的相关记忆"
+    ]
+  },
+  {
+    "id": "fs_592",
+    "query_text": "我晋升答辩大概在几月？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的晋升答辩时间安排"
+    ]
+  },
+  {
+    "id": "fs_593",
+    "query_text": "我考试前一般怎么复习？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的学习目标",
+      "用户的复习习惯"
+    ]
+  },
+  {
+    "id": "fs_594",
+    "query_text": "我家有3口人：爸爸、妈妈和我，还一只布偶猫",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_595",
+    "query_text": "我家的布偶猫名字叫lucky，3岁",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_596",
+    "query_text": "我平时骑共享单车上班，单程20分钟",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_597",
+    "query_text": "我不喜欢开车，觉得堵车太烦",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_598",
+    "query_text": "我妈妈的手机号是13690880000",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_599",
+    "query_text": "给我妈妈打电话",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户妈妈的手机号"
+    ]
+  },
+  {
+    "id": "fs_600",
+    "query_text": "我家有几口人？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的家庭成员信息"
+    ]
+  },
+  {
+    "id": "fs_601",
+    "query_text": "我想给猫猫改名，要和之前不一样的名字",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户猫猫的相关信息"
+    ]
+  },
+  {
+    "id": "fs_602",
+    "query_text": "我家的lucky明年几岁了",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "关于Lucky的相关信息"
+    ]
+  },
+  {
+    "id": "fs_604",
+    "query_text": "我平时怎么上学？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的上学方式"
+    ]
+  },
+  {
+    "id": "fs_605",
+    "query_text": "我喜欢海边旅行，最远去过马尔代夫",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_606",
+    "query_text": "我下次旅行计划去云南大理，但还没定",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_607",
+    "query_text": "我不喜欢爬山，太累",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_608",
+    "query_text": "我爱吃海鲜，特别是螃蟹和虾",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_609",
+    "query_text": "以前我喜欢跟团游，现在更喜欢自由行",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_610",
+    "query_text": "我想旅游，按我的喜好帮我规划下",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的旅行偏好"
+    ]
+  },
+  {
+    "id": "fs_611",
+    "query_text": "我去过最远的地方是哪里？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的旅行记录"
+    ]
+  },
+  {
+    "id": "fs_612",
+    "query_text": "我计划下次旅行去哪？",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的旅行计划"
+    ]
+  },
+  {
+    "id": "fs_615",
+    "query_text": "我最高学历是硕士，毕业于清华大学计算机系",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_616",
+    "query_text": "最近在学前端开发，具体学React框架",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_617",
+    "query_text": "我喜欢动手类的爱好，比如木工和装机",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_618",
+    "query_text": "我想考一个AWS解决方案架构师证书",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_619",
+    "query_text": "我主要通过看视频教程和官方文档学习",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_620",
+    "query_text": "我最高学历是什么？哪个学校毕业的？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的学历",
+      "用户的学校信息"
+    ]
+  },
+  {
+    "id": "fs_621",
+    "query_text": "我最近在学什么新技能或课程？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户近期的学习安排"
+    ]
+  },
+  {
+    "id": "fs_622",
+    "query_text": "我喜欢动手类的爱好还是理论类的？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的兴趣爱好类型"
+    ]
+  },
+  {
+    "id": "fs_623",
+    "query_text": "我有没有想考的职业证书或认证？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户关于职业证书或认证的安排"
+    ]
+  },
+  {
+    "id": "fs_624",
+    "query_text": "我平时通过什么渠道学习？看书、上网课还是看视频？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于学习方式的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_625",
+    "query_text": "我每周运动三次，分别是周一、三、五去健身房练力量",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_626",
+    "query_text": "我对花生过敏，吃了会起疹子",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_627",
+    "query_text": "我不喜欢跑步机，更喜欢椭圆机",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_628",
+    "query_text": "以前我每周运动一次，现在增加到三次",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_629",
+    "query_text": "我过敏时吃氯雷他定",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_630",
+    "query_text": "我每周运动几次？做什么运动？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的运动偏好"
+    ]
+  },
+  {
+    "id": "fs_632",
+    "query_text": "我之前一直用兰蔻的小黑瓶精华和雅诗兰黛的眼霜",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_633",
+    "query_text": "我都是在丝芙兰专柜买的",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_634",
+    "query_text": "我的肤质是混合偏油，不喜欢太油腻的护肤品",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_635",
+    "query_text": "我穿M码上衣，喜欢纯棉材质",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_636",
+    "query_text": "LV的裙子太贵了不适合我，海澜之家的上衣款式太老气",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_637",
+    "query_text": "我想买护肤品，我之前用的什么牌子",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的护肤偏好"
+    ]
+  },
+  {
+    "id": "fs_638",
+    "query_text": "我之前都是在哪里买",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的购物渠道偏好"
+    ]
+  },
+  {
+    "id": "fs_639",
+    "query_text": "我想换个牌子用了，推荐一下",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的品牌偏好"
+    ]
+  },
+  {
+    "id": "fs_640",
+    "query_text": "我上衣有点旧了，有没有适合我的衣服",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的购物偏好"
+    ]
+  },
+  {
+    "id": "fs_641",
+    "query_text": "LV的裙子适合我吗",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户关于LV的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_642",
+    "query_text": "那海澜之家的上衣我能穿吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于海澜之家的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_643",
+    "query_text": "我平时爱看科幻小说，尤其是刘慈欣的作品",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_644",
+    "query_text": "我对心理学感兴趣，特别是认知心理学",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_645",
+    "query_text": "我睡前喜欢看轻松的小说，不要烧脑的",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_646",
+    "query_text": "我喜欢的作家是东野圭吾，最喜欢他的那本嫌疑人X的献身",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_647",
+    "query_text": "我孩子今年8岁，上小学二年级，喜欢恐龙",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_648",
+    "query_text": "我最近书荒了，根据我平时爱看的书推荐一本",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的阅读偏好"
+    ]
+  },
+  {
+    "id": "fs_649",
+    "query_text": "我想学点心理学入门知识，记得我对什么感兴趣吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的学习偏好"
+    ]
+  },
+  {
+    "id": "fs_650",
+    "query_text": "我睡前喜欢看什么类型的书？帮我找一本",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的阅读偏好"
+    ]
+  },
+  {
+    "id": "fs_651",
+    "query_text": "有没有我喜欢的作家出了新书",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的阅读偏好",
+      "用户的作家偏好"
+    ]
+  },
+  {
+    "id": "fs_652",
+    "query_text": "帮我推荐一本适合我孩子年龄的科普书",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户孩子的相关信息",
+      "用户孩子的阅读偏好"
+    ]
+  },
+  {
+    "id": "fs_653",
+    "query_text": "我最爱吃火锅和烧烤，最讨厌吃肥肉和动物内脏",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_654",
+    "query_text": "我对芒果过敏，吃了会嘴肿",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_655",
+    "query_text": "我早餐一般吃面包牛奶，午餐食堂，晚餐自己做",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_656",
+    "query_text": "我每天喝两杯咖啡，不喝茶",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_657",
+    "query_text": "最近我试了地中海饮食，感觉皮肤变好了",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_658",
+    "query_text": "我最爱吃什么？最讨厌吃什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的饮食偏好"
+    ]
+  },
+  {
+    "id": "fs_660",
+    "query_text": "我平时早餐、午餐、晚餐一般怎么解决？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的饮食偏好"
+    ]
+  },
+  {
+    "id": "fs_661",
+    "query_text": "我喝咖啡还是喝茶？每天几杯？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于咖啡的记忆或偏好",
+      "用户关于茶的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_662",
+    "query_text": "我最近有没有尝试过新的健康食谱？效果如何？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户近期的健康饮食尝试记录"
+    ]
+  },
+  {
+    "id": "fs_663",
+    "query_text": "我平时晚上11点睡觉，早上7点起床，睡8小时",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_664",
+    "query_text": "我偶尔失眠，主要是因为工作压力大",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_665",
+    "query_text": "我睡前会看半小时手机，刷短视频",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_666",
+    "query_text": "我午睡20分钟，在办公室趴着睡",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_667",
+    "query_text": "我早上起床困难，要用三个闹钟才能叫醒",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_668",
+    "query_text": "我平时几点睡觉几点起床？睡够几个小时？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的作息时间"
+    ]
+  },
+  {
+    "id": "fs_669",
+    "query_text": "我有没有失眠的问题？通常因为什么失眠？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于失眠的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_670",
+    "query_text": "我睡前会做什么？看手机、看书还是听音乐？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于睡前的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_671",
+    "query_text": "我午睡吗？睡多久？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于午睡的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_672",
+    "query_text": "我早上起床困难吗？有没有用闹钟？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于起床的记忆或偏好",
+      "用户关于闹钟的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_673",
+    "query_text": "我有高血压，平时吃硝苯地平缓释片",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_674",
+    "query_text": "我每天早上一片，有时候会忘记",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_675",
+    "query_text": "我上次去医院复查是2个月前，血压控制在130/85左右",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_676",
+    "query_text": "我忘记吃药时会用手机闹钟提醒",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_677",
+    "query_text": "我最近一次体检是半年前，血脂偏高一点点",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_678",
+    "query_text": "我有没有慢性病？比如高血压、糖尿病？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于慢性病的记忆",
+      "用户的健康状况"
+    ]
+  },
+  {
+    "id": "fs_679",
+    "query_text": "我平时需要长期吃什么药？药名是什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的健康状况",
+      "用户的用药记录"
+    ]
+  },
+  {
+    "id": "fs_680",
+    "query_text": "我上次去医院复查是什么时候？结果怎么样？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的就医记录"
+    ]
+  },
+  {
+    "id": "fs_681",
+    "query_text": "我有没有忘记吃药的习惯？怎么提醒自己？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户关于吃药的相关信息"
+    ]
+  },
+  {
+    "id": "fs_682",
+    "query_text": "我最近一次体检是什么时候？有哪些指标不正常？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于体检的记忆或偏好",
+      "用户的健康状况"
+    ]
+  },
+  {
+    "id": "fs_683",
+    "query_text": "我最近总是觉得心情低落，有点焦虑，晚上也睡不好",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_684",
+    "query_text": "我以前压力大的时候会打游戏，现在发现跑步更解压，以后准备每天跑5公里",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_685",
+    "query_text": "我不喜欢找人倾诉，觉得越说越烦",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_686",
+    "query_text": "对了，今天紫外线强吗？我下午想出去跑步",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时信息查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_687",
+    "query_text": "我在公司健康中心看过心理医生，感觉有点收获",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_688",
+    "query_text": "我偶尔会写日记，但从不冥想，觉得冥想太玄乎",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_689",
+    "query_text": "我不喜欢听那种很空的励志鸡汤，越听越焦虑",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_690",
+    "query_text": "我每周会做一次瑜伽，但不太喜欢",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_691",
+    "query_text": "帮我查一下附近有没有好的心理咨询机构",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "查询附近的机构，需要召回用户的位置信息。",
+    "rewrite_queries": [
+      "用户的当前位置或常住地址",
+      "用户所在区域"
+    ]
+  },
+  {
+    "id": "fs_692",
+    "query_text": "我最近心情怎么样？有没有觉得焦虑或抑郁？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于焦虑的记忆或偏好",
+      "用户的情绪状态"
+    ]
+  },
+  {
+    "id": "fs_693",
+    "query_text": "我压力大的时候会做什么来放松？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的放松习惯"
+    ]
+  },
+  {
+    "id": "fs_694",
+    "query_text": "我有没有看过心理医生？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于心理医生的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_695",
+    "query_text": "我平时会冥想或者写日记吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于日记的记忆或偏好",
+      "用户关于冥想的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_696",
+    "query_text": "帮我推荐一个适合我当前情绪状态的放松方法",
+    "decision": "RECALL",
+    "reason_code": "memory_planning_query",
+    "explanation": "需要结合用户记忆做规划或提供个性化建议，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的放松方式偏好"
+    ]
+  },
+  {
+    "id": "fs_697",
+    "query_text": "我从19年开始每天抽一包烟",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_698",
+    "query_text": "我每天晚上喝三两白酒，周末喝更多",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_699",
+    "query_text": "我不喜欢啤酒，觉得胀肚子",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_700",
+    "query_text": "我以前试过戒烟，用电子烟替代，但失败了",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_701",
+    "query_text": "我现在想戒酒，以后准备每天只喝一小杯红酒",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_702",
+    "query_text": "我每天喝三杯咖啡，早上两杯下午一杯，不觉得过量",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_703",
+    "query_text": "我几乎每天都吃宵夜，最爱吃泡面和烧烤",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_704",
+    "query_text": "我不喜欢甜食当宵夜，比如蛋糕",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_705",
+    "query_text": "我有抖腿的习惯，开会的时候总被同事说",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_706",
+    "query_text": "我抽烟抽了几年",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于烟的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_708",
+    "query_text": "我有没有想过戒烟或戒酒？试过吗？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于戒烟的记忆或偏好",
+      "用户关于戒酒的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_710",
+    "query_text": "我有没有吃宵夜的习惯？一般吃什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户关于宵夜的记忆或偏好",
+      "用户的饮食偏好"
+    ]
+  },
+  {
+    "id": "fs_711",
+    "query_text": "我有没有咬指甲、抖腿之类的坏习惯？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户关于抖腿的记忆或偏好",
+      "用户的坏习惯"
+    ]
+  },
+  {
+    "id": "fs_712",
+    "query_text": "期末英语考了92分",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_713",
+    "query_text": "数学考了100分，语文98",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_714",
+    "query_text": "我总分全班第五",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_715",
+    "query_text": "我期末英语考95分",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_716",
+    "query_text": "我妈奖励我吃自助餐了",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_717",
+    "query_text": "期末我考了多少分？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的学习目标"
+    ]
+  },
+  {
+    "id": "fs_718",
+    "query_text": "期末我排名多少",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的运动成绩记录"
+    ]
+  },
+  {
+    "id": "fs_719",
+    "query_text": "上次的奖励是什么",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户近期获得的奖励记录"
+    ]
+  },
+  {
+    "id": "fs_720",
+    "query_text": "我生日8月20号，狮子座",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_721",
+    "query_text": "今年生日打算请几个朋友吃火锅和唱K",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_722",
+    "query_text": "去年生日收到一个运动背包",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_723",
+    "query_text": "小李的农历生日跟我同一天，我们打算一起过",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_724",
+    "query_text": "我们想去吃潮汕牛肉火锅，哪家评分高",
+    "decision": "NO_RECALL",
+    "reason_code": "external_fact_query",
+    "explanation": "查询潮汕牛肉火锅的评分，属于外部公开信息，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_725",
+    "query_text": "我生日",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的生日"
+    ]
+  },
+  {
+    "id": "fs_726",
+    "query_text": "今年生日怎么过？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的生日安排"
+    ]
+  },
+  {
+    "id": "fs_727",
+    "query_text": "去年收的什么礼物",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的礼物记录"
+    ]
+  },
+  {
+    "id": "fs_728",
+    "query_text": "我啥星座，和巨蟹座搭不搭",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的星座"
+    ]
+  },
+  {
+    "id": "fs_729",
+    "query_text": "考研初试380，数学130",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_730",
+    "query_text": "报的北大计算机",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_731",
+    "query_text": "初试成绩3月10号出的",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_732",
+    "query_text": "我这次数学考得不错，政治差了点",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_733",
+    "query_text": "复试在4月底",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_734",
+    "query_text": "我考研的分数",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的考研分数"
+    ]
+  },
+  {
+    "id": "fs_735",
+    "query_text": "报的哪个学校？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的报考信息"
+    ]
+  },
+  {
+    "id": "fs_737",
+    "query_text": "上周日搬家了，从通州搬到朝阳",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_738",
+    "query_text": "现在新家离地铁站走路5分钟",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_739",
+    "query_text": "之前我家住帝庭花园A栋2601",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_740",
+    "query_text": "我们现在住朝阳小区B栋101",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_741",
+    "query_text": "新家是三居室",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_742",
+    "query_text": "哪天搬的家？新家离地铁多远？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户搬家的记录",
+      "用户的住址"
+    ]
+  },
+  {
+    "id": "fs_743",
+    "query_text": "之前我家住哪",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的住址信息"
+    ]
+  },
+  {
+    "id": "fs_744",
+    "query_text": "我的新家在哪？什么房型？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的住址信息",
+      "用户关于房型的信息"
+    ]
+  },
+  {
+    "id": "fs_745",
+    "query_text": "今年6月1号拿的驾照，科目二一次过",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_746",
+    "query_text": "我考的驾照是自动挡C2",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_747",
+    "query_text": "我不喜欢手动挡，太麻烦",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_748",
+    "query_text": "我爸的驾照是C1",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_749",
+    "query_text": "我家有一辆SU7，一辆问界M7，一辆蔚来萤火虫",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_751",
+    "query_text": "我爸是哪种驾照",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户父亲的驾照信息"
+    ]
+  },
+  {
+    "id": "fs_752",
+    "query_text": "我家买了哪些车",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的车辆信息",
+      "用户家人的车辆信息"
+    ]
+  },
+  {
+    "id": "fs_753",
+    "query_text": "3月14号和女朋友分手了，我跟她谈了两年",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_754",
+    "query_text": "4月1号我们复合了",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_755",
+    "query_text": "4月2号我们又分手了，因为昨天是愚人节",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_757",
+    "query_text": "我和前女友谈了多久？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的感情经历"
+    ]
+  },
+  {
+    "id": "fs_758",
+    "query_text": "24年7月1号在市中心IT公司入职做产品经理",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_759",
+    "query_text": "第一家公司在大望路",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_760",
+    "query_text": "26年2月2日离职",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_761",
+    "query_text": "26年5月6日入职腾讯，做运营",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_762",
+    "query_text": "试用期是六个月",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_763",
+    "query_text": "我的第一份工作是在哪",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的工作经历"
+    ]
+  },
+  {
+    "id": "fs_764",
+    "query_text": "我之前做什么岗位？",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的工作经历"
+    ]
+  },
+  {
+    "id": "fs_765",
+    "query_text": "我最后在哪里入职",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的工作经历"
+    ]
+  },
+  {
+    "id": "fs_766",
+    "query_text": "我其实有中国和加拿大双重国籍",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_767",
+    "query_text": "我最近在学英语。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_768",
+    "query_text": "我的国籍是什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的个人信息",
+      "用户的国际信息"
+    ]
+  },
+  {
+    "id": "fs_769",
+    "query_text": "我的qq邮箱是56988432@qq.com",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_770",
+    "query_text": "我的工作邮箱是zhangwei@example.com",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_771",
+    "query_text": "我今年28岁",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_772",
+    "query_text": "qq邮箱是什么来着？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的邮箱信息"
+    ]
+  },
+  {
+    "id": "fs_773",
+    "query_text": "我多大年龄？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的年龄"
+    ]
+  },
+  {
+    "id": "fs_774",
+    "query_text": "我的工作邮箱",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的邮箱"
+    ]
+  },
+  {
+    "id": "fs_775",
+    "query_text": "我信佛，每周都会去寺庙。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_776",
+    "query_text": "我会弹古琴，现在开了家琴行",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_777",
+    "query_text": "我还会琵琶和古筝",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_778",
+    "query_text": "我的老公信基督教",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_779",
+    "query_text": "我的宗教信仰是什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的宗教信仰"
+    ]
+  },
+  {
+    "id": "fs_780",
+    "query_text": "我有哪些技能？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的技能信息"
+    ]
+  },
+  {
+    "id": "fs_781",
+    "query_text": "我家人信什么教",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户家人的信仰"
+    ]
+  },
+  {
+    "id": "fs_782",
+    "query_text": "我的工作是",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的职业信息"
+    ]
+  },
+  {
+    "id": "fs_783",
+    "query_text": "我老家在四川成都，锦江区。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_784",
+    "query_text": "不过我现在一个人住西安，而且在这边工作",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_785",
+    "query_text": "我家是在汉中",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_786",
+    "query_text": "我的老家是哪里？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的老家信息"
+    ]
+  },
+  {
+    "id": "fs_787",
+    "query_text": "我在哪里工作",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于工作的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_788",
+    "query_text": "我家是在哪个市",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的家庭住址"
+    ]
+  },
+  {
+    "id": "fs_789",
+    "query_text": "我属牛，1997年生。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_790",
+    "query_text": "我去年结婚了，老婆是个医生。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_791",
+    "query_text": "我的生肖",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的属相"
+    ]
+  },
+  {
+    "id": "fs_792",
+    "query_text": "我的婚姻状况",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的婚姻状况"
+    ]
+  },
+  {
+    "id": "fs_794",
+    "query_text": "我一般只买打折的商品",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_795",
+    "query_text": "我会等618或者双十一才买电子产品",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_796",
+    "query_text": "电子产品我只在京东买，便宜货我在拼多多买",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_797",
+    "query_text": "我买东西有啥习惯",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的购物习惯"
+    ]
+  },
+  {
+    "id": "fs_798",
+    "query_text": "我是infp，我讨厌社交",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_799",
+    "query_text": "我特别雷那种做事没规划的人",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_800",
+    "query_text": "我的MBTI是什么",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的MBTI性格类型"
+    ]
+  },
+  {
+    "id": "fs_801",
+    "query_text": "我讨厌什么样的人",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的价值观和喜恶"
+    ]
+  },
+  {
+    "id": "fs_803",
+    "query_text": "我女儿超级爱吃草莓，每次去超市都要买。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_804",
+    "query_text": "她今年4岁，最喜欢听小星星。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_805",
+    "query_text": "帮我放一首儿歌，音量调低点。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_806",
+    "query_text": "我女儿有什么爱吃的水果？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的个人信息"
+    ]
+  },
+  {
+    "id": "fs_807",
+    "query_text": "她喜欢听什么歌？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "询问用户个人偏好，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的音乐偏好"
+    ]
+  },
+  {
+    "id": "fs_808",
+    "query_text": "我女儿明年几岁",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户女儿的年龄"
+    ]
+  },
+  {
+    "id": "fs_809",
+    "query_text": "我们组的同事小张，他专攻人工智能方向。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_810",
+    "query_text": "他最近在做一个NLP项目。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_811",
+    "query_text": "放一首民谣",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": [
+      "用户的音乐偏好"
+    ]
+  },
+  {
+    "id": "fs_812",
+    "query_text": "小张是干哪个方向的？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于「小张」的记忆"
+    ]
+  },
+  {
+    "id": "fs_813",
+    "query_text": "他是哪个项目的？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户联系人的项目归属信息"
+    ]
+  },
+  {
+    "id": "fs_814",
+    "query_text": "我的车牌号京A88888",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_815",
+    "query_text": "我今天洗了车",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_816",
+    "query_text": "我的车保险每年要1万",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_817",
+    "query_text": "我的车牌尾号是多少？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的车辆信息"
+    ]
+  },
+  {
+    "id": "fs_818",
+    "query_text": "我上次洗车是什么时候",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户关于洗车的记忆"
+    ]
+  },
+  {
+    "id": "fs_819",
+    "query_text": "车保险是多少钱？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的车辆保险信息"
+    ]
+  },
+  {
+    "id": "fs_820",
+    "query_text": "我明年准备跑北京全程马拉松，目标四小时内。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_821",
+    "query_text": "今年马拉松的PB是420，是在银川马拉松跑的",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_822",
+    "query_text": "我明年的马拉松目标是什么？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户关于马拉松的记忆或偏好"
+    ]
+  },
+  {
+    "id": "fs_823",
+    "query_text": "我今年马拉松的成绩是多少",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的马拉松成绩记录"
+    ]
+  },
+  {
+    "id": "fs_824",
+    "query_text": "我参加过哪里的马拉松",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的马拉松参加记录"
+    ]
+  },
+  {
+    "id": "fs_825",
+    "query_text": "我有一台联想拯救者笔记本，22年买的",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_826",
+    "query_text": "我家里有一台主机，今年刚买的",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_827",
+    "query_text": "我本来有台PS4，但是卖掉了",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_828",
+    "query_text": "我的笔记本型号是什么？什么时候买的",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的设备信息"
+    ]
+  },
+  {
+    "id": "fs_829",
+    "query_text": "我有几台电脑",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的设备信息"
+    ]
+  },
+  {
+    "id": "fs_830",
+    "query_text": "我家有游戏机吗",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户的游戏偏好"
+    ]
+  },
+  {
+    "id": "fs_831",
+    "query_text": "我车钥匙一直都放在玄关鞋柜上的那个小篮子里。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_832",
+    "query_text": "备用钥匙就放在主卧床头柜第一个抽屉里。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_833",
+    "query_text": "帮我放首开车时爱听的歌，节奏感强点。",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要召回用户的音乐偏好才能精准推荐。",
+    "rewrite_queries": [
+      "用户开车时喜欢听的音乐风格",
+      "用户的音乐偏好"
+    ]
+  },
+  {
+    "id": "fs_834",
+    "query_text": "我平时车钥匙放哪？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户车钥匙的存放位置"
+    ]
+  },
+  {
+    "id": "fs_835",
+    "query_text": "备用钥匙在什么地方？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户备用钥匙的存放位置"
+    ]
+  },
+  {
+    "id": "fs_836",
+    "query_text": "我家身份证都放在书房的蓝色文件袋里。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_837",
+    "query_text": "户口本和结婚证放在保险柜，保险柜在衣柜最底层。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_839",
+    "query_text": "把投影仪打开，准备看。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_840",
+    "query_text": "我的身份证通常放哪？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户身份证的存放位置"
+    ]
+  },
+  {
+    "id": "fs_841",
+    "query_text": "户口本和结婚证放在哪里？",
+    "decision": "RECALL",
+    "reason_code": "memory_preference_query",
+    "explanation": "需要从用户画像中获取饮食偏好、兴趣爱好或生活习惯信息。",
+    "rewrite_queries": [
+      "用户户口本和结婚证的存放位置"
+    ]
+  },
+  {
+    "id": "fs_842",
+    "query_text": "我家老大是2022年3月12日出生的，6斤8两。",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_843",
+    "query_text": "老二是23年10月18日出生，在同济医院",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_844",
+    "query_text": "我的孩子什么时候出生的？",
+    "decision": "RECALL",
+    "reason_code": "memory_profile_query",
+    "explanation": "询问用户画像或个人信息，需要召回记忆。",
+    "rewrite_queries": [
+      "用户孩子的出生日期"
+    ]
+  },
+  {
+    "id": "fs_845",
+    "query_text": "当时老大出生的时候多重",
+    "decision": "RECALL",
+    "reason_code": "memory_episode_query",
+    "explanation": "询问用户历史事件或情景，需要召回记忆。",
+    "rewrite_queries": [
+      "用户的家庭成员信息"
+    ]
+  },
+  {
+    "id": "fs_846",
+    "query_text": "我跟小王上周六一起去奥森公园野餐了",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_847",
+    "query_text": "布偶猫名字叫lucky，今年3岁",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_848",
+    "query_text": "我妈妈的手机号是13678960000",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_850",
+    "query_text": "上周五我忘了给我妈妈通话",
+    "decision": "NO_RECALL",
+    "reason_code": "pure_statement",
+    "explanation": "用户陈述，不需要查记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_855",
+    "query_text": "今天西安最高气温多少度？",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时天气查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_856",
+    "query_text": "现在人民币兑美元汇率是多少？",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时汇率查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_857",
+    "query_text": "今天黄金价格是多少？",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时价格查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_858",
+    "query_text": "最近有什么热门新闻？",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时新闻查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_859",
+    "query_text": "A股今天涨了吗？",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时股市查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_861",
+    "query_text": "今天是几号？",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是系统时间查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_862",
+    "query_text": "上海地铁2号线现在正常运行吗？",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时交通状态查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_863",
+    "query_text": "周末成都会下雨吗？",
+    "decision": "NO_RECALL",
+    "reason_code": "realtime_info_query",
+    "explanation": "这是实时天气查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_864",
+    "query_text": "故宫明天开放吗？",
+    "decision": "NO_RECALL",
+    "reason_code": "external_fact_query",
+    "explanation": "这是公共场所开放信息查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_865",
+    "query_text": "春节今年是哪天？",
+    "decision": "NO_RECALL",
+    "reason_code": "external_fact_query",
+    "explanation": "这是公共节日日期查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_866",
+    "query_text": "北京到上海高铁多久？",
+    "decision": "NO_RECALL",
+    "reason_code": "external_fact_query",
+    "explanation": "这是公共交通时刻信息查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_867",
+    "query_text": "麦当劳的巨无霸多少钱？",
+    "decision": "NO_RECALL",
+    "reason_code": "external_fact_query",
+    "explanation": "这是公开商品价格查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_868",
+    "query_text": "西湖景区怎么去？",
+    "decision": "NO_RECALL",
+    "reason_code": "external_fact_query",
+    "explanation": "这是公共景点导航查询，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_869",
+    "query_text": "帮我解释一下 BM25 是什么。",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识解释，不需要召回用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_870",
+    "query_text": "什么是向量数据库？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识查询，不需要召回用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_871",
+    "query_text": "photosynthesis 是什么意思？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用词汇解释，不需要召回用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_872",
+    "query_text": "红烧肉怎么做？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用烹饪教程，未涉及用户私人配方，不需要召回用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_873",
+    "query_text": "LLM 和传统 NLP 有什么区别？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用知识对比查询，不需要召回用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_874",
+    "query_text": "TCP 和 UDP 的区别是什么？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用技术知识查询，不需要召回用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_875",
+    "query_text": "人体血型有哪几种？",
+    "decision": "NO_RECALL",
+    "reason_code": "general_knowledge_query",
+    "explanation": "这是通用医学知识查询，不需要召回用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_876",
+    "query_text": "帮我写一个 Python 冒泡排序。",
+    "decision": "NO_RECALL",
+    "reason_code": "code_or_tool_query",
+    "explanation": "这是代码编写请求，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_877",
+    "query_text": "正则表达式怎么匹配手机号？",
+    "decision": "NO_RECALL",
+    "reason_code": "code_or_tool_query",
+    "explanation": "这是通用工具/代码问题，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_878",
+    "query_text": "git rebase 和 git merge 有什么区别？",
+    "decision": "NO_RECALL",
+    "reason_code": "code_or_tool_query",
+    "explanation": "这是通用开发工具知识，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_879",
+    "query_text": "把这句话翻译成英文：我爱你。",
+    "decision": "NO_RECALL",
+    "reason_code": "translation_query",
+    "explanation": "这是翻译请求，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_880",
+    "query_text": "sustainable development 怎么翻译？",
+    "decision": "NO_RECALL",
+    "reason_code": "translation_query",
+    "explanation": "这是词汇翻译请求，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_881",
+    "query_text": "123 乘以 456 等于多少？",
+    "decision": "NO_RECALL",
+    "reason_code": "calculation_query",
+    "explanation": "这是数学计算请求，不依赖用户记忆。",
+    "rewrite_queries": []
+  },
+  {
+    "id": "fs_882",
+    "query_text": "从1月1日到3月15日一共多少天？",
+    "decision": "NO_RECALL",
+    "reason_code": "calculation_query",
+    "explanation": "这是日期计算请求，不依赖用户记忆。",
+    "rewrite_queries": []
+  }
+]

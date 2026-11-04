@@ -1,0 +1,28 @@
+﻿任务,指令,图片位置,参考答案,模型输出,结果
+帮我在推荐里寻找类似的奶茶店，选择评分最高的奶茶店，购买该店最畅销的奶茶。,点击“甜品饮品”,0314/elm/elm_1_xyj.png,"click(bbox=<bbox>[235,379,387,452]</bbox>)","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [333, 989]}}",T
+帮我在推荐里寻找类似的奶茶店，选择评分最高的奶茶店，购买该店最畅销的奶茶。,选择“找相似”,0314/elm/elm_4_xyj.png,"click(bbox=<bbox>[253,263,455,351]</bbox>)","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [378, 732]}}",T
+帮我在推荐里寻找类似的奶茶店，选择评分最高的奶茶店，购买该店最畅销的奶茶。,打开饿了么,0314/elm/elm_0_xyj.png,"click(bbox=<bbox>[64,732,166,782]</bbox>), open_app","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [124, 1748]}}",T
+帮我在推荐里寻找类似的奶茶店，选择评分最高的奶茶店，购买该店最畅销的奶茶。,长按第一个店铺的店铺名称,0314/elm/elm_3_xyj.png,"long_press(bbox=<bbox>[383,191,812,217]</bbox>, time='2')","To long press the first shop's name, I need to identify the coordinates of the text ""茉沏(南京复地广场店)"" and perform a long press action on it. The text is located at approximately (580, 180) to (780, 220).
+
+Action: Long press the text ""茉沏(南京复地广场店)"" at coordinates (580, 180) to (780, 220).
+
+{""name"": ""mobile_use"", ""arguments"": {""action"": ""long_press"", ""coordinate"": [686, 462]}}",F
+帮我在推荐里寻找类似的奶茶店，选择评分最高的奶茶店，购买该店最畅销的奶茶。,选择评分最高，如果有多家评分一样，则优先评分高且距离短的店铺,0314/elm/elm_5_xyj.png,"click(bbox=<bbox>[35,544,950,705]</bbox>)","To select the highest-rated store, I will compare the ratings and distances of the stores listed. The highest rating is 5.0, which is shared by two stores: Starbucks and Cha Cha. Between these two, Starbucks is closer with a distance of 745m compared to Cha Cha's 703m. Therefore, I will choose Starbucks as it meets the criteria of having the highest rating and the shortest distance.
+
+Action: Click on the Starbucks store to select it.
+
+{""name"": ""mobile_use"", ""arguments"": {""action"": ""left_click"", ""coordinate"": [686, 866]}}",F
+和微信好友小小一起饿了么拼单，要求配送速度最快的店铺。,点击“搜索”,0314/elm/elm_20_xyj.png,"click(bbox=<bbox>[827,54,959,95]</bbox>),click(bbox=<bbox>[848,852,981,995]</bbox>)，press_enter()","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [976, 166]}}",T
+和微信好友小小一起饿了么拼单，要求配送速度最快的店铺。,点击搜索输入框,0314/elm/elm_18_xyj.png,"click(bbox=<bbox>[144,101,790,145]</bbox>)","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [342, 283]}}",T
+在首页推荐里对烧烤点击不感兴趣,打开饿了么,0314/elm/elm_13_xyj.png,"click(bbox=<bbox>[62,732,162,783]</bbox>), open_app","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [124, 1744]}}",T
+和微信好友小小一起饿了么拼单，要求配送速度最快的店铺。,点击“不另加糖”,0314/elm/elm_26_xyj.png,"click(bbox=<bbox>[33,620,325,675]</bbox>)","{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [192, 1458]}}",T
+帮我在推荐里寻找类似的奶茶店，选择评分最高的奶茶店，购买该店最畅销的奶茶。,长按第一个店铺的店铺名称,0314/elm/elm_3_xyj.png,"long_press(bbox=<bbox>[383,191,812,217]</bbox>, time='2')","To long press the first shop's name, I need to identify the coordinates of the text ""茉沏(南京复地广场店)"" and perform a long press action on it. The text is located at approximately (580, 180) to (780, 220).
+
+Action: Long press the text ""茉沏(南京复地广场店)"" at coordinates (580, 180) to (780, 220).
+
+{""name"": ""mobile_use"", ""arguments"": {""action"": ""long_press"", ""coordinate"": [686, 462]}}",F
+点击搜索框,点击搜索框,ads/mt5.jpg,wait(time='5'),"{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [308, 126]}}",F
+点击搜索框,点击搜索框,ads/mt3.jpg,wait(time='5'),"{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [294, 124]}}",F
+点击“脱口秀”,点击“脱口秀”,ads/mt2.jpg,wait(time='5'),"{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [547, 390]}}",F
+点击搜索框,点击搜索框,ads/mt4.jpg,wait(time='5'),"{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [294, 1240]}}",F
+点击搜索框,点击搜索框,ads/mt6.jpg,wait(time='5'),"{""name"": ""mobile_use"", ""arguments"": {""action"": ""click"", ""coordinate"": [294, 1262]}}",F

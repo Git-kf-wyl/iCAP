@@ -1,0 +1,1355 @@
+{
+  "aime24": {
+    "dataset_name": "aime24",
+    "local_path": "./testsuite/TestSuite/aime24",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "AIME2024（美国数学邀请赛2024）是一个面向美国高中生的顶级数学竞赛，是 AMC（美国数学竞赛）的进阶赛事，题目难度极高，来源于AIME2024考试原题，共30个题",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AveragePass@1"
+    ],
+    "testcase_tags": [
+      "数学"
+    ],
+    "content": "<h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">数据集描述</span></h3><p><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px; font-family: 微软雅黑;\">该数据集包含来自2024年美国数学邀请赛（AIME）的问题。AIME是一个著名的高中数学竞赛，以其具有挑战性的数学问题而闻名。</span></p><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">数据集详情</span></h3><ul><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>格式</strong></span><span style=\"font-family: 微软雅黑;\">: </span>parquet</li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>大小</strong></span><span style=\"font-family: 微软雅黑;\">: 30条记录</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>来源</strong></span><span style=\"font-family: 微软雅黑;\">: AIME 2024 I &amp; II</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>语言</strong></span><span style=\"font-family: 微软雅黑;\">: 英语</span></li></ul><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">数据字段</span></h3><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">每条记录包含以下字段：</span></p><ul><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>ID</code></span><span style=\"font-family: 微软雅黑;\">: 问题标识符（例如，“2024-I-1”表示2024年第I次比赛的第1题）</span></li><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>Problem</code></span><span style=\"font-family: 微软雅黑;\">: 问题陈述</span></li><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>Solution</code></span><span style=\"font-family: 微软雅黑;\">: 详细的解题过程</span></li><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>Answer</code></span><span style=\"font-family: 微软雅黑;\">: 最终数值答案</span></li></ul><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">用途</span></h3><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">该数据集主要用于：</span></p><ol><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">评估大型语言模型（LLMs）的数学推理能力</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">测试模型在复杂数学问题上的解题能力</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">研究AI在结构化数学任务上的表现</span></li></ol><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">特点</span></h3><ul><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">涵盖多个数学领域（几何、代数、数论等）</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">包含每个问题的详细解题过程</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">所有问题都有具体的数值答案</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">高难度级别，适合测试高级推理能力</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">问题需要多步骤推理和数学洞察力</span></li></ul><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">数据集结构</span></h3><p><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px; font-family: 微软雅黑;\">数据集以JSONL格式组织，其中每一行代表一个完整的问题及其解决方案。示例：</span></p><p><span style=\"color: rgb(0, 0, 0); font-family: 微软雅黑;\">{ </span></p><p><span style=\"color: rgb(0, 0, 0); font-family: 微软雅黑;\">\"ID\": \"2024-I-1\", </span></p><p><span style=\"color: rgb(0, 0, 0); font-family: 微软雅黑;\">\"Problem\": \"Problem statement...\", </span></p><p><span style=\"color: rgb(0, 0, 0); font-family: 微软雅黑;\">\"Solution\": \"Detailed solution...\", </span></p><p><span style=\"color: rgb(0, 0, 0); font-family: 微软雅黑;\">\"Answer\": \"Numerical answer\"</span></p><p><span style=\"color: rgb(0, 0, 0); font-family: 微软雅黑;\"> }</span></p><p><br></p><p style=\"text-align: start;\"><br></p><p style=\"text-align: start;\"><br></p>",
+    "establish_time": "2025-08-25 21:08:20",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/train-00000-of-00001.parquet"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "dataSet_cases": "30",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aime25": {
+    "dataset_name": "aime25",
+    "local_path": "./testsuite/TestSuite/aime25",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "AIME2025（美国数学邀请赛2025）是一个面向美国高中生的顶级数学竞赛，是 AMC（美国数学竞赛）的进阶赛事，题目难度极高，来源于AIME2025考试原题，共30个题",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AveragePass@1"
+    ],
+    "testcase_tags": [
+      "数学"
+    ],
+    "content": "<h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">数据集描述</span></h3><p><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px; font-family: 微软雅黑;\">该数据集包含来自2025年美国数学邀请赛（AIME）的问题。AIME是一个著名的高中数学竞赛，以其具有挑战性的数学问题而闻名。</span></p><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">数据集详情</span></h3><ul><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>格式</strong></span><span style=\"font-family: 微软雅黑;\">: JSONL</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>大小</strong></span><span style=\"font-family: 微软雅黑;\">: 30条记录</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>来源</strong></span><span style=\"font-family: 微软雅黑;\">: AIME 2025 I &amp; II</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>语言</strong></span><span style=\"font-family: 微软雅黑;\">: 英语</span></li></ul><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">数据字段</span></h3><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">每条记录包含以下字段：</span></p><ul><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>ID</code></span><span style=\"font-family: 微软雅黑;\">: 问题标识符（例如，“2025-I-1”表示2025年第I次比赛的第1题）</span></li><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>Problem</code></span><span style=\"font-family: 微软雅黑;\">: 问题陈述</span></li><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>Solution</code></span><span style=\"font-family: 微软雅黑;\">: 详细的解题过程</span></li><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>Answer</code></span><span style=\"font-family: 微软雅黑;\">: 最终数值答案</span></li></ul><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">用途</span></h3><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">该数据集主要用于：</span></p><ol><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">评估大型语言模型（LLMs）的数学推理能力</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">测试模型在复杂数学问题上的解题能力</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">研究AI在结构化数学任务上的表现</span></li></ol><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">特点</span></h3><ul><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">涵盖多个数学领域（几何、代数、数论等）</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">包含每个问题的详细解题过程</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">所有问题都有具体的数值答案</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">高难度级别，适合测试高级推理能力</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">问题需要多步骤推理和数学洞察力</span></li></ul><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">数据集结构</span></h3><p><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px; font-family: 微软雅黑;\">数据集以JSONL格式组织，其中每一行代表一个完整的问题及其解决方案。示例：</span></p><p><span style=\"color: rgb(0, 0, 0); font-family: 微软雅黑;\">{ </span></p><p><span style=\"color: rgb(0, 0, 0); font-family: 微软雅黑;\">\"ID\": \"2025-I-1\", </span></p><p><span style=\"color: rgb(0, 0, 0); font-family: 微软雅黑;\">\"Problem\": \"Problem statement...\", </span></p><p><span style=\"color: rgb(0, 0, 0); font-family: 微软雅黑;\">\"Solution\": \"Detailed solution...\", </span></p><p><span style=\"color: rgb(0, 0, 0); font-family: 微软雅黑;\">\"Answer\": \"Numerical answer\"</span></p><p><span style=\"color: rgb(0, 0, 0); font-family: 微软雅黑;\"> }</span></p><p><br></p><p style=\"text-align: start;\"><br></p><p style=\"text-align: start;\"><br></p>",
+    "establish_time": "2025-08-25 21:08:11",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/AIME2025-II.jsonl",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/AIME2025-I.jsonl"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "dataSet_cases": "30",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "math_500": {
+    "dataset_name": "math_500",
+    "local_path": "./testsuite/TestSuite/math_500",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "数学能力评测集，旨在全面评估模型在数学解题方面能力，覆盖从简单到复杂的各类数学主题，包括算术、代数、技术、几何、数论和概率等500个数学问题",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AveragePass@1"
+    ],
+    "testcase_tags": [
+      "数学"
+    ],
+    "content": "<p><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px;\">该数据集包含了 OpenAI 在其《让我们逐步验证》论文中创建的 MATH 基准测试中的 500 个问题子集。</span></p><p><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px;\">请参阅他们的 GitHub 仓库获取源文件：</span><a href=\"https://github.com/openai/prm800k/tree/main?tab=readme-ov-file#math-splits\" target=\"_blank\" style=\"text-align: start;\">https://github.com/openai/prm800k/tree/main?tab=readme-ov-file#math-splits</a></p>",
+    "establish_time": "2025-08-25 21:08:37",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test.jsonl"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "dataSet_cases": "500",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "gpqa": {
+    "dataset_name": "gpqa",
+    "local_path": "./testsuite/TestSuite/gpqa",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "GPQA系列中最高质量的评测数据，包含198条测试问题，专注于测试模型在复杂推理场景（如研究生水平的专家推理）中的能力",
+    "subset_list": [
+      "gpqa_diamond"
+    ],
+    "default_subsets": [
+      "gpqa_diamond"
+    ],
+    "metric_list": [
+      "AveragePass@1"
+    ],
+    "testcase_tags": [
+      "逻辑推理"
+    ],
+    "content": "<h3 style=\"text-align: start;\">数据集卡片：GPQA</h3><p style=\"text-align: start;\">GPQA 是一个由生物学、物理学和化学领域的专家编写并验证的多选问答数据集，其中包含非常难的问题。当这些专家尝试回答他们自己领域之外的问题时（例如，物理学家回答化学问题），尽管有超过30分钟的时间可以无限制地访问谷歌，他们的准确率也仅为34%。</p><p style=\"text-align: start;\">我们要求您<strong>不要在线上以纯文本或图片形式泄露此数据集中的示例</strong>，以减少泄漏到基础模型训练语料库的风险。</p><h3 style=\"text-align: start;\">数据集详情</h3><h4 style=\"text-align: start;\">数据集描述</h4><p style=\"text-align: start;\">我们介绍了GPQA，这是一个包含448个多选题的数据集，由生物学、物理学和化学领域的专家编写。我们确保这些问题具有高质量且极其困难：在相应领域拥有或正在攻读博士学位的专家达到65%的准确率（如果排除专家事后识别出的明显错误，则为74%），而高技能的非专家验证者即使平均花费超过30分钟无限制地使用网络资源也只能达到34%的准确率（即这些问题“抗谷歌搜索”）。对于最先进的人工智能系统来说，这些问题也非常困难，我们的最强GPT-4基线模型仅实现了39%的准确率。如果我们希望将来使用人工智能系统帮助我们回答非常困难的问题，比如在开发新科学知识时，我们需要开发可扩展的监督方法，使人类能够监督其输出，即使监督者本身是熟练且知识渊博的，这也可能很困难。GPQA 对于熟练的非专家和前沿AI系统的难度应该能够支持现实的可扩展监督实验，我们希望这有助于设计出使人类专家能够从超越人类能力的AI系统中可靠获取真实信息的方法。</p><ul><li style=\"text-align: start;\"><strong>策划人：</strong> David Rein, Betty Li Hou, Asa Cooper Stickland, Jackson Petty, Richard Yuanzhe Pang, Julien Dirani, Julian Michael, Samuel R. Bowman</li><li style=\"text-align: start;\"><strong>许可证：</strong> CC BY 4.0</li></ul><h4 style=\"text-align: start;\">数据集来源</h4><ul><li style=\"text-align: start;\"><strong>仓库：</strong> <a href=\"https://github.com/idavidrein/gpqa\" target=\"_blank\">https://github.com/idavidrein/gpqa</a></li><li style=\"text-align: start;\"><strong>论文：</strong> <a href=\"https://arxiv.org/abs/2311.12022\" target=\"_blank\">https://arxiv.org/abs/2311.12022</a></li></ul><h3 style=\"text-align: start;\">用途</h3><p style=\"text-align: start;\">该数据集主要用于可扩展监督实验，尽管它也可以用于更广泛的大型语言模型能力基准测试。</p>",
+    "establish_time": "2025-08-26 14:28:17",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/gpqa_diamond.csv"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "dataSet_cases": "198",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "mmlu": {
+    "dataset_name": "mmlu",
+    "local_path": "./testsuite/TestSuite/mmlu",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "覆盖STEM、人文科学、社会科学和其他4个领域，包含57个4选项单选问答任务的英文评测集，涵盖数学，物理，历史，法律，医学和伦理学等知识，共有14042个测评集",
+    "subset_list": [
+      "high_school_european_history",
+      "business_ethics",
+      "clinical_knowledge",
+      "medical_genetics",
+      "high_school_us_history",
+      "high_school_physics",
+      "high_school_world_history",
+      "virology",
+      "high_school_microeconomics",
+      "econometrics",
+      "college_computer_science",
+      "high_school_biology",
+      "abstract_algebra",
+      "professional_accounting",
+      "philosophy",
+      "professional_medicine",
+      "nutrition",
+      "global_facts",
+      "machine_learning",
+      "security_studies",
+      "public_relations",
+      "professional_psychology",
+      "prehistory",
+      "anatomy",
+      "human_sexuality",
+      "college_medicine",
+      "high_school_government_and_politics",
+      "college_chemistry",
+      "logical_fallacies",
+      "high_school_geography",
+      "elementary_mathematics",
+      "human_aging",
+      "college_mathematics",
+      "high_school_psychology",
+      "formal_logic",
+      "high_school_statistics",
+      "international_law",
+      "high_school_mathematics",
+      "high_school_computer_science",
+      "conceptual_physics",
+      "miscellaneous",
+      "high_school_chemistry",
+      "marketing",
+      "professional_law",
+      "management",
+      "college_physics",
+      "jurisprudence",
+      "world_religions",
+      "sociology",
+      "us_foreign_policy",
+      "high_school_macroeconomics",
+      "computer_security",
+      "moral_scenarios",
+      "moral_disputes",
+      "electrical_engineering",
+      "astronomy",
+      "college_biology"
+    ],
+    "default_subsets": [
+      "high_school_european_history",
+      "business_ethics",
+      "clinical_knowledge",
+      "medical_genetics",
+      "high_school_us_history",
+      "high_school_physics",
+      "high_school_world_history",
+      "virology",
+      "high_school_microeconomics",
+      "econometrics",
+      "college_computer_science",
+      "high_school_biology",
+      "abstract_algebra",
+      "professional_accounting",
+      "philosophy",
+      "professional_medicine",
+      "nutrition",
+      "global_facts",
+      "machine_learning",
+      "security_studies",
+      "public_relations",
+      "professional_psychology",
+      "prehistory",
+      "anatomy",
+      "human_sexuality",
+      "college_medicine",
+      "high_school_government_and_politics",
+      "college_chemistry",
+      "logical_fallacies",
+      "high_school_geography",
+      "elementary_mathematics",
+      "human_aging",
+      "college_mathematics",
+      "high_school_psychology",
+      "formal_logic",
+      "high_school_statistics",
+      "international_law",
+      "high_school_mathematics",
+      "high_school_computer_science",
+      "conceptual_physics",
+      "miscellaneous",
+      "high_school_chemistry",
+      "marketing",
+      "professional_law",
+      "management",
+      "college_physics",
+      "jurisprudence",
+      "world_religions",
+      "sociology",
+      "us_foreign_policy",
+      "high_school_macroeconomics",
+      "computer_security",
+      "moral_scenarios",
+      "moral_disputes",
+      "electrical_engineering",
+      "astronomy",
+      "college_biology"
+    ],
+    "metric_list": [
+      "AverageAccuracy",
+      "AveragePass@1"
+    ],
+    "testcase_tags": [
+      "知识百科"
+    ],
+    "content": "<h3 style=\"text-align: start;\">数据集描述</h3><ul><li style=\"text-align: start;\"><strong>仓库</strong>: <a href=\"https://github.com/hendrycks/test\" target=\"_blank\">https://github.com/hendrycks/test</a></li><li style=\"text-align: start;\"><strong>论文</strong>: <a href=\"https://arxiv.org/abs/2009.03300\" target=\"_blank\">https://arxiv.org/abs/2009.03300</a></li></ul><h4 style=\"text-align: start;\">数据集概述</h4><p style=\"text-align: start;\"><a href=\"https://arxiv.org/pdf/2009.03300\" target=\"_blank\">衡量大规模多任务语言理解</a> 由 Dan Hendrycks (<a href=\"https://people.eecs.berkeley.edu/~hendrycks/\" target=\"_blank\">链接.1</a>)、Collin Burns (<a href=\"http://collinpburns.com/\" target=\"_blank\">链接.2</a>)、Steven Basart (<a href=\"https://stevenbas.art/\" target=\"_blank\">链接.3</a>)、Andy Zou、Mantas Mazeika、Dawn Song (<a href=\"https://people.eecs.berkeley.edu/~dawnsong/\" target=\"_blank\">链接.4</a>) 和 Jacob Steinhardt (<a href=\"https://www.stat.berkeley.edu/~jsteinhardt/\" target=\"_blank\">链接.5</a>) (ICLR 2021年会议) 提出。</p><p style=\"text-align: start;\">这是一个包含来自各个知识领域的多项选择题的大规模多任务测试。该测试涵盖了人文、社会科学、硬科学以及其他对某些人而言重要的领域。它包括了57个任务，涉及基础数学、美国历史、计算机科学、法律等。为了在该测试中获得高准确率，模型必须具备广泛的世界知识和问题解决能力。</p><h4 style=\"text-align: start;\">完整任务列表</h4><p style=\"text-align: start;\">['抽象代数', '解剖学', '天文学', '商业伦理', '临床知识', '大学生物学', '大学化学', '大学计算机科学', '大学数学', '大学医学', '大学物理', '计算机安全', '概念物理学', '计量经济学', '电气工程', '初等数学', '形式逻辑', '全球事实', '高中生物学', '高中化学', '高中计算机科学', '高中欧洲历史', '高中地理', '高中政府与政治', '高中宏观经济学', '高中数学', '高中微观经济学', '高中物理', '高中心理学', '高中统计学', '高中美国历史', '高中世界历史', '人类衰老', '人类性学', '国际法', '法学理论', '逻辑谬误', '机器学习', '管理学', '市场营销', '医学遗传学', '杂项', '道德争议', '道德情境', '营养学', '哲学', '史前时代', '专业会计', '专业法律', '专业医学', '专业心理学', '公共关系', '安全研究', '社会学', '美国外交政策', '病毒学', '世界宗教']</p><h4 style=\"text-align: start;\">语言</h4><p style=\"text-align: start;\">英语</p><h3 style=\"text-align: start;\">数据集结构</h3><h4 style=\"text-align: start;\">数据实例</h4><p style=\"text-align: start;\">来自解剖学子任务的一个示例如下：</p><pre style=\"text-align: start;\"><code>{\n  \"question\": \"What is the embryological origin of the hyoid bone?\",\n  \"choices\": [\"The first pharyngeal arch\", \"The first and second pharyngeal arches\", \"The second pharyngeal arch\", \"The second and third pharyngeal arches\"],\n  \"answer\": \"D\"\n}</code></pre><h4 style=\"text-align: start;\">数据字段</h4><ul><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2);\"><code>question</code></span>: 字符串特征</li><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2);\"><code>choices</code></span>: 4个字符串特征的列表</li><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2);\"><code>answer</code></span>: 类标签特征</li></ul><h4 style=\"text-align: start;\">数据划分</h4><ul><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2);\"><code>auxiliary_train</code></span>: 来自ARC、MC_TEST、OBQA、RACE等的辅助多选训练问题</li><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2);\"><code>dev</code></span>: 每个子任务5个示例，适用于少量样本设置</li><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2);\"><code>test</code></span>: 每个子任务至少有100个示例</li></ul><h3 style=\"text-align: start;\">数据集创建</h3><h4 style=\"text-align: start;\">筛选理由</h4><p style=\"text-align: start;\">Transformer 模型通过在大规模文本语料库上的预训练推动了近期的进展，包括整个维基百科、数千本图书和众多网站。因此，这些模型会接收到关于专业主题的广泛信息，其中大部分内容并未被现有NLP基准所评估。为了弥合模型在预训练期间接触到的广泛知识与现有成功衡量标准之间的差距，我们引入了一个新的基准，用于评估模型在人类学习的多样主题上的表现。</p>",
+    "establish_time": "2025-12-11 15:30:12",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/abstract_algebra_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/abstract_algebra_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/abstract_algebra_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/anatomy_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/anatomy_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/anatomy_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/astronomy_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/astronomy_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/astronomy_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/business_ethics_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/business_ethics_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/business_ethics_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/clinical_knowledge_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/clinical_knowledge_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/clinical_knowledge_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_biology_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_biology_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_biology_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_chemistry_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_chemistry_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_chemistry_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_computer_science_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_computer_science_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_computer_science_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_mathematics_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_mathematics_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_mathematics_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_medicine_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_medicine_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_medicine_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_physics_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_physics_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/college_physics_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/computer_security_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/computer_security_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/computer_security_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/conceptual_physics_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/conceptual_physics_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/conceptual_physics_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/econometrics_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/econometrics_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/econometrics_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/electrical_engineering_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/electrical_engineering_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/electrical_engineering_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/elementary_mathematics_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/elementary_mathematics_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/elementary_mathematics_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/formal_logic_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/formal_logic_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/formal_logic_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/global_facts_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/global_facts_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/global_facts_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_biology_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_biology_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_biology_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_chemistry_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_chemistry_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_chemistry_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_computer_science_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_computer_science_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_computer_science_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_european_history_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_european_history_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_european_history_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_geography_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_geography_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_geography_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_government_and_politics_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_government_and_politics_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_government_and_politics_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_macroeconomics_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_macroeconomics_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_macroeconomics_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_mathematics_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_mathematics_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_mathematics_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_microeconomics_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_microeconomics_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_microeconomics_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_physics_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_physics_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_physics_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_psychology_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_psychology_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_psychology_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_statistics_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_statistics_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_statistics_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_us_history_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_us_history_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_us_history_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_world_history_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_world_history_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/high_school_world_history_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/human_aging_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/human_aging_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/human_aging_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/human_sexuality_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/human_sexuality_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/human_sexuality_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/international_law_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/international_law_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/international_law_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/jurisprudence_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/jurisprudence_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/jurisprudence_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/logical_fallacies_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/logical_fallacies_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/logical_fallacies_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/machine_learning_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/machine_learning_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/machine_learning_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/management_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/management_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/management_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/marketing_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/marketing_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/marketing_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/medical_genetics_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/medical_genetics_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/medical_genetics_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/miscellaneous_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/miscellaneous_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/miscellaneous_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/moral_disputes_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/moral_disputes_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/moral_disputes_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/moral_scenarios_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/moral_scenarios_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/moral_scenarios_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/nutrition_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/nutrition_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/nutrition_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/philosophy_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/philosophy_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/philosophy_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/prehistory_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/prehistory_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/prehistory_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/professional_accounting_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/professional_accounting_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/professional_accounting_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/professional_law_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/professional_law_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/professional_law_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/professional_medicine_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/professional_medicine_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/professional_medicine_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/professional_psychology_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/professional_psychology_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/professional_psychology_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/public_relations_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/public_relations_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/public_relations_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/security_studies_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/security_studies_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/security_studies_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/sociology_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/sociology_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/sociology_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/us_foreign_policy_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/us_foreign_policy_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/us_foreign_policy_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/virology_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/virology_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/virology_val.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/world_religions_dev.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/world_religions_test.csv",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/world_religions_val.csv"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "dataSet_cases": "14042",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "mmlu_pro": {
+    "dataset_name": "mmlu_pro",
+    "local_path": "./testsuite/TestSuite/mmlu_pro",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "包含各个学科领域的12000个复杂问题，涵盖14个不同的领域。每个问题有10个选项，包含更多以推理为重点的问题。56.6%的数据与MMLU的数据重叠",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AveragePass@1"
+    ],
+    "testcase_tags": [
+      "知识百科"
+    ],
+    "content": "<h1 style=\"text-align: start;\">MMLU-Pro 数据集</h1><p><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px;\">MMLU-Pro 数据集是一个更加</span><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px;\"><strong>稳健</strong></span><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px;\">且</span><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px;\"><strong>具挑战性</strong></span><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px;\">的大规模多任务理解数据集，旨在更严格地基准测试大型语言模型的能力。该数据集包含跨多个学科的12,000个复杂问题。</span></p><h2 style=\"text-align: start;\">1. MMLU-Pro 的新特性</h2><p style=\"text-align: start;\">与原始 MMLU 相比，主要有三个不同之处：</p><ul><li style=\"text-align: start;\">原始 MMLU 数据集仅包含4个选项，而 MMLU-Pro 将其增加到10个选项。选项的增加将使评估更加真实且具有挑战性。随机猜测会导致得分大幅降低。</li><li style=\"text-align: start;\">原始 MMLU 数据集主要包含知识驱动的问题，无需太多推理。因此，PPL（逐项概率）结果通常优于CoT（链式思维）。在我们的数据集中，我们增加了问题难度，并融入了更多侧重于推理的问题。在 MMLU-Pro 中，CoT 的表现可以比 PPL 高出20%。</li><li style=\"text-align: start;\">由于选项的增加，我们发现模型性能变得更加稳健。例如，Llama-2-7B 在 MMLU-Pro 上的表现，在使用几种不同提示时，性能波动幅度仅为1%左右。相比之下，原始 MMLU 上的性能波动可能高达4-5%。</li></ul><h2 style=\"text-align: start;\">2. 数据集概览</h2><ul><li style=\"text-align: start;\">问题与选项： 数据集中的每个问题通常有十个选择题选项，除了一些在人工审核过程中减少以移除不合理选项的问题外。从原始每个问题四个选项增加到十个，旨在增强复杂性和稳健性，需要更深入的推理来从更多的干扰项中辨别正确答案。</li><li style=\"text-align: start;\">来源： 数据集整合了多个来源的问题：原始 MMLU 问题： 部分数据来自原始 MMLU 数据集。我们移除了琐碎和模糊不清的问题。STEM 网站： 从互联网精选高质量的 STEM 问题。TheoremQA： 高质量的人工标注问题，需要运用定理解决。SciBench： 来自大学考试的科学问题。</li><li style=\"text-align: start;\">新增数据涵盖的学科： 通过 STEM 网站、TheoremQA 和 SciBench 增强的问题涵盖了生物学、商业、化学、计算机科学、经济学、工程学、数学、物理学和心理学等学科。</li></ul><h2 style=\"text-align: start;\">3. 数据集构建</h2><ul><li style=\"text-align: start;\">初始筛选： 构建过程从对原始MMLU数据集进行全面审查开始，旨在识别并仅保留那些符合更高难度和相关性标准的问题。</li><li style=\"text-align: start;\">问题收集与整合： 额外的问题经过精心挑选，来源包括STEM网站、theoremQA和scibench，选择依据是它们挑战高级模型分析能力的能力。选择标准侧重于问题的复杂度和质量。</li><li style=\"text-align: start;\">选项扩充： 为了进一步增强数据集，我们使用GPT-4将每个问题的选项数从四个扩展到十个。这一过程不仅仅增加选项数量，还包括生成需要辨别性推理来应对的合理干扰项。</li><li style=\"text-align: start;\">专家评审： 每个问题及其关联选项都经过一个由十多位专家组成的小组的严格审查。这些专家确保问题不仅具有挑战性、全面性，而且准确、公正。此步骤对于维护数据集作为基准测试工具的完整性和实用性至关重要。</li></ul>",
+    "establish_time": "2025-08-05 16:01:50",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "08315843-d5b6-4d54-b80a-82c6243f2dae/test.txt"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "dataSet_cases": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "live_code_bench": {
+    "dataset_name": "live_code_bench",
+    "local_path": "./testsuite/TestSuite/live_code_bench",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "涵盖从代码生成到自我修复代码执行、测试输出预测等更广泛的变成相关技能。从LeetCode、Atcoder以及CoderForces三大竞赛平台收集新问题，不断更新问题集",
+    "subset_list": [
+      "v6"
+    ],
+    "default_subsets": [
+      "v6"
+    ],
+    "metric_list": [
+      "AveragePass@1"
+    ],
+    "testcase_tags": [
+      "代码"
+    ],
+    "content": "<h2 style=\"text-align: start;\">LiveCodeBench: 大型语言模型代码能力的全面且无污染评估</h2><p style=\"text-align: start;\">LiveCodeBench 是一个“实时”更新的基准，用于全面评估 LLMs 的代码相关能力。 特别是，它评估了 LLMs 在代码生成、自我修复、测试输出预测和代码执行等一系列能力上的表现。 </p><p style=\"text-align: start;\">这是 LiveCodeBench 的代码生成场景。它也用于使用测试用例反馈来评估自我修复能力。</p><p style=\"text-align: start;\">LiveCodeBench 的问题是从竞赛编程网站收集的，特别注重保持问题质量、测试用例质量和问题难度的多样性。 该场景目前收录了来自 LeetCode、AtCoder 和 Codeforces 的 400 个问题。</p><p style=\"text-align: start;\"> 每个问题实例包括问题描述、输入/输出示例和隐藏的测试用例（平均超过 59 个！）。 此外，每个问题都标记了其难度级别和发布日期，这允许在不同的时间窗口内衡量模型性能。 </p><p style=\"text-align: start;\">目标是为每个问题实例生成正确且高效的解决方案。</p>",
+    "establish_time": "2025-09-05 17:06:24",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test.jsonl",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test2.jsonl",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test3.jsonl",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test4.jsonl",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test5.jsonl",
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/test6.jsonl"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "dataSet_cases": "880",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "long_bench_v2": {
+    "dataset_name": "long_bench_v2",
+    "local_path": "./testsuite/TestSuite/long_bench_v2",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "LongBench v2 包含 503 个具有挑战性的多项选择题，上下文长度从 8k 到 2M 词不等，涵盖了六个主要任务类别：单文档问答、多文档问答、长上下文学习、长对话历史理解、代码库理解和长结构化数据理解。",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AveragePass@1"
+    ],
+    "testcase_tags": [
+      "长文本"
+    ],
+    "content": "<h1 style=\"text-align: start;\">简介</h1><p style=\"text-align: start;\"><strong>LongBench</strong> 是第一个针对大型语言模型的双语、多任务和全面评估 <strong>长上下文理解</strong> 能力的基准。LongBench 包括不同的语言（中文和英文），以提供对大型模型在长上下文中的多语言能力的更全面评估。此外，LongBench 由六个主要类别和二十一个不同的任务组成，涵盖了单文档问答、多文档问答、摘要、少样本学习、合成任务和代码补全等关键长文本应用场景。</p><p style=\"text-align: start;\">我们充分意识到模型评估过程中可能涉及的高成本，特别是在长上下文场景中（例如人工标注成本或 API 调用成本）。因此，我们采用完全自动化的评估方法，旨在以最低成本衡量和评估模型理解长上下文的能力。</p><p style=\"text-align: start;\">LongBench 包含 14 个英文任务、5 个中文任务和 2 个代码任务，大多数任务的平均长度在 5k 到 15k 之间，总共有 4,750 条测试数据。有关 LongBench 任务的详细统计信息和构建方法，请参阅<a href=\"https://www.modelscope.cn/datasets/ZhipuAI/LongBench/file/view/master/task.md?status=1\" target=\"_self\">这里</a>。此外，我们提供了 LongBench-E，这是一个通过均匀采样构建的测试集，具有更均匀的长度分布，在 0-4k、4k-8k 和 8k+ 长度区间内有相当数量的数据，以分析模型在不同输入长度下的性能变化。</p><p style=\"text-align: start;\">LongBench 的 Github 仓库: <a href=\"https://github.com/THUDM/LongBench\" target=\"_blank\">https://github.com/THUDM/LongBench</a> LongBench 的 Arxiv 论文: <a href=\"https://arxiv.org/pdf/2308.14508.pdf\" target=\"_blank\">https://arxiv.org/pdf/2308.14508.pdf</a></p><p style=\"text-align: start;\"><br></p>",
+    "establish_time": "2025-08-04 22:07:56",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/data.xlsx"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "humaneval": {
+    "dataset_name": "humaneval",
+    "local_path": "./testsuite/TestSuite/humaneval",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "包括164个手写程序问题求解，涉及语言理解、推理、算法和简单数学方面的能力，以评估模型功能正确性，并衡量模型的问题解决能力",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AveragePass@1"
+    ],
+    "testcase_tags": [
+      "代码"
+    ],
+    "content": "<h3 style=\"text-align: start;\">数据集概述</h3><p style=\"text-align: start;\">OpenAI 发布的 HumanEval 数据集包含 164 个编程问题，每个问题带有函数签名、docstring、主体及多个单元测试。这些问题是手工编写以确保不被包含在代码生成模型的训练集中。</p><h3 style=\"text-align: start;\">支持的任务与排行榜</h3><h3 style=\"text-align: start;\">语言</h3><p style=\"text-align: start;\">编程问题采用 Python 编写，并在注释和 docstrings 中包含英语自然文本。</p><h2 style=\"text-align: start;\">数据集结构</h2><p style=\"text-align: start;\"><span style=\"color: rgb(0, 0, 0);\">from datasets import </span></p><p style=\"text-align: start;\"><span style=\"color: rgb(0, 0, 0);\">load_dataset load_dataset(\"openai_humaneval\") </span></p><p style=\"text-align: start;\"><span style=\"color: rgb(0, 0, 0);\">DatasetDict({</span></p><p style=\"text-align: start;\"><span style=\"color: rgb(0, 0, 0);\"> &nbsp; &nbsp; &nbsp; &nbsp; test: Dataset({ </span></p><p style=\"text-align: start;\"><span style=\"color: rgb(0, 0, 0);\"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;features: ['task_id', 'prompt', 'canonical_solution', 'test', 'entry_point'], </span></p><p style=\"text-align: start;\"><span style=\"color: rgb(0, 0, 0);\"> &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;num_rows: 164 </span></p><p style=\"text-align: start;\"><span style=\"color: rgb(0, 0, 0);\"> &nbsp; &nbsp; &nbsp; &nbsp;}) </span></p><p style=\"text-align: start;\"><span style=\"color: rgb(0, 0, 0);\">})</span></p>",
+    "establish_time": "2025-09-05 17:06:36",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/human-eval-v2-20210705.jsonl"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "dataSet_cases": "164",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "ifeval": {
+    "dataset_name": "ifeval",
+    "local_path": "./testsuite/TestSuite/ifeval",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "包含541个提示（prompts），覆盖25类“可验证指令”（如字数限制、关键词重复次数、特定格式要求等）",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "prompt_level_strict_acc"
+    ],
+    "testcase_tags": [
+      "指令遵从"
+    ],
+    "content": "<h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">数据集描述</span></h3><ul><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>仓库:</strong></span><span style=\"font-family: 微软雅黑;\"> </span><a href=\"https://github.com/google-research/google-research/tree/master/instruction_following_eval\" target=\"_blank\"><span style=\"font-family: 微软雅黑;\">https://github.com/google-research/google-research/tree/master/instruction_following_eval</span></a></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>论文:</strong></span><span style=\"font-family: 微软雅黑;\"> </span><a href=\"https://huggingface.co/papers/2311.07911\" target=\"_blank\"><span style=\"font-family: 微软雅黑;\">https://huggingface.co/papers/2311.07911</span></a></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>排行榜:</strong></span><span style=\"font-family: 微软雅黑;\"> </span><a href=\"https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard\" target=\"_blank\"><span style=\"font-family: 微软雅黑;\">https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard</span></a></li></ul><h4 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">数据集概述</span></h4><p><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px; font-family: 微软雅黑;\">该数据集包含了在</span><a href=\"https://arxiv.org/abs/2311.07911\" target=\"_blank\" style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">指令跟随评估（IFEval）基准测试</span></a><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px; font-family: 微软雅黑;\">中使用的提示，用于大型语言模型。它包含大约500个“可验证指令”，如“写超过400字”和“至少提到3次AI关键词”，这些指令可以通过启发式方法验证。</span></p><p><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px; font-family: 微软雅黑;\">要加载数据集，请运行：</span></p><p><span style=\"color: rgb(0, 0, 0); font-family: 微软雅黑;\">from datasets import load_dataset </span></p><p><span style=\"color: rgb(0, 0, 0); font-family: 微软雅黑;\">ifeval = load_dataset(\"google/IFEval\")</span></p><h4 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">支持的任务和排行榜</span></h4><p><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px; font-family: 微软雅黑;\">IFEval 数据集旨在评估聊天或经过指令微调的语言模型，是</span><a href=\"https://huggingface.co/spaces/open-llm-leaderboard/open_llm_leaderboard\" target=\"_blank\" style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">开放LLM排行榜</span></a><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px; font-family: 微软雅黑;\">中使用的核心基准之一。</span></p><h4 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">语言</span></h4><p><span style=\"color: rgb(31, 35, 40); background-color: rgb(247, 249, 253); font-size: 16px; font-family: 微软雅黑;\">IFEval 中的数据为英语 (BCP-47 en)。</span></p><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">数据集结构</span></h3><h4 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">数据字段</span></h4><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">数据字段如下：</span></p><ul><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>key</code></span><span style=\"font-family: 微软雅黑;\">: 提示的唯一ID。</span></li><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>prompt</code></span><span style=\"font-family: 微软雅黑;\">: 描述了模型应该执行的任务。</span></li><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>instruction_id_list</code></span><span style=\"font-family: 微软雅黑;\">: 一个可验证指令数组。详见论文中的表1，其中列出了完整的集合及其描述。</span></li><li style=\"text-align: start;\"><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>kwargs</code></span><span style=\"font-family: 微软雅黑;\">: 一个参数数组，用于指定</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>instruction_id_list</code></span><span style=\"font-family: 微软雅黑;\">中的每个可验证指令。</span></li></ul>",
+    "establish_time": "2025-09-05 17:07:19",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/ifeval_input_data.jsonl"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "dataSet_cases": "541",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "bfcl_v3": {
+    "dataset_name": "bfcl_v3",
+    "local_path": "./testsuite/TestSuite/bfcl_v3",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "涵盖Python（1,680条）、Java（100条）、JavaScript（50条）、REST API（70条）、SQL（100条）等编程语言的问题-函数-答案对，已扩展到V3版本",
+    "subset_list": [
+      "live_simple",
+      "live_multiple",
+      "live_parallel",
+      "live_parallel_multiple",
+      "simple",
+      "multiple",
+      "parallel",
+      "parallel_multiple",
+      "java",
+      "javascript",
+      "irrelevance",
+      "live_relevance",
+      "live_irrelevance",
+      "multi_turn_base",
+      "multi_turn_miss_func",
+      "multi_turn_miss_param",
+      "multi_turn_long_context"
+    ],
+    "default_subsets": [
+      "live_simple",
+      "live_multiple",
+      "live_parallel",
+      "live_parallel_multiple",
+      "simple",
+      "multiple",
+      "parallel",
+      "parallel_multiple",
+      "java",
+      "javascript",
+      "irrelevance",
+      "live_relevance",
+      "live_irrelevance",
+      "multi_turn_base",
+      "multi_turn_miss_func",
+      "multi_turn_miss_param",
+      "multi_turn_long_context"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "testcase_tags": [
+      "工具"
+    ],
+    "content": "<h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">Berkeley 函数调用排行榜</span></h3><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">Berkeley 函数调用排行榜是一个实时排行榜，用于评估不同 LLM 调用函数（也称为工具）的能力。 我们根据我们的学习成果构建了这个数据集，以代表大多数用户的函数调用使用场景，例如，在代理中，作为企业工作流程的一部分等。 为此，我们的评估数据集涵盖了多种类别，并且跨越了多种语言。</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">查看排行榜 </span><a href=\"https://gorilla.cs.berkeley.edu/leaderboard.html\" target=\"_blank\"><span style=\"font-family: 微软雅黑;\">gorilla.cs.berkeley.edu/leaderboard.html</span></a><span style=\"font-family: 微软雅黑;\"> 以及我们的发布博客：</span></p><p style=\"text-align: start;\"><a href=\"https://gorilla.cs.berkeley.edu/blogs/8_berkeley_function_calling_leaderboard.html\" target=\"_blank\"><span style=\"font-family: 微软雅黑;\">BFCL V1</span></a><span style=\"font-family: 微软雅黑;\">：我们的初始 BFCL 发布</span></p><p style=\"text-align: start;\"><a href=\"https://gorilla.cs.berkeley.edu/blogs/12_bfcl_v2_live.html\" target=\"_blank\"><span style=\"font-family: 微软雅黑;\">BFCL V2</span></a><span style=\"font-family: 微软雅黑;\">：我们的第二次发布，采用企业和开源贡献的实时数据</span></p><p style=\"text-align: start;\"><a href=\"https://gorilla.cs.berkeley.edu/blogs/13_bfcl_v3_multi_turn.html#composition\" target=\"_blank\"><span style=\"font-family: 微软雅黑;\">BFCL V3</span></a><span style=\"font-family: 微软雅黑;\">：引入多轮和多步骤函数调用场景</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><em><strong>最新版本发布日期</strong></em></span><span style=\"font-family: 微软雅黑;\">：09/22/2024</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><em><strong>原始发布日期</strong></em></span><span style=\"font-family: 微软雅黑;\">：02/26/2024</span></p><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">评估</span></h3><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>查看 EvalScope 最佳实践，只需点击一下即可开始模型评估！</strong></span></p><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">数据集描述</span></h3><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">BFCL V1：</span></h3><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">在我们的第一个版本中，大部分评估被分为两个类别：</span></p><ul><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>Python</strong></span><span style=\"font-family: 微软雅黑;\">：简单函数、多个函数、并行函数、并行多个函数</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>非 Python</strong></span><span style=\"font-family: 微软雅黑;\">：聊天能力、函数相关性检测、REST API、SQL、Java、Javascript</span></li></ul><h4 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">Python</span></h4><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>简单 (400 AST/100 执行)</strong></span><span style=\"font-family: 微软雅黑;\">：单个函数评估包含最简单但最常见的格式，用户提供一个 JSON 函数文档，仅调用一个函数。</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>多个函数 (200 AST/50 执行)</strong></span><span style=\"font-family: 微软雅黑;\">：多个函数类别包含一个用户问题，该问题仅从 2 到 4 个 JSON 函数文档中调用一个函数。模型需要能够根据用户提供的上下文选择最佳函数进行调用。</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>并行函数 (200 AST/50 执行)</strong></span><span style=\"font-family: 微软雅黑;\">：并行函数定义为通过一个用户查询并行调用多个函数。模型需要理解需要调用多少个函数，而对模型的问题可以是单句或多句。</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>并行多函数 (200 AST/40 执行)</strong></span><span style=\"font-family: 微软雅黑;\">: 并行多函数是并行函数和多函数的结合。换句话说，模型被提供了多个函数文档，每个对应的函数调用将被调用零次或多次。</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">每个类别都有AST及其对应的可执行评估。在可执行评估数据中，我们手动编写了从免费REST API端点（例如获取天气）和直接计算的函数（例如线性回归）中汲取灵感的Python函数。可执行类别旨在了解函数调用生成是否能够在实际应用中稳定使用。</span></p><h4 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">非Python评估</span></h4><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">虽然前面的类别包含了我们大部分的评估，但我们还包括其他特定类别，即聊天能力、函数相关性检测、REST API、SQL、Java和JavaScript，以评估模型在多样化场景和多种编程语言支持方面的性能，并且能够抵御无关问题和函数文档的影响。</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>聊天能力 (200)</strong></span><span style=\"font-family: 微软雅黑;\">: 在聊天能力中，我们设计了一些不传递任何函数的场景，用户会提出一般性问题——这类似于将模型用作通用聊天机器人。我们评估模型是否能够输出聊天消息并识别它不需要调用任何函数。请注意与“相关性”不同，在“相关性”中，模型还应评估任何函数输入是否相关。我们包括这一类别用于内部模型评估，并将其统计排除在实时排行榜之外。我们目前正在努力改进聊天能力的评估，确保聊天内容与用户的请求相关且连贯，并欢迎社区的建议和反馈。</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>函数相关性检测 (240)</strong></span><span style=\"font-family: 微软雅黑;\">: 在函数相关性检测中，我们设计了一些提供的函数都不相关且不应被调用的场景。我们期望模型的输出是非函数调用响应。这种场景提供了关于模型是否会因为缺乏函数信息或用户指令而产生虚幻的函数代码的洞察。</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>REST API (70)</strong></span><span style=\"font-family: 微软雅黑;\">: 大多数实际的API调用都是来自REST API调用。Python主要通过</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>requests.get()</code></span><span style=\"font-family: 微软雅黑;\">、</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>requests.post()</code></span><span style=\"font-family: 微软雅黑;\">、</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>requests.delete()</code></span><span style=\"font-family: 微软雅黑;\">等包含在Python requests库中的方法来进行REST API调用。</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>GET</code></span><span style=\"font-family: 微软雅黑;\">请求是实际中最常用的请求类型。因此，我们包含了实际的</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>GET</code></span><span style=\"font-family: 微软雅黑;\">请求来测试模型通过复杂函数文档生成可执行REST API调用的能力，使用</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>requests.get()</code></span><span style=\"font-family: 微软雅黑;\">以及API硬编码的URL和函数目的及其参数的描述。我们的评估包括两种变体。第一种需要将参数传递到URL内，称为路径参数，例如</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>GET /api/v3/PublicHolidays/{Year}/{CountryCode}</code></span><span style=\"font-family: 微软雅黑;\">中的</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>{Year}</code></span><span style=\"font-family: 微软雅黑;\">和</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>{CountryCode}</code></span><span style=\"font-family: 微软雅黑;\">。第二种需要模型将参数作为键值对放入</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>requests.get(.)</code></span><span style=\"font-family: 微软雅黑;\">的params和/或headers中。例如，函数调用中的</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>params={'lang': 'fr'}</code></span><span style=\"font-family: 微软雅黑;\">。模型没有被告知它将要进行哪种类型的REST API调用，但需要决定如何调用。</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">对于REST API，我们使用可执行性评估来检查可执行输出的有效执行情况、响应类型及响应JSON键的一致性。在AST上，我们选择不对REST进行AST评估，主要是因为可能的答案数量庞大；枚举所有可能的答案对于复杂定义的API来说是详尽无遗的。</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>SQL (100)</strong></span><span style=\"font-family: 微软雅黑;\">: SQL评估数据包括了我们定制化的</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>sql.execute</code></span><span style=\"font-family: 微软雅黑;\">函数，这些函数包含了sql_keyword、table_name、columns和conditions。这四个参数提供了构建简单SQL查询（如</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>SELECT column_A from table_B where column_C == D</code></span><span style=\"font-family: 微软雅黑;\">）所需的信息。通过这种方式，我们希望看到是否可以通过函数调用可靠地构造和利用SQL查询，而不是训练特定于SQL的模型。在我们的评估数据集中，我们限制了场景并支持简单的关键字，包括</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>SELECT</code></span><span style=\"font-family: 微软雅黑;\">、</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>INSERT INTO</code></span><span style=\"font-family: 微软雅黑;\">、</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>UPDATE</code></span><span style=\"font-family: 微软雅黑;\">、</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>DELETE</code></span><span style=\"font-family: 微软雅黑;\">和</span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>CREATE</code></span><span style=\"font-family: 微软雅黑;\">。我们为SQL AST评估包含了100个示例。请注意，SQL AST评估不会显示在排行榜计算中。我们使用SQL评估来测试Gorilla OpenFunctions-v2训练集未包含的编程语言的函数调用泛化能力。由于构造实现相同结果的SQL函数调用的方法多样性，我们在BFCL的AST评估中选择了排除SQL性能。我们目前正在努力改进SQL评估，并欢迎社区的意见和反馈。因此，为了在未来迭代中进行全面评估，当前排行榜中省略了SQL。</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>Java (100) 和 Javascript (50)</strong></span><span style=\"font-family: 微软雅黑;\">: 尽管大多数编程语言中的函数调用格式相同，但每种编程语言都有特定的语言类型。例如，Java 有 </span><span style=\"background-color: rgba(175, 184, 193, 0.2); font-family: 微软雅黑;\"><code>HashMap</code></span><span style=\"font-family: 微软雅黑;\"> 类型。这一测试类别的目标是了解函数调用模型如何不仅扩展到 Python 类型，还能扩展到所有特定于语言的类型。我们为 Java AST 评估包含了 100 个示例，为 Javascript AST 评估包含了 70 个示例。</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">上述类别提供了不同模型在流行 API 调用场景下的性能洞察，为函数调用模型的潜力提供了有价值的视角。</span></p><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">BFCL V2 实时版：</span></h3><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">我们的第二次发布使用了真实世界的数据，以便更好地衡量 LLM 函数调用在实际使用案例中的性能。为此，更侧重于多函数场景以及相关性/不相关性检测。BFCL V2 实时版的数据包括 </span><span style=\"font-family: 微软雅黑;\"><strong>简单 (258)</strong></span><span style=\"font-family: 微软雅黑;\">、</span><span style=\"font-family: 微软雅黑;\"><strong>多函数 (1037)</strong></span><span style=\"font-family: 微软雅黑;\">、</span><span style=\"font-family: 微软雅黑;\"><strong>并行 (16)</strong></span><span style=\"font-family: 微软雅黑;\"> 和 </span><span style=\"font-family: 微软雅黑;\"><strong>并行多函数 (24)</strong></span><span style=\"font-family: 微软雅黑;\"> 类别，类似于 BFCL V1 中描述的那些。除此之外，我们还有 </span><span style=\"font-family: 微软雅黑;\"><strong>相关性</strong></span><span style=\"font-family: 微软雅黑;\"> 类别，它可以分为以下两个子类别。</span></p><h4 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">相关性评估</span></h4><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>不相关性检测 (875)</strong></span><span style=\"font-family: 微软雅黑;\">：在这种情况下，提供的任何函数选项都不与用户查询相关，因此不应被调用。我们期望模型不会输出函数调用；模型可以输出一条消息解释为什么提供的函数不相关，或者简单地输出一个非函数调用响应（例如，一个空列表）。</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>相关性检测 (41)</strong></span><span style=\"font-family: 微软雅黑;\">：这是不相关性检测的对立面。在这种情况下，至少有一个提供的函数选项与用户的查询相关并且应该被调用，但由于用户提示或函数文档的表述方式，可能存在无限多个正确的函数调用，并且无法使用预定义的答案集进行评估。我们期望模型输出一些与用户查询相关的函数调用（一个或多个）；在这个类别中，我们不检查函数调用的正确性（例如，参数值是否正确）。</span></p><h3 style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">BFCL V3：</span></h3><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">这次发布引入了需要多步骤函数调用的场景，在这些场景中，可以使用多个内部函数调用来处理单个用户请求，以及多轮次函数调用，这涉及用户和助手之间的多次交流或函数调用。在我们的多步骤和多轮次数据中，包含以下类别：</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>基础多轮次 (200)</strong></span><span style=\"font-family: 微软雅黑;\">：这个类别涵盖了基础但足够多样化的基本多轮次交互。在这个类别中，我们提供完整的信息来调用每个函数（通过当前轮次的问题、上一轮执行结果或初始状态配置）。</span></p><p style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\"><strong>增强多轮对话 (800)</strong></span><span style=\"font-family: 微软雅黑;\">: 该类别引入了额外的复杂性，例如模糊的提示或模型必须在多个回合中处理多条信息的情况（类似于多跳问答），要求模型在多个回合中处理更细致的决策、消歧和条件逻辑。 增强多轮对话数据包含以下子类别：</span></p><ul><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">缺失参数 (200): 该数据集挑战模型识别系统其他地方无法检索到的所需缺失信息。在这种情况下，我们期望大语言模型能够请求后续澄清以消除误导信息。这与核心多轮对话数据集中的某些条目不同，后者的问题具有隐含意图，可以通过引用后端系统来回答。</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">缺失功能 (200): 这种场景表示我们期望模型能够识别出由于缺乏提供的功能而无需采取任何行动。如果大语言模型提出了这种担忧，我们会提供保留的功能，这些功能可以成功执行用户预期的任务。请注意，核心数据集和缺失功能数据集基本上包含相同的操作序列，只是后者在执行路径上保留了一部分功能，以进一步挑战模型的推理能力。</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">长上下文 (200): 该数据集挑战模型在函数调用时对长上下文场景的适应能力。我们注入随机对象（例如一个目录中的数百个文件或数千条预订记录）来模拟现实世界的API输出，这些输出往往非常详尽。在这里，我们旨在测试模型从大量上下文中提取核心信息的能力。</span></li><li style=\"text-align: start;\"><span style=\"font-family: 微软雅黑;\">复合 (200): 复合类别试图结合上述三种场景，创建一个特别困难的挑战，尽管这种情况很少见，但在大规模使用自主代理时非常重要。通过这个类别，我们希望说服观众，模型在这个类别中的良好表现是一个强有力的信号，表明大语言模型能够在罕见且极其困难的情况下作为大规模自主代理运行。</span></li></ul>",
+    "establish_time": "2026-02-26 10:39:54",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "23e2e67f-976a-44f0-9dbc-769426dd0c38/train-00000-of-00001.parquet"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "extra_params": {
+      "is_fc_model": false,
+      "underscore_to_dot": false
+    },
+    "status": 1,
+    "dataSet_cases": "4441",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "MMMU": {
+    "dataset_name": "MMMU",
+    "local_path": "./testsuite/TestSuite/MMMU",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "MMMU是一项旨在评估多模态模型在大规模多学科任务中表现的全新基准测试，这些任务需要大学水平的学科知识和深思熟虑的推理能力。MMMU 包含11.5K 道精心收集自大学考试、测验和教科书的多模态问题，涵盖六大核心学科：艺术与设计、商业、科学、健康与医学、人文与社会科学以及技术与工程。这些问题涵盖30个学科和183个子领域，包含30种高度异构的图像类型，例如图表、示意图、地图、表格、乐谱和化学结构。我们相信 MMMU 将激励社区构建下一代多模态基础模型，以实现专家级通用人工智能 (AGI)。其中DEV_VAL测试集中有53个主观题，建议人工标注或者采用裁判模型打分。",
+    "subset_list": [
+      "MMMU_DEV_VAL",
+      "MMMU_TEST"
+    ],
+    "default_subsets": [
+      "MMMU_DEV_VAL"
+    ],
+    "testcase_tags": [
+      "百科知识"
+    ],
+    "metric_list": [],
+    "establish_time": "2026-01-29 18:02:02",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "e33c69b4-f23b-4d9c-8057-e6b2e8199299/MMMU_DEV_VAL.tsv",
+      "eebf3eb6-0021-4a0d-bea0-03d3c4cd2417/MMMU_TEST.tsv"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "dataSet_cases": "1378",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "HallusionBench": {
+    "dataset_name": "HallusionBench",
+    "local_path": "./testsuite/TestSuite/HallusionBench",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "HallusionBench是一个用于多模态语言模型中纠缠语言幻觉和视觉错觉的高级诊断套件",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "图片推理"
+    ],
+    "metric_list": [],
+    "establish_time": "2025-11-27 14:27:43",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "cabf346a-b5f9-42bf-ad2c-342f9c130c0f/HallusionBench.tsv"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "content": "<p><br></p>",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "OCRBench": {
+    "dataset_name": "OCRBench",
+    "local_path": "./testsuite/TestSuite/OCRBench",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "OCRBench是一个用于评估视觉文本定位和推理的大型多模态模型的改进基准",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "OCR"
+    ],
+    "metric_list": [],
+    "establish_time": "2025-08-21 10:40:31",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "30e27072-b887-4086-81b2-642a581970fb/OCRBench.tsv"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "MMStar": {
+    "dataset_name": "MMStar",
+    "local_path": "./testsuite/TestSuite/MMStar",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "MMStar是一个精英视觉不可或缺的多模态基准，包含 1,500 个由人类精心挑选的挑战样本。MMStar 旨在对 6 项核心能力和 18 个细节轴进行基准测试，旨在通过精心平衡和纯化的样本选择来评估 LVLM 的多模态能力。",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "空间理解"
+    ],
+    "metric_list": [],
+    "establish_time": "2025-08-21 10:43:06",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "e778f2ff-0293-4f96-ae74-9d9ed586c362/MMStar.tsv"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "ScreenSpot_Pro": {
+    "dataset_name": "ScreenSpot_Pro",
+    "local_path": "./testsuite/TestSuite/ScreenSpot_Pro",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "ScreenSpot_Pro是一种专门用于评估针对高分辨率、专业计算机使用环境的 GUI 接地模型的基准",
+    "subset_list": [
+      "ScreenSpot_Pro_Development",
+      "ScreenSpot_Pro_Creative",
+      "ScreenSpot_Pro_CAD",
+      "ScreenSpot_Pro_Scientific",
+      "ScreenSpot_Pro_Office",
+      "ScreenSpot_Pro_OS"
+    ],
+    "default_subsets": [
+      "ScreenSpot_Pro_Development",
+      "ScreenSpot_Pro_Creative",
+      "ScreenSpot_Pro_CAD",
+      "ScreenSpot_Pro_Scientific",
+      "ScreenSpot_Pro_Office",
+      "ScreenSpot_Pro_OS"
+    ],
+    "testcase_tags": [
+      "GUI"
+    ],
+    "metric_list": [],
+    "establish_time": "2025-08-21 10:56:13",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "4eaad3fd-518a-4b25-b64c-ce640efea389/ScreenSpot_Pro_Scientific.tsv",
+      "c763ed4e-7d70-4e98-9e79-2a7dab7a4503/ScreenSpot_Pro_CAD.tsv",
+      "718360f2-17b7-4375-8b18-15233a0f8f07/ScreenSpot_Pro_Office.tsv",
+      "27672832-7e8c-485e-8556-4d070d796b73/ScreenSpot_Pro_Creative.tsv",
+      "e4131a27-ac08-4b9c-8527-2d480cc294db/ScreenSpot_Pro_OS.tsv",
+      "def3ac30-2741-4e95-9722-f1beffc080bb/ScreenSpot_Pro_Development.tsv"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "Video-MME": {
+    "dataset_name": "Video-MME",
+    "local_path": "./testsuite/TestSuite/Video-MME",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "Video-MME，这是首个针对MLLM在视频分析领域进行全频谱多模态评估的基准测试。我们的工作与现有基准测试相比，具有以下四个关键特征： 1）视频类型的多样性，涵盖6个主要视觉领域及其30个子领域，以确保广泛的场景泛化能力； 2）时间维度上的时长，涵盖从11秒到1小时的短、中、长视频，以增强对上下文动态的鲁棒性； 3）数据模态的广度：除了视频帧之外，还整合了字幕和音频等多模态输入，以展现多模态语言模型（MLLM）的全面能力； 4）标注的质量：利用专家标注员严格的人工标注，以实现精准可靠的模型评估。我们手动选取了900个视频（总时长254小时），通过反复观看所有视频内容进行标注，最终得到2700个问答对。",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "视频理解"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-12-03 14:11:20",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "85097da2-21cb-45a7-802c-70b62a88b092/test.txt"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "MMAR": {
+    "dataset_name": "MMAR",
+    "local_path": "./testsuite/TestSuite/MMAR",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": " MMAR是一个旨在评估音频语言模型 (ALM) 在大规模多学科任务中深度推理能力的全新基准测试。MMAR 包含 1000 个精心挑选的音频-问答三元组，这些三元组均来自真实世界的互联网视频，并通过迭代纠错和质量检查进行优化，以确保高质量。基准测试中的每个项目都要求进行超越表面理解的多步骤深度推理。此外，部分问题需要研究生水平的感知和领域特定知识，从而提升了基准测试的难度和深度",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "音频推理"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-12-02 10:44:10",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "81c8b34b-cac0-4d5d-8880-ecb60a7141d2/test.txt"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "MMAU": {
+    "dataset_name": "MMAU",
+    "local_path": "./testsuite/TestSuite/MMAU",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "MMAU：大规模多任务音频理解与推理基准，旨在评估多模态音频理解模型在复杂推理任务中的表现。规模：包含 10,000 个音频片段（这里只取了1000个），每个片段配有自然语言问题和答案。 领域覆盖：语音、环境声音、音乐。 任务类型：信息提取和推理问题，涵盖 27 种不同的技能。",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "音频理解"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2025-12-10 20:19:39",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "2c172c80-5720-4745-8b4a-6afd7ab03df8/test.txt"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "MVBench": {
+    "dataset_name": "MVBench",
+    "local_path": "./testsuite/TestSuite/MVBench",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "我们提出了一种新颖的静态到动态方法来定义时间相关任务。通过将静态任务转换为动态任务，我们能够系统地生成需要从感知到认知等广泛时间能力的视频任务。在任务定义的指导下，我们自动将公开的视频标注转换为多项选择题，用于任务评估。这种独特的范式能够以最少的人工干预高效地创建MVBench，同时通过真实视频标注确保评估的公平性，并避免LLM评分的偏差",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "视频理解"
+    ],
+    "metric_list": [],
+    "establish_time": "2025-12-17 17:40:59",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "931618aa-4141-4869-88f1-9f1a95f2f91e/test.txt"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "WorldSense": {
+    "dataset_name": "WorldSense",
+    "local_path": "./testsuite/TestSuite/WorldSense",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "WorldSense，这是首个用于评估多模态视频理解能力的基准测试工具，它同时涵盖视觉、音频和文本输入。与现有基准测试工具相比，WorldSense具有以下几个特点： 1. 全模态协作。我们设计的评估任务具有音频和视频的强耦合性，要求模型有效利用全模态的协同感知； 2. 视频和任务的多样性。WorldSense 包含1,662 个音视频同步视频，系统地分为8 个主要领域和67 个细粒度子类别，涵盖广泛的场景；以及26 个不同任务中的3,172 个多项选择问答对，以实现全面的评估； 3. 高质量的标注。所有问答对均由 80 位专家标注员手动标注，并经过多轮校对以确保质量。",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "多模态理解"
+    ],
+    "metric_list": [],
+    "establish_time": "2025-12-18 10:21:06",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "32b46dfd-9a3f-429c-9889-462b79d39e47/test.txt"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "Video-MMLU": {
+    "dataset_name": "Video-MMLU",
+    "local_path": "./testsuite/TestSuite/Video-MMLU",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "Video-MMLU 专门针对以定理演示和问题解决为重点的视频，涵盖数学、物理和化学领域。这些视频通过数字和公式传递大量信息，对视频 LMM 的动态 OCR 识别和理解提出了重大挑战。 想象一下这样的课堂：一个大型多模态模型扮演学生，而视频多模态学习单元（Video-MMLU）则扮演教师。Video-MMLU 会评估学生是否能够感知和理解多学科讲座，就像学生记笔记并接受测试一样。对于每个视频，我们都会生成详细的字幕作为标准的“笔记”，以评估模型的视觉感知能力。此外，我们还创建了 15 道题作为“测验”，以评估模型的内容推理能力，挑战其运用所学知识的能力。",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "视频理解"
+    ],
+    "metric_list": [],
+    "establish_time": "2025-12-18 11:06:37",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "64bc556f-37b6-461e-8a26-200e0a1b72b9/test.txt"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "librispeech_asr": {
+    "dataset_name": "librispeech_asr",
+    "local_path": "./testsuite/TestSuite/librispeech_asr",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "LibriSpeech 是一个包含约 1000 小时 16kHz 英语朗读语音的语料库，由 Vassil Panayotov 在 Daniel Povey 的协助下创建。数据来源于 LibriVox 项目的有声读物，并经过了精心的分割和对齐。音频为英语。有两种配置：clean和other。语料库中的说话人根据在另一个数据集上训练的模型的转录文本的词错误率 (WER) 进行排序，并大致分为两类，WER 较低的说话人被指定为“clean”，WER 较高的说话人被指定为“other”。",
+    "subset_list": [
+      "clean",
+      "other"
+    ],
+    "default_subsets": [
+      "clean",
+      "other"
+    ],
+    "testcase_tags": [
+      "语音识别"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2026-01-15 14:42:42",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "50f9061f-02a0-408f-a794-96404497d086/test.txt"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "Fleurs": {
+    "dataset_name": "Fleurs",
+    "local_path": "./testsuite/TestSuite/Fleurs",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "Fleurs 是FLoRes 机器翻译基准测试的语音版本。我们使用了来自 FLoRes 开发集和开发测试集公开数据集的 2009 个 n 路平行句子，涵盖 102 种语言。",
+    "subset_list": [
+      "en",
+      "cmn_hans"
+    ],
+    "default_subsets": [
+      "en",
+      "cmn_hans"
+    ],
+    "testcase_tags": [
+      "语音识别",
+      "语音翻译"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2026-01-15 14:48:20",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "089a57ed-034c-461b-b767-d0e94761dc42/test.txt"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "MELD": {
+    "dataset_name": "MELD",
+    "local_path": "./testsuite/TestSuite/MELD",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "MELD 全称 Multimodal EmotionLines Dataset，是通过增强和扩展 EmotionLines  数据集创建的。  MELD 数据集包含了 EmotionLines 中的相同对话实例，但它同时包含了其它模态的数据（音频、视频以及文本）。 MELD 数据集包含来自电视剧《老友记》的超过 1,400 个对话和 13,000 个句子。这些对话涉及多个 speaker 。  对话中的每个句子都被标记为七种情绪中的其中一种： 愤怒、厌恶、悲伤、快乐、中立、惊讶和恐惧。该数据集还为每个句子提供了情感标注（正面、负面和中性）。",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "情绪感知"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2026-01-15 15:21:38",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "3e210ce3-5c0c-446c-9e2c-1c5cf6db2dd9/test.txt"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "hle": {
+    "dataset_name": "Humanity's Last Exam",
+    "local_path": "./testsuite/TestSuite/hle",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "“人类终极考试”（HLE）是一项涵盖广泛学科的多模态基准测试，旨在成为同类考试中最终的封闭式学术基准。HLE包含2500道题，涵盖数学、人文科学和自然科学等数十个学科。它由全球各学科专家共同开发，题型包括选择题和简答题，适用于自动评分。",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "知识百科"
+    ],
+    "metric_list": [
+      "AveragePass@1"
+    ],
+    "establish_time": "2026-02-26 17:11:54",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "3d0671a4-a460-4ab8-9c20-280b3b73e452/test.txt"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "dataSet_cases": "",
+    "content": "<p><span style=\"color: rgb(74, 85, 101); background-color: rgb(255, 255, 255);\">“人类终极考试”（HLE）是一项涵盖广泛学科的多模态基准测试，旨在成为同类考试中最终的封闭式学术基准。HLE包含2500道题，涵盖数学、人文科学和自然科学等数十个学科。它由全球各学科专家共同开发，题型包括选择题和简答题，适用于自动评分。</span></p><p><span style=\"color: rgb(74, 85, 101); background-color: rgb(255, 255, 255);\">其中1904个属于非多模态的题目，可以直接采用自然语言测试。</span></p>",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "DailyOmni": {
+    "dataset_name": "DailyOmni",
+    "local_path": "./testsuite/TestSuite/DailyOmni",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "面向跨模态的时间对齐的视听推理",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "多模态推理"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2026-01-28 10:58:44",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "8c445d92-6242-457e-9919-ef5a32b789ed/test.txt"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "aime26": {
+    "dataset_name": "aime26",
+    "local_path": "./testsuite/TestSuite/aime26",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "2026年美国数学邀请赛（AIME）",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "数学"
+    ],
+    "metric_list": [
+      "AveragePass@1"
+    ],
+    "establish_time": "2026-02-24 16:33:11",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "54030ed9-be40-4f3d-9927-85dd24c7ddb9/aime2026.jsonl"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "hmmt_2025": {
+    "dataset_name": "HMMT-2025",
+    "local_path": "./testsuite/TestSuite/hmmt_2025",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "该数据集包含HMMT 2025 年 2 月的试题、答案和解决方案，所有内容均由 OCR 提取，转换为 LaTeX，并由FlagEval 团队手动验证。",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [],
+    "metric_list": [
+      "AveragePass@1"
+    ],
+    "establish_time": "2026-02-26 10:27:21",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "62cd675f-4c54-4e13-a2be-ece32388c94e/hmmt_25.jsonl"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "mmlu_redux": {
+    "dataset_name": "mmlu_redux",
+    "local_path": "./testsuite/TestSuite/mmlu_redux",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "MMLU-Redux 是 30 个 MMLU 主题中 3,000 个手动重新标注问题的子集。",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "知识百科"
+    ],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "establish_time": "2026-03-17 17:11:54",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "e02a5fbf-130a-4253-b7aa-eb93b5fe1b61/test.txt"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "content": "<p style=\"text-align: start;\">我们选取了30门MMLU科目。首先，我们选择了HELM排行榜上准确率最低的20门科目。这些科目包括：大学数学、病毒学、大学化学、高中数学、抽象代数、全球事实、形式逻辑、高中物理、专业法律、机器学习、高中化学、计量经济学、专业会计、大学物理、解剖学、大学计算机科学、高中统计学、电气工程、公共关系和大学医学。由于存在多门与数学相关的科目，我们随机剔除了一门（抽象代数），并用表现次差的非数学科目（商业伦理）取而代之。剩余的10门科目是随机选择的，不考虑其表现：人类衰老、高中宏观经济学、临床知识、逻辑谬误、哲学、概念物理、高中美国历史、其他科目、高中地理和天文学。</p><p style=\"text-align: start;\">我们随机抽取了每个MMLU主题的100道题，供标注员使用。标注员需遵循既定的分类方法，首先评估题目的呈现方式，然后验证MMLU标签的真实性。我们鼓励标注员使用搜索引擎进行精确匹配搜索，以查找来自可靠来源的题目和多项选择题选项。如果标注员找到了题目和选项的完全匹配项，则需评估来源提供的答案。无论来源中是否包含标签，也无论MMLU标签是否相同，标注员都需根据自身专业知识决定是否采纳该标签。如果未找到完全匹配项，则需标注员从可信来源（例如政府网站、教科书和/或其他权威机构，如<em>世界卫生组织（WHO）</em>）查找佐证材料。如果标注者仍然不确定，则要求他们在问题上标注“专家”，表示该问题需要更专业的知识。</p>",
+    "dataSet_cases": "",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "Terminal-Bench2.0": {
+    "dataset_name": "Terminal-Bench2.0",
+    "local_path": "./testsuite/TestSuite/Terminal-Bench2.0",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "Terminal-Bench v2 是一个命令行基准测试套件，用于评估 AI 代理在 89 个真实世界的多步骤终端任务上的表现。这些任务涵盖了从编译和调试到系统管理的广泛范围，所有任务都在隔离的容器中执行。每个任务都经过严格验证并自动评分（0/1），旨在推动前沿模型证明它们不仅能回答问题，还能采取行动。",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "工具",
+      "指令遵从",
+      "逻辑推理"
+    ],
+    "metric_list": [
+      "Pass@1"
+    ],
+    "establish_time": "2026-05-18 11:40:04",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "12be1cd2-36f0-43ff-b0fc-890e009aab0a/chat_template.jinja"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 0,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  },
+  "terminal-bench-2": {
+    "dataset_name": "Terminal-Bench 2.0",
+    "local_path": "./testsuite/TestSuite/terminal-bench-2",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "Terminal-Bench v2 是一个命令行基准测试套件，用于评估 AI 代理在 89 个真实世界的多步骤终端任务上的表现。这些任务涵盖了从编译和调试到系统管理的广泛范围，所有任务都在隔离的容器中执行。每个任务都经过严格验证并自动评分（0/1），旨在推动前沿模型证明它们不仅能回答问题，还能采取行动。",
+    "subset_list": [],
+    "default_subsets": [],
+    "testcase_tags": [
+      "逻辑推理",
+      "百科知识",
+      "指令遵从"
+    ],
+    "metric_list": [],
+    "establish_time": "2026-05-18 11:50:04",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "a8f2d0e4-e804-471e-916b-0a67e7d8cdef/chat_template.jinja"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "dataset_required"
+  }
+}

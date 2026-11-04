@@ -1,0 +1,101 @@
+from eval.benchmarks import Benchmark, DataAdapter
+from typing import List, Any
+import os
+import json
+from eval.benchmarks.aisf_develop.utils import read_multicolums_from_excel
+from eval.benchmarks.aisf_develop.prompt import FC_PROMPT
+from datetime import datetime
+
+today = datetime.today().strftime("%Y-%m-%d %H:%M:%S")
+now = datetime.now()
+week_day = now.weekday()
+# 中文星期列表（注意：0 是周一）
+week_day_cn = ["周一", "周二", "周三", "周四", "周五", "周六", "周日"]
+
+@Benchmark.register(
+    name='aisf_function_call_dev',
+    pretty_name='AISF',
+    dataset_id='aisf_function_call_dev',
+    subset_list=['default'],
+    model_adapter='aisf_function_call_server',
+    metric_list=['AverageAccuracy'],
+    few_shot_num=0,
+    system_prompt=None,
+    prompt_template='{query}',
+)
+class AISFFunctionCalldevAdapter(DataAdapter):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def load(self,
+             input_file_path: str = None,
+             pred_file_path: str = None,
+             **kwargs) -> dict:
+
+        res_dict = {}
+        subset_list = kwargs['subset_list']
+        for item in kwargs['subset_list']:
+            res_dict[item] = []
+
+        excel_files = [f for f in os.listdir(input_file_path) if f.endswith(('.xlsx', '.xls'))]
+
+        for excel_file in excel_files:
+            file_path = os.path.join(input_file_path, excel_file)
+            res_dict['default'] = read_multicolums_from_excel(file_path, 0, [1, 3])
+
+        if subset_list:
+            for key in list(res_dict.keys()):
+                if key not in subset_list:
+                    res_dict.pop(key)
+
+        return res_dict
+
+    def gen_prompt(self, input_d: dict, few_shot_list: list, **kwargs) -> dict:
+        """
+        Generate the prompt for the model input.
+        """
+        problem = str(input_d['column1'])  + "/nothink"
+        full_prompt = self.prompt_template.format(query=problem)
+        if self.system_prompt:
+            prompt = self.system_prompt
+        else:
+            prompt = FC_PROMPT
+        system_prompt = prompt.format(today+week_day_cn[week_day])
+
+        return self.gen_prompt_data(full_prompt, system_prompt=system_prompt)
+
+    def get_gold_answer(self, input_d: dict) -> str:
+        # Extract the gold answer from the input dict.
+        if 'column3' in input_d:
+            return input_d['column3']
+        else:
+            return None
+
+    def parse_pred_result(self, result: str, raw_input_d: dict = None, eval_type: str = 'checkpoint') -> str:
+        """
+        Parse the model output to get the answer. Could be the best choice index.
+        """
+        return result
+
+    def match(self, gold: str, pred: str, raw_input_d: str, subset_name) -> float:
+        pred = pred.replace("\n", "")
+        pred = pred.replace("`", "")
+        pred = pred.replace("json", "")
+
+        if gold is not None and pred is not None:
+            if gold.replace(" ", "") == pred.replace(" ", ""):
+                return True
+            else:
+                print(f'gold:{gold}\npred:{pred}')
+                return False
+        else:
+            return False
+
+    def compute_metric(self, review_res_list: List[dict], **kwargs) -> Any:
+        # aggregate review results
+        # res_dict = super().compute_dict_metric(review_res_list, **kwargs)
+
+        return super().compute_metric(review_res_list, **kwargs)
+
+
+

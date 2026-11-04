@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101b2d" />
+    <title>Benchmark Atlas Local · LLM / Agent 评测地图</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      /* 嵌入前端时隐藏原侧边栏，主内容占满宽度并居中 */
+      .sidebar { display: none !important; }
+      .main {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        padding: 36px 42px 90px;
+        max-width: 1600px;
+        margin: 0 auto !important;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-shell">
+      <main id="app" class="main"></main>
+    </div>
+    <div id="compareDock" class="compare-dock"></div>
+    <div id="toast" class="toast"></div>
+    <div id="modalRoot"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
