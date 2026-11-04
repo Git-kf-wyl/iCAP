@@ -13,4 +13,5 @@ for file_path in files:
         relative_path = os.path.relpath(file_path, os.path.dirname(__file__))
         module_path = relative_path[:-3].replace(os.path.sep, '.')
         full_path = f'eval.benchmarks.{module_path}'
-        importlib.import_module(full_path)
+        try:importlib.import_module(full_path)
+        except ImportError as exc:logger.debug('Optional benchmark unavailable: %s (%s)',full_path,type(exc).__name__)

@@ -29,6 +29,6 @@ def test_legacy_pickled_text_cannot_construct_objects():
 ])
 def test_generated_code_isolated(generation,expected):
     from code_sandbox import check
-    sample={'input_output':json.dumps({'inputs':['1 2'],'outputs':[expected],'fn_name':None})
+    sample={'input_output':json.dumps({'inputs':['1 2'],'outputs':[expected],'fn_name':None})}
     result,_=check(sample,generation,3)
     assert result==[True]

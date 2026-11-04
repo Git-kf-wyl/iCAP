@@ -1,9 +1,8 @@
 # Private iCAP Yellow implementation. Do not publish.
-from contextlib import nullcontext
 try:
     from torch import no_grad
 except ImportError:
-    no_grad=nullcontext
+    def no_grad(): return lambda function:function
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Any, List, Optional, Union
 from eval.constants import EvalType, OutputType
