@@ -38,6 +38,16 @@ def test_source_and_credentials_are_not_public(platform):
     client.cookies.clear()
     for path in ['/api/platform/capabilities','/v1/get_model_info','/llm_bench/app.js']:
         assert client.get(path).status_code==401
+    manifest=json.loads((Path(__file__).resolve().parents[2]/'frontend/dist/.vite/manifest.json').read_text('utf-8'))
+    dependencies=set()
+    def public_assets(key):
+        if key in dependencies:return
+        dependencies.add(key);row=manifest[key]
+        for name in [row['file'],*row.get('css',[])]:
+            assert client.get('/'+name).status_code==200,'Login dependency is blocked: '+name
+        for name in row.get('imports',[]):public_assets(name)
+    public_assets('index.html')
+    public_assets('src/blue/views/Login.vue')
     for path in ['/.env','/.git/config','/backend/adapter.py','/data/LLMInferencer.py']:
         assert client.get(path).status_code==404
     assert client.get('/api/school/jobs',headers=header(admin)).status_code==404

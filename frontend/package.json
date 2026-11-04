@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite --port 12096",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test:bootstrap": "node tests/bootstrap-smoke.mjs fresh && node tests/bootstrap-smoke.mjs expired && node tests/bootstrap-smoke.mjs valid && node tests/bootstrap-smoke.mjs offline"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
@@ -44,7 +45,8 @@
     "sass-embedded": "^1.89.0",
     "three": "^0.170.0",
     "vite": "^6.2.4",
-    "vite-plugin-vue-devtools": "^7.7.2"
+    "vite-plugin-vue-devtools": "^7.7.2",
+    "happy-dom": "21.0.4"
   },
   "compilerOptions": {
     "target": "ES5",

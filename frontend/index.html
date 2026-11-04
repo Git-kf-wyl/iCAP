@@ -7,7 +7,47 @@
     <title>AI创新平台</title>
   </head>
   <body>
-    <div id="app" style="background-color: rgb(245, 245, 245)"></div>
+    <div id="app" style="background-color: rgb(245, 245, 245)">
+      <section id="icap-startup" role="status" style="max-width:460px;margin:16vh auto;padding:32px;background:#fff;border:1px solid #e5eaf1;border-radius:8px;font:15px/1.8 Arial,sans-serif;color:#303133">
+        <h1 style="margin:0 0 16px;color:#2878ee;font-size:24px">云核 AI 创新平台</h1>
+        <p id="icap-startup-message">正在加载平台，请稍候…</p>
+        <button id="icap-startup-retry" type="button" hidden style="padding:9px 18px;border:0;border-radius:4px;background:#409eff;color:white;cursor:pointer">重新加载</button>
+        <noscript>浏览器已禁用 JavaScript，请启用后重新加载页面。</noscript>
+      </section>
+    </div>
+    <script>
+      (() => {
+        let complete=false,reported=false
+        const report=(kind,path,message='') => {
+          if(reported)return;reported=true
+          const clean=String(message).replace(/sk-[A-Za-z0-9_-]{16,}/g,'[redacted]').slice(0,180)
+          navigator.sendBeacon?.('/api/client-errors',JSON.stringify({kind,path,message:clean}))
+        }
+        const fail=(kind,path='',message='') => {
+          if(complete)return
+          const text=document.getElementById('icap-startup-message')
+          const button=document.getElementById('icap-startup-retry')
+          if(text)text.textContent='页面资源加载失败，请点击重新加载。如仍失败，请稍后重试。'
+          if(button)button.hidden=false
+          report(kind,path,message)
+        }
+        const timer=setTimeout(() => {
+          if(complete)return
+          const text=document.getElementById('icap-startup-message')
+          const button=document.getElementById('icap-startup-retry')
+          if(text)text.textContent='加载时间较长，你可以继续等待或重新加载。'
+          if(button)button.hidden=false
+        },15000)
+        document.getElementById('icap-startup-retry').onclick=()=>location.reload()
+        window.__icapBoot={complete(){complete=true;clearTimeout(timer)},fail}
+        window.addEventListener('error',event => {
+          const source=event.target?.src
+          if(source){let path='';try{path=new URL(source).pathname}catch{};fail('resource',path)}
+          else fail('runtime','',event.message)
+        },true)
+        window.addEventListener('unhandledrejection',event=>fail('runtime','',event.reason?.message))
+      })()
+    </script>
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>

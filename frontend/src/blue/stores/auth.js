@@ -59,7 +59,7 @@ export const useAuth = defineStore('auth', () => {
         clearSession()
         return false
       }
-      return true
+      throw error
     }
   }
   function clearSession() {

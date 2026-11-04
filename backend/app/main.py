@@ -915,7 +915,8 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
     # The API and WebSocket routes above keep their own prefixes.
     dist = Path(__file__).resolve().parents[2] / "frontend" / "dist"
     if (dist / "index.html").is_file():
-        app.mount("/assets", StaticFiles(directory=dist / "assets"), name="assets")
+        from .web_assets import WebAssets
+        app.mount("/assets", WebAssets(directory=dist / "assets"), name="assets")
 
         @app.get("/{spa_path:path}", include_in_schema=False)
         def spa(spa_path: str):
@@ -926,7 +927,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
             candidate = (dist / spa_path).resolve()
             if candidate.is_file() and candidate.is_relative_to(dist.resolve()):
                 return FileResponse(candidate)
-            return FileResponse(dist / "index.html")
+            return FileResponse(dist / "index.html",headers={'Cache-Control':'no-store'})
 
     return app
 

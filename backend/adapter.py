@@ -10,6 +10,9 @@ import asyncio
 import hashlib
 import json
 import re
+import time
+import logging
+from collections import deque
 from pathlib import Path, PurePosixPath
 
 import httpx
@@ -31,6 +34,28 @@ app.state.yellow=runtime
 from app.hub_downloads import HubDownloads
 hubs=HubDownloads(runtime,app.state.store)
 native_chat=next(r.endpoint for r in app.router.routes if getattr(r,'path','')=='/api/agents/chat/stream')
+boot_reports={}
+
+@app.post('/api/client-errors',status_code=204)
+async def client_error(request:Request):
+    content=bytearray()
+    async for chunk in request.stream():
+        content.extend(chunk)
+        if len(content)>4096:raise HTTPException(413,'诊断内容过大')
+    try:body=json.loads(content)
+    except (ValueError,TypeError):raise HTTPException(400,'诊断格式无效')
+    if not isinstance(body,dict) or body.get('kind') not in {'resource','runtime','navigation'}:raise HTTPException(400,'诊断类型无效')
+    key=request.client.host if request.client else ''
+    now_time=time.monotonic()
+    if len(boot_reports)>1024:boot_reports.clear()
+    reports=boot_reports.setdefault(key,deque())
+    while reports and reports[0]<now_time-60:reports.popleft()
+    if len(reports)<10:
+        reports.append(now_time)
+        message=re.sub(r'sk-[A-Za-z0-9_-]{16,}','[redacted]',str(body.get('message','')))[:180]
+        path=str(body.get('path','')).split('?')[0][:240]
+        logging.getLogger('icap.web').warning('frontend_boot %s',json.dumps({'kind':body['kind'],'path':path,'message':message},ensure_ascii=False))
+    return Response(status_code=204)
 
 def authorized(request: Request):
     header=request.headers.get('authorization','')

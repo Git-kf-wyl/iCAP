@@ -23,4 +23,9 @@ app.use(createPinia())
 app.use(router)
 app.use(stores)
 app.config.globalProperties.$sanitizeHtml = value => DOMPurify.sanitize(String(value ?? ''))
-app.mount('#app')
+router.onError(() => window.__icapBoot?.fail('navigation'))
+// Finish authentication and its asset cookie before importing protected views.
+router.isReady().then(() => {
+  app.mount('#app')
+  window.__icapBoot?.complete()
+}).catch(() => window.__icapBoot?.fail('navigation'))

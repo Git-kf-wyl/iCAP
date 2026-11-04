@@ -185,8 +185,11 @@ const router = createRouter({
 router.beforeEach(async to => {
     const token = localStorage.getItem('ic_token')
     if (!to.meta.public && !token) return {path:'/login',query:{redirect:to.fullPath}}
-    if (to.meta.public && token) return '/'
-    if (!to.meta.public && token && !(await useAuth().refreshProfile())) return {path:'/login',query:{redirect:to.fullPath}}
+    if (token) {
+        const valid=await useAuth().refreshProfile()
+        if (!valid && !to.meta.public) return {path:'/login',query:{redirect:to.fullPath}}
+        if (valid && to.meta.public) return '/'
+    }
     document.title = 'InnovationCore AI Platform'
 })
 export default router;
