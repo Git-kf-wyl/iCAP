@@ -7,7 +7,8 @@
     "dev": "vite --port 12096",
     "build": "vite build",
     "preview": "vite preview",
-    "test:bootstrap": "node tests/bootstrap-smoke.mjs fresh && node tests/bootstrap-smoke.mjs expired && node tests/bootstrap-smoke.mjs valid && node tests/bootstrap-smoke.mjs offline"
+    "test:bootstrap": "node tests/bootstrap-smoke.mjs fresh && node tests/bootstrap-smoke.mjs expired && node tests/bootstrap-smoke.mjs valid && node tests/bootstrap-smoke.mjs offline",
+    "test:assets": "node tests/asset-integrity.mjs"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
