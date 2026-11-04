@@ -206,7 +206,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import {useReadUpdates} from '@/useReadUpdates.js';
+import { ref, computed, onMounted, onBeforeUnmount, onActivated, onDeactivated } from "vue";
 import { useRouter } from "vue-router";
 import { ElMessage, ElMessageBox, UploadInstance } from "element-plus";
 import { View, InfoFilled, Refresh } from "@element-plus/icons-vue";
@@ -312,10 +313,10 @@ const modelHasRuler2Scenes = (data, modelKey, scenes) => {
 // ========== 加载数据并构建 reportTypeModelOptions / baseModelExistsMap ==========
 
 const loadResultData = async () => {
-    const llmData = (await getCurrentFullRes()).data;
+    const [llmResponse,multiResponse] = await Promise.all([getCurrentFullRes(),getMultiModelData()]);
+    const llmData=llmResponse.data, multiData=multiResponse.data;
     ruler1Data = llmData.ruler1;
     ruler2Data = llmData.ruler2;
-    const multiData = (await getMultiModelData()).data;
     mmlRuler1Data = multiData.ruler1;
     mmlRuler2Data = multiData.ruler2;
 
@@ -458,7 +459,7 @@ const previewReport = (row) => {
         return;
     }
     const url = router.resolve({ name: 'ReportPreview', query: { id: row.id } });
-    window.open(url.href, '_self');
+    router.push(url.href);
 };
 
 /**
@@ -880,16 +881,19 @@ const handleUpdateConfirm = () => {
 };
 
 let tasksPollTimer = null;
+const startReportPolling=()=>{clearInterval(tasksPollTimer);tasksPollTimer=setInterval(()=>{if(document.visibilityState!=='hidden')loadTasksData()},15000)};
+onActivated(startReportPolling);
+onDeactivated(()=>clearInterval(tasksPollTimer));
+useReadUpdates(['/v1/get_all_published_tasks','/v1/get_current_full_res','/v1/get_current_multi_full_res'],()=>Promise.all([loadResultData(),loadTasksData()]));
 
 onMounted(async () => {
     loading.value = true;
     try {
-        await loadResultData();
-        await loadTasksData();
+        await Promise.all([loadResultData(),loadTasksData()]);
     } finally {
         loading.value = false;
     }
-    tasksPollTimer = setInterval(loadTasksData, 15000);
+    startReportPolling();
 });
 
 onBeforeUnmount(() => {

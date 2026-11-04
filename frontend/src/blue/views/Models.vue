@@ -1,4 +1,5 @@
 <script setup>
+import {useReadUpdates} from "../../useReadUpdates.js";
 import { computed, onMounted, ref } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { ElMessage } from 'element-plus'
@@ -41,7 +42,7 @@ function edit(model) {
   dialog.value = true
 }
 async function load() {
-  loading.value = true
+  loading.value = models.value.length===0
   try { models.value = await api.get('/models') } catch { /* API interceptor shows the error. */ }
   finally { loading.value = false }
 }
@@ -78,6 +79,7 @@ async function save() {
 function tryModel(model) { router.push({ path: '/chat', query: { modelId: model.id } }) }
 
 onMounted(async () => { await load(); if(route.query.modelId) edit(models.value.find(m => m.id === route.query.modelId)); else if(route.query.register) edit(null) })
+useReadUpdates(["/api/models"],load)
 </script>
 
 <template>

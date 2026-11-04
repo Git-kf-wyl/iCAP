@@ -1,6 +1,8 @@
 import {useAuth} from '../blue/stores/auth.js'
 import {beginNavigation,endNavigation} from '../navigation.js'
 import { createRouter, createWebHistory } from 'vue-router';
+import {instantRoute,startRouteWarmup,stopRouteWarmup} from '../fastRoutes.js'
+import {activateReadCache,startWorkspaceBootstrap} from '../readCache.js'
 const homePage = () => import('@/components/homePage.vue');
 const rankingScore = () => import('../components/rankingScore/rankingScore.vue');
 const rankingDetails = () => import('../components/rankingScore/rankingDetails.vue');
@@ -181,7 +183,7 @@ const router = createRouter({
         { path: '/agents', redirect: '/chat' },
         { path: '/deployments', redirect: '/modelDeploy' },
         { path: '/:pathMatch(.*)*', redirect: '/' },
-    ],
+    ].map(instantRoute),
 })
 router.beforeEach(async to => {
     beginNavigation(to.fullPath)
@@ -191,11 +193,12 @@ router.beforeEach(async to => {
         const valid=await useAuth().validateNavigation(() => router.replace({path:'/login',query:{redirect:router.currentRoute.value.fullPath}}))
         if (!valid && !to.meta.public) return {path:'/login',query:{redirect:to.fullPath}}
         if (valid && to.meta.public) return '/'
+        if(valid){activateReadCache(token);if(!router.currentRoute.value.matched.length || router.currentRoute.value.meta.authPage)startWorkspaceBootstrap()}
     }
     // Load the authenticated frame alongside the destination, rather than after it.
     if (!to.meta.authPage) import('../components/visualization.vue').catch(() => {})
     document.title = 'InnovationCore AI Platform'
 })
-router.afterEach(to => endNavigation(to.fullPath))
+router.afterEach(to => {endNavigation(to.fullPath);if(!to.meta.authPage)startRouteWarmup(to.path);else stopRouteWarmup()})
 router.onError(() => endNavigation())
 export default router;

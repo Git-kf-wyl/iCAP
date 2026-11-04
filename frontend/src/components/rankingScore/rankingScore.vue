@@ -725,6 +725,7 @@
 </template>
 
 <script lang="ts" setup>
+import {useReadUpdates} from '@/useReadUpdates.js';
 import {
   ref,
   computed,
@@ -1969,15 +1970,14 @@ function filterModelsByDatasets(rawObj, datasetKeys) {
 
 const loadData = async () => {
   try {
-    await rankingStore.getRankingData();
     const { getCurrentFullRes } = await import("@/api/dataService.js");
-    const llmRes = await getCurrentFullRes();
+    const [llmRes,multiRes,evalRes] = await Promise.all([getCurrentFullRes(),getMultiModelData(),getEvaluationResult()]);
+    rankingStore.processRawData(llmRes.data);
     const llmData = llmRes.data?.ruler1 || {};
     llmRawData.value = llmData;
     _currentFullRuler2Raw.value = llmRes.data?.ruler2 || {};
     llmUpdateTime.value = computeUpdateTime(llmData);
 
-    const multiRes = await getMultiModelData();
     const multiData = multiRes.data;
 
     const multiR1 = multiData.ruler1 || {};
@@ -2008,7 +2008,6 @@ const loadData = async () => {
     ruler2Yitu.value = rankingStore.ruler2Values.aisf_llm_yitu || [];
 
     // 预取测评任务列表，构建查询表
-    const evalRes = await getEvaluationResult();
     const taskList = Array.isArray(evalRes.data)
       ? evalRes.data
       : Object.values(evalRes.data);
@@ -2324,6 +2323,7 @@ const loadArenaExcel = async () => {
 
 const checkScreenWidth = () => {};
 
+useReadUpdates(["/v1/get_current_full_res","/v1/get_current_multi_full_res","/v1/get_evaluation_result"],loadData);
 onMounted(async () => {
   // 先读取路由参数，在数据加载前设置 tab 和模态，避免首次渲染闪动
   const fromTab = route.query.fromTab as string;

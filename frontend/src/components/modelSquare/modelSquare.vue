@@ -1,9 +1,12 @@
 <script setup>
+import {useReadUpdates} from '@/useReadUpdates.js';
 import {
   ref,
   computed,
   watch,
   onMounted,
+  onActivated,
+  onDeactivated,
   reactive,
   onBeforeUnmount,
   toRaw,
@@ -676,13 +679,8 @@ function getSizeLabel(size) {
 }
 
 const loadTaskData = async () => {
-  if (store.models && store.models.length > 0) {
-    console.log("taskStore.getTasks");
-    console.log(store.models);
-  } else {
-    const data = await ModelService.getAllModelInfo();
-    store.setModels(data);
-  }
+  const data = await ModelService.getAllModelInfo();
+  store.setModels(data);
 };
 
 onMounted(async () => {
@@ -695,9 +693,7 @@ onMounted(async () => {
   selectedSizeRange.value = detailStore.getters.getSelectedSizeRange;
   deployType.value = detailStore.getters.getDeployType;
 
-  intervalTimer.value = setInterval(() => {
-    currentIndex.value = (currentIndex.value + 1) % filteredByDate.value.length;
-  }, 10000);
+  startCarousel();
 
   // if (detailStore.getters.getShownIntroduction) {
   //   showModelIntroduce.value = true;
@@ -728,9 +724,14 @@ onMounted(async () => {
   }*/
 });
 
-onBeforeUnmount(() => {
+function startCarousel(){
   clearInterval(intervalTimer.value);
-});
+  intervalTimer.value=setInterval(()=>{if(filteredByDate.value.length)currentIndex.value=(currentIndex.value+1)%filteredByDate.value.length},10000);
+}
+onActivated(startCarousel);
+onDeactivated(()=>clearInterval(intervalTimer.value));
+onBeforeUnmount(()=>clearInterval(intervalTimer.value));
+useReadUpdates(['/v1/get_model_info'],loadTaskData);
 </script>
 
 <template>

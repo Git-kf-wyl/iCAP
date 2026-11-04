@@ -34,6 +34,35 @@ def platform(tmp_path,monkeypatch):
 def header(account):return {'Authorization':'Bearer '+account['access_token']}
 
 
+def test_workspace_bootstrap_is_private_current_and_worker_free(platform):
+    client,adapter,users,_=platform
+    client.cookies.clear()
+    assert client.get('/api/workspace/bootstrap').status_code==401
+    owner,other=users
+    response=client.post('/api/models',headers=header(owner),json={'id':'bootstrap-private',
+        'name':'private model','provider':'Local','visibility':'private',
+        'endpoints':[{'url':'https://example.test/v1','api_key':'only-for-server'}]})
+    assert response.status_code==201,response.text
+    actor=adapter.app.state.auth.current(owner['access_token'])
+    root=adapter.runtime.initialize(actor)
+    write_document(root/'backend/config/evaluationResult.json',{'fixture':{'model_id':'bootstrap-private','dataset':'private-result'}})
+    response=client.get('/api/workspace/bootstrap',headers=header(owner))
+    assert response.status_code==200 and response.headers['cache-control']=='no-store'
+    assert 'only-for-server' not in response.text
+    entries=response.json()['entries']
+    assert 'bootstrap-private' in {row['model_id'] for row in entries['/v1/get_model_info']}
+    assert entries['/v1/get_evaluation_result']['fixture']['dataset']=='private-result'
+    for path,data in entries.items():
+        actual=client.get(path,headers=header(owner))
+        assert actual.status_code==200 and actual.json()==data,path
+    other_entries=client.get('/api/workspace/bootstrap',headers=header(other)).json()['entries']
+    assert 'bootstrap-private' not in {row['model_id'] for row in other_entries['/v1/get_model_info']}
+    assert 'fixture' not in other_entries['/v1/get_evaluation_result']
+    assert not adapter.runtime.workers
+    write_document(root/'backend/config/evaluationResult.json',{})
+    assert client.get('/api/workspace/bootstrap',headers=header(owner)).json()['entries']['/v1/get_evaluation_result']=={}
+
+
 def test_parallel_reads_wait_for_workspace_readiness(platform):
     from concurrent.futures import ThreadPoolExecutor
     client,adapter,users,_=platform

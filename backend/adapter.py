@@ -34,6 +34,7 @@ async def server_timing(request:Request,call_next):
     response=await call_next(request)
     elapsed=(time.perf_counter()-started)*1000
     response.headers['Server-Timing']=f'app;dur={elapsed:.1f}'
+    if request.url.path.startswith(('/api/','/v1/')):response.headers['Cache-Control']='no-store'
     if elapsed>1000 and request.url.path.startswith(('/api/','/v1/')):
         logging.getLogger('icap.web').warning('slow_request %s %s %.0fms',request.method,request.url.path,elapsed)
     return response
@@ -145,6 +146,20 @@ def capabilities(actor=Depends(authorized)):
 def models(actor):
     registry=app.state.registry
     return [legacy_model(row,registry) for row in registry.list_models(actor)]
+
+@app.get('/api/workspace/bootstrap')
+def workspace_bootstrap(actor=Depends(authorized)):
+    """One authenticated round trip seeds the common workspace read models."""
+    from app.yellow_reads import read_business
+    root=runtime.initialize(actor)
+    with runtime.lock:runtime.sync_resources(root,actor)
+    entries={'/v1/get_model_info':models(actor)}
+    for path in ('get_current_full_res','get_current_multi_full_res','get_all_published_tasks',
+                 'get_all_report_tasks','get_evaluation_result','dataset/counts'):
+        entries['/v1/'+path]=read_business(runtime,actor,path,{},prepared_root=root)
+    for kind in ('1','2','3'):
+        entries['/v1/get_testcase_info?is_field='+kind]=read_business(runtime,actor,'get_testcase_info',{'is_field':kind},prepared_root=root)
+    return {'entries':entries}
 
 @app.get('/v1/get_model_info')
 def model_info(actor=Depends(authorized)):

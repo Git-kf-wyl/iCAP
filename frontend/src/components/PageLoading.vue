@@ -1,2 +1,3 @@
-<template><div class="page-loading" role="status">正在打开工作台…</div></template>
-<style scoped>.page-loading{padding:40px;text-align:center;color:#606266;font:15px/1.8 Arial,sans-serif}</style>
+<script setup>defineProps({title:{type:String,default:'工作台'}})</script>
+<template><section class="page-loading" role="status" aria-label="正在加载页面"><h2>{{ title }}</h2><div class="skeleton toolbar"/><div class="skeleton-grid"><div v-for="i in 6" :key="i" class="skeleton card"><div/><div/><div/></div></div></section></template>
+<style scoped>.page-loading{padding:28px;color:#303133;font:15px/1.8 Arial,sans-serif}.page-loading h2{font-size:22px;margin:0 0 24px}.skeleton{background:#f0f3f7;border-radius:8px}.toolbar{height:44px;margin-bottom:24px}.skeleton-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px}.card{height:150px;box-sizing:border-box;padding:24px;background:white;border:1px solid #eef0f4}.card div{height:12px;margin-bottom:16px;background:#edf1f6;border-radius:4px}.card div:first-child{width:45%;height:18px}.card div:last-child{width:70%}</style>

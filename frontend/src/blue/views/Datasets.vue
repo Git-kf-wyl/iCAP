@@ -1,4 +1,5 @@
 <script setup>
+import {useReadUpdates} from "../../useReadUpdates.js";
 import { onMounted, reactive, ref } from 'vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { api, downloadFile } from '../api'
@@ -16,6 +17,7 @@ async function create() { if (!form.name.trim()) return ElMessage.warning('请�
 async function remove(row) { await ElMessageBox.confirm(`删除 ${row.name} 及其上传文件？`, '确认操作', { type: 'warning' }); await api.delete(`/datasets/${row.id}`); await load() }
 async function upload(event) { const file = event.target.files?.[0]; if (!file || !detail.value) return; if (file.size > 25 * 1024 * 1024) { ElMessage.warning('单文件上限 25 MiB'); event.target.value = ''; return } uploading.value = true; try { const data = new FormData(); data.append('file', file); await api.post(`/datasets/${detail.value.id}/files`, data); await load(); ElMessage.success('文件已上传') } finally { uploading.value = false; event.target.value = '' } }
 async function download(row) { try { await downloadFile(`/datasets/${detail.value.id}/files/${row.id}`, row.name) } catch { ElMessage.error('下载失败') } }
+useReadUpdates(["/api/datasets"],load)
 </script>
 <template>
   <div class="page-heading"><div><div class="eyebrow">DATA / DATASETS</div><h1>数据集仓库</h1><p class="subtitle">登记、浏览和下载评测数据，管理分类和版本信息。</p></div><el-button type="primary" @click="openCreate">+ 登记数据集</el-button></div>

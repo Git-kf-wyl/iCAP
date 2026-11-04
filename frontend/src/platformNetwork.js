@@ -1,4 +1,6 @@
 import axios from 'axios'
+import {installReadCache,clearReadCache,retryReads} from './readCache.js'
+installReadCache(axios)
 // Keep credentials on the authenticated same-origin adapter only.
 function secureHeaders(url, headers, publicAuth = false) {
   const target = new URL(typeof url === 'string' ? url : url instanceof URL ? url.href : url.url, location.origin)
@@ -14,12 +16,21 @@ axios.interceptors.request.use(config => {
   return config
 })
 axios.interceptors.response.use(response => response, error => {
-  if (error.response?.status === 401 && !['/login','/register','/password/reset'].includes(location.pathname)) {
+  if (error.response?.status === 401 && (error.config?.headers?.get?.('Authorization') || error.config?.headers?.Authorization || error.config?.headers?.authorization)===`Bearer ${localStorage.getItem('ic_token')}` && !['/login','/register','/password/reset'].includes(location.pathname)) {
+    clearReadCache()
     for (const key of ['ic_token','ic_user','ic_user_id','ic_role','username']) localStorage.removeItem(key)
     location.assign(`/login?redirect=${encodeURIComponent(location.pathname+location.search)}`)
   }
   return Promise.reject(error)
 })
+window.addEventListener('icap:session-expired',()=>{
+  for(const key of ['ic_token','ic_user','ic_user_id','ic_role','username'])localStorage.removeItem(key)
+  location.assign('/login')
+})
+window.addEventListener('storage',event=>{if(event.key==='ic_token'){clearReadCache();location.reload()}})
+window.addEventListener('online',retryReads)
+let lastFocus=Date.now()
+window.addEventListener('focus',()=>{if(Date.now()-lastFocus>30000){lastFocus=Date.now();retryReads()}})
 const nativeFetch = window.fetch.bind(window)
 window.fetch = (input, init = {}) => {
   try { return nativeFetch(input, {...init,headers:secureHeaders(input,init.headers || (input instanceof Request ? input.headers : undefined))}) }

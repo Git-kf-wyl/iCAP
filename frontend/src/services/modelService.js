@@ -42,6 +42,9 @@ class ModelService {
 
     // 获取单个模型信息
     static async getOneModelInfo(modelId) {
+        const catalog = await ModelService.getAllModelInfo();
+        const model = catalog.find(row => row.model_id === modelId);
+        if (model) return model;
         const url = `${API_BASE_URL}get_one_model_info`;
         const payload = { model_id: modelId };
         const res = await axios.post(url, payload, DEFAULT_CONFIG);

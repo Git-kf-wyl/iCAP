@@ -165,6 +165,7 @@
 </template>
 
 <script lang="ts" setup>
+import {useReadUpdates} from '@/useReadUpdates.js';
 import { ref, onMounted, onBeforeUnmount, computed, nextTick, defineAsyncComponent } from "vue";
 import { useRouter } from "vue-router";
 import {
@@ -703,7 +704,7 @@ const goToRuler2SubCategory = (subKey: string) => {
 };
 
 // ===================== 生命周期 =====================
-onMounted(async () => {
+const refreshHome = async () => {
   let ruler2FromFullRes = {};
   let ruler2FromMultiRes = {};
   // These independent reads must start together over a high-latency WAN.
@@ -809,7 +810,9 @@ onMounted(async () => {
   ruler2Loading.value = false;
   await nextTick();
   syncHeaderHeights();
-});
+};
+onMounted(refreshHome);
+useReadUpdates(["/v1/get_all_published_tasks","/v1/get_current_full_res","/v1/get_current_multi_full_res"],refreshHome);
 </script>
 
 <style scoped>

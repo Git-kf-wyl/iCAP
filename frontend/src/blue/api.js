@@ -1,8 +1,10 @@
 import axios from 'axios'
 import { ElMessage } from 'element-plus'
+import {installReadCache,clearReadCache} from '../readCache.js'
 
 export const base = import.meta.env.VITE_API_BASE || '/api'
 export const api = axios.create({ baseURL: base, timeout: 30000 })
+installReadCache(api)
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('ic_token')
@@ -11,9 +13,11 @@ api.interceptors.request.use((config) => {
 })
 api.interceptors.response.use((response) => response.data, (error) => {
   const detail = error.response?.data?.detail
-  if (!error.config?.silentError) ElMessage.error(typeof detail === 'string' ? detail : '请求失败，请检查后端服务')
+  if (!error.config?.silentError && !axios.isCancel(error)) ElMessage.error(typeof detail === 'string' ? detail : '请求失败，请检查后端服务')
   const onAuthPage = ['/login', '/register', '/password/reset'].includes(location.pathname)
   if (error.response?.status === 401 && !onAuthPage && !error.config?.publicAuth && !error.config?.skipAuthRedirect) {
+    if(error.config?.headers?.Authorization!==`Bearer ${localStorage.getItem('ic_token')}`)return Promise.reject(error)
+    clearReadCache()
     localStorage.removeItem('ic_token')
     localStorage.removeItem('ic_user')
     localStorage.removeItem('ic_user_id')

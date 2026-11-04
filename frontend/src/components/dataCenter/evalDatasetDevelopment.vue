@@ -6,7 +6,7 @@
       @tab-click="tabClick"
       :class="{ 'no-slide': disableSlide }"
     >
-      <el-tab-pane label="通用测试集" name="openSource">
+      <el-tab-pane lazy label="通用测试集" name="openSource">
         <div class="description">基准资源社区，提供丰富基准信息</div>
         <!-- 使用modelSquare风格的header横栏 -->
         <header class="ds-header">
@@ -312,7 +312,7 @@
           </div>
         </el-container>
       </el-tab-pane>
-      <el-tab-pane label="领域测试集" name="domain">
+      <el-tab-pane lazy label="领域测试集" name="domain">
         <div class="description">基准资源社区，提供丰富基准信息</div>
         <!-- 使用modelSquare风格的header横栏 -->
         <header class="ds-header">
@@ -571,7 +571,7 @@
           </div>
         </el-container>
       </el-tab-pane>
-      <!-- <el-tab-pane label="开发态测试集" name="dev">
+      <!-- <el-tab-pane lazy label="开发态测试集" name="dev">
         <div class="description">基准资源社区，提供丰富基准信息</div>
         使用modelSquare风格的header横栏
         <header class="ds-header">
@@ -729,7 +729,7 @@
           </div>
         </el-container>
       </el-tab-pane>-->
-      <!-- <el-tab-pane label="同声传译语料标注" name="interpretation">
+      <!-- <el-tab-pane lazy label="同声传译语料标注" name="interpretation">
         <div class="description">同声传译测试集，包括ASR语料标注、MT语料、TTS语料</div>
         <el-card
           class="head_card"
@@ -1075,7 +1075,8 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted, onBeforeUnmount, nextTick, provide, watch, reactive } from "vue";
+import {useReadUpdates} from '@/useReadUpdates.js';
+import { ref, computed, onMounted, onActivated, onDeactivated, onBeforeUnmount, nextTick, provide, watch, reactive } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import {
   get_datasets,
@@ -1351,20 +1352,30 @@ const getDatasetFromStore = (isField) => {
   }
 };
 
+let catalogRequest=0;
 const tabChange = async (tabName) => {
-  await get_count().then((res) => {
-    counts.value = res.data;
-  });
-  if (tabName === "openSource") {
-    getDatasetFromStore("1");
-  } else if (tabName === "domain") {
-    getDatasetFromStore("2");
-  } else if (tabName === "dev") {
-    getDatasetFromStore("3");
-  } else if (tabName === "interpretation") {
-    // await loadInterpretationData();
-  }
+  const kind={openSource:'1',domain:'2',dev:'3'}[tabName];
+  if(!kind)return;
+  const request=++catalogRequest;
+  try {
+    const [datasets,totals]=await Promise.all([get_datasets(kind),get_count()]);
+    if(request!==catalogRequest)return;
+    counts.value=totals.data;
+    const rows=datasets.data;
+    for(const [id,count] of Object.entries(counts.value[kind]||{}))if(rows[id])rows[id]={...rows[id],...count};
+    dataInfos.value=rows;
+    datasetStore.setDatasets('ruler'+kind,rows);
+  } catch(error) {
+    if(error?.code!=='ERR_CANCELED' && request===catalogRequest)ElMessage.error('评测集加载失败，请稍后重试');
+  } finally {if(request===catalogRequest)loading.value=false;}
 };
+useReadUpdates(['/v1/get_testcase_info','/v1/dataset/counts'],()=>tabChange(activeTab.value));
+onDeactivated(()=>{window.removeEventListener('resize',updateTableHeight);tableResizeObserver?.disconnect()});
+onActivated(()=>{
+  window.addEventListener('resize',updateTableHeight);
+  if(route.query.type && route.query.type!==activeTab.value){activeTab.value=String(route.query.type);tabChange(activeTab.value)}
+  nextTick(()=>{document.querySelectorAll('.mainContentContainer').forEach(element=>tableResizeObserver?.observe(element));updateTableHeight()});
+});
 
 // TODO tab点击时候过滤字段要清理
 const tabClick = async (tab, event) => {

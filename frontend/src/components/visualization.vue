@@ -1,5 +1,6 @@
 <template>
-  <div>
+  <div @pointerover.passive="prefetchMenu" @focusin="prefetchMenu">
+  <ReadCacheStatus v-if="token" />
   <login v-if="!token" :token_value="token" @update:token_value="handleUpdate"></login>
   <el-container v-else style="height: 100vh; display: flex; flex-direction: column;">
     <el-header v-show="!reportPreviewStore.isFullscreen" style="padding: 0; height: 80px; width: 100%;min-width: 500px;z-index: 1001;background-color: #fff; ">
@@ -297,7 +298,7 @@
         </el-scrollbar>
       </el-aside>
       <el-main style="padding: 0; min-width: 500px; flex: 1;height:100%">
-        <router-view />
+        <router-view v-slot="{ Component, route: pageRoute }"><keep-alive :include="retainedPages" :max="5"><component :is="Component" :key="pageRoute.path" /></keep-alive></router-view>
       </el-main>
     </el-container>
   </el-container>
@@ -377,6 +378,8 @@
 <script lang="ts" setup>
 import {useAIModelStore} from "@/stores/aiModel.js";
 import {computed, onMounted, ref, watch} from "vue";
+import {retainedPages,prefetchMenu} from '@/fastRoutes.js';
+import ReadCacheStatus from './ReadCacheStatus.vue';
 import {
   Document,
   Menu as IconMenu,

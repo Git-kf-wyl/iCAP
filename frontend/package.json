@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test:bootstrap": "node tests/bootstrap-smoke.mjs fresh && node tests/bootstrap-smoke.mjs expired && node tests/bootstrap-smoke.mjs valid && node tests/bootstrap-smoke.mjs offline",
     "test:assets": "node tests/asset-integrity.mjs",
-    "test:navigation": "node tests/session-navigation.mjs && node tests/bootstrap-smoke.mjs navigation"
+    "test:navigation": "node tests/session-navigation.mjs && node tests/bootstrap-smoke.mjs navigation",
+    "test:fast": "node tests/read-cache.mjs && node tests/fast-routes.mjs && node tests/bootstrap-smoke.mjs fast"
   },
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
@@ -18,6 +19,7 @@
     "axios": "^1.10.0",
     "codemirror": "^5.65.5",
     "docxtemplater": "^3.65.3",
+    "dompurify": "3.3.1",
     "echarts": "^5.6.0",
     "echarts-stat": "^1.2.0",
     "element-plus": "^2.9.11",
@@ -38,17 +40,17 @@
     "vue-echarts": "^7.0.3",
     "vue-router": "^4.5.1",
     "vuex": "^4.1.0",
-    "xlsx": "^0.18.5",
-    "dompurify": "3.3.1"
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/es6-promise": "^0.0.33",
     "@vitejs/plugin-vue": "^5.2.3",
+    "fake-indexeddb": "^6.2.7",
+    "happy-dom": "21.0.4",
     "sass-embedded": "^1.89.0",
     "three": "^0.170.0",
     "vite": "^6.2.4",
-    "vite-plugin-vue-devtools": "^7.7.2",
-    "happy-dom": "21.0.4"
+    "vite-plugin-vue-devtools": "^7.7.2"
   },
   "compilerOptions": {
     "target": "ES5",

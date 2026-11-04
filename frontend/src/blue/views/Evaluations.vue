@@ -1,4 +1,5 @@
 <script setup>
+import {useReadUpdates} from "../../useReadUpdates.js";
 import { onMounted, onUnmounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { api } from '../api'
@@ -41,6 +42,7 @@ onMounted(async () => {
   timer = setInterval(load, 4500)
 })
 onUnmounted(() => clearInterval(timer))
+useReadUpdates(["/api/evaluations"],load)
 </script>
 <template>
   <div class="page-heading">

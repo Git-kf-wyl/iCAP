@@ -1,6 +1,7 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 import { api } from '../api'
+import {clearReadCache} from '../../readCache.js'
 
 export const useAuth = defineStore('auth', () => {
   const token = ref(localStorage.getItem('ic_token') || '')
@@ -117,6 +118,7 @@ export const useAuth = defineStore('auth', () => {
     return refreshProfile()
   }
   function clearSession() {
+    clearReadCache()
     verifiedToken = ''
     verifiedAt = 0
     token.value = ''

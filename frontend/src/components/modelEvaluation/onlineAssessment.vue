@@ -572,6 +572,7 @@
 </template>
 
 <script lang="ts" setup>
+import {useReadUpdates} from '@/useReadUpdates.js';
 import { ref, onMounted, onUnmounted, computed, reactive } from "vue";
 import { useRouter } from "vue-router";
 import { useTaskStore } from "@/stores/taskStore";
@@ -2047,6 +2048,7 @@ const getTasksList = () => {
   });
 };
 
+useReadUpdates(["/v1/get_run_test_progress_list"],getTasksList);
 let pollTimer = null;
 
 const startPolling = () => {

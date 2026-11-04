@@ -7,7 +7,7 @@ const values = new Map()
 globalThis.localStorage = { getItem:key=>values.get(key)??null, setItem:(key,value)=>values.set(key,String(value)), removeItem:key=>values.delete(key) }
 const api = globalThis.sessionFixtureApi = {}
 await mkdir('.runtime-tests',{recursive:true})
-const source = (await readFile('src/blue/stores/auth.js','utf8')).replace("import { api } from '../api'",'const api = globalThis.sessionFixtureApi')
+const source = (await readFile('src/blue/stores/auth.js','utf8')).replace("import { api } from '../api'",'const api = globalThis.sessionFixtureApi').replace('../../readCache.js','../src/readCache.js')
 await writeFile('.runtime-tests/auth-under-test.mjs',source)
 const {useAuth} = await import('../.runtime-tests/auth-under-test.mjs')
 const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b});return {promise,resolve,reject}}

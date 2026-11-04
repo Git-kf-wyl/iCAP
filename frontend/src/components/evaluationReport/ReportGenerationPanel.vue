@@ -914,7 +914,7 @@ const previewReport = (row) => {
     name: "ReportPreview",
     query: { filepath: row.filepath, taskId: row.task_id },
   });
-  window.open(url.href, "_self");
+  router.push(url.href);
 };
 
 const tableHeaderStyle = {

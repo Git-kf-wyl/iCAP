@@ -16,6 +16,14 @@ globalThis.cancelAnimationFrame=win.cancelAnimationFrame.bind(win)
 globalThis.ResizeObserver=class{observe(){}unobserve(){}disconnect(){}}
 const requests=[]
 const requestTimes=[]
+const snapshot={entries:{
+ '/v1/get_current_full_res':{ruler1:{},ruler2:{}},'/v1/get_current_multi_full_res':{ruler1:{},ruler2:{}},
+ '/v1/get_all_published_tasks':[],'/v1/get_all_report_tasks':[],'/v1/get_evaluation_result':{},'/v1/dataset/counts':{},
+ '/v1/get_testcase_info?is_field=1':{},'/v1/get_testcase_info?is_field=2':{},'/v1/get_testcase_info?is_field=3':{},
+ '/v1/get_model_info':[{model_id:'deepseek-fixture',status:1,is_available:true,can_edit:false,visibility:'public',
+  info:{model_name:'DeepSeek-Cache-Fixture',display_name:'DeepSeek-Cache-Fixture',model_desc:'cache fixture',series:'DeepSeek',vendor:'DeepSeek',tags:['chat'],category:['LLM'],size:'',context_length:32768,isInternalDeployed:false,creation_date:'',zone:'云端',logo_url:''},
+  config:{filter:{head:'',tail:''},extra_headers:[],api_params:[],api_params_available:[],params:[]}}]
+}}
 globalThis.fetch=async input=>{
  const url=new URL(typeof input==='string'?input:input.url,win.location.href);requests.push(url.pathname)
  if(url.pathname==='/api/auth/me')return new Response(JSON.stringify(mode==='expired'?{detail:'expired'}:{id:'test',username:'test',role:'user',has_security_questions:true}),{status:mode==='expired'?401:200,headers:{'Content-Type':'application/json'}})
@@ -36,9 +44,9 @@ class TestXHR {
   if(mode==='offline'&&url.pathname==='/api/auth/me'){this.onerror?.(new win.Event('error'));return}
   this.status=url.pathname==='/api/auth/me'&&mode==='expired'?401:200
   this.statusText=this.status===401?'Unauthorized':'OK';this.responseURL=url.href;this.readyState=4
-  this.responseText=JSON.stringify(url.pathname==='/api/auth/me'?(this.status===401?{detail:'expired'}:{id:'test',username:'test',role:'user',has_security_questions:true}):[])
+  this.responseText=JSON.stringify(url.pathname==='/api/auth/me'?(this.status===401?{detail:'expired'}:{id:'test',username:'test',role:'user',has_security_questions:true}):mode==='fast'&&url.pathname==='/api/workspace/bootstrap'?snapshot:[])
   this.response=this.responseText;this.onloadend?.()
- };if(mode==='navigation'&&new URL(this.url,win.location.href).pathname==='/api/auth/me')setTimeout(finish,700);else queueMicrotask(finish)}
+ };if(mode==='fast')setTimeout(finish,3000);else if(mode==='navigation'&&new URL(this.url,win.location.href).pathname==='/api/auth/me')setTimeout(finish,700);else queueMicrotask(finish)}
 }
 globalThis.XMLHttpRequest=TestXHR
 win.XMLHttpRequest=TestXHR
@@ -52,13 +60,31 @@ process.on('uncaughtException',e=>{errors.push(String(e?.stack||e))})
 const dist=resolve('dist');const html=await readFile(resolve(dist,'index.html'),'utf8');win.document.body.innerHTML=html.match(/<body>([\s\S]*?)<\/body>/)[1];
 win.navigator.sendBeacon=()=>true;for(const match of html.matchAll(/<script>([\s\S]*?)<\/script>/g))vm.runInThisContext(match[1]);
 const entry=html.match(/src="([^\"]+\.js)"/)[1]
-if(mode==='server-session'){
+if(['server-session','fast'].includes(mode)){
  const script=win.document.createElement('script');script.id='icap-session';script.type='application/json'
  script.textContent=JSON.stringify({profile:{id:'test',username:'test',role:'user',has_security_questions:true},expires_at:Math.floor(Date.now()/1000)+300,fingerprint:createHash('sha256').update('test-only-token').digest('hex')})
  win.document.head.appendChild(script)
 }
 try{await import(pathToFileURL(resolve(dist,entry.slice(1))))}catch(e){errors.push(String(e.stack||e))}
-await new Promise(r=>setTimeout(r,3500))
+await new Promise(r=>setTimeout(r,mode==='fast'?6500:3500))
+if(mode==='fast'){
+ const click=label=>{
+  const item=[...win.document.querySelectorAll('.el-menu-item')].find(el=>el.textContent.trim()===label)
+  if(!item)throw new Error('Missing menu: '+label)
+  item.dispatchEvent(new win.MouseEvent('click',{bubbles:true}))
+ }
+ const timings=[]
+ for(const [label,path,text] of [['MaaS服务','/modelSquare','DeepSeek-Cache-Fixture'],['数据&评测','/dataCenter/evalDatasetDevelopment','基准资源社区'],['首页','/','云核心网 AI 创新平台'],['MaaS服务','/modelSquare','DeepSeek-Cache-Fixture']]){
+  const start=Date.now();click(label)
+  while((win.location.pathname!==path || !win.document.querySelector('#app')?.textContent.includes(text) || win.document.querySelector('.el-loading-mask:not([style*="display: none"])'))&&Date.now()-start<1500)await new Promise(r=>setTimeout(r,10))
+  const elapsed=Date.now()-start;timings.push({page:path,content_ms:elapsed})
+  if(elapsed>=1500){errors.push('Warm page content delayed: '+path);console.log(JSON.stringify({diagnostic:path,text:win.document.querySelector('#app')?.textContent.slice(-1600),masks:[...win.document.querySelectorAll('.el-loading-mask')].map(el=>({style:el.getAttribute('style'),parent:el.parentElement?.className}))}))}
+ }
+ if(requests.includes('/api/auth/me'))errors.push('Extra auth request despite verified session')
+ if(requests.filter(path=>path==='/api/workspace/bootstrap').length!==1)errors.push('Bootstrap request must be shared')
+ if(requests.some(path=>path.startsWith('/v1/')))errors.push('Seeded pages repeated API requests')
+ console.log(JSON.stringify({simulated_network_ms:3000,content_timings:timings}))
+}
 if(mode==='navigation'){
  const click=label=>{
   const item=[...win.document.querySelectorAll('.el-menu-item')].find(el=>el.textContent.trim()===label)
@@ -77,5 +103,5 @@ if(mode==='navigation'){
 console.log(JSON.stringify({mode,path:win.location.pathname,text:win.document.querySelector('#app')?.textContent?.slice(0,600),errors,requests},null,2))
 const output=win.document.querySelector('#app')?.textContent||''
 if(mode==='server-session'&&requests.includes('/api/auth/me'))errors.push('Server session bootstrap triggered an unnecessary auth request')
-const expected=mode==='offline'?output.includes('重新加载'):mode==='navigation'?win.location.pathname==='/modelSquare':['valid','server-session'].includes(mode)?output.includes('云核心网 AI 创新平台'):win.location.pathname==='/login'&&output.includes('登录平台')
+const expected=mode==='offline'?output.includes('重新加载'):['navigation','fast'].includes(mode)?win.location.pathname==='/modelSquare':['valid','server-session'].includes(mode)?output.includes('云核心网 AI 创新平台'):win.location.pathname==='/login'&&output.includes('登录平台')
 process.exit(errors.length||!expected?1:0)

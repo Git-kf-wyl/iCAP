@@ -4,11 +4,12 @@ from state_storage import read_document,state_exists
 
 FAST_READS={'get_current_full_res','get_current_multi_full_res','get_all_published_tasks',
             'get_all_report_tasks','get_testcase_info','dataset/counts','get_run_test_progress_list',
-            'get_eval_report','get_eval_model'}
+            'get_eval_report','get_eval_model','get_evaluation_result'}
 
-def read_business(runtime,actor,path,query):
-    root=runtime.initialize(actor)
-    with runtime.lock:runtime.sync_resources(root,actor)
+def read_business(runtime,actor,path,query,*,prepared_root=None):
+    root=prepared_root or runtime.initialize(actor)
+    if prepared_root is None:
+        with runtime.lock:runtime.sync_resources(root,actor)
     def read(name,default=None):
         file=root/'backend/config'/name
         return read_document(file) if state_exists(file) else ({} if default is None else default)
@@ -16,6 +17,7 @@ def read_business(runtime,actor,path,query):
         kind={'2':'field','3':'dev'}.get(str(query.get('is_field','1')),'common')
         return {key:row for key,row in read(kind+'_testcase_cfg.json').items() if row.get('status')==1}
     if path=='dataset/counts':return read('dataset_download_view_count.json')
+    if path=='get_evaluation_result':return read('evaluationResult.json')
     if path in {'get_all_report_tasks','get_all_published_tasks'}:
         rows=read('publishedReportTasks.json' if path=='get_all_published_tasks' else 'reportTasks.json')
         result=[{**row,'id':key} for key,row in rows.items()]
