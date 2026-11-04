@@ -1,3 +1,4 @@
+from state_storage import open_state, state_exists, state_isfile
 # Private iCAP Yellow business implementation. Do not publish.
 import glob
 import json
@@ -32,7 +33,7 @@ def extract_dataset_after_phrase(log_file_path, phrase='Start evaluating on data
     last_dataset = None
     try:
         encodings = get_encoding(log_file_path)
-        with open(log_file_path, 'r', encoding='utf-8') as f:
+        with open_state(log_file_path, 'r', encoding='utf-8') as f:
             lines = f.readlines()
             for line in lines:
                 if phrase not in line:
@@ -48,7 +49,7 @@ def get_last_percentage_as_float(log_file_path):
     percent_pattern = re.compile(b'(\\d+(?:\\.\\d+)?)\\s*%')
     fraction_pattern = re.compile(b'(\\d+)/(\\d+)')
     try:
-        with open(log_file_path, 'rb') as f:
+        with open_state(log_file_path, 'rb') as f:
             f.seek(0, os.SEEK_END)
             buffer_size = 8192
             leftover = b''
@@ -150,9 +151,9 @@ def update_eval_rate(tasks):
             else:
                 result['progress'] = 0.0
             report_path = os.path.join(REPORTS_PATH, f'{dataset_name}.json')
-            if os.path.exists(report_path):
+            if state_exists(report_path):
                 try:
-                    with open(report_path, 'r') as f:
+                    with open_state(report_path, 'r') as f:
                         report_data = json.load(f)
                     if 'score' in report_data:
                         result['score'] = report_data['score']
@@ -170,7 +171,7 @@ def get_report_file(datasets, task_id, user_name, users):
     for dataset in datasets:
         if dataset in dataset_to_dir:
             report_file = dataset_to_dir[dataset] + task_id + (AISF_RESULT_FILE if user_name in users else AISF_ERR_RESULT_FILE)
-            if not os.path.exists(report_file):
+            if not state_exists(report_file):
                 return (jsonify({'error': 'path is not exist'}), 400)
             return send_file(report_file, as_attachment=True)
     return (jsonify({'error': 'report path is not exist'}), 400)
@@ -192,7 +193,7 @@ def handle_nanhook(obj):
 
 def load_json_score(file_path, key_name, convert_to_percent=False):
     try:
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open_state(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f, object_hook=handle_nanhook)
         print(f'load_json_score, key_name: {key_name}')
         if key_name == 'overall':
@@ -221,7 +222,7 @@ def update_vlm_res(tasks, task_id, model_name, model_id):
     if model_id:
         expected_dir = f'outputs/{model_id}/{task_id}/reports/{os.path.basename(model_id)}'
         expected_names = tasks[task_id].get('datasets', [])
-        if not expected_names or not all(os.path.isfile(os.path.join(expected_dir, f'{name}.json')) for name in expected_names):
+        if not expected_names or not all(state_isfile(os.path.join(expected_dir, f'{name}.json')) for name in expected_names):
             tasks[task_id]['status'] = 'failed'
             tasks[task_id]['error'] = '执行器没有生成完整评测结果，请检查数据集格式和运行日志'
             set_tasks(tasks)
@@ -245,14 +246,14 @@ def update_vlm_res(tasks, task_id, model_name, model_id):
                     model_node['score'] = handler['loader'](pattern)
                 else:
                     file_path = pattern
-                    if os.path.exists(file_path):
+                    if state_exists(file_path):
                         print(f'file_path exist, {file_path}')
                         model_node['score'] = handler['loader'](file_path, *handler['args'])
             elif dataset_name in MLLM_CUSTOM_DATASETS:
                 json_file = os.path.join(report_path, f'{dataset_name}.json')
-                if os.path.exists(json_file):
+                if state_exists(json_file):
                     try:
-                        with open(json_file, 'r', encoding='utf-8') as f:
+                        with open_state(json_file, 'r', encoding='utf-8') as f:
                             dataset_report_info = json.load(f)
                         model_node.update({k: v for k, v in dataset_report_info.items()})
                     except Exception as e:
@@ -282,7 +283,7 @@ def update_eval_res(tasks, task_id, model_name, model_id):
         return
     model_id_basename = os.path.basename(model_id).rstrip(os.sep)
     report_path = f'outputs/{model_id}/{task_id}/reports/{model_id_basename}'
-    if not os.path.exists(report_path):
+    if not state_exists(report_path):
         print('report path does not exist.')
         return
     model_reports = [i for i in os.listdir(report_path)]
@@ -290,7 +291,7 @@ def update_eval_res(tasks, task_id, model_name, model_id):
         dataset_name = tasks[task_id]['result'][model_name][idx]['dataset_name']
         try:
             json_file = os.path.join(report_path, f'{dataset_name}.json')
-            with open(json_file, 'r', encoding='utf-8') as f:
+            with open_state(json_file, 'r', encoding='utf-8') as f:
                 dataset_report_info = json.load(f)
             tasks[task_id]['result'][model_name][idx].update({k: v for k, v in dataset_report_info.items()})
         except:
@@ -320,7 +321,7 @@ def get_generate_config(cfg_list, model_name):
 
 def get_metric(dataset_name, type='common', index=0):
     testcase_file = COMMON_TESTCASE_PATH if type == 'common' else FILED_TESTCASE_PATH
-    with open(testcase_file, 'r', encoding='utf-8') as f:
+    with open_state(testcase_file, 'r', encoding='utf-8') as f:
         testcase_cfg = json.load(f)
     for key, val in testcase_cfg.items():
         if key == dataset_name:

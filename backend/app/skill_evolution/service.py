@@ -109,7 +109,7 @@ class SkillService:
         return model
 
     def get(self, identifier):
-        row = next((r for r in self.store.snapshot().get("skill_jobs", []) if r["id"] == identifier), None)
+        row = next((r for r in self.store.snapshot(['skill_jobs']).get("skill_jobs", []) if r["id"] == identifier), None)
         if row is None:
             raise HTTPException(404, "任务不存在")
         return row
@@ -119,7 +119,7 @@ class SkillService:
             row = next(r for r in data["skill_jobs"] if r["id"] == identifier)
             row.update(changes, updated_at=now())
             return row
-        return self.store.update(change)
+        return self.store.update(change,collections=['skill_jobs'])
 
     @staticmethod
     def public(row, detail=False):
@@ -243,7 +243,7 @@ class SkillService:
         if body.large_model_id:
             self.resolve_model(body.large_model_id, principal)
         with self.lock:
-            active = [r for r in self.store.snapshot().get("skill_jobs", []) if r["status"] not in TERMINAL]
+            active = [r for r in self.store.snapshot(['skill_jobs']).get("skill_jobs", []) if r["status"] not in TERMINAL]
             if len(active) >= 20 or sum(r["owner_user_id"] == principal["id"] for r in active) >= 3:
                 raise HTTPException(429, "待执行任务过多，请等待当前任务完成")
             row = {"id": "skill-" + uuid.uuid4().hex[:16], "name": body.name.strip(), "engine": body.engine,
@@ -258,7 +258,7 @@ class SkillService:
             except OSError:
                 raise HTTPException(503, "任务存储目录不可写，请联系管理员检查数据目录权限") from None
             try:
-                self.store.update(lambda data: data.setdefault("skill_jobs", []).insert(0, row))
+                self.store.update(lambda data: data.setdefault("skill_jobs", []).insert(0, row),collections=['skill_jobs'])
             except Exception:
                 directory.rmdir()
                 raise
@@ -269,7 +269,7 @@ class SkillService:
             for row in data.get("skill_jobs", []):
                 if row["status"] == "running":
                     row.update(status="interrupted", error="服务重启中断了任务，可从已有产物续跑", updated_at=now())
-        self.store.update(recover)
+        self.store.update(recover,collections=['skill_jobs'])
         self.thread = threading.Thread(target=self.loop, name="skill-evolution-scheduler", daemon=True)
         self.thread.start()
 
@@ -284,7 +284,7 @@ class SkillService:
 
     def loop(self):
         while not self.stop.is_set():
-            queued = next((r for r in reversed(self.store.snapshot().get("skill_jobs", [])) if r["status"] == "queued"), None)
+            queued = next((r for r in reversed(self.store.snapshot(['skill_jobs']).get("skill_jobs", [])) if r["status"] == "queued"), None)
             if queued:
                 try:
                     self.run(queued)
@@ -406,7 +406,7 @@ class SkillService:
 
         @router.get("/jobs")
         def jobs(principal=Depends(authorized)):
-            return [self.public(r) for r in visible(self.store.snapshot().get("skill_jobs", []), principal)]
+            return [self.public(r) for r in visible(self.store.snapshot(['skill_jobs']).get("skill_jobs", []), principal)]
 
         @router.post("/jobs", status_code=201)
         def create(body: JobInput, principal=Depends(authorized)):

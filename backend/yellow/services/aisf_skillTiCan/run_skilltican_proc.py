@@ -12,6 +12,7 @@
   4. 调用 skill.multi_test_v11.main() 执行提参+判定，产出 明细excel + 逐条jsonl；
   5. 由本文件兜底生成 总体结果json 与 日志，并 finalize_task 收尾任务状态。
 """
+from state_storage import open_state, state_exists, state_isfile
 import os
 import sys
 import json
@@ -24,7 +25,7 @@ def _find_project_root():
     """向上查找项目根目录（run_test_server.py + services 所在），供 import 项目模块。"""
     d = os.path.dirname(os.path.abspath(__file__))
     while True:
-        if os.path.isfile(os.path.join(d, 'run_test_server.py')) and os.path.isdir(os.path.join(d, 'services')):
+        if state_isfile(os.path.join(d, 'run_test_server.py')) and os.path.isdir(os.path.join(d, 'services')):
             return d
         parent = os.path.dirname(d)
         if parent == d:
@@ -49,7 +50,7 @@ def _find_dataset_xlsx(dataset_dir):
         return None
     for fname in os.listdir(dataset_dir):
         fpath = os.path.join(dataset_dir, fname)
-        if os.path.isfile(fpath) and os.path.splitext(fname)[1].lower() == '.xlsx':
+        if state_isfile(fpath) and os.path.splitext(fname)[1].lower() == '.xlsx':
             return fpath
     return None
 
@@ -61,7 +62,7 @@ def _write_report_json(report_dir, dataset_name, model_name, summary, result_df)
     loose_acc = float(summary.get('宽松通过率', 0) or 0)
     report_map = {'name': f'{model_name}_{dataset_name}', 'dataset_name': dataset_name, 'model_name': model_name, 'score': round(strict_acc, 2), 'metrics': [{'categories': [{'macro_score': round(strict_acc, 2), 'name': ['skill提参'], 'num': total, 'score': round(strict_acc, 2), 'subsets': [{'name': '宽松通过率', 'num': total, 'score': round(loose_acc, 2), 'correct_num': int(summary.get('宽松通过数', 0))}]}], 'macro_score': round(strict_acc, 2), 'name': 'skill提参', 'num': total, 'score': round(strict_acc, 2)}], 'summary': summary}
     report_file = os.path.join(report_dir, f'{dataset_name}.json')
-    with open(report_file, 'w', encoding='utf-8') as f:
+    with open_state(report_file, 'w', encoding='utf-8') as f:
         json.dump(report_map, f, ensure_ascii=False, indent=4)
     return report_file
 
@@ -123,7 +124,7 @@ def run_skilltican_proc(model_config, task_id, model_id, user_req, thread_id):
                     setattr(skill_biz, opt, generate_config[opt])
             skill_biz.SAVE_JSONL_EVERY_CASE = True
             skill_biz.JSONL_LOG_PATH = jsonl_path
-            if os.path.exists(jsonl_path):
+            if state_exists(jsonl_path):
                 os.remove(jsonl_path)
             log(f'export: excel={output_xlsx}')
             log(f'export: jsonl(raw→review 同文件)={jsonl_path}')
@@ -180,14 +181,14 @@ def _convert_to_review_jsonl(jsonl_path, dataset_name=''):
 
     原始记录里没有 token / 时延，usage 与 response_time 置为 0（缺失字段不会破坏兼容）。
     """
-    if not os.path.exists(jsonl_path):
+    if not state_exists(jsonl_path):
         raise FileNotFoundError(f'找不到业务原始 jsonl: {jsonl_path}')
 
     def _first_msg(messages):
         return (messages or [{}])[0].get('content', '')
     review_lines = []
     idx = 0
-    with open(jsonl_path, 'r', encoding='utf-8') as f:
+    with open_state(jsonl_path, 'r', encoding='utf-8') as f:
         for line in f:
             line = line.strip()
             if not line:
@@ -226,7 +227,7 @@ def _convert_to_review_jsonl(jsonl_path, dataset_name=''):
             row_index = rec.get('row_index', idx)
             review_lines.append({'raw_input': {'Question': current_input, 'expected': str(expected), 'prompt': system_prompt, 'context': context, 'No': row_index}, 'excel_info': excel_info, 'choices': [{'review': {'gold': expected, 'pred': model_output, 'result': '1' if is_pass else '0', 'loose_result': '1' if loose_pass else '0', '判定结果': rec.get('判定结果', '不通过'), '宽松判定结果': rec.get('宽松判定结果', '不通过'), 'error_reason': rec.get('error_reason', ''), 'loose_error_reason': rec.get('loose_error_reason', ''), 'model_json': rec.get('model_json', ''), '是否经过模型阅卷': rec.get('是否经过模型阅卷', '否'), 'case_id': case_id}, 'message': {'content': model_output}}], 'index': row_index if isinstance(row_index, int) else idx, 'dialogue_round': case_id or str(row_index if isinstance(row_index, int) else idx), 'subset_name': dataset_name or 'skill提参', 'usage': {'prompt_tokens': rec.get('input_tokens', 0) or 0, 'completion_tokens': rec.get('output_tokens', 0) or 0, 'total_tokens': rec.get('total_tokens', 0) or 0}, 'response_time': rec.get('model_elapsed_time', 0) or 0})
             idx += 1
-    with open(jsonl_path, 'w', encoding='utf-8') as f:
+    with open_state(jsonl_path, 'w', encoding='utf-8') as f:
         for line in review_lines:
             f.write(json.dumps(line, ensure_ascii=False) + '\n')
 
@@ -238,8 +239,8 @@ def _build_summary(output_xlsx, jsonl_path):
     返回 dict：{总用例数, 严格通过数, 严格通过率, 宽松通过数, 宽松通过率}
     """
     total = strict_ok = loose_ok = 0
-    if os.path.exists(jsonl_path):
-        with open(jsonl_path, 'r', encoding='utf-8') as f:
+    if state_exists(jsonl_path):
+        with open_state(jsonl_path, 'r', encoding='utf-8') as f:
             for line in f:
                 line = line.strip()
                 if not line:
@@ -257,7 +258,7 @@ def _build_summary(output_xlsx, jsonl_path):
                     loose_ok += 1
         if total > 0:
             return {'总用例数': total, '严格通过数': strict_ok, '严格通过率': round(strict_ok / total, 4), '宽松通过数': loose_ok, '宽松通过率': round(loose_ok / total, 4)}
-    if os.path.exists(output_xlsx):
+    if state_exists(output_xlsx):
         try:
             df = pd.read_excel(output_xlsx, sheet_name='明细结果', dtype=str)
             total = len(df)

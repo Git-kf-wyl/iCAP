@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import copy
+import hashlib
 import os
 import threading
 import time
@@ -87,32 +88,51 @@ class ModelRegistry:
         self._route_lock = threading.Lock()
         self._route_counts: dict[str, int] = {}
         self._catalog_lock = threading.Lock()
+        self._catalog_fetch_lock = threading.Lock()
         self._catalog_cache: list[dict] = []
         self._catalog_at = 0.0
+        self._catalog_refreshing = False
+        self._catalog_attempt = 0.0
+        fingerprint=hashlib.sha256((DEEPSEEK_BASE_URL+'|'+os.getenv('DEEPSEEK_API_KEY','')).encode()).hexdigest()[:24]
+        self._catalog_document='_provider_deepseek_'+fingerprint
+        try:self._catalog_cache=self.store.database.read(self._catalog_document)
+        except FileNotFoundError:pass
 
     def _remote_models(self) -> list[dict]:
-        if not os.getenv("DEEPSEEK_API_KEY", "").strip():
-            return []
+        if not os.getenv("DEEPSEEK_API_KEY", "").strip():return []
         with self._catalog_lock:
-            if self._catalog_cache and time.monotonic() - self._catalog_at < 60:
-                return copy.deepcopy(self._catalog_cache)
-            for attempt in range(2):
-                try:
-                    response = httpx.get(
-                        f"{DEEPSEEK_BASE_URL}/models",
-                        headers={"Authorization": f"Bearer {os.environ['DEEPSEEK_API_KEY'].strip()}"},
-                        timeout=20,
-                    )
-                    response.raise_for_status()
-                    data = response.json().get("data")
-                    if not isinstance(data, list):
-                        raise ValueError("invalid model catalog")
-                    break
-                except (httpx.HTTPError, ValueError, AttributeError) as exc:
-                    if attempt == 1:
-                        if self._catalog_cache:
-                            return copy.deepcopy(self._catalog_cache)
-                        raise HTTPException(502, "无法从 DeepSeek 获取模型目录，请检查 API 配置或网络") from exc
+            cached=copy.deepcopy(self._catalog_cache)
+            stale=time.monotonic()-self._catalog_at>300
+            if cached:
+                if stale and not self._catalog_refreshing and time.monotonic()-self._catalog_attempt>30:
+                    self._catalog_refreshing=True
+                    threading.Thread(target=self._refresh_catalog,daemon=True,name='deepseek-catalog').start()
+                return cached
+        return self._refresh_catalog()
+
+    def _refresh_catalog(self):
+        try:
+            with self._catalog_fetch_lock:
+                with self._catalog_lock:
+                    if self._catalog_cache and time.monotonic()-self._catalog_at<300:
+                        return copy.deepcopy(self._catalog_cache)
+                self._catalog_attempt=time.monotonic()
+                try:return self._fetch_remote_models()
+                except HTTPException:
+                    with self._catalog_lock:
+                        if self._catalog_cache:return copy.deepcopy(self._catalog_cache)
+                    raise
+        finally:
+            with self._catalog_lock:self._catalog_refreshing=False
+
+    def _fetch_remote_models(self):
+        try:
+            response=httpx.get(f"{DEEPSEEK_BASE_URL}/models",headers={"Authorization":f"Bearer {os.environ['DEEPSEEK_API_KEY'].strip()}"},timeout=10)
+            response.raise_for_status()
+            data=response.json().get('data')
+            if not isinstance(data,list):raise ValueError('invalid model catalog')
+        except (httpx.HTTPError,ValueError,AttributeError) as exc:
+            raise HTTPException(502,'无法从 DeepSeek 获取模型目录，请检查 API 配置或网络') from exc
 
         models = []
         for item in data:
@@ -148,6 +168,7 @@ class ModelRegistry:
         with self._catalog_lock:
             self._catalog_cache = copy.deepcopy(models)
             self._catalog_at = time.monotonic()
+        self.store.database.write(self._catalog_document,models)
         return models
 
     @staticmethod
@@ -168,7 +189,7 @@ class ModelRegistry:
             raise HTTPException(403, "无权修改此模型")
 
     def list_models(self, actor: dict | None = None) -> list[dict]:
-        stored = self.store.snapshot()["models"]
+        stored = self.store.snapshot(["models"])["models"]
         try:
             remote = self._remote_models()
         except HTTPException:
@@ -181,7 +202,7 @@ class ModelRegistry:
         return [model for model in by_id.values() if self.can_view(model, actor)]
 
     def get_model(self, model_id: str, actor: dict | None = None) -> dict:
-        stored = next((item for item in self.store.snapshot()["models"] if item["id"] == model_id), None)
+        stored = self.store.get_record("models",model_id)
         if stored and stored.get("endpoints"):
             if not self.can_view(stored, actor):
                 raise HTTPException(404, "模型不存在")
@@ -219,7 +240,7 @@ class ModelRegistry:
         except HTTPException:
             if original_id is not None:
                 raise
-            available = self.store.snapshot()["models"]
+            available = self.store.snapshot(["models"])["models"]
         existing = next((m for m in available if m["id"] == body.id), None)
         if original_id is None and existing is not None:
             raise HTTPException(409, "模型 ID 已存在")
@@ -275,7 +296,7 @@ class ModelRegistry:
                 rows[index] = record
             return record
 
-        return self.public(self.store.update(op), actor)
+        return self.public(self.store.update(op,collections=['models']), actor)
 
     def delete(self, model_id: str, actor: dict | None = None) -> dict:
         def op(data: dict) -> dict:
@@ -290,7 +311,7 @@ class ModelRegistry:
             data["models"] = [item for item in rows if item["id"] != model_id]
             return {"deleted": model_id}
 
-        return self.store.update(op)
+        return self.store.update(op,collections=['models','evaluations','deployments','school_jobs'])
 
     def next_endpoint(self, model: dict) -> dict:
         endpoints = model.get("endpoints") or []

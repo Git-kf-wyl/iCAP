@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFile, writeFile, mkdir } from 'node:fs/promises'
 import { setActivePinia, createPinia } from 'pinia'
+import {createHash} from 'node:crypto'
 
 const values = new Map()
 globalThis.localStorage = { getItem:key=>values.get(key)??null, setItem:(key,value)=>values.set(key,String(value)), removeItem:key=>values.delete(key) }
@@ -48,4 +49,14 @@ assert.equal(posts,1,'repeated logout clicks must send only one revocation')
 pending.resolve({})
 await Promise.all(exits)
 assert.equal(auth.token,'')
+auth=fresh()
+const verified={profile,expires_at:Math.floor(Date.now()/1000)+300,fingerprint:createHash('sha256').update('existing-session').digest('hex')}
+globalThis.document={getElementById:()=>({textContent:JSON.stringify(verified)})}
+let refreshes=0;api.get=async()=>{refreshes++;return profile}
+assert.equal(await auth.validateNavigation(),true)
+assert.equal(refreshes,0,'a server-verified page must not add another auth request after refresh')
+auth=fresh();verified.fingerprint='wrong-session'
+assert.equal(await auth.validateNavigation(),true)
+assert.equal(refreshes,1,'an unrelated page session must be revalidated')
+delete globalThis.document
 console.log('PASS navigation avoids 20 auth round trips; single validation; background revocation; session race; single logout')

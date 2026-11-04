@@ -1,3 +1,4 @@
+from state_storage import open_state, state_exists, state_isfile
 # Private iCAP Yellow business implementation. Do not publish.
 import json
 import os.path
@@ -63,7 +64,7 @@ log_lock = threading.Lock()
 OUT_WHITE_LIST = ['gemini-3-pro-preview-thinking(外网api,请注意信息安全)', 'gemini-3-pro-preview(外网api,请注意信息安全)', 'DeepSeek-V3.1-Terminus(外网api,请注意信息安全)']
 
 def get_encoding(file_path):
-    with open(file_path, 'rb') as f:
+    with open_state(file_path, 'rb') as f:
         result = chardet.detect(f.read(10000))
     print(result)
     encoding = result['encoding']
@@ -74,7 +75,7 @@ def get_latest_test_list(base_path, target_subfolder):
     folder_names.sort(key=lambda x: datetime.strptime(x, '%Y%m%d_%H%M%S'), reverse=True)
     for folder_name in folder_names:
         target_path = os.path.join(base_path, folder_name, target_subfolder)
-        if os.path.exists(target_path) and os.path.isdir(target_path):
+        if state_exists(target_path) and os.path.isdir(target_path):
             file_list = glob.glob(os.path.join(target_path, '*'))
             if file_list:
                 return file_list
@@ -179,7 +180,7 @@ def generate_model_info(user_req, model_cfg):
                 break
         model_cfg.append(cur_cfg)
         json_str = json.dumps(model_cfg, ensure_ascii=False, indent=4)
-        with open(MODEL_CFG_PATH, 'w', encoding='utf-8') as f:
+        with open_state(MODEL_CFG_PATH, 'w', encoding='utf-8') as f:
             f.write(json_str)
         return (jsonify(model_cfg), SUCCESS)
     except Exception as e:
@@ -221,7 +222,7 @@ def get_user_base_info(user_info):
     return None
 
 def get_pem(pem_file):
-    with open(pem_file, 'rb') as f:
+    with open_state(pem_file, 'rb') as f:
         key_info = f.read()
     return key_info
 pem_private = None
@@ -303,7 +304,7 @@ def generate_deploy_model_info(user_req, model_to_deploy):
         cur_deploy_info['create_time'] = last_time
         model_to_deploy.append(cur_deploy_info)
         json_str = json.dumps(model_to_deploy, ensure_ascii=False, indent=4)
-        with open(MODEL_TO_DEPLOY_PATH, 'w', encoding='utf-8') as f:
+        with open_state(MODEL_TO_DEPLOY_PATH, 'w', encoding='utf-8') as f:
             f.write(json_str)
         return (jsonify(model_to_deploy), SUCCESS)
     except Exception as e:
@@ -317,7 +318,7 @@ def apply_deploy_model():
         return ({'err_info': 'PARAM_ERR'}, PARAM_ERR)
     encodings = get_encoding(MODEL_TO_DEPLOY_PATH)
     if encodings is not None:
-        with open(MODEL_TO_DEPLOY_PATH, 'r', encoding=encodings) as f:
+        with open_state(MODEL_TO_DEPLOY_PATH, 'r', encoding=encodings) as f:
             model_to_deploy = json.load(f)
     else:
         model_to_deploy = []
@@ -327,7 +328,7 @@ def apply_deploy_model():
 def get_apply_deploy_list():
     encodings = get_encoding(MODEL_TO_DEPLOY_PATH)
     if encodings is not None:
-        with open(MODEL_TO_DEPLOY_PATH, 'r', encoding=encodings) as f:
+        with open_state(MODEL_TO_DEPLOY_PATH, 'r', encoding=encodings) as f:
             model_to_deploy = json.load(f)
     else:
         model_to_deploy = []
@@ -368,7 +369,7 @@ def delete_model():
             return ({'err_info': 'MODEL_NOT_EXIST'}, MODEL_NOT_EXIST)
         print(model_cfg)
         json_str = json.dumps(model_cfg, ensure_ascii=False, indent=4)
-        with open(MODEL_CFG_PATH, 'w', encoding='utf-8') as f:
+        with open_state(MODEL_CFG_PATH, 'w', encoding='utf-8') as f:
             f.write(json_str)
         return ({'model_list': [cfg['model_id'] for cfg in model_cfg]}, SUCCESS)
     except Exception as e:
@@ -445,7 +446,7 @@ def generate_testcase_info(user_req, testcase_cfg, test_case_file):
         if 'memory_business_list' not in user_req or not user_req['memory_business_list']:
             return ({'err_info': '记忆模式下 memory_business_list 不能为空'}, SERVER_ERR)
         local_path = header_path + user_req['dataset_id']
-        if os.path.exists(local_path):
+        if state_exists(local_path):
             shutil.rmtree(local_path)
         os.makedirs(local_path, exist_ok=True)
         for business in user_req['memory_business_list']:
@@ -479,7 +480,7 @@ def generate_testcase_info(user_req, testcase_cfg, test_case_file):
             return ({'err_info': 'subset_list is not list!'}, SERVER_ERR)
         local_path = header_path + user_req['dataset_id']
         few_path = few_header_path + user_req['dataset_id']
-        if not os.path.exists(local_path):
+        if not state_exists(local_path):
             os.makedirs(local_path)
         for file in user_req.get('file_list', []):
             try:
@@ -487,7 +488,7 @@ def generate_testcase_info(user_req, testcase_cfg, test_case_file):
                 shutil.move(os.path.join(UPLOAD_FOLDERS, file), os.path.join(local_path, file_name))
             except Exception as e:
                 return ({'error': '移动文件失败：' + str(e)}, 500)
-        if not os.path.exists(few_path):
+        if not state_exists(few_path):
             os.makedirs(few_path)
         for file in user_req.get('few_file_list', []):
             try:
@@ -498,7 +499,7 @@ def generate_testcase_info(user_req, testcase_cfg, test_case_file):
     testcase_cfg[user_req['dataset_id']] = {'dataset_name': user_req['dataset_name'], path_name: header_path + user_req['dataset_id'], 'few_shot_num': user_req['few_shot_num'], 'few_shot_file_path': [], 'description': user_req['description'], 'subset_list': user_req.get('subset_list', []), 'default_subsets': user_req.get('default_subsets', []), 'testcase_tags': user_req['testcase_tags'], 'metric_list': user_req['metric_list'], 'establish_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'is_open_source': user_req['is_open_source'], 'need_llmjudge': user_req.get('need_llmjudge', False), 'file_list': user_req.get('file_list', []), 'few_file_list': user_req.get('few_file_list', []), 'is_field': user_req['is_field'], 'system_prompt': user_req.get('system_prompt', ''), 'user_prompt': user_req.get('user_prompt', ''), 'is_published': user_req.get('is_published', False), 'viewer_users': user_req.get('viewer_users', []), 'editor_users': user_req.get('editor_users', []), 'register': user_req.get('register', 'admin'), 'in_use': False, 'status': 1, 'is_published': user_req.get('is_published', False), 'viewer_users': user_req.get('viewer_users', []), 'editor_users': user_req.get('editor_users', [])}
     if is_memory:
         testcase_cfg[user_req['dataset_id']]['memory_business_list'] = user_req['memory_business_list']
-    with open(test_case_file, 'w', encoding='utf-8') as f:
+    with open_state(test_case_file, 'w', encoding='utf-8') as f:
         json.dump(testcase_cfg, f, indent=4, ensure_ascii=False)
     if '改写' in user_req.get('testcase_tags', []):
         few_file_list = user_req.get('few_file_list', [])
@@ -541,7 +542,7 @@ def edit_testcase_info(user_req, testcase_cfg, test_case_file):
         if 'memory_business_list' not in user_req or not user_req['memory_business_list']:
             return ({'err_info': '记忆模式下 memory_business_list 不能为空'}, SERVER_ERR)
         local_path = header_path + user_req['dataset_id']
-        if not os.path.exists(local_path):
+        if not state_exists(local_path):
             os.makedirs(local_path, exist_ok=True)
         old_cfg = testcase_cfg.get(user_req['dataset_id'], {})
         old_biz_list = old_cfg.get('memory_business_list', [])
@@ -549,7 +550,7 @@ def edit_testcase_info(user_req, testcase_cfg, test_case_file):
         new_biz_names = {b['name'] for b in user_req['memory_business_list']}
         for removed_biz in old_biz_names - new_biz_names:
             removed_dir = os.path.join(local_path, removed_biz)
-            if os.path.exists(removed_dir):
+            if state_exists(removed_dir):
                 shutil.rmtree(removed_dir)
         for business in user_req['memory_business_list']:
             biz_name = business['name']
@@ -561,7 +562,7 @@ def edit_testcase_info(user_req, testcase_cfg, test_case_file):
             for pf in prompt_files:
                 if pf:
                     src_prompt = os.path.join(UPLOAD_FOLDERS, pf)
-                    if os.path.exists(src_prompt):
+                    if state_exists(src_prompt):
                         try:
                             dst_prompt = os.path.join(biz_dir, os.path.basename(pf))
                             shutil.move(src_prompt, dst_prompt)
@@ -573,7 +574,7 @@ def edit_testcase_info(user_req, testcase_cfg, test_case_file):
             for tf in test_files:
                 if tf:
                     src_test = os.path.join(UPLOAD_FOLDERS, tf)
-                    if os.path.exists(src_test):
+                    if state_exists(src_test):
                         try:
                             dst_test = os.path.join(biz_dir, os.path.basename(tf))
                             shutil.move(src_test, dst_test)
@@ -592,7 +593,7 @@ def edit_testcase_info(user_req, testcase_cfg, test_case_file):
             refresh_file(old_few_file_list, few_path, user_req['few_file_list'])
     testcase_cfg[user_req['dataset_id']].update({k: v for k, v in user_req.items() if k != 'dataset_id' and k != 'download_count' and (k != 'view_count')})
     testcase_cfg[user_req['dataset_id']].update({path_name: header_path + user_req['dataset_id'], 'establish_time': datetime.now().strftime('%Y-%m-%d %H:%M:%S'), 'status': 1})
-    with open(test_case_file, 'w', encoding='utf-8') as f:
+    with open_state(test_case_file, 'w', encoding='utf-8') as f:
         json.dump(testcase_cfg, f, indent=4, ensure_ascii=False)
     if '改写' in user_req.get('testcase_tags', []):
         few_file_list = user_req.get('few_file_list', [])
@@ -616,7 +617,7 @@ def register_testcase_ruler():
     if any((field not in user_req for field in required_fields)):
         return ({'err_info': 'PARAM_ERR'}, PARAM_ERR)
     encodings = get_encoding(test_case_file)
-    with open(test_case_file, 'r', encoding='UTF-8') as f:
+    with open_state(test_case_file, 'r', encoding='UTF-8') as f:
         testcase_cfg = {key: value for key, value in json.load(f).items() if value.get('status') == 1}
     if 'dataset_id' not in user_req or 'dataset_name' not in user_req or 'few_shot_num' not in user_req:
         return ({'err_info': 'PARAM_ERR'}, PARAM_ERR)
@@ -644,7 +645,7 @@ def edit_testcase_ruler():
     if any((field not in user_req for field in required_fields)):
         return ({'err_info': 'PARAM_ERR'}, PARAM_ERR)
     encodings = get_encoding(test_case_file)
-    with open(test_case_file, 'r', encoding=encodings) as f:
+    with open_state(test_case_file, 'r', encoding=encodings) as f:
         testcase_cfg = json.load(f)
     if 'dataset_id' not in user_req or 'dataset_name' not in user_req or 'few_shot_num' not in user_req:
         return ({'err_info': 'PARAM_ERR'}, PARAM_ERR)
@@ -670,14 +671,14 @@ def delete_testcase_ruler():
     if any((field not in user_req for field in required_fields)):
         return ({'err_info': 'PARAM_ERR'}, PARAM_ERR)
     encodings = get_encoding(test_case_file)
-    with open(test_case_file, 'r', encoding=encodings if encodings else 'UTF-8') as f:
+    with open_state(test_case_file, 'r', encoding=encodings if encodings else 'UTF-8') as f:
         testcase_cfg = json.load(f)
     if user_req['dataset_id'] not in testcase_cfg.keys():
         return ({'err_info': f"{user_req['dataset_id']} is not exist"}, PARAM_ERR)
     target_name = user_req['dataset_id']
-    if os.path.exists(testcase_cfg[target_name][path_name]):
+    if state_exists(testcase_cfg[target_name][path_name]):
         testcase_cfg[target_name]['status'] = 0
-        with open(test_case_file, 'w', encoding='utf-8') as f:
+        with open_state(test_case_file, 'w', encoding='utf-8') as f:
             json.dump(testcase_cfg, f, indent=4, ensure_ascii=False)
         try:
             shutil.rmtree(testcase_cfg[target_name][path_name])
@@ -685,7 +686,7 @@ def delete_testcase_ruler():
             return ({'status': 'success', 'warning': f'已标记删除，但测试集文件删除失败：{str(e)}'}, 200)
     else:
         del testcase_cfg[target_name]
-        with open(test_case_file, 'w', encoding='utf-8') as f:
+        with open_state(test_case_file, 'w', encoding='utf-8') as f:
             json.dump(testcase_cfg, f, indent=4, ensure_ascii=False)
         return ({'status': 'success', 'warning': f'{target_name} 测试集文件不存在，已直接从配置中删除该记录'}, 200)
     return ({'status': 'success'}, 200)
@@ -702,7 +703,7 @@ def update_testcase_in_use():
     if not user_req.get('dataset_id'):
         return ({'err_info': 'PARAM_ERR'}, PARAM_ERR)
     encodings = get_encoding(test_case_file)
-    with open(test_case_file, 'r', encoding=encodings if encodings else 'UTF-8') as f:
+    with open_state(test_case_file, 'r', encoding=encodings if encodings else 'UTF-8') as f:
         testcase_cfg = json.load(f)
     if user_req['dataset_id'] not in testcase_cfg.keys():
         return ({'err_info': f"{user_req['dataset_id']} is not exist"}, PARAM_ERR)
@@ -710,7 +711,7 @@ def update_testcase_in_use():
     if not isinstance(in_use, bool):
         return ({'err_info': 'PARAM_ERR, in_use must be bool'}, PARAM_ERR)
     testcase_cfg[user_req['dataset_id']]['in_use'] = in_use
-    with open(test_case_file, 'w', encoding='utf-8') as f:
+    with open_state(test_case_file, 'w', encoding='utf-8') as f:
         json.dump(testcase_cfg, f, indent=4, ensure_ascii=False)
     return ({'status': 'success', 'in_use': in_use}, 200)
 
@@ -734,7 +735,7 @@ def get_limit(user_limit):
 
 def read_jsonl(file_path):
     data = []
-    with open(file_path, 'r', encoding='utf-8') as file:
+    with open_state(file_path, 'r', encoding='utf-8') as file:
         for line in file:
             data.append(json.loads(line))
     return data
@@ -781,9 +782,9 @@ def update_isnew(ret):
 
 @app.route('/v1/get_current_full_res', methods=['GET'])
 def get_current_full_res():
-    with open(LLM_RULER_1_RESULT, 'r', encoding='utf-8') as file:
+    with open_state(LLM_RULER_1_RESULT, 'r', encoding='utf-8') as file:
         ret_ruler1 = json.load(file)
-    with open(LLM_RULER_2_RESULT, 'r', encoding='utf-8') as file:
+    with open_state(LLM_RULER_2_RESULT, 'r', encoding='utf-8') as file:
         ret_ruler2 = json.load(file)
     ret = {'ruler1': ret_ruler1, 'ruler2': ret_ruler2}
     update_ret = update_isnew(ret)
@@ -791,9 +792,9 @@ def get_current_full_res():
 
 @app.route('/v1/get_current_multi_full_res', methods=['GET'])
 def get_current_multi_full_res():
-    with open(MULTI_RULER_1_RESULT, 'r', encoding='utf-8') as file:
+    with open_state(MULTI_RULER_1_RESULT, 'r', encoding='utf-8') as file:
         ret_ruler1 = json.load(file)
-    with open(MULTI_RULER_2_RESULT, 'r', encoding='utf-8') as file:
+    with open_state(MULTI_RULER_2_RESULT, 'r', encoding='utf-8') as file:
         ret_ruler2 = json.load(file)
     ret = {'ruler1': ret_ruler1, 'ruler2': ret_ruler2}
     update_ret = update_isnew(ret)
@@ -814,7 +815,7 @@ def get_testcase_info():
         test_case_file = DEV_TESTCASE_PATH
     encodings = get_encoding(test_case_file)
     if encodings is not None:
-        with open(test_case_file, 'r', encoding=encodings) as f:
+        with open_state(test_case_file, 'r', encoding=encodings) as f:
             testcase = {key: value for key, value in json.load(f).items() if value.get('status') == 1}
     else:
         testcase = {}
@@ -825,7 +826,7 @@ def register_special_model():
     user_req = request.get_json()
     encodings = get_encoding(SPECIAL_MODEL_LIST_PATH)
     if encodings is not None:
-        with open(SPECIAL_MODEL_LIST_PATH, 'r', encoding=encodings) as f:
+        with open_state(SPECIAL_MODEL_LIST_PATH, 'r', encoding=encodings) as f:
             info = json.load(f)
     else:
         info = []
@@ -842,7 +843,7 @@ def register_special_model():
     user_req['edit_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     info.append(user_req)
     json_str = json.dumps(info, ensure_ascii=False, indent=4)
-    with open(SPECIAL_MODEL_LIST_PATH, 'w', encoding='utf-8') as f:
+    with open_state(SPECIAL_MODEL_LIST_PATH, 'w', encoding='utf-8') as f:
         f.write(json_str)
     return (jsonify(info), 200)
 
@@ -850,7 +851,7 @@ def register_special_model():
 def get_special_model_info():
     encodings = get_encoding(SPECIAL_MODEL_LIST_PATH)
     if encodings is not None:
-        with open(SPECIAL_MODEL_LIST_PATH, 'r', encoding=encodings) as f:
+        with open_state(SPECIAL_MODEL_LIST_PATH, 'r', encoding=encodings) as f:
             info = json.load(f)
     else:
         info = []
@@ -861,13 +862,13 @@ def delete_special_model_info():
     user_req = request.get_json()
     encodings = get_encoding(SPECIAL_MODEL_LIST_PATH)
     if encodings is not None:
-        with open(SPECIAL_MODEL_LIST_PATH, 'r', encoding=encodings) as f:
+        with open_state(SPECIAL_MODEL_LIST_PATH, 'r', encoding=encodings) as f:
             info = json.load(f)
     else:
         info = []
     new_info = [d for d in info if d.get('ID') not in user_req]
     json_str = json.dumps(new_info, ensure_ascii=False, indent=4)
-    with open(SPECIAL_MODEL_LIST_PATH, 'w', encoding='utf-8') as f:
+    with open_state(SPECIAL_MODEL_LIST_PATH, 'w', encoding='utf-8') as f:
         f.write(json_str)
     return (jsonify(new_info), 200)
 
@@ -876,7 +877,7 @@ def modify_special_model_info():
     user_req = request.get_json()
     encodings = get_encoding(SPECIAL_MODEL_LIST_PATH)
     if encodings is not None:
-        with open(SPECIAL_MODEL_LIST_PATH, 'r', encoding=encodings) as f:
+        with open_state(SPECIAL_MODEL_LIST_PATH, 'r', encoding=encodings) as f:
             info = json.load(f)
     else:
         info = []
@@ -888,7 +889,7 @@ def modify_special_model_info():
             info[idx]['edit_time'] = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             break
     json_str = json.dumps(info, ensure_ascii=False, indent=4)
-    with open(SPECIAL_MODEL_LIST_PATH, 'w', encoding='utf-8') as f:
+    with open_state(SPECIAL_MODEL_LIST_PATH, 'w', encoding='utf-8') as f:
         f.write(json_str)
     return (jsonify(info), 200)
 
@@ -1203,9 +1204,9 @@ def _wrapped_generate_stream(data):
         current_date = datetime.utcnow().strftime('%Y-%m-%d')
         count = 0
         with log_lock:
-            if os.path.exists(user_log_path):
+            if state_exists(user_log_path):
                 try:
-                    with open(user_log_path, 'a', encoding='utf-8') as log_file:
+                    with open_state(user_log_path, 'a', encoding='utf-8') as log_file:
                         for line in log_file:
                             try:
                                 entry = json.loads(line)
@@ -1276,7 +1277,7 @@ def _wrapped_generate_stream(data):
         with log_lock:
             try:
                 os.makedirs(os.path.dirname(user_log_path), exist_ok=True)
-                with open(user_log_path, 'a', encoding='utf-8') as log_file:
+                with open_state(user_log_path, 'a', encoding='utf-8') as log_file:
                     log_file.write(json.dumps(log_entry, ensure_ascii=False) + '\n')
             except Exception as e:
                 print(f'日志写入失败: {str(e)}')
@@ -1312,7 +1313,7 @@ def download_dataset_zip():
         with zipfile.ZipFile(buf, 'w', zipfile.ZIP_DEFLATED) as zf:
             for filepath in filepaths:
                 full_path = os.path.join(os.getcwd(), filepath)
-                if os.path.isfile(full_path):
+                if state_isfile(full_path):
                     arcname = os.path.basename(filepath)
                     zf.write(full_path, arcname)
                 elif os.path.isdir(full_path):
@@ -1337,7 +1338,7 @@ def upload_file():
         uuid_val = str(uuid.uuid4())
         filename = file.filename
         upload_dir = os.path.join(UPLOAD_FOLDERS, uuid_val)
-        if not os.path.exists(upload_dir):
+        if not state_exists(upload_dir):
             os.makedirs(upload_dir)
         file_path = os.path.join(upload_dir, filename)
         file.save(file_path)
@@ -1363,7 +1364,7 @@ def delete_folder():
         base_path = os.path.realpath(UPLOAD_FOLDERS)
         if not real_path.startswith(base_path + os.sep):
             return (jsonify({'error': '非法路径访问'}), 403)
-        if not os.path.exists(folder_path):
+        if not state_exists(folder_path):
             return (jsonify({'error': '文件夹不存在'}), 404)
         shutil.rmtree(folder_path)
         return (jsonify({'message': f'文件夹 {uuid_val} 删除成功'}), 200)
@@ -1384,7 +1385,7 @@ def edit_file():
         target_dir = os.path.join(UPLOAD_FOLDERS, uuid_val)
         if not os.path.isdir(target_dir):
             return (jsonify({'error': '指定路径不存在'}), 404)
-        files = [f for f in os.listdir(target_dir) if os.path.isfile(os.path.join(target_dir, f))]
+        files = [f for f in os.listdir(target_dir) if state_isfile(os.path.join(target_dir, f))]
         if not files:
             return (jsonify({'error': '目标目录为空'}), 404)
         first_file = sorted(files)[0]
@@ -1402,7 +1403,7 @@ def retrieve_files():
         return (jsonify({'错误': '缺少uuid_val参数'}), 400)
     uuid_val = data['uuid_val']
     target_dir = os.path.join(UPLOAD_FOLDERS, uuid_val)
-    if not os.path.exists(target_dir):
+    if not state_exists(target_dir):
         return (jsonify({'错误': '文件夹不存在'}), 404)
     if not os.path.isdir(target_dir):
         return (jsonify({'错误': '路径不是有效文件夹'}), 400)
@@ -1412,7 +1413,7 @@ def retrieve_files():
             file_path = os.path.join(target_dir, filename)
             if os.path.isdir(file_path):
                 continue
-            with open(file_path, 'rb') as f:
+            with open_state(file_path, 'rb') as f:
                 file_content = f.read()
                 base64_encoded = base64.b64encode(file_content).decode('utf-8')
                 file_data.append({'filename': filename, 'data': base64_encoded})
@@ -1423,7 +1424,7 @@ def retrieve_files():
 @app.route('/v1/download_models_file', methods=['GET'])
 def download_models_file():
     local_file_path = os.path.join(UPLOAD_FOLDERS, AI_MODELS_SELECT_FILE_NAME)
-    if not os.path.exists(local_file_path) or not os.path.isfile(local_file_path):
+    if not state_exists(local_file_path) or not state_isfile(local_file_path):
         return (jsonify({'error': '没有找到文件'}), 400)
     try:
         return send_file(local_file_path, as_attachment=True)
@@ -1448,7 +1449,7 @@ def upload_models_file():
 def get_models_file_data():
     try:
         file_path = os.path.join(UPLOAD_FOLDERS, AI_MODELS_SELECT_FILE_NAME)
-        if not os.path.exists(file_path) or not os.path.isfile(file_path):
+        if not state_exists(file_path) or not state_isfile(file_path):
             return (jsonify({'error': '没有找到文件'}), 400)
         user_req = request.get_json()
         file_sheet = user_req['file_sheet'] if 'file_sheet' in user_req else AI_MODELS_SELECT_FILE_SHEETS[0]
@@ -1463,28 +1464,8 @@ def get_models_file_data():
 DOWNLOAD_VIEW_COUNT_FILE_PATH = 'backend/config/dataset_download_view_count.json'
 
 def update_dataset_counts(dataset, is_field, count_type):
-    with open(DOWNLOAD_VIEW_COUNT_FILE_PATH, 'r', encoding='utf-8') as f:
-        content = f.read()
-        if content:
-            counts = json.loads(content)
-        else:
-            counts = {}
-    if is_field not in counts:
-        counts[is_field] = {}
-        if dataset not in counts[is_field]:
-            if count_type == 'download_count':
-                counts[is_field][dataset] = {'download_count': 1, 'view_count': 0}
-            elif count_type == 'view_count':
-                counts[is_field][dataset] = {'download_count': 0, 'view_count': 1}
-    elif dataset not in counts[is_field]:
-        if count_type == 'download_count':
-            counts[is_field][dataset] = {'download_count': 1, 'view_count': 0}
-        elif count_type == 'view_count':
-            counts[is_field][dataset] = {'download_count': 0, 'view_count': 1}
-    else:
-        counts[is_field][dataset][count_type] += 1
-    with open(DOWNLOAD_VIEW_COUNT_FILE_PATH, 'w', encoding='utf-8') as w:
-        w.write(json.dumps(counts, indent=4, ensure_ascii=False))
+    from state_storage import increment_dataset_counter
+    increment_dataset_counter(DOWNLOAD_VIEW_COUNT_FILE_PATH,is_field,dataset,count_type)
 
 @app.route('/v1/get_dataset_file_path', methods=['GET'])
 def get_dataset_file_path():
@@ -1583,7 +1564,7 @@ def get_dataset_file_data():
                         result['excel_files'].append({'file_name': file_name, 'error': str(e)})
                 elif file_extension == '.txt':
                     try:
-                        with open(file_path, 'r', encoding='utf-8') as f:
+                        with open_state(file_path, 'r', encoding='utf-8') as f:
                             content = f.read()
                         lines = content.split('\n')
                         lines = [line for line in lines if line.strip()]
@@ -1594,7 +1575,7 @@ def get_dataset_file_data():
                     try:
                         all_rows = []
                         if file_extension == '.json':
-                            with open(file_path, 'r', encoding='utf-8') as f:
+                            with open_state(file_path, 'r', encoding='utf-8') as f:
                                 parsed = json.load(f)
                             if isinstance(parsed, list):
                                 all_rows = parsed
@@ -1603,7 +1584,7 @@ def get_dataset_file_data():
                             else:
                                 all_rows = [{'value': str(parsed)}]
                         else:
-                            with open(file_path, 'r', encoding='utf-8') as f:
+                            with open_state(file_path, 'r', encoding='utf-8') as f:
                                 for line in f:
                                     line = line.strip()
                                     if line:
@@ -1691,7 +1672,7 @@ def get_dataset_tree():
 @app.route('/v1/dataset/counts', methods=['GET'])
 def get_dataset_views_dls_count():
     try:
-        with open(DOWNLOAD_VIEW_COUNT_FILE_PATH, 'r', encoding='utf-8') as f:
+        with open_state(DOWNLOAD_VIEW_COUNT_FILE_PATH, 'r', encoding='utf-8') as f:
             counts = json.load(f)
     except Exception as e:
         return (jsonify({'error': str(e)}), 500)
@@ -1714,7 +1695,7 @@ def update_view_count():
 def get_eval_report():
     encodings = get_encoding(EVAL_REPORT_LIST_PATH)
     if encodings is not None:
-        with open(EVAL_REPORT_LIST_PATH, 'r', encoding=encodings) as f:
+        with open_state(EVAL_REPORT_LIST_PATH, 'r', encoding=encodings) as f:
             info = json.load(f)
     else:
         info = []
@@ -1725,7 +1706,7 @@ def modify_eval_report():
     user_req = request.get_json()
     encodings = get_encoding(EVAL_REPORT_LIST_PATH)
     if encodings is not None:
-        with open(EVAL_REPORT_LIST_PATH, 'r', encoding=encodings) as f:
+        with open_state(EVAL_REPORT_LIST_PATH, 'r', encoding=encodings) as f:
             info = json.load(f)
     else:
         info = []
@@ -1736,7 +1717,7 @@ def modify_eval_report():
             info[idx] = user_req
             break
     json_str = json.dumps(info, ensure_ascii=False, indent=4)
-    with open(EVAL_REPORT_LIST_PATH, 'w', encoding='utf-8') as f:
+    with open_state(EVAL_REPORT_LIST_PATH, 'w', encoding='utf-8') as f:
         f.write(json_str)
     return (jsonify(info), 200)
 
@@ -1744,7 +1725,7 @@ def modify_eval_report():
 def get_eval_model_list():
     encodings = get_encoding(EVAL_MODEL_LIST_PATH)
     if encodings is not None:
-        with open(EVAL_MODEL_LIST_PATH, 'r', encoding=encodings) as f:
+        with open_state(EVAL_MODEL_LIST_PATH, 'r', encoding=encodings) as f:
             info = json.load(f)
     else:
         info = []
@@ -1800,7 +1781,7 @@ def modify_eval_model_list():
     user_req = request.get_json()
     encodings = get_encoding(EVAL_MODEL_LIST_PATH)
     if encodings is not None:
-        with open(EVAL_MODEL_LIST_PATH, 'r', encoding=encodings) as f:
+        with open_state(EVAL_MODEL_LIST_PATH, 'r', encoding=encodings) as f:
             info = json.load(f)
     else:
         info = []
@@ -1811,7 +1792,7 @@ def modify_eval_model_list():
             info[idx] = user_req
             break
     json_str = json.dumps(info, ensure_ascii=False, indent=4)
-    with open(EVAL_MODEL_LIST_PATH, 'w', encoding='utf-8') as f:
+    with open_state(EVAL_MODEL_LIST_PATH, 'w', encoding='utf-8') as f:
         f.write(json_str)
     return (jsonify(info), 200)
 
@@ -1824,23 +1805,23 @@ def image_view(file_uuid, file_path):
         print(f'image_view cur dir: {os.getcwd()}')
         file = os.path.join(DATASET_MLLM_FILE_PATH.get(file_uuid), file_path)
         print(f'image_view file: {file}')
-        if not os.path.exists(file):
+        if not state_exists(file):
             return (jsonify({'error': 'MLLM图片不存在'}), 500)
         return send_file(file)
     else:
         encodings = get_encoding(FILED_TESTCASE_PATH)
-        with open(FILED_TESTCASE_PATH, 'r', encoding=encodings) as f:
+        with open_state(FILED_TESTCASE_PATH, 'r', encoding=encodings) as f:
             field_testcases = json.load(f)
         if '儿童伴读' in field_testcases[file_uuid]['testcase_tags']:
             file_path = file_path.replace('$', '/')
             print(f'image_view cur dir: {os.getcwd()}')
             file = os.path.join(ELD_DATASET_PATH_BASE, file_uuid, file_path)
             print(f'image_view file: {file}')
-            if not os.path.exists(file):
+            if not state_exists(file):
                 return (jsonify({'error': 'MLLM图片不存在'}), 500)
             return send_file(file)
     file = os.path.join(UPLOAD_FOLDERS, file_uuid, file_path)
-    if not os.path.exists(file):
+    if not state_exists(file):
         return (jsonify({'error': '图片不存在'}), 500)
     try:
         return send_from_directory(os.path.join(UPLOAD_FOLDERS, file_uuid), file_path)
@@ -1863,7 +1844,7 @@ def is_video_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[-1].lower() in ALLOWED_VIDEO_EXTENSIONS
 
 def image_to_base64_url(filepath):
-    with open(filepath, 'rb') as curFile:
+    with open_state(filepath, 'rb') as curFile:
         base64_encoded = base64.b64encode(curFile.read()).decode('utf-8')
     if filepath.rsplit('.', 1)[-1].lower() == 'png':
         return f'data:image/png;base64,{base64_encoded}'
@@ -1875,7 +1856,7 @@ def image_to_base64_url(filepath):
         return ''
 
 def audio_to_base64_url(filepath):
-    with open(filepath, 'rb') as curFile:
+    with open_state(filepath, 'rb') as curFile:
         base64_encoded = base64.b64encode(curFile.read()).decode('utf-8')
     if filepath.rsplit('.', 1)[-1].lower() == 'mp3':
         return f'data:audio/mpeg;base64,{base64_encoded}'
@@ -1889,7 +1870,7 @@ def audio_to_base64_url(filepath):
         return ''
 
 def video_to_base64_url(filepath):
-    with open(filepath, 'rb') as curFile:
+    with open_state(filepath, 'rb') as curFile:
         base64_encoded = base64.b64encode(curFile.read()).decode('utf-8')
     if filepath.rsplit('.', 1)[-1].lower() == 'mp4':
         return f'data:video/mp4;base64,{base64_encoded}'
@@ -1931,7 +1912,7 @@ def generate_excel(dataset, files):
     try:
         uuid_val = str(uuid.uuid4())
         generate_path = os.path.join(os.path.expanduser('~'), 'generateExcel', uuid_val)
-        if not os.path.exists(generate_path):
+        if not state_exists(generate_path):
             os.makedirs(generate_path)
         task_type, total_token, query, intent, ex_app, ex_time, input_token, output_token, message, correct_answer, LLM_answer, Result, answer, instruction, final_result, content, system_prompt, user_prompt, field, category, reason, source_response = [[] for _ in range(22)]
         df_dict = {}
@@ -2099,7 +2080,7 @@ def zip_file(files):
     try:
         uuid_val = str(uuid.uuid4())
         generate_path = os.path.join(os.path.expanduser('~'), 'generateExcel', uuid_val)
-        if not os.path.exists(generate_path):
+        if not state_exists(generate_path):
             os.makedirs(generate_path)
         file_name = os.path.join(generate_path, f'{uuid_val}.zip')
         with zipfile.ZipFile(file_name, 'w') as z:
@@ -2139,7 +2120,7 @@ def get_excel_file():
 def get_simultaneous_interpretation_cases():
     simu_interpretation_data = [SIMU_INTERPRETATION_ASR, SIMU_INTERPRETATION_ASR_LABEL, SIMU_INTERPRETATION_MT, SIMU_INTERPRETATION_TTS]
     for data in simu_interpretation_data:
-        if not os.path.exists(data):
+        if not state_exists(data):
             return (jsonify({'error': f'同声传译测试集路径不存在，请联系管理员: {os.path.basename(data)}'}), 500)
     asr_data = build_directory_tree(SIMU_INTERPRETATION_ASR, depth=4)
     asr_label = build_directory_tree(SIMU_INTERPRETATION_ASR_LABEL, depth=4)
@@ -2158,7 +2139,7 @@ def get_feedback_info():
             return (jsonify({'error': '请求中缺少userName字段'}), 400)
         encodings = get_encoding(FEEDBACK_LIST_PATH)
         try:
-            with open(FEEDBACK_LIST_PATH, 'r', encoding=encodings if encodings else 'utf-8') as f:
+            with open_state(FEEDBACK_LIST_PATH, 'r', encoding=encodings if encodings else 'utf-8') as f:
                 full_info = json.load(f)
         except Exception as e:
             return (jsonify({'error': f'文件读取失败: {str(e)}'}), 500)
@@ -2174,14 +2155,14 @@ def register_feedback_info():
     user_req = request.get_json()
     encodings = get_encoding(FEEDBACK_LIST_PATH)
     if encodings is not None:
-        with open(FEEDBACK_LIST_PATH, 'r', encoding=encodings) as f:
+        with open_state(FEEDBACK_LIST_PATH, 'r', encoding=encodings) as f:
             info = json.load(f)
     else:
         info = []
     user_req['id'] = int(time.time() * 1000)
     info.append(user_req)
     json_str = json.dumps(info, ensure_ascii=False, indent=4)
-    with open(FEEDBACK_LIST_PATH, 'w', encoding='utf-8') as f:
+    with open_state(FEEDBACK_LIST_PATH, 'w', encoding='utf-8') as f:
         f.write(json_str)
     return (jsonify(info), 200)
 
@@ -2190,13 +2171,13 @@ def delete_feedback_info():
     user_req = request.get_json()
     encodings = get_encoding(FEEDBACK_LIST_PATH)
     if encodings is not None:
-        with open(FEEDBACK_LIST_PATH, 'r', encoding=encodings) as f:
+        with open_state(FEEDBACK_LIST_PATH, 'r', encoding=encodings) as f:
             info = json.load(f)
     else:
         info = []
     new_info = [d for d in info if d.get('id') not in user_req]
     json_str = json.dumps(new_info, ensure_ascii=False, indent=4)
-    with open(FEEDBACK_LIST_PATH, 'w', encoding='utf-8') as f:
+    with open_state(FEEDBACK_LIST_PATH, 'w', encoding='utf-8') as f:
         f.write(json_str)
     return (jsonify(new_info), 200)
 
@@ -2205,7 +2186,7 @@ def modify_feedback_info():
     user_req = request.get_json()
     encodings = get_encoding(FEEDBACK_LIST_PATH)
     if encodings is not None:
-        with open(FEEDBACK_LIST_PATH, 'r', encoding=encodings) as f:
+        with open_state(FEEDBACK_LIST_PATH, 'r', encoding=encodings) as f:
             info = json.load(f)
     else:
         info = []
@@ -2218,7 +2199,7 @@ def modify_feedback_info():
             info[idx] = user_req
             break
     json_str = json.dumps(info, ensure_ascii=False, indent=4)
-    with open(FEEDBACK_LIST_PATH, 'w', encoding='utf-8') as f:
+    with open_state(FEEDBACK_LIST_PATH, 'w', encoding='utf-8') as f:
         f.write(json_str)
     return (jsonify(info), 200)
 
@@ -2245,7 +2226,7 @@ def upload_mos_file():
             language = task['taskConfig']['language'].split(';')[-1]
             jsonl_res_file = task_id.replace('_', '') + f'_{language}_出租车_男_1_50.jsonl'
         jsonl_name = os.path.join(review_path, jsonl_res_file)
-        if not os.path.exists(jsonl_name):
+        if not state_exists(jsonl_name):
             return (jsonify({'error': '对应的JSONL文件不存在'}), 400)
         workbook = openpyxl.load_workbook(file_path)
         sheet = workbook.active
@@ -2261,7 +2242,7 @@ def upload_mos_file():
             if len(row) >= mos_column_index:
                 value = row[mos_column_index - 1]
                 mos_values.append((row_idx, value))
-        with open(jsonl_name, 'r', encoding='utf-8') as f:
+        with open_state(jsonl_name, 'r', encoding='utf-8') as f:
             jsonl_line_count = sum((1 for _ in f))
         if len(mos_values) != jsonl_line_count:
             return (jsonify({'error': f'行数不匹配: Excel有{len(mos_values)}行数据，JSONL有{jsonl_line_count}行记录', 'solution': '请确保Excel行数与JSONL记录数完全一致'}), 400)
@@ -2278,7 +2259,7 @@ def upload_mos_file():
         if error_lines:
             return (jsonify({'error': f"Excel中包含无效MOS值（行号: {', '.join(map(str, error_lines))}）", 'solution': '请确保MOS列为数字类型'}), 400)
         updated_lines = []
-        with open(jsonl_name, 'r', encoding='utf-8') as f:
+        with open_state(jsonl_name, 'r', encoding='utf-8') as f:
             for line_idx, line in enumerate(f):
                 data = json.loads(line.strip())
                 current_mos = None
@@ -2292,12 +2273,12 @@ def upload_mos_file():
                 if current_mos is not None:
                     data['choices'][0]['review']['mos'] = current_mos
                 updated_lines.append(data)
-        with open(jsonl_name, 'w', encoding='utf-8') as f:
+        with open_state(jsonl_name, 'w', encoding='utf-8') as f:
             for data in updated_lines:
                 f.write(json.dumps(data, ensure_ascii=False) + '\n')
         total_mos = 0
         valid_count = 0
-        with open(jsonl_name, 'r', encoding='utf-8') as f:
+        with open_state(jsonl_name, 'r', encoding='utf-8') as f:
             for line in f:
                 data = json.loads(line)
                 try:
@@ -2332,7 +2313,7 @@ def add_interpretation_file():
     target_dir = os.path.normpath(target_dir)
     if not target_dir.startswith(os.path.normpath(SIMU_INTERPRETATION)):
         return (jsonify({'error': '非法目录路径'}), 400)
-    if not os.path.exists(target_dir):
+    if not state_exists(target_dir):
         return (jsonify({'error': f'目录不存在: {target_dir}，{directory}'}), 400)
     if not os.path.isdir(target_dir):
         return (jsonify({'error': f'路径不是目录: {directory}'}), 400)
@@ -2370,9 +2351,9 @@ def add_interpretation_directory():
         if not target_dir.startswith(os.path.normpath(SIMU_INTERPRETATION)):
             return (jsonify({'error': '非法目录路径'}), 400)
         full_new_dir = os.path.join(target_dir, new_dir)
-        if not os.path.exists(target_dir):
+        if not state_exists(target_dir):
             return (jsonify({'error': '目标路径不存在'}), 400)
-        if os.path.exists(full_new_dir):
+        if state_exists(full_new_dir):
             return (jsonify({'error': '文件夹已存在'}), 400)
         os.mkdir(full_new_dir)
         res = {'success': '文件夹创建成功'}
@@ -2392,7 +2373,7 @@ def delete_interpretation_directory():
         print(f'删除目标路径: {target_path}')
         if not target_path.startswith(os.path.normpath(SIMU_INTERPRETATION)):
             return (jsonify({'error': '非法目录路径'}), 400)
-        if not os.path.exists(target_path):
+        if not state_exists(target_path):
             return (jsonify({'error': '路径不存在'}), 404)
         if os.path.isdir(target_path):
             shutil.rmtree(target_path)
@@ -2413,7 +2394,7 @@ def check_all_model_connectivity():
             print(model_cfg[i]['model_id'])
             model_cfg[i]['is_available'] = check_model_connectivity(model_cfg[i]['config'])
         json_str = json.dumps(model_cfg, ensure_ascii=False, indent=4)
-        with open(MODEL_CFG_PATH, 'w', encoding='utf-8') as f:
+        with open_state(MODEL_CFG_PATH, 'w', encoding='utf-8') as f:
             f.write(json_str)
     except RequestException as e:
         pass
@@ -2433,7 +2414,7 @@ def add_log_data():
         with log_lock:
             try:
                 os.makedirs(os.path.dirname(user_log_path), exist_ok=True)
-                with open(user_log_path, 'a', encoding='utf-8') as log_file:
+                with open_state(user_log_path, 'a', encoding='utf-8') as log_file:
                     log_file.write(json.dumps(log_entry, ensure_ascii=False) + '\n')
                     return (jsonify({'message': '日志记录成功', 'data': log_entry}), 200)
             except Exception as e:
@@ -2449,12 +2430,12 @@ def _get_log_data_internal(get_log_params):
         limit = max(1, min(int(get_log_params.get('limit', 100)), 10000))
         active = get_log_params.get('active', None)
         user_log_path = os.path.join(LOG_PATH, f'{user_id}.txt')
-        if not os.path.exists(user_log_path):
-            with open(user_log_path, 'w') as f:
+        if not state_exists(user_log_path):
+            with open_state(user_log_path, 'w') as f:
                 pass
             return {'status': 'success', 'count': 0, 'data': []}
         matched_logs = []
-        with open(user_log_path, 'r', encoding='utf-8') as log_file:
+        with open_state(user_log_path, 'r', encoding='utf-8') as log_file:
             for line in log_file:
                 line = line
                 if not line:
@@ -2487,7 +2468,7 @@ def _get_log_data_internal(get_log_params):
         for log_entry in matched_logs:
             file_path = log_entry.get('file_path')
             current_type = log_entry.get('type')
-            if file_path and os.path.exists(file_path):
+            if file_path and state_exists(file_path):
                 if current_type == 'image':
                     try:
                         base64_image = image_to_base64_url(file_path)
@@ -2533,13 +2514,13 @@ def modify_log_data():
     temp_path = user_log_path + '.tmp'
     if not chat_id:
         return ({'status': '错误', 'message': '缺少chat_id参数'}, 400)
-    if not os.path.exists(user_log_path):
-        with open(user_log_path, 'w', encoding='utf-8') as f:
+    if not state_exists(user_log_path):
+        with open_state(user_log_path, 'w', encoding='utf-8') as f:
             pass
     try:
         max_timestamp = 0
         max_timestamp_count = 0
-        with open(user_log_path, 'r', encoding='utf-8') as file:
+        with open_state(user_log_path, 'r', encoding='utf-8') as file:
             for line in file:
                 if not line.strip():
                     continue
@@ -2558,7 +2539,7 @@ def modify_log_data():
             return ({'status': '错误', 'message': '未找到匹配的chat_id'}, 404)
         modified = False
         current_count = 0
-        with open(user_log_path, 'r', encoding='utf-8') as input_file, open(temp_path, 'w', encoding='utf-8') as output_file:
+        with open_state(user_log_path, 'r', encoding='utf-8') as input_file, open_state(temp_path, 'w', encoding='utf-8') as output_file:
             for line in input_file:
                 if not line.strip():
                     continue
@@ -2583,7 +2564,7 @@ def modify_log_data():
                             entry['response'] = ''
                             entry['active'] = False
                     if entry.get('file_path'):
-                        if os.path.exists(entry['file_path']):
+                        if state_exists(entry['file_path']):
                             os.remove(entry['file_path'])
                         entry['file_path'] = ''
                     output_file.write(json.dumps(entry, ensure_ascii=False) + '\n')
@@ -2593,11 +2574,11 @@ def modify_log_data():
             os.replace(temp_path, user_log_path)
             return ({'status': '成功', 'message': '日志数据修改成功'}, 200)
         else:
-            if os.path.exists(temp_path):
+            if state_exists(temp_path):
                 os.remove(temp_path)
             return ({'status': '错误', 'message': '未找到匹配的chat_id'}, 404)
     except Exception as e:
-        if os.path.exists(temp_path):
+        if state_exists(temp_path):
             os.remove(temp_path)
         return ({'status': '错误', 'message': f'处理失败: {str(e)}'}, 500)
 
@@ -2605,7 +2586,7 @@ def modify_log_data():
 def get_model_progress():
     encodings = get_encoding(EVAL_PROGRESS_PATH)
     if encodings is not None:
-        with open(EVAL_PROGRESS_PATH, 'r', encoding=encodings) as f:
+        with open_state(EVAL_PROGRESS_PATH, 'r', encoding=encodings) as f:
             info = json.load(f)
     else:
         info = []
@@ -2616,7 +2597,7 @@ def add_model_progress():
     user_req = request.get_json()
     encodings = get_encoding(EVAL_PROGRESS_PATH)
     if encodings is not None:
-        with open(EVAL_PROGRESS_PATH, 'r', encoding=encodings) as f:
+        with open_state(EVAL_PROGRESS_PATH, 'r', encoding=encodings) as f:
             info = json.load(f)
     else:
         info = []
@@ -2632,7 +2613,7 @@ def add_model_progress():
     user_req['ID'] = new_id
     info.append(user_req)
     json_str = json.dumps(info, ensure_ascii=False, indent=4)
-    with open(EVAL_PROGRESS_PATH, 'w', encoding='utf-8') as f:
+    with open_state(EVAL_PROGRESS_PATH, 'w', encoding='utf-8') as f:
         f.write(json_str)
     return (jsonify(info), 200)
 
@@ -2641,7 +2622,7 @@ def modify_model_progress():
     user_req = request.get_json()
     encodings = get_encoding(EVAL_PROGRESS_PATH)
     if encodings is not None:
-        with open(EVAL_PROGRESS_PATH, 'r', encoding=encodings) as f:
+        with open_state(EVAL_PROGRESS_PATH, 'r', encoding=encodings) as f:
             info = json.load(f)
     else:
         info = []
@@ -2652,7 +2633,7 @@ def modify_model_progress():
             info[idx] = user_req
             break
     json_str = json.dumps(info, ensure_ascii=False, indent=4)
-    with open(EVAL_PROGRESS_PATH, 'w', encoding='utf-8') as f:
+    with open_state(EVAL_PROGRESS_PATH, 'w', encoding='utf-8') as f:
         f.write(json_str)
     return (jsonify(info), 200)
 
@@ -2682,10 +2663,10 @@ def upload_test_result():
             return (jsonify({'error': f"Excel缺少必要列: {', '.join(missing_cols)}"}), 400)
         dataset = task['datasets'][0]
         jsonl_path = os.path.join(review_path, dataset + '_default.jsonl')
-        if not os.path.exists(jsonl_path):
+        if not state_exists(jsonl_path):
             return (jsonify({'error': '对应的JSONL文件不存在'}), 400)
         jsonl_lines = []
-        with open(jsonl_path, 'r', encoding='utf-8') as f:
+        with open_state(jsonl_path, 'r', encoding='utf-8') as f:
             for line in f:
                 jsonl_lines.append(json.loads(line))
         total_jsonl_lines = len(jsonl_lines)
@@ -2728,10 +2709,10 @@ def upload_test_result():
                 obj['choices'][0]['message']['content'] = model_output
         except Exception as e:
             return jsonify(f'处理Excel数据失败: {str(e)}', 400)
-        with open(jsonl_path, 'w', encoding='utf-8') as f:
+        with open_state(jsonl_path, 'w', encoding='utf-8') as f:
             for obj in jsonl_lines:
                 f.write(json.dumps(obj, ensure_ascii=False) + '\n')
-        with open(file_path, 'wb') as f:
+        with open_state(file_path, 'wb') as f:
             f.write(excel_data)
         calculate_accuracy_with_styles(file_path)
         return (jsonify({'message': '测试结果更新成功'}), 200)

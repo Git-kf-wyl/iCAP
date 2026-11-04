@@ -1,3 +1,4 @@
+from state_storage import open_state, state_exists, state_isfile
 # Private iCAP Yellow business implementation. Do not publish.
 import queue
 import threading
@@ -80,7 +81,7 @@ def interleave_files(file1, output_file):
             line1 = file1.readline()
 
 def filename_trans(file1, outputfile):
-    with open(file1, 'r', encoding='utf-8') as f1, open(outputfile, 'w', encoding='utf-8') as output_file:
+    with open_state(file1, 'r', encoding='utf-8') as f1, open_state(outputfile, 'w', encoding='utf-8') as output_file:
         interleave_files(f1, output_file)
 
 def remove_arabic_punctuation(text):
@@ -138,14 +139,14 @@ def process_line(line, output_file):
 def generate_non_tokenized_asr_text(target_path, input_dict):
     os.makedirs(os.path.dirname(target_path), exist_ok=True)
     for result in input_dict:
-        with open(target_path, 'a', encoding='utf-8') as f:
+        with open_state(target_path, 'a', encoding='utf-8') as f:
             f.write(result['file'] + '\n')
             f.write(result['asr_result'] + '\n')
 
 def generate_tokenized_asr_text(non_tokenized_file, target_path):
     os.makedirs(os.path.dirname(target_path), exist_ok=True)
     res_lines = ['.']
-    with open(non_tokenized_file, 'r', encoding='utf-8') as input_file, open(target_path, 'w', encoding='utf-8') as output_file:
+    with open_state(non_tokenized_file, 'r', encoding='utf-8') as input_file, open_state(target_path, 'w', encoding='utf-8') as output_file:
         output_file.write('.\n')
         for line in input_file:
             curr_lines = process_line(line, output_file)
@@ -155,7 +156,7 @@ def generate_tokenized_asr_text(non_tokenized_file, target_path):
 def generate_asr_jsonl(case_eval_res, review_path, jsonl_res_file):
     jsonl_name = os.path.join(review_path, jsonl_res_file)
     idx = 0
-    with open(jsonl_name, 'w', encoding='utf-8') as f:
+    with open_state(jsonl_name, 'w', encoding='utf-8') as f:
         for key, entry in case_eval_res.items():
             formatted = {'choices': [{'index': 0, 'message': {'content': f"file_name: {key}, H: {entry['H']}, D: {entry['D']}, S: {entry['S']}, I:{entry['I']}, N: {entry['N']}; Accuracy Score: {entry['score']};Correct Score: {entry['correct']}"}, 'review': {'pred': entry['REC'], 'result': entry['score'] >= 99.0, 'accuracy': round(entry['score'] / 100, 4), 'correct': round(entry['correct'] / 100, 4)}}], 'raw_input': {'Question': key, 'Answer': entry['LAB']}, 'index': idx}
             f.write(json.dumps(formatted, ensure_ascii=False) + '\n')
@@ -221,7 +222,7 @@ def local_asr_eval(endpoint, user_req_asr, task_id, tasks, all_start_time):
     log_path, review_path = init_simu_inter_task_path(model_id, task_id)
     task_path = f'outputs/{model_id}/{task_id}'
     main_log_path = os.path.join(log_path, 'eval_log.log')
-    with open(main_log_path, 'a', encoding='utf-8') as eval_log:
+    with open_state(main_log_path, 'a', encoding='utf-8') as eval_log:
         eval_log.write(f'开始写入日志：{main_log_path}\n')
         eval_log.flush()
         if not datasets:
@@ -314,7 +315,7 @@ def process_large_file_async(file_path, results_container, log, batch_idx, async
         basename = os.path.basename(file_path)
         log.write(f'开始异步处理超大文件: {basename}\n')
         log.flush()
-        with open(file_path, 'rb') as audio_file:
+        with open_state(file_path, 'rb') as audio_file:
             files = [('files', (basename, audio_file, 'audio/x-wav'))]
             response = requests.post(async_url, files=files)
             if response.status_code != 202:
@@ -434,7 +435,7 @@ def run_asr_eval(task_id, user_req):
         log_path, review_path = init_simu_inter_task_path(model_id, task_id)
         task_path = f'outputs/{model_id}/{task_id}'
         main_log_path = os.path.join(log_path, 'eval_log.log')
-        with open(main_log_path, 'a', encoding='utf-8') as eval_log:
+        with open_state(main_log_path, 'a', encoding='utf-8') as eval_log:
             eval_log.write(f'开始写入日志：{main_log_path}\n')
             eval_log.flush()
             if not datasets:
@@ -483,7 +484,7 @@ def run_asr_eval(task_id, user_req):
                                 current_batch_files = []
                                 current_batch_size = 0
                         try:
-                            audio_file = open(f, 'rb')
+                            audio_file = open_state(f, 'rb')
                             current_batch_files.append({'file_obj': audio_file, 'file_tuple': ('files', (os.path.basename(f), audio_file, 'audio/x-wav')), 'size': file_size})
                             current_batch_size += file_size
                             eval_log.write(f'添加文件到批次: {os.path.basename(f)} (大小: {file_size}字节)\n')
@@ -586,7 +587,7 @@ def generate_mt_jsonl(json_resp, task_id, endpoint, review_path):
             jsonl_name = file_name.replace('.json', '.jsonl')
             jsonl_file_path = os.path.join(review_path, jsonl_name)
             os.makedirs(os.path.dirname(jsonl_file_path), exist_ok=True)
-            with open(jsonl_file_path, 'w', encoding='utf-8') as f:
+            with open_state(jsonl_file_path, 'w', encoding='utf-8') as f:
                 for entry in resp:
                     formatted = {'choices': [{'index': 0, 'message': {'content': f"Bleu Score: {round(entry['bleu_score'], 4)} / Comet Score: {round(entry['comet_score'], 4)}"}, 'review': {'pred': entry['mt'], 'result': entry['bleu_score'] >= 0.7, 'accuracy': round(entry['bleu_score'], 4), 'bleu': round(entry['bleu_score'], 4), 'comet': round(entry['comet_score'], 4)}}], 'raw_input': {'Question': entry['src'], 'Answer': entry['ref']}, 'index': entry['file']}
                     f.write(json.dumps(formatted, ensure_ascii=False) + '\n')
@@ -597,7 +598,7 @@ def generate_mt_jsonl(json_resp, task_id, endpoint, review_path):
 def init_tts_jsonl(review_path, sentence_lines, jsonl_name):
     idx = 0
     jsonl_file = os.path.join(review_path, jsonl_name)
-    with open(jsonl_file, 'w', encoding='utf-8') as f:
+    with open_state(jsonl_file, 'w', encoding='utf-8') as f:
         for line in sentence_lines:
             formatted = {'choices': [{'index': 0, 'message': {'content': f''}, 'review': {'pred': '', 'result': '', 'mos': 0, 'correct': 0}}], 'raw_input': {'Question': line, 'Answer': ''}, 'index': idx}
             f.write(json.dumps(formatted, ensure_ascii=False) + '\n')
@@ -711,12 +712,12 @@ def get_asr_non_tokenized_res(user_req_asr, task_id, output_path):
     output_filename = f'cascade_{timestamp}.txt'
     os.makedirs(output_path, exist_ok=True)
     output_file = os.path.join(output_path, output_filename)
-    with open(output_file, 'w', encoding='utf-8') as outfile:
+    with open_state(output_file, 'w', encoding='utf-8') as outfile:
         for i, file_path in enumerate(file_paths):
-            if not os.path.exists(file_path):
+            if not state_exists(file_path):
                 print(f'Warning: {file_path} not found. Skipping.')
                 continue
-            with open(file_path, 'r', encoding='utf-8') as infile:
+            with open_state(file_path, 'r', encoding='utf-8') as infile:
                 content = infile.read()
             content = content.replace('\r\n', '\n').replace('\r', '\n')
             content = content.rstrip('\n')
@@ -734,7 +735,7 @@ def generate_mt_input_by_lan(language, excel_path, output_dir, sheet_names):
         elif language in TRANSLATE_DIRECTION:
             return (TRANSLATE_DIRECTION[language][0], TRANSLATE_DIRECTION[language][1])
         return (None, None)
-    if not os.path.exists(excel_path):
+    if not state_exists(excel_path):
         raise FileNotFoundError(f'Excel file not found: {excel_path}')
     source_lang, target_lang = get_translation_direction(language)
     if not source_lang:
@@ -781,7 +782,7 @@ def generate_mt_input_by_lan(language, excel_path, output_dir, sheet_names):
     os.makedirs(output_dir, exist_ok=True)
     output_path = os.path.join(output_dir, output_filename)
     try:
-        with open(output_path, 'w', encoding='utf-8') as f:
+        with open_state(output_path, 'w', encoding='utf-8') as f:
             f.write('\n'.join(output_lines))
     except Exception as e:
         raise RuntimeError(f'Error writing output file: {str(e)}')
@@ -816,7 +817,7 @@ def run_mt_eval(task_id, user_req):
         sheet_names.append(parts[3])
     print(f'Excel文件名: {excel_file_name}\nSheet名称: {sheet_names}')
     excel_path = os.path.join(SIMU_INTERPRETATION_MT, excel_file_name)
-    if not os.path.exists(excel_path):
+    if not state_exists(excel_path):
         return ({'errType': f'Excel文件不存在: {excel_file_name}'}, 400)
     print(f'Excel文件路径: {excel_path}')
     user_req_mt['datasets'] = datasets
@@ -852,8 +853,8 @@ def run_mt_eval(task_id, user_req):
     else:
         text_path = generate_mt_input_by_lan(language, excel_path, txt_dir, sheet_names)
     print(f'发送MT请求：{url}\n输入文件：{text_path}\nExcel文件：{excel_path}')
-    files = [('file', (os.path.basename(text_path), open(text_path, 'rb'), 'text/plain')), ('excel_file', (os.path.basename(excel_path), open(excel_path, 'rb'), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))]
-    with open(os.path.join(log_path, 'eval_log.log'), 'w') as f:
+    files = [('file', (os.path.basename(text_path), open_state(text_path, 'rb'), 'text/plain')), ('excel_file', (os.path.basename(excel_path), open_state(excel_path, 'rb'), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))]
+    with open_state(os.path.join(log_path, 'eval_log.log'), 'w') as f:
         f.write(f'language: {language}\ntext_file: {text_path}\nexcel_file: {excel_path}\n\n')
     json_resp, status_code = call_include_files(url, files)
     write_log(log_path, f'MT model server response status code: {status_code}\nTHE MT MODEL SERVER RESPONSE:\n{json.dumps(json_resp)}')
@@ -881,10 +882,10 @@ def jsonl_to_txt(jsonl_files_pattern, txt_file_path, model_id, task_id):
         print(f'未找到匹配的JSONL文件: {jsonl_files_pattern}')
         return None
     jsonl_files.sort()
-    with open(txt_file_path, 'w', encoding='utf-8') as txt_file:
+    with open_state(txt_file_path, 'w', encoding='utf-8') as txt_file:
         for jsonl_file in jsonl_files:
             print(f'处理文件: {jsonl_file}')
-            with open(jsonl_file, 'r', encoding='utf-8') as f:
+            with open_state(jsonl_file, 'r', encoding='utf-8') as f:
                 for line in f:
                     try:
                         data = json.loads(line)
@@ -957,7 +958,7 @@ def update_tts_res(json_resp, json_file):
     pattern = '(\\[\\d+\\]:.*?)(?=\\n\\n\\[\\d+\\]:|\\n\\nTotal:|\\Z)'
     blocks = re.findall(pattern, content, re.DOTALL)
     idx = 0
-    with open(json_file, 'w', encoding='utf-8') as f:
+    with open_state(json_file, 'w', encoding='utf-8') as f:
         for block in blocks:
             question_dict = {'Question': '', 'pred': [], 'answer': '', 'accuracy': ''}
             lines = block.strip().split('\n')
@@ -1004,7 +1005,7 @@ def run_tts_eval(task_id, user_req):
     for excel_files, lang, sentence_lines in zip(excel_path, languages, all_sentence):
         for excel_file in excel_files:
             jsonFile = init_tts_jsonl(review_path, sentence_lines, os.path.basename(excel_file).replace('.xlsx', '.jsonl'))
-            files = [('excel_file', (os.path.basename(excel_file), open(excel_file, 'rb'), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))]
+            files = [('excel_file', (os.path.basename(excel_file), open_state(excel_file, 'rb'), 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))]
             write_log(log_path, f'input_file: {os.path.basename(excel_file)}\n\n')
             eval_endpoint = endpoint + f'tts_result?lang={lang[0]}'
             print(f'开始发送请求：{eval_endpoint}')
@@ -1031,7 +1032,7 @@ def run_tts_eval(task_id, user_req):
             idx += 1
             test_mode = 'compare_pinyin' if '归一化' not in sent_file else 'compare_numnorm'
             correct_endpoint = endpoint + f'tts_accuracy?lang={lang}&test_mode={test_mode}'
-            files = [('sentence_file', (os.path.basename(sent_file), open(sent_file, 'rb'), 'text/plain')), ('label_file', (os.path.basename(label_file), open(label_file, 'rb'), 'text/plain'))]
+            files = [('sentence_file', (os.path.basename(sent_file), open_state(sent_file, 'rb'), 'text/plain')), ('label_file', (os.path.basename(label_file), open_state(label_file, 'rb'), 'text/plain'))]
             json_resp, status_code = call_include_files(correct_endpoint, files)
             if status_code == 200:
                 write_log(log_path, f'test {sent_file} with label({label_file}) success!\n')

@@ -1,12 +1,14 @@
-"""Portable single-process JSON store. Replace with a DB for multi-worker use."""
+"""Transactional, row-based SQLite business storage with legacy JSON migration."""
 from __future__ import annotations
 
 import copy
 import json
 import os
 import threading
+from contextlib import closing
 from pathlib import Path
 from typing import Callable, TypeVar
+from state_storage import database,close_state_root
 
 T = TypeVar("T")
 
@@ -40,9 +42,17 @@ class Store:
         self.base.mkdir(parents=True, exist_ok=True)
         self.uploads = self.base / "uploads"
         self.uploads.mkdir(exist_ok=True)
-        self.path = self.base / "platform.json"
+        self.path = self.base / "platform.sqlite3"
         self.lock = threading.RLock()
-        if not self.path.exists():
+        self.database = database(self.path)
+        if not self.database.exists('_platform_initialized'):
+            previous=self.base/'platform.json'
+            initial=json.loads(previous.read_text('utf-8-sig')) if previous.is_file() else seed()
+            with self.database.transaction() as db:
+                if not db.execute('SELECT 1 FROM documents WHERE name=?',('_platform_initialized',)).fetchone():
+                    for key,value in initial.items():self.database.write(key,value,db)
+                    self.database.write('_platform_initialized',{'version':1},db)
+        if not self.database.exists('models'):
             self._save(seed())
         else:
             existing = self._read()
@@ -62,24 +72,30 @@ class Store:
                 self._save(existing)
 
     def _read(self) -> dict:
-        with self.path.open("r", encoding="utf-8") as f:
-            return json.load(f)
+        return self.snapshot()
 
     def _save(self, data: dict) -> None:
-        temp = self.path.with_suffix(".tmp")
-        with temp.open("w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-            f.flush()
-            os.fsync(f.fileno())
-        os.replace(temp, self.path)
+        with self.database.transaction() as db:
+            for key,value in data.items():self.database.write(key,value,db)
 
-    def snapshot(self) -> dict:
-        with self.lock:
-            return copy.deepcopy(self._read())
+    def snapshot(self, collections=None) -> dict:
+        with closing(self.database.connect()) as db, db:
+            names=collections if collections is not None else [row[0] for row in db.execute("SELECT name FROM documents WHERE name NOT LIKE '\\_%' ESCAPE '\\'")]
+            return {key:self.database.read(key,db) for key in names}
 
-    def update(self, transform: Callable[[dict], T]) -> T:
-        with self.lock:
-            data = self._read()
+    def get_record(self,collection,identifier):
+        with closing(self.database.connect()) as db:
+            row=db.execute('SELECT payload FROM records WHERE document=? AND record_key=?',(collection,'#'+str(identifier))).fetchone()
+            return json.loads(row[0]) if row else None
+
+    def close(self):
+        close_state_root(self.path)
+
+    def update(self, transform: Callable[[dict], T], collections=None) -> T:
+        with self.database.transaction() as db:
+            names=collections if collections is not None else [row[0] for row in db.execute("SELECT name FROM documents WHERE name NOT LIKE '\\_%' ESCAPE '\\'")]
+            data={key:self.database.read(key,db) for key in names}
             result = transform(data)
-            self._save(data)
+            for key in set(names)-data.keys():db.execute('DELETE FROM documents WHERE name=?',(key,))
+            for key,value in data.items():self.database.write(key,value,db)
             return copy.deepcopy(result)

@@ -14,6 +14,7 @@
   6. 产出三份文件：结果 excel + review jsonl + 总体结果 json；
   7. 由本文件兜底 finalize_task 收尾任务状态。
 """
+from state_storage import open_state, state_exists, state_isfile
 import os
 import sys
 import json
@@ -27,7 +28,7 @@ def _find_project_root():
     """向上查找项目根目录（run_test_server.py + services 所在），供 import 项目模块。"""
     d = os.path.dirname(os.path.abspath(__file__))
     while True:
-        if os.path.isfile(os.path.join(d, 'run_test_server.py')) and os.path.isdir(os.path.join(d, 'services')):
+        if state_isfile(os.path.join(d, 'run_test_server.py')) and os.path.isdir(os.path.join(d, 'services')):
             return d
         parent = os.path.dirname(d)
         if parent == d:
@@ -50,7 +51,7 @@ def _find_dataset_xlsx(dataset_dir):
         return None
     for fname in os.listdir(dataset_dir):
         fpath = os.path.join(dataset_dir, fname)
-        if os.path.isfile(fpath) and os.path.splitext(fname)[1].lower() == '.xlsx':
+        if state_isfile(fpath) and os.path.splitext(fname)[1].lower() == '.xlsx':
             return fpath
     return None
 
@@ -69,7 +70,7 @@ def _write_report_json(report_dir, dataset_name, model_name, total, pass_num):
     acc = pass_num / total if total else 0
     report_map = {'name': f'{model_name}_{dataset_name}', 'dataset_name': dataset_name, 'model_name': model_name, 'score': round(acc, 4), 'metrics': [{'categories': [{'macro_score': round(acc, 4), 'name': ['GUI提参'], 'num': total, 'score': round(acc, 4), 'subsets': [{'name': 'GUI提参', 'num': total, 'score': round(acc, 4), 'correct_num': int(pass_num)}]}], 'macro_score': round(acc, 4), 'name': 'GUI提参', 'num': total, 'score': round(acc, 4)}], 'summary': {'总用例数': int(total), '严格通过数': int(pass_num), '严格通过率': round(acc, 4)}}
     report_file = os.path.join(report_dir, f'{dataset_name}.json')
-    with open(report_file, 'w', encoding='utf-8') as f:
+    with open_state(report_file, 'w', encoding='utf-8') as f:
         json.dump(report_map, f, ensure_ascii=False, indent=4)
     return report_file
 
@@ -102,7 +103,7 @@ def _convert_to_review_jsonl(result_xlsx_path, jsonl_path, dataset_name=''):
         completion_tokens = _to_int(row.get('completion_tokens'))
         response_time = _to_int(row.get('times'))
         review_lines.append({'raw_input': {'Question': cur_query, 'expected': ground_truth, 'prompt': _safe_text(row.get('system_prompt')), 'context': _safe_text(row.get('context')), 'No': idx}, 'choices': [{'review': {'gold': ground_truth, 'pred': model_output, 'result': '1' if is_pass else '0', '判定结果': '通过' if is_pass else '不通过', 'judge_result': reason, 'raw_response': raw_response, 'status': status}, 'message': {'content': raw_response or model_output}}], 'index': idx, 'dialogue_round': str(idx), 'subset_name': dataset_name or 'GUI提参', 'usage': {'prompt_tokens': prompt_tokens, 'completion_tokens': completion_tokens, 'total_tokens': prompt_tokens + completion_tokens}, 'response_time': response_time})
-    with open(jsonl_path, 'w', encoding='utf-8') as f:
+    with open_state(jsonl_path, 'w', encoding='utf-8') as f:
         for line in review_lines:
             f.write(json.dumps(line, ensure_ascii=False) + '\n')
 

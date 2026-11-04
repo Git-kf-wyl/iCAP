@@ -1,3 +1,4 @@
+from state_storage import open_state, state_exists, state_isfile
 # Private iCAP Yellow business implementation. Do not publish.
 import base64
 import csv
@@ -22,38 +23,38 @@ from pptx.util import Pt, Inches
 from utils.consts import *
 
 def get_encoding(file_path):
-    with open(file_path, 'rb') as f:
+    with open_state(file_path, 'rb') as f:
         result = chardet.detect(f.read(1024))
     print(f'{file_path} encoding info: {result}')
     return result['encoding']
 
 def get_tasks():
     encodings = get_encoding(TASKS)
-    with open(TASKS, 'r', encoding=encodings) as f:
+    with open_state(TASKS, 'r', encoding=encodings) as f:
         tasks = json.load(f)
     return tasks
 
 def set_tasks(tasks):
-    with open(TASKS, 'w', encoding='utf-8') as f:
+    with open_state(TASKS, 'w', encoding='utf-8') as f:
         json.dump(tasks, f, ensure_ascii=False, indent=4)
 
 def get_report_tasks():
-    if not os.path.exists(REPORTTASKS):
+    if not state_exists(REPORTTASKS):
         return {}
     encodings = get_encoding(REPORTTASKS)
-    with open(REPORTTASKS, 'r', encoding=encodings) as f:
+    with open_state(REPORTTASKS, 'r', encoding=encodings) as f:
         return json.load(f)
 
 def set_report_tasks(report_tasks):
-    with open(REPORTTASKS, 'w', encoding='utf-8') as f:
+    with open_state(REPORTTASKS, 'w', encoding='utf-8') as f:
         json.dump(report_tasks, f, ensure_ascii=False, indent=4)
 
 def get_report_tasks_from_path(file_path):
     """从指定路径读取 JSON 任务文件"""
-    if not os.path.exists(file_path):
+    if not state_exists(file_path):
         return {}
     encodings = get_encoding(file_path)
-    with open(file_path, 'r', encoding=encodings) as f:
+    with open_state(file_path, 'r', encoding=encodings) as f:
         return json.load(f)
 
 def set_report_tasks_to_path(file_path, report_tasks):
@@ -61,7 +62,7 @@ def set_report_tasks_to_path(file_path, report_tasks):
     dir_name = os.path.dirname(file_path)
     if dir_name:
         os.makedirs(dir_name, exist_ok=True)
-    with open(file_path, 'w', encoding='utf-8') as f:
+    with open_state(file_path, 'w', encoding='utf-8') as f:
         json.dump(report_tasks, f, ensure_ascii=False, indent=4)
 
 def get_one_task(task_id):
@@ -72,17 +73,17 @@ def get_one_task(task_id):
     return {}
 
 def get_hg_download_tasks():
-    if not os.path.exists(HUGGINGFACE_DOWNLOAD_TASKS):
-        with open(HUGGINGFACE_DOWNLOAD_TASKS, 'w', encoding='utf-8') as f:
+    if not state_exists(HUGGINGFACE_DOWNLOAD_TASKS):
+        with open_state(HUGGINGFACE_DOWNLOAD_TASKS, 'w', encoding='utf-8') as f:
             json.dump({}, f, ensure_ascii=False, indent=4)
         print(f'[INFO] Created new JSON file: {HUGGINGFACE_DOWNLOAD_TASKS}')
     encodings = get_encoding(HUGGINGFACE_DOWNLOAD_TASKS)
-    with open(HUGGINGFACE_DOWNLOAD_TASKS, 'r', encoding=encodings) as f:
+    with open_state(HUGGINGFACE_DOWNLOAD_TASKS, 'r', encoding=encodings) as f:
         download_tasks = json.load(f)
     return download_tasks
 
 def set_hg_download_tasks(download_tasks):
-    with open(HUGGINGFACE_DOWNLOAD_TASKS, 'w', encoding='utf-8') as f:
+    with open_state(HUGGINGFACE_DOWNLOAD_TASKS, 'w', encoding='utf-8') as f:
         json.dump(download_tasks, f, ensure_ascii=False, indent=4)
 
 def build_directory_tree(root_path, depth=4):
@@ -101,7 +102,7 @@ def build_directory_tree(root_path, depth=4):
         full_path = os.path.join(root_path, entry)
         if os.path.isdir(full_path):
             tree[entry] = build_directory_tree(full_path, depth - 1)
-        elif entry.lower().endswith('.xlsx') and os.path.isfile(full_path):
+        elif entry.lower().endswith('.xlsx') and state_isfile(full_path):
             try:
                 import openpyxl
                 workbook = openpyxl.load_workbook(full_path, read_only=True)
@@ -161,7 +162,7 @@ def merge_dicts(*dicts):
 def get_model_info_list():
     encodings = get_encoding(MODEL_CFG_PATH)
     if encodings is not None:
-        with open(MODEL_CFG_PATH, 'r', encoding=encodings) as f:
+        with open_state(MODEL_CFG_PATH, 'r', encoding=encodings) as f:
             model_info_list = json.load(f)
     else:
         model_info_list = []
@@ -223,7 +224,7 @@ def jsonl_to_csv(jsonl_path, csv_path):
     """
     all_records = []
     all_fields = set()
-    with open(jsonl_path, 'r', encoding='utf-8') as f:
+    with open_state(jsonl_path, 'r', encoding='utf-8') as f:
         for line_num, line in enumerate(f, 1):
             line = line.strip()
             if not line:
@@ -243,7 +244,7 @@ def jsonl_to_csv(jsonl_path, csv_path):
         print('没有有效记录，未生成 CSV。')
         return
     sorted_fields = sorted(all_fields)
-    with open(csv_path, 'w', newline='', encoding='utf-8-sig') as f:
+    with open_state(csv_path, 'w', newline='', encoding='utf-8-sig') as f:
         writer = csv.DictWriter(f, fieldnames=sorted_fields, restval='', extrasaction='ignore')
         writer.writeheader()
         for record in all_records:
@@ -253,25 +254,25 @@ def jsonl_to_csv(jsonl_path, csv_path):
 
 def write_log(log_path, log_info):
     timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-    with open(os.path.join(log_path, 'eval_log.log'), 'a', encoding='utf-8') as log_file:
+    with open_state(os.path.join(log_path, 'eval_log.log'), 'a', encoding='utf-8') as log_file:
         log_file.write(f'{timestamp}: {log_info}\n')
 
 def txt_to_excel(txt_path, excel_base_path, chunk_size=9999):
     try:
-        if not os.path.exists(txt_path):
+        if not state_exists(txt_path):
             print(f'错误: 文件 {txt_path} 不存在')
             return ([], [])
         if not excel_base_path.lower().endswith(('.xlsx', '.xls')):
             print(f'警告: 文件路径 {excel_base_path} 缺少扩展名，已添加 .xlsx')
             excel_base_path += '.xlsx'
-        with open(txt_path, 'r', encoding='utf-8') as f:
+        with open_state(txt_path, 'r', encoding='utf-8') as f:
             lines = f.readlines()
         non_empty_lines = [line.rstrip('\n\r') for line in lines if line.strip()]
         if not non_empty_lines:
             return ([], [])
         serial_numbers = list(range(1, len(non_empty_lines) + 1))
         output_dir = os.path.dirname(excel_base_path)
-        if output_dir and (not os.path.exists(output_dir)):
+        if output_dir and (not state_exists(output_dir)):
             os.makedirs(output_dir)
         total_lines = len(non_empty_lines)
         total_files = (total_lines + chunk_size - 1) // chunk_size
@@ -300,7 +301,7 @@ def base64_to_audio(base64_str, output_path):
     if base64_str.startswith('data:'):
         base64_str = base64_str.split(',', 1)[1]
     audio_data = base64.b64decode(base64_str)
-    with open(output_path, 'wb') as f:
+    with open_state(output_path, 'wb') as f:
         f.write(audio_data)
 
 def _decode_zip_filename(raw_filename):
@@ -351,7 +352,7 @@ def unzip_if_needed(zip_path, target_dir):
     :param zip_path: ZIP文件路径
     :param target_dir: 目标目录路径
     """
-    if not os.path.exists(zip_path):
+    if not state_exists(zip_path):
         raise FileNotFoundError(f'ZIP文件 {zip_path} 不存在')
     os.makedirs(target_dir, exist_ok=True)
     zip_files = {}
@@ -370,7 +371,7 @@ def unzip_if_needed(zip_path, target_dir):
     files_to_update = []
     for rel_path, zip_time in zip_files.items():
         abs_path = os.path.join(target_dir, rel_path)
-        if not os.path.exists(abs_path) or os.path.getmtime(abs_path) < zip_time:
+        if not state_exists(abs_path) or os.path.getmtime(abs_path) < zip_time:
             files_to_update.append(rel_path)
     if not files_to_update:
         print(f'所有文件已最新，无需更新: {target_dir}')
@@ -386,10 +387,10 @@ def unzip_if_needed(zip_path, target_dir):
                 src_raw = os.path.join(temp_dir, raw_name)
                 src_fixed = os.path.join(temp_dir, fixed_name)
                 if fixed_name != raw_name:
-                    if os.path.exists(src_raw):
+                    if state_exists(src_raw):
                         os.makedirs(os.path.dirname(src_fixed), exist_ok=True)
                         os.rename(src_raw, src_fixed)
-                src = src_fixed if os.path.exists(src_fixed) else src_raw
+                src = src_fixed if state_exists(src_fixed) else src_raw
                 dst = os.path.join(target_dir, rel_path)
                 os.makedirs(os.path.dirname(dst), exist_ok=True)
                 shutil.copy2(src, dst)
@@ -561,7 +562,7 @@ def replace_image_by_name(shapes, name: str, image_path: str, width=None, height
         new_image_path = image_path
     else:
         new_image_path = os.path.join('..', '.cache', 'download', image_path)
-    if not os.path.exists(new_image_path):
+    if not state_exists(new_image_path):
         print(f'图片不存在: {new_image_path}')
         return
     dest_shape = None
@@ -613,7 +614,7 @@ def replace_image_by_name(shapes, name: str, image_path: str, width=None, height
     return pic
 
 def get_report_score_ruler2(score_ruler2, compare_models, model_name, compare_type):
-    with open(LLM_RULER_2_RESULT, 'r', encoding='utf-8') as file:
+    with open_state(LLM_RULER_2_RESULT, 'r', encoding='utf-8') as file:
         chart2 = json.load(file)
     models_to_process = [model_name]
     for model in compare_models:
@@ -722,7 +723,7 @@ def get_score_ru1(chart1, model_name, score_data_ruler1):
 
 def get_report_score_ruler1(compare_models, model_name, score_data_ruler1):
     try:
-        with open(LLM_RULER_1_RESULT, 'r', encoding='utf-8') as file:
+        with open_state(LLM_RULER_1_RESULT, 'r', encoding='utf-8') as file:
             chart1 = json.load(file)
     except FileNotFoundError:
         print(f'文件 {LLM_RULER_1_RESULT} 未找到')
@@ -924,7 +925,7 @@ def _download_image(url, save_dir):
         filename = f'img_{hash(url) % 100000}.png'
     os.makedirs(save_dir, exist_ok=True)
     local_path = os.path.join(save_dir, filename)
-    if os.path.exists(local_path):
+    if state_exists(local_path):
         return local_path
     try:
         import urllib.request
@@ -1145,11 +1146,11 @@ def generate_ppt_report(prs, model_id, report_name=None):
     else:
         base_name = f'{model_id}_eval_report_{curr_time}'
     output_path = os.path.join(output_dir, f'{base_name}.pptx')
-    if os.path.exists(output_path):
+    if state_exists(output_path):
         counter = 1
         while True:
             new_path = os.path.join(output_dir, f'{base_name}({counter}).pptx')
-            if not os.path.exists(new_path):
+            if not state_exists(new_path):
                 output_path = new_path
                 break
             counter += 1
@@ -1207,7 +1208,7 @@ def handle_score_data(score_data, type=0):
 def fill_min_dataset_content_to_ppt(fill_data, score_data, summary, model_names=None):
     template_file = 'min_dataset_template.pptx'
     template_path = EVAL_REPORT_TEMPLATE_PATH_BASE + template_file
-    if not os.path.exists(template_path):
+    if not state_exists(template_path):
         raise FileNotFoundError(f"未找到 '{template_path}' 的模板文件")
     prs = Presentation(template_path)
     if len(prs.slides) < 4:
@@ -1220,7 +1221,7 @@ def fill_min_dataset_content_to_ppt(fill_data, score_data, summary, model_names=
 
 def get_report_score_min_dataset(model_name):
     try:
-        with open(LLM_MIN_DATASET_RESULT, 'r', encoding='utf-8') as file:
+        with open_state(LLM_MIN_DATASET_RESULT, 'r', encoding='utf-8') as file:
             chart = json.load(file)
     except FileNotFoundError:
         print(f'文件 {LLM_MIN_DATASET_RESULT} 未找到')
@@ -1253,7 +1254,7 @@ def get_report_score_min_dataset(model_name):
 def get_report_score_mllm_dataset(model_name, compare_models, type):
     if type in (1, 2):
         try:
-            with open(MULTI_RULER_1_RESULT, 'r', encoding='utf-8') as file:
+            with open_state(MULTI_RULER_1_RESULT, 'r', encoding='utf-8') as file:
                 chart = json.load(file)
         except FileNotFoundError:
             print(f'文件 {MULTI_RULER_1_RESULT} 未找到')
@@ -1263,7 +1264,7 @@ def get_report_score_mllm_dataset(model_name, compare_models, type):
             raise Exception(f'文件 {MULTI_RULER_1_RESULT} 解析失败')
     elif type in (6, 7, 8):
         try:
-            with open(MULTI_RULER_2_RESULT, 'r', encoding='utf-8') as file:
+            with open_state(MULTI_RULER_2_RESULT, 'r', encoding='utf-8') as file:
                 chart = json.load(file)
         except FileNotFoundError:
             print(f'文件 {MULTI_RULER_2_RESULT} 未找到')
@@ -1354,7 +1355,7 @@ def fill_multi_base_unified_content_to_ppt(all_ppt_data_list, all_llm_ppt_score_
         group = count - 1 (0~5, 对应1~6个模型)
     """
     template_path = os.path.join(EVAL_REPORT_TEMPLATE_PATH_BASE, 'template_all.pptx')
-    if not os.path.exists(template_path):
+    if not state_exists(template_path):
         raise FileNotFoundError(f"未找到 '{template_path}' 的模板文件")
     try:
         prs = Presentation(template_path)

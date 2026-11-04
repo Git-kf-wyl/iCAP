@@ -5,6 +5,7 @@ Yellow's original business routes run in private per-account workspaces; no
 Nginx routing, corporate SSO, upstream model credentials or old scores are used.
 """
 from __future__ import annotations
+from state_storage import read_document,state_exists,state_isfile
 
 import asyncio
 import hashlib
@@ -45,6 +46,21 @@ from app.hub_downloads import HubDownloads
 hubs=HubDownloads(runtime,app.state.store)
 native_chat=next(r.endpoint for r in app.router.routes if getattr(r,'path','')=='/api/agents/chat/stream')
 boot_reports={}
+
+@app.post('/v1/dataset/update/view')
+async def dataset_view(request:Request):
+    actor=authorized(request)
+    try:body=await request.json()
+    except ValueError:raise HTTPException(422,'请求体必须为 JSON')
+    identifier=body.get('dataset');group=body.get('is_field')
+    if not isinstance(identifier,str) or not identifier or len(identifier)>160 or str(group) not in {'1','2','3'}:
+        raise HTTPException(422,'数据集和分组无效')
+    def update():
+        from state_storage import increment_dataset_counter
+        root=runtime.initialize(actor)
+        increment_dataset_counter(root/'backend/config/dataset_download_view_count.json',group,identifier,'view_count')
+    await asyncio.to_thread(update)
+    return {'message':'成功'}
 
 @app.post('/api/client-errors',status_code=204)
 async def client_error(request:Request):
@@ -167,7 +183,7 @@ async def stream_chat(request:Request,actor=Depends(authorized)):
     root=await asyncio.to_thread(runtime.initialize,actor)
     key=hashlib.sha256((str(data.get('chat_id','default'))+'|'+str(identifier)).encode()).hexdigest()
     path=root/'chats'/f'{key}.json'
-    history=json.loads(path.read_text('utf-8')) if path.is_file() else []
+    history=read_document(path) if state_isfile(path) else []
     body=ChatInput(model_id=identifier,message=query,history=history[-20:],thinking=bool(data.get('isThink')),
                    **{k:config[k] for k in ['top_p','temperature','top_k','max_tokens'] if config.get(k) is not None})
     response=await native_chat(body,actor)
@@ -252,6 +268,10 @@ async def yellow_api(path:str,request:Request,actor=Depends(authorized)):
     root=await asyncio.to_thread(runtime.initialize,actor)
     query=list(request.query_params.multi_items())
     for key,value in query:validate_paths(value,root,key.removesuffix('[]'))
+    from app.yellow_reads import FAST_READS,read_business
+    if request.method=='GET' and path in FAST_READS:
+        result=await asyncio.to_thread(read_business,runtime,actor,path,dict(query))
+        if result is not None:return clean_response(result)
     data=None;content=await request.body()
     headers={'Content-Type':request.headers.get('content-type','application/json')}
     if 'application/json' in headers['Content-Type'] and content:
@@ -264,7 +284,7 @@ async def yellow_api(path:str,request:Request,actor=Depends(authorized)):
                 if field in data:data[field]=actor['username']
             if path in EDIT_DATASETS:runtime.require_dataset_edit(actor,data.get('dataset_id',''))
             if path in {'delete_published_task','update_published_report'}:
-                published=json.loads((root/'backend/config/publishedReportTasks.json').read_text('utf-8'))
+                published=read_document(root/'backend/config/publishedReportTasks.json')
                 row=published.get(data.get('id',''),{})
                 if row.get('_shared_owner'):raise HTTPException(403,'只有报告发布者可以修改报告')
             if path in RUNS:
@@ -287,7 +307,7 @@ async def yellow_api(path:str,request:Request,actor=Depends(authorized)):
                 # Fail before scheduling rather than create a fabricated successful job.
                 cfg_name={'run_testcase_ruler1':'common','run_testcase_ruler2':'field'}.get(path,'dev')
                 cfg_path=root/'backend/config'/f'{cfg_name}_testcase_cfg.json'
-                cfg=json.loads(cfg_path.read_text('utf-8'))
+                cfg=read_document(cfg_path)
                 for name in data.get('datasets',[]):
                     row=cfg.get(name)
                     if not row:raise HTTPException(422,f'数据集 {name} 尚未注册')

@@ -9,6 +9,7 @@
 
 部门信息：通过 LDAP 查询缓存到本地 JSON 文件，避免重复查询。
 """
+from state_storage import open_state, state_exists, state_isfile
 import json
 import os
 import re
@@ -43,10 +44,10 @@ def parse_date_ymd(dt: datetime) -> str:
 
 def _load_dept_cache():
     """从本地缓存文件加载部门映射"""
-    if not os.path.isfile(DEPT_CACHE_PATH):
+    if not state_isfile(DEPT_CACHE_PATH):
         return {}
     try:
-        with open(DEPT_CACHE_PATH, 'r', encoding='utf-8') as f:
+        with open_state(DEPT_CACHE_PATH, 'r', encoding='utf-8') as f:
             return json.load(f)
     except Exception:
         return {}
@@ -56,7 +57,7 @@ def _save_dept_cache(cache):
     with _cache_lock:
         try:
             os.makedirs(os.path.dirname(DEPT_CACHE_PATH) or '.', exist_ok=True)
-            with open(DEPT_CACHE_PATH, 'w', encoding='utf-8') as f:
+            with open_state(DEPT_CACHE_PATH, 'w', encoding='utf-8') as f:
                 json.dump(cache, f, ensure_ascii=False, indent=2)
         except Exception as e:
             print(f'保存部门缓存失败: {e}')
@@ -124,10 +125,10 @@ def load_all_records(start_date: Optional[str]=None, end_date: Optional[str]=Non
         if not filename.endswith('.txt'):
             continue
         filepath = os.path.join(USER_LOG_DIR, filename)
-        if not os.path.isfile(filepath):
+        if not state_isfile(filepath):
             continue
         try:
-            with open(filepath, 'r', encoding='utf-8') as f:
+            with open_state(filepath, 'r', encoding='utf-8') as f:
                 for line in f:
                     line = line.strip()
                     if not line:

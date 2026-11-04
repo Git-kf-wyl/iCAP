@@ -12,6 +12,22 @@ export const useAuth = defineStore('auth', () => {
   let verifiedAt = 0
   let profileRequest = null
   let logoutRequest = null
+  let pageSessionRequest = null
+
+  async function restorePageSession(element) {
+    const session=token.value
+    try {
+      const saved=JSON.parse(element.textContent || '{}')
+      if(!saved.profile || saved.expires_at*1000<=Date.now() || !globalThis.crypto?.subtle)return false
+      const bytes=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(session))
+      const fingerprint=[...new Uint8Array(bytes)].map(value=>value.toString(16).padStart(2,'0')).join('')
+      if(fingerprint!==saved.fingerprint || token.value!==session)return false
+      saveProfile(saved.profile)
+      verifiedToken=session
+      verifiedAt=Date.now()
+      return true
+    } catch { return false }
+  }
   function saveProfile(result) {
     username.value = result.username || result.email || result.phone || ''
     userId.value = result.id == null ? '' : String(result.id)
@@ -92,6 +108,11 @@ export const useAuth = defineStore('auth', () => {
         if (!valid && !token.value) onInvalid?.()
       }).catch(() => {})
       return Promise.resolve(true)
+    }
+    const bootstrap=typeof document==='undefined'?null:document.getElementById('icap-session')
+    if(bootstrap){
+      if(!pageSessionRequest)pageSessionRequest=restorePageSession(bootstrap)
+      return pageSessionRequest.then(restored=>restored || refreshProfile())
     }
     return refreshProfile()
   }

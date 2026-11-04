@@ -1,3 +1,4 @@
+from state_storage import open_state, state_exists, state_isfile
 # Private iCAP Yellow business implementation. Do not publish.
 import json
 import math
@@ -91,7 +92,7 @@ def _pack_files_to_zip(file_paths, dataset_name, base_dir):
     with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zf:
         for fp in file_paths:
             full = os.path.join(os.getcwd(), fp) if not os.path.isabs(fp) else fp
-            if os.path.isfile(full):
+            if state_isfile(full):
                 zf.write(full, os.path.basename(fp))
     return zip_path
 
@@ -165,7 +166,7 @@ def get_run_test_progress_list():
     tasks = get_tasks()
     res = []
     update_eval_rate(tasks)
-    with open(TASKS, 'w', encoding='utf-8') as f:
+    with open_state(TASKS, 'w', encoding='utf-8') as f:
         json.dump(tasks, f, ensure_ascii=False, indent=4)
     for key, val in tasks.items():
         res.insert(0, val)
@@ -240,7 +241,7 @@ def spawn_eval_proc(script, config_dict, task_id):
     tmp_file.close()
     log_path = os.path.join('outputs', str(config_dict.get('model_id', '')), str(task_id), 'logs')
     os.makedirs(log_path, exist_ok=True)
-    proc_log = open(os.path.join(log_path, 'eval_log.log'), 'a', encoding='utf-8', errors='replace')
+    proc_log = open_state(os.path.join(log_path, 'eval_log.log'), 'a', encoding='utf-8', errors='replace')
     env = dict(os.environ)
     env['PYTHONIOENCODING'] = 'utf-8'
     creationflags = 0
@@ -442,7 +443,7 @@ def _build_eld_statistics_json(output_path, model_name_safe, dataset_name, task_
     """
     import glob as glob_mod
     review_dir = os.path.join(output_path, 'reviews', model_name_safe)
-    if not os.path.exists(review_dir):
+    if not state_exists(review_dir):
         print(f'[_build_eld_statistics_json] review_dir not found: {review_dir}')
         return None
     excel_pattern = os.path.join(review_dir, f'{dataset_name}报告_{task_id}.xlsx')
@@ -472,7 +473,7 @@ def _build_eld_statistics_json(output_path, model_name_safe, dataset_name, task_
             print('[_build_eld_statistics_json] No data parsed from statistic sheets')
             return None
         json_file = os.path.join(review_dir, f'{dataset_name}_statistics_{task_id}.json')
-        with open(json_file, 'w', encoding='utf-8') as f:
+        with open_state(json_file, 'w', encoding='utf-8') as f:
             json.dump(all_stats_data, f, ensure_ascii=False, indent=2)
         print(f'[_build_eld_statistics_json] saved: {json_file} (sheets: {list(all_stats_data.keys())})')
         return (json_file, all_stats_data)
@@ -522,7 +523,7 @@ def run_mmlm(model_config, task_id, model_id, config):
         num_workers = config.get('num_workers', 1)
         eval_info = {'input_path': data_set_path, 'output_path': output_path, 'limit': limit, 'dataset_name': dataset, 'subset_list': subset_list, 'num_workers': num_workers}
         log_dir = os.path.join(output_path, 'logs')
-        if not os.path.exists(log_dir):
+        if not state_exists(log_dir):
             os.makedirs(log_dir)
         evaluate_model(dataset, cur_model_info, eval_info)
         print(f'run_mmlm {data_set_path} over')
@@ -689,16 +690,16 @@ def get_eld_statistics():
         json_files = glob.glob(alt_pattern, recursive=True)
     if json_files:
         try:
-            with open(json_files[0], 'r', encoding='utf-8') as f:
+            with open_state(json_files[0], 'r', encoding='utf-8') as f:
                 data = json.load(f)
             return (jsonify({'data': data}), 200)
         except Exception as e:
             print(f'[get_eld_statistics] read JSON error: {e}, fallback to Excel')
     try:
         review_dir = os.path.join(output_path, 'reviews', model_name_safe)
-        if not os.path.exists(review_dir):
+        if not state_exists(review_dir):
             review_dir = output_path
-            if not os.path.exists(review_dir):
+            if not state_exists(review_dir):
                 return (jsonify({'error': 'review directory not found'}), 404)
         excel_files = glob.glob(os.path.join(review_dir, '*.xlsx'))
         if not excel_files:
@@ -739,7 +740,7 @@ def run_testcase_ruler1():
     if any((field not in user_req for field in required_fields)):
         return ({'err_info': 'PARAM_ERR'}, PARAM_ERR)
     users = []
-    with open(ADMIN_MEMBER, 'r', encoding='utf-8') as f:
+    with open_state(ADMIN_MEMBER, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             user_value = row.get('user', '').strip()
@@ -749,7 +750,7 @@ def run_testcase_ruler1():
         return (jsonify({'message': f'用户无权限，请联系管理员添加'}), 400)
     model_id = user_req['model_id']
     print(os.getcwd())
-    with open(COMMON_TESTCASE_PATH, 'r', encoding='utf-8') as f:
+    with open_state(COMMON_TESTCASE_PATH, 'r', encoding='utf-8') as f:
         opensource_testcases = json.load(f)
     model_config = get_one_model_config(model_id)
     if not model_config:
@@ -785,7 +786,7 @@ def run_testcase_ruler2():
     if any((field not in user_req for field in required_fields)):
         return ({'err_info': 'PARAM_ERR'}, PARAM_ERR)
     users = []
-    with open(RULER2_MEMBER, 'r', encoding='utf-8') as f:
+    with open_state(RULER2_MEMBER, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             user_value = row.get('user', '').strip()
@@ -795,7 +796,7 @@ def run_testcase_ruler2():
         return (jsonify({'message': f'用户无权限，请联系管理员添加'}), 400)
     print(os.getcwd())
     encodings = get_encoding(FILED_TESTCASE_PATH)
-    with open(FILED_TESTCASE_PATH, 'r', encoding=encodings) as f:
+    with open_state(FILED_TESTCASE_PATH, 'r', encoding=encodings) as f:
         field_testcases = json.load(f)
     model_id = user_req['model_id']
     model_config = get_one_model_config(model_id)
@@ -816,7 +817,7 @@ def run_testcase_dev():
     if any((field not in user_req for field in required_fields)):
         return ({'err_info': 'PARAM_ERR'}, PARAM_ERR)
     users = []
-    with open(AISF_MEMBER, 'r', encoding='utf-8') as f:
+    with open_state(AISF_MEMBER, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             user_value = row.get('user', '').strip()
@@ -827,7 +828,7 @@ def run_testcase_dev():
     model_id = user_req['model_id']
     print(os.getcwd())
     encodings = get_encoding(DEV_TESTCASE_PATH)
-    with open(DEV_TESTCASE_PATH, 'r', encoding=encodings) as f:
+    with open_state(DEV_TESTCASE_PATH, 'r', encoding=encodings) as f:
         dev_testcases = json.load(f)
     model_config = get_one_model_config(model_id)
     if not model_config:
@@ -882,7 +883,7 @@ def get_result():
     subsets = [os.path.basename(file).split('.')[0].split(os.sep)[-1] for file in files if dataset in os.path.basename(file)]
     result_list = []
     for file in files:
-        if not os.path.exists(file):
+        if not state_exists(file):
             return (jsonify({'error': 'path is not exist'}), 400)
         filename = os.path.basename(file)
         if subset:
@@ -916,20 +917,20 @@ def get_logs():
         use_cache = [use_cache]
     full_log = []
     for cache_path in use_cache:
-        if not os.path.exists(cache_path):
+        if not state_exists(cache_path):
             return (jsonify({'error': f'log path: {cache_path} not exist'}), 400)
         file = os.path.join(cache_path, 'logs', 'eval_log.log')
-        if not os.path.exists(file):
+        if not state_exists(file):
             full_log.append('LogNotFound')
             continue
         try:
             encodings = get_encoding(file)
-            with open(file, 'r', encoding=encodings) as f:
+            with open_state(file, 'r', encoding=encodings) as f:
                 logs = f.read()
         except UnicodeDecodeError as e:
             print(f'UnicodeDecodeError: {str(e)}')
             try:
-                with open(file, 'r', encoding='utf-8') as f:
+                with open_state(file, 'r', encoding='utf-8') as f:
                     logs = f.read()
             except:
                 logs = 'not utf-8.'
@@ -962,12 +963,12 @@ def _build_virtual_task_from_local(task_id):
         return None
     report_dir = os.path.join('outputs', model_id, task_id, 'reports', model_id)
     report_path = os.path.join(report_dir, f'{dataset_name}.json')
-    if not os.path.exists(report_path):
+    if not state_exists(report_path):
         candidates = sorted(glob.glob(os.path.join(report_dir, '*.json')))
         report_path = candidates[0] if candidates else None
     if not report_path:
         return None
-    with open(report_path, 'r', encoding='utf-8') as f:
+    with open_state(report_path, 'r', encoding='utf-8') as f:
         report_map = json.load(f)
     model_name = entry.get('model_name') or model_id
     return {'task_id': task_id, 'task_name': entry.get('task_name', f'{model_id}_{dataset_name}'), 'model_id': model_id, 'model_name': model_name, 'assessmentType': entry.get('assessmentType', '领域评估(Ruler2)'), 'createTime': entry.get('create_time', ''), 'taskConfig': {'evaluationType': entry.get('evaluationType', 'llm'), 'dataset_args': [{'testcase_tags': [tag], 'subset_list': []}]}, 'result': {model_name: [report_map]}}
@@ -998,7 +999,7 @@ def update_top_chart():
             file_tasks_map[res_file] = []
         file_tasks_map[res_file].append(cur_task)
     for res_file, cur_tasks in file_tasks_map.items():
-        with open(res_file, 'r', encoding='utf-8') as file:
+        with open_state(res_file, 'r', encoding='utf-8') as file:
             old_res = json.load(file)
         for cur_task in cur_tasks:
             model_id = cur_task['model_id']
@@ -1057,7 +1058,7 @@ def update_top_chart():
                     modify_test_res(old_res, model_id, testcases, cur_task, model_name)
             except Exception as e:
                 return (jsonify({'err': e}), 410)
-        with open(res_file, 'w', encoding='utf-8') as file:
+        with open_state(res_file, 'w', encoding='utf-8') as file:
             json.dump(old_res, file, indent=4, ensure_ascii=False)
     return (jsonify({'info': 'success'}), 200)
 
@@ -1110,7 +1111,7 @@ def run_vlm_ruler1_eval(task_id, model_id, model_config, user_req, opensource_te
     try:
         model_name = model_config['info']['model_name']
         tasks[task_id] = generate_run_task_info(user_req, model_id, model_name, model_config, task_id)
-        with open(TASKS, 'w', encoding='utf-8') as f:
+        with open_state(TASKS, 'w', encoding='utf-8') as f:
             json.dump(tasks, f, ensure_ascii=False, indent=4)
         if 'AndroidWorld' in user_req['datasets'] and len(user_req['datasets']) > 1:
             raise ValueError('AndroidWorld 不能与其他测试集同时运行')
@@ -1127,12 +1128,12 @@ def run_vlm_ruler1_eval(task_id, model_id, model_config, user_req, opensource_te
                 finish_count = 0
                 and_score = 0
                 log_path = os.path.join(log_dir, f'eval_log.log')
-                if not os.path.exists(log_dir):
+                if not state_exists(log_dir):
                     os.makedirs(log_dir)
-                if not os.path.exists(review_dir):
+                if not state_exists(review_dir):
                     os.makedirs(review_dir)
                 episode = True
-                with open(log_path, 'w', encoding='utf-8') as f:
+                with open_state(log_path, 'w', encoding='utf-8') as f:
                     pass
                 for i in range(split_task_length):
                     end = 10 * (i + 1)
@@ -1156,7 +1157,7 @@ def run_vlm_ruler1_eval(task_id, model_id, model_config, user_req, opensource_te
                     tasks[task_id]['progress'] = rate
                     if rate == 1.0:
                         tasks[task_id]['status'] = 'completed'
-                    with open(log_path, 'a') as f:
+                    with open_state(log_path, 'a') as f:
                         f.write(data.replace('\\r\\n', '\r\n'))
                 score = round(and_score / limit, 2)
                 update_android_world_res(tasks, task_id, model_name, score)
@@ -1170,7 +1171,7 @@ def run_vlm_ruler1_eval(task_id, model_id, model_config, user_req, opensource_te
                     response = requests.request(method='GET', url=f'http://127.0.0.1:1/unconfigured{file}', stream=True)
                     file_name = os.path.join(review_dir, os.path.basename(file))
                     if response.status_code == 200:
-                        with open(file_name, 'wb') as f:
+                        with open_state(file_name, 'wb') as f:
                             for chunk in response.iter_content(chunk_size=8192):
                                 if chunk:
                                     f.write(chunk)
@@ -1225,7 +1226,7 @@ def run_vlm_ruler1():
     if any((field not in user_req for field in required_fields)):
         return ({'err_info': 'PARAM_ERR'}, PARAM_ERR)
     users = []
-    with open(ADMIN_MEMBER, 'r', encoding='utf-8') as f:
+    with open_state(ADMIN_MEMBER, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             user_value = row.get('user', '').strip()
@@ -1235,7 +1236,7 @@ def run_vlm_ruler1():
         return (jsonify({'message': f'用户无权限，请联系管理员添加'}), 400)
     model_id = user_req['model_id']
     print(os.getcwd())
-    with open(COMMON_TESTCASE_PATH, 'r', encoding='utf-8') as f:
+    with open_state(COMMON_TESTCASE_PATH, 'r', encoding='utf-8') as f:
         opensource_testcases = json.load(f)
     model_config = get_one_model_config(model_id)
     if not model_config:
@@ -1299,7 +1300,7 @@ def async_score():
     report_file = f'{use_cache}/reports/{model_id_basename}/{dataset}.json'
     try:
         reload_score(UPDATE_SCORE, {'use_cache': use_cache, 'model_id_basename': model_id_basename, 'dataset': dataset, 'sub_dataset': user_req['sub_dataset'], 'metric_list': metric_list, 'model_name': model_name, 'type': 'async'})
-        with open(report_file, 'r', encoding='utf-8') as f:
+        with open_state(report_file, 'r', encoding='utf-8') as f:
             data = json.load(f)
         for index, date_score in enumerate(tasks[user_req['task_id']]['result'][model_name]):
             if date_score['dataset_name'] == data['dataset_name']:
@@ -1413,12 +1414,12 @@ def cleanup_on_exit():
             current_process.kill()
             if current_process.pid in running_pids:
                 tasks[running_tasks[running_pids.index(current_process.pid)]]['process_id'] = None
-    with open(TASKS, 'w', encoding='utf-8') as f:
+    with open_state(TASKS, 'w', encoding='utf-8') as f:
         json.dump(tasks, f, ensure_ascii=False, indent=4)
 
 def init_task():
     global tasks
-    if not os.path.exists(TASKS):
+    if not state_exists(TASKS):
         tasks = {}
     else:
         tasks = get_tasks()
@@ -1473,7 +1474,7 @@ def download_aisf_release_result():
     if not (task_id and datasets and user_name):
         return ({'err_info': 'PARAM_ERR'}, PARAM_ERR)
     users = []
-    with open(AISF_USER_MEMBER, 'r', encoding='utf-8') as f:
+    with open_state(AISF_USER_MEMBER, 'r', encoding='utf-8') as f:
         reader = csv.DictReader(f)
         for row in reader:
             user_value = row.get('user', '').strip()
@@ -1747,7 +1748,7 @@ def get_latest_report():
     if not model_id:
         return (jsonify({'error': 'param model_id must be not null'}), 400)
     report_dir = os.path.join(EVAL_REPORT_OUTPUT_PATH, model_id)
-    if not os.path.exists(report_dir):
+    if not state_exists(report_dir):
         return (jsonify({'error': f'no reports found for model_id {model_id}'}), 404)
     try:
         subdirs = sorted(os.listdir(report_dir), reverse=True)
@@ -1768,7 +1769,7 @@ def get_latest_report():
 def download_report():
     req_filepath = request.args.get('filepath')
     try:
-        if os.path.exists(req_filepath):
+        if state_exists(req_filepath):
             local_file_path = os.path.join(os.getcwd(), req_filepath)
             return send_file(local_file_path, as_attachment=True)
         else:
@@ -1794,7 +1795,7 @@ def preview_report():
     if not req_filepath:
         return (jsonify({'error': 'param filepath must be not null'}), 400)
     file_path = req_filepath if os.path.isabs(req_filepath) else os.path.join(os.getcwd(), req_filepath)
-    if not os.path.exists(file_path):
+    if not state_exists(file_path):
         return (jsonify({'error': f'file not found: {req_filepath}'}), 404)
     ext = os.path.splitext(file_path)[1].lower()
     if ext not in ('.ppt', '.pptx', '.pdf'):
@@ -1822,7 +1823,7 @@ def preview_report_pdf():
     if not req_filepath:
         return (jsonify({'error': 'param filepath must be not null'}), 400)
     file_path = req_filepath if os.path.isabs(req_filepath) else os.path.join(os.getcwd(), req_filepath)
-    if not os.path.exists(file_path):
+    if not state_exists(file_path):
         return (jsonify({'error': f'file not found: {req_filepath}'}), 404)
     ext = os.path.splitext(file_path)[1].lower()
     if ext not in ('.ppt', '.pptx', '.pdf'):
@@ -1919,7 +1920,7 @@ def preview_report_pdf():
         return (jsonify({'error': f'PDF 生成失败: {str(e)}'}), 500)
     finally:
         for p in (tmp_pptx, pdf_path):
-            if p and os.path.exists(p):
+            if p and state_exists(p):
                 try:
                     os.unlink(p)
                 except Exception:
@@ -1945,7 +1946,7 @@ def publish_report_from_task():
     if not userName:
         userName = task_info['userName']
     src_filepath = task_info.get('filepath')
-    if not src_filepath or not os.path.exists(src_filepath):
+    if not src_filepath or not state_exists(src_filepath):
         return (jsonify({'error': f'任务 {task_id} 的报告文件不存在: {src_filepath}'}), 404)
     published_dir = os.path.join(EVAL_REPORT_OUTPUT_PATH, 'published')
     os.makedirs(published_dir, exist_ok=True)
@@ -2112,7 +2113,7 @@ def update_published_report():
         return (jsonify({'error': f'id {id} 不存在'}), 404)
     task_info = published_tasks[id]
     saved_path = task_info.get('published_filepath')
-    if not saved_path or not os.path.isfile(saved_path):
+    if not saved_path or not state_isfile(saved_path):
         return (jsonify({'error': '原报告文件不存在，无法更新'}), 404)
     saved_dir = os.path.dirname(saved_path)
     old_ext = os.path.splitext(saved_path)[1]
@@ -2121,7 +2122,7 @@ def update_published_report():
     new_path = os.path.join(saved_dir, f'{base_name}{new_ext}')
     try:
         if os.path.normpath(new_path) != os.path.normpath(saved_path):
-            if os.path.exists(saved_path):
+            if state_exists(saved_path):
                 os.remove(saved_path)
         file.save(new_path)
     except Exception as e:
@@ -2137,10 +2138,10 @@ def update_published_report():
 @app.route('/v1/get_min_test_chart', methods=['GET'])
 def get_min_test_chart():
     model_name = request.args.get('model_name')
-    if not os.path.exists(LLM_MIN_DATASET_RESULT):
+    if not state_exists(LLM_MIN_DATASET_RESULT):
         return (jsonify({'error': 'filepath is not exist'}), 400)
     try:
-        with open(LLM_MIN_DATASET_RESULT, 'r', encoding='utf-8') as file:
+        with open_state(LLM_MIN_DATASET_RESULT, 'r', encoding='utf-8') as file:
             chart = json.load(file)
             if model_name in chart:
                 return (jsonify({'model': model_name, 'status': 'exist'}), 200)

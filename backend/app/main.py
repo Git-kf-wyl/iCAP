@@ -199,7 +199,7 @@ class ToolInput(BaseModel):
 
 def simulate_school_jobs(store: Store) -> None:
     """学校训练任务的模拟执行器。不执行任何用户提交的代码。"""
-    if not any(task["status"] in ("queued", "running") for task in store.snapshot()["school_jobs"]):
+    if not any(task["status"] in ("queued", "running") for task in store.snapshot(['school_jobs'])["school_jobs"]):
         return
     def tick(data: dict) -> None:
         for task in data["school_jobs"]:
@@ -225,7 +225,7 @@ def simulate_legacy_evaluations(store: Store) -> None:
     """
     if not any(task["status"] in ("queued", "running") and task["benchmark"] not in RULER_IDS
                and task["benchmark"] not in AGENTCOMPASS_IDS
-               and not task.get("ruler_label") for task in store.snapshot()["evaluations"]):
+               and not task.get("ruler_label") for task in store.snapshot(['evaluations'])["evaluations"]):
         return
     def tick(data: dict) -> None:
         for task in data["evaluations"]:
@@ -326,6 +326,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
         await asyncio.to_thread(skill_service.shutdown)
         if hasattr(app.state,'yellow'):
             await asyncio.to_thread(app.state.yellow.shutdown)
+        store.close()
 
     app = FastAPI(title="InnovationCore AI Platform", version="0.1.0", lifespan=lifespan)
     app.state.store = store
@@ -537,7 +538,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
 
     @app.get("/api/datasets")
     def datasets(principal: dict = Depends(authorized)):
-        return visible(store.snapshot()["datasets"], principal)
+        return visible(store.snapshot(['datasets'])["datasets"], principal)
 
     @app.post("/api/datasets", status_code=201)
     def create_dataset(body: DatasetInput, principal: dict = Depends(authorized)):
@@ -564,7 +565,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
     @app.post("/api/datasets/{dataset_id}/files", status_code=201)
     async def upload_dataset_file(dataset_id: str, file: UploadFile = File(...),
                                   principal: dict = Depends(authorized)):
-        require_edit(find(store.snapshot()["datasets"], dataset_id), principal)
+        require_edit(find(store.snapshot(['datasets'])["datasets"], dataset_id), principal)
         original = (file.filename or "upload.bin").replace("\\", "/").split("/")[-1][:160]
         if not original or original in (".", ".."):
             raise HTTPException(400, "文件名无效")
@@ -593,7 +594,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
 
     @app.get("/api/datasets/{dataset_id}/files/{file_id}")
     def download_dataset_file(dataset_id: str, file_id: str, principal: dict = Depends(authorized)):
-        dataset = require_view(find(store.snapshot()["datasets"], dataset_id), principal)
+        dataset = require_view(find(store.snapshot(['datasets'])["datasets"], dataset_id), principal)
         entry = find(dataset["files"], file_id)
         target = store.uploads / entry["storage_name"]
         if not target.is_file():
@@ -754,7 +755,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
 
     @app.get("/api/agents/papers", dependencies=[Depends(authorized)])
     def papers(q: str = ""):
-        rows = store.snapshot()["papers"]
+        rows = store.snapshot(['papers'])["papers"]
         return {"rows": [p for p in rows if q.lower() in (p["title"] + p["category"] + p["abstract"]).lower()],
                 "simulated": True, "message": "当前使用示例论文目录；arXiv 抓取与翻译需要接入外部服务。"}
 
@@ -865,7 +866,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
 
     @app.get("/api/school/jobs")
     def school_jobs(principal: dict = Depends(authorized)):
-        return visible(store.snapshot()["school_jobs"], principal)
+        return visible(store.snapshot(['school_jobs'])["school_jobs"], principal)
 
     @app.post("/api/school/jobs", status_code=201)
     def create_school_job(body: SchoolJobInput, principal: dict = Depends(authorized)):
@@ -917,17 +918,29 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
     if (dist / "index.html").is_file():
         from .web_assets import WebAssets
         app.mount("/assets", WebAssets(directory=dist / "assets"), name="assets")
+        index_template=(dist/'index.html').read_text('utf-8')
+
+        def index_page(request:Request):
+            session={}
+            token=request.cookies.get('icap_assets','')
+            if token:
+                try:session=auth.page_session(token)
+                except (HTTPException,ValueError,KeyError):pass
+            payload=json.dumps(session,ensure_ascii=False,separators=(',',':')).replace('<','\\u003c').replace('>','\\u003e').replace('&','\\u0026')
+            script='<script id="icap-session" type="application/json">'+payload+'</script>'
+            return Response(index_template.replace('<head>','<head>'+script,1),media_type='text/html',headers={'Cache-Control':'no-store','Vary':'Cookie'})
 
         @app.get("/{spa_path:path}", include_in_schema=False)
-        def spa(spa_path: str):
+        def spa(spa_path: str,request:Request):
             if spa_path.startswith(("api/", "ws/", "v1/", "v2/", "aiSchool", "dataPipeline")) or any(part.startswith('.') for part in spa_path.split('/')):
                 raise HTTPException(404, "路由不存在")
-            if spa_path.endswith(('.py','.pyc','.map','.zip','.tar.gz','.docx','.xlsx','.env')):
+            if spa_path.endswith(('.py','.pyc','.map','.zip','.tar.gz','.docx','.xlsx','.env','.sqlite3','.sqlite3-wal','.sqlite3-shm','.db')):
                 raise HTTPException(404,"路由不存在")
             candidate = (dist / spa_path).resolve()
+            if candidate==dist/'index.html':return index_page(request)
             if candidate.is_file() and candidate.is_relative_to(dist.resolve()):
                 return FileResponse(candidate)
-            return FileResponse(dist / "index.html",headers={'Cache-Control':'no-store'})
+            return index_page(request)
 
     return app
 

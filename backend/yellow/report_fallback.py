@@ -2,6 +2,7 @@
 from datetime import datetime
 import json
 from pathlib import Path
+from state_storage import read_document,state_exists
 
 def generate(module,task_id,model_names,model_ids,compare_models,parsed_types,all_types,report_name):
     from pptx import Presentation
@@ -18,7 +19,7 @@ def generate(module,task_id,model_names,model_ids,compare_models,parsed_types,al
         count=0
         for filename,label in [('ruler1_cheat.json','通用能力'),('ruler2_cheat.json','领域能力'),('ruler1_cheat_multi.json','多模态通用'),('ruler2_cheat_multi.json','多模态领域')]:
             source=Path('backend/config')/filename
-            rows=json.loads(source.read_text('utf-8')) if source.exists() else {}
+            rows=read_document(source) if state_exists(source) else {}
             for model in model_names:
                 records=rows.get(model,[])
                 if isinstance(records,dict):records=records.get('result',[])

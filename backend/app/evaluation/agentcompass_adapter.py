@@ -113,10 +113,10 @@ class AgentCompassRunner:
 
     # ---- 内部 ----
     def _snapshot_task(self, task_id: str) -> dict | None:
-        return next((t for t in self.store.snapshot()["evaluations"] if t["id"] == task_id), None)
+        return next((t for t in self.store.snapshot(['evaluations'])["evaluations"] if t["id"] == task_id), None)
 
     def _next_queued(self) -> dict | None:
-        return next((t for t in self.store.snapshot()["evaluations"]
+        return next((t for t in self.store.snapshot(['evaluations'])["evaluations"]
                      if t["status"] == "queued" and t["benchmark"] in AGENTCOMPASS_IDS), None)
 
     async def _start(self, task: dict) -> None:

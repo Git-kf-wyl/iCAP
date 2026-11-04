@@ -385,26 +385,10 @@ def test_batch_uses_defaults(live_env):
         "dataset_id": "ds-1", "benchmark": "Ruler1"}).status_code == 422
 
 
-def test_legacy_benchmark_still_simulated(live_env):
-    """非尺子 benchmark 仍由模拟执行器推进（不进入测评引擎），保持旧行为。"""
-    task = live_env.submit("ASR")
-    assert "ruler_label" not in task
-    from app.main import simulate_legacy_evaluations
-    for _ in range(12):
-        simulate_legacy_evaluations(live_env.store)
-        if live_env.store.snapshot()["evaluations"][0]["status"] == "completed":
-            break
-    completed = live_env.store.snapshot()["evaluations"][0]
-    assert completed["status"] == "completed"
-    assert completed["report_id"]
-    assert completed.get("result") is None
-    reports = [r for r in live_env.client.get("/api/reports").json() if r["evaluation_id"] == task["id"]]
-    assert len(reports) == 1 and reports[0]["simulated"] is True
-    # 走引擎的尺子任务不会被模拟器推进
-    ruler_task = live_env.submit("Ruler1", config={"sample_limit": 1})
-    simulate_legacy_evaluations(live_env.store)
-    assert live_env.store.snapshot()["evaluations"][0]["status"] == "queued"
-    assert ruler_task["status"] == "queued"
+def test_unsupported_legacy_benchmark_does_not_fabricate_results(live_env):
+    response=live_env.client.post('/api/evaluations',json={'model_id':'fixture-a','dataset_id':'ds-1','benchmark':'ASR'})
+    assert response.status_code==503
+    assert live_env.client.get('/api/reports').json()==[]
 
 
 # --------------------------------------------------------------------------- #

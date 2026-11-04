@@ -1,5 +1,6 @@
 """Public model/dataset downloads in each iCAP account's private resource library."""
 from __future__ import annotations
+from state_storage import read_document,state_exists,state_isfile
 import hashlib
 import json
 import os
@@ -15,8 +16,10 @@ from .yellow_runtime import write_json
 class HubDownloads:
     def __init__(self,runtime,store):
         self.runtime=runtime;self.store=store;self.lock=threading.RLock()
-        for path in (runtime.base/'users').glob('*/downloads/tasks.json'):
-            tasks=json.loads(path.read_text('utf-8'))
+        for folder in (runtime.base/'users').glob('*/downloads'):
+            path=folder/'tasks.json'
+            if not state_exists(path):continue
+            tasks=read_document(path)
             for row in tasks.values():
                 if row.get('task_status')=='running':row.update(task_status='failed',error='服务重启中断了下载，请重新提交')
             write_json(path,tasks)
@@ -59,7 +62,7 @@ class HubDownloads:
     def paths(self,actor):
         root=self.runtime.initialize(actor)/'downloads';root.mkdir(exist_ok=True)
         path=root/'tasks.json'
-        if not path.exists():write_json(path,{})
+        if not state_exists(path):write_json(path,{})
         return root,path
 
     def start(self,actor,provider,body):
@@ -71,7 +74,7 @@ class HubDownloads:
         if total>int(os.getenv('YELLOW_DOWNLOAD_MAX_BYTES',str(2*1024**3))):raise HTTPException(422,'单次下载超过 2 GiB，请缩小文件范围')
         root,path=self.paths(actor)
         with self.lock:
-            tasks=json.loads(path.read_text('utf-8'))
+            tasks=read_document(path)
             if sum(row.get('task_status')=='running' for row in tasks.values())>=2:raise HTTPException(429,'当前账号已有两个下载任务正在运行')
             if shutil.disk_usage(root).free<total+5*1024**3:raise HTTPException(503,'资源库可用空间不足')
             task_id=uuid.uuid4().hex
@@ -94,18 +97,18 @@ class HubDownloads:
                         row['downloaded_files'].append(name)
                     except Exception:row['failed_files'].append(name)
                     with self.lock:
-                        tasks=json.loads(path.read_text('utf-8'));tasks[task_id]=row;write_json(path,tasks)
+                        tasks=read_document(path);tasks[task_id]=row;write_json(path,tasks)
                 row['task_status']='completed' if row['downloaded_files'] else 'failed'
                 if row['task_status']=='failed':row['error']='文件下载失败，请检查仓库权限或网络'
             except Exception:row.update(task_status='failed',error='下载任务执行失败')
             finally:
                 with self.lock:
-                    tasks=json.loads(path.read_text('utf-8'));tasks[task_id]=row;write_json(path,tasks)
+                    tasks=read_document(path);tasks[task_id]=row;write_json(path,tasks)
         threading.Thread(target=download,daemon=True,name='hub-'+task_id).start()
         return row
 
     def status(self,actor,identifier):
-        root,path=self.paths(actor);row=json.loads(path.read_text('utf-8')).get(identifier)
+        root,path=self.paths(actor);row=read_document(path).get(identifier)
         if not row:raise HTTPException(404,'下载任务不存在')
         return row
 
@@ -128,8 +131,8 @@ class HubDownloads:
         record={'id':identifier,'name':row['repo_name'],'category':'训练集','version':'main','description':'从公开仓库下载的资源',
                 'owner_user_id':actor['id'],'owner_name':actor['username'],'created_at':datetime.now(timezone.utc).isoformat(),
                 'visibility':'public' if body.get('visibility')=='public' else 'private','files':entries,'size':len(entries)}
-        self.store.update(lambda data:data['datasets'].append(record))
+        self.store.update(lambda data:data['datasets'].append(record),collections=['datasets'])
         row['dataset_id']=identifier
         with self.lock:
-            tasks=json.loads(path.read_text('utf-8'));tasks[parts[1]]=row;write_json(path,tasks)
+            tasks=read_document(path);tasks[parts[1]]=row;write_json(path,tasks)
         return {'status':'success','success_count':len(entries),'fail_count':len(row['failed_files']),'dataset_id':identifier,'bucket_path':identifier}

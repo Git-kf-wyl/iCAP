@@ -57,7 +57,7 @@ class EvaluationRunner:
     async def step(self) -> None:
         """调度一回合：取首个 queued/running 评测任务并推进一个用例。"""
         if not any(task["status"] in ("queued", "running") and task["benchmark"] in RULER_IDS
-                   for task in self.store.snapshot()["evaluations"]):
+                   for task in self.store.snapshot(['evaluations'])["evaluations"]):
             self._sessions.clear()
             self.active_task_id = None
             return

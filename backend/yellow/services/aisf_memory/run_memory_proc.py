@@ -4,6 +4,7 @@
 由 run_test_server.py 以 subprocess 方式启动，取代原先在服务进程内运行的
 run_memory 线程，使得该测评任务的存活不再依赖 flask 服务进程。
 """
+from state_storage import open_state, state_exists, state_isfile
 import json
 import os
 import sys
@@ -17,7 +18,7 @@ def _find_project_root():
     """向上查找项目根目录，使其下的 backend 包可被 import（backend.xxx 前缀导入）。"""
     d = os.path.dirname(os.path.abspath(__file__))
     while True:
-        if os.path.isfile(os.path.join(d, 'run_test_server.py')) and os.path.isdir(os.path.join(d, 'services')):
+        if state_isfile(os.path.join(d, 'run_test_server.py')) and os.path.isdir(os.path.join(d, 'services')):
             return d
         parent = os.path.dirname(d)
         if parent == d:
@@ -40,7 +41,7 @@ def run_memory_proc(model_config, task_id, model_id, user_req, thread_id):
     log_dir = os.path.join(output_path, 'logs')
     os.makedirs(log_dir, exist_ok=True)
     log_path = os.path.join(log_dir, 'eval_log.log')
-    log_file = open(log_path, 'w', encoding='utf-8')
+    log_file = open_state(log_path, 'w', encoding='utf-8')
     log_file.write(f'[{datetime.now()}] run_memory_proc 启动 | model={model_id} | task_id={task_id}\n\n')
 
     def log(msg):
@@ -95,12 +96,12 @@ def run_memory_proc(model_config, task_id, model_id, user_req, thread_id):
             selected_test_file = bp.get('selectedTestFile', '')
             dataset_name = dataset_arg.get('dataset_name', '')
             task_dir = os.path.join(MEMORY_DATASET_PATH, dataset_name, task_name)
-            if not os.path.exists(task_dir):
+            if not state_exists(task_dir):
                 log(f'[skip] 任务目录不存在: {task_dir}')
                 continue
             xlsx_filename = os.path.basename(selected_test_file) if selected_test_file else '测试用例.xlsx'
             xlsx_path = os.path.join(task_dir, xlsx_filename)
-            if not os.path.exists(xlsx_path):
+            if not state_exists(xlsx_path):
                 log(f'[skip] 测试集文件不存在: {xlsx_path}')
                 continue
             df = pd.read_excel(xlsx_path, sheet_name='Sheet1')
@@ -111,15 +112,15 @@ def run_memory_proc(model_config, task_id, model_id, user_req, thread_id):
                 continue
             prompt_filename = os.path.basename(selected_prompt_file)
             prompt_path = os.path.join(task_dir, prompt_filename)
-            if not os.path.exists(prompt_path):
+            if not state_exists(prompt_path):
                 log(f'[skip] prompt 文件不存在: {prompt_path}')
                 continue
-            with open(prompt_path, 'r', encoding='utf-8') as f:
+            with open_state(prompt_path, 'r', encoding='utf-8') as f:
                 prompt_template = f.read()
             if answer_col not in df.columns:
                 df[answer_col] = None
             reuse_map = {}
-            if retry_enabled and os.path.exists(output_xlsx_path):
+            if retry_enabled and state_exists(output_xlsx_path):
                 try:
                     prev_df = pd.read_excel(output_xlsx_path, sheet_name='Sheet1')
                     for prev_idx, prow in prev_df.iterrows():
@@ -311,7 +312,7 @@ def run_memory_proc(model_config, task_id, model_id, user_req, thread_id):
                 report_dir = os.path.join(output_path, 'reports', model_id)
                 os.makedirs(report_dir, exist_ok=True)
                 report_json_path = os.path.join(report_dir, f"{dataset_arg['dataset_name']}.json")
-                with open(report_json_path, 'w', encoding='utf-8') as f:
+                with open_state(report_json_path, 'w', encoding='utf-8') as f:
                     json.dump(report_map, f, ensure_ascii=False, indent=4)
                 log(f'  report json 已生成: {report_json_path}')
         log('\n[run_memory_proc] 记忆类测试评测全部完成')

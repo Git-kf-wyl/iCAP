@@ -104,7 +104,8 @@ def test_agent_school_and_monitor(tmp_path, monkeypatch):
         with client.websocket_connect("/ws/monitor") as ws:
             ws.send_json({"token": token})
             metrics = ws.receive_json()
-            assert metrics["simulated"] is True and len(metrics["devices"]) == 4
+            assert metrics["simulated"] is False and len(metrics["devices"]) >= 1
+            assert metrics['memory_bytes'] > 0
         with client.stream("POST", "/api/agents/chat/stream", json={"model_id": "fixture-a", "message": "你好"}) as response:
             assert "event: error" in "".join(response.iter_text())
 

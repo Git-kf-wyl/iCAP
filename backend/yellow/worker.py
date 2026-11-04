@@ -9,6 +9,7 @@ import traceback
 
 CODE=Path(__file__).resolve().parent
 sys.path.insert(0,str(CODE))
+sys.path.insert(0,str(CODE.parent))
 
 def main():
     from flask import Flask, request, jsonify, Response

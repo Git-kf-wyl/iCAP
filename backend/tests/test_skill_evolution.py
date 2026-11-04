@@ -83,7 +83,7 @@ def test_real_upstream_worker_and_zero_score_contract(workspace, engine):
     assert requests[0]["messages"][0]["role"] == "system"
     assert requests[0]["messages"][1]["content"] == "Question"
     assert "test-worker-private-secret" not in json.dumps(row)
-    stored = app.state.store.path.read_text(encoding="utf-8")
+    stored = json.dumps(app.state.store.snapshot(),ensure_ascii=False)
     assert "test-worker-private-secret" not in stored
     download = client.get(f"/api/skill-evolution/jobs/{row['id']}/artifacts/artifacts.zip")
     assert download.status_code == 200

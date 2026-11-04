@@ -5,6 +5,7 @@ import sys
 from pathlib import Path
 
 import pytest
+from state_storage import read_document,write_document
 from fastapi.testclient import TestClient
 
 
@@ -41,7 +42,29 @@ def test_parallel_reads_wait_for_workspace_readiness(platform):
     with ThreadPoolExecutor(max_workers=3) as pool:
         responses=list(pool.map(lambda path:client.get(path,headers=header(actor)),paths))
     assert [response.status_code for response in responses]==[200,200,200]
-    assert len(adapter.runtime.workers)==1
+    assert len(adapter.runtime.workers)==0, "Browsing must not start the Flask evaluation worker"
+    assert client.get('/v1/dataset/counts',headers=header(actor)).json()=={}
+    with ThreadPoolExecutor(max_workers=5) as pool:
+        responses=list(pool.map(lambda _:client.post('/v1/dataset/update/view',json={'dataset':'fixture','is_field':1},headers=header(actor)),range(20)))
+    assert all(response.status_code==200 for response in responses)
+    assert client.get('/v1/dataset/counts',headers=header(actor)).json()['1']['fixture']['view_count']==20
+
+
+def test_html_bootstrap_verifies_session_without_exposing_credential(platform):
+    import hashlib,re
+    client,_,users,_=platform
+    token=users[0]['access_token']
+    client.cookies.set('icap_assets',token)
+    response=client.get('/')
+    payload=json.loads(re.search(r'<script id="icap-session" type="application/json">(.*?)</script>',response.text).group(1))
+    assert payload['profile']['id']==users[0]['id']
+    assert payload['fingerprint']==hashlib.sha256(token.encode()).hexdigest()
+    assert token not in response.text
+    assert response.headers['cache-control']=='no-store'
+    client.post('/api/auth/logout',headers=header(users[0]))
+    response=client.get('/')
+    payload=json.loads(re.search(r'<script id="icap-session" type="application/json">(.*?)</script>',response.text).group(1))
+    assert payload=={}
 
 
 def test_source_and_credentials_are_not_public(platform):
@@ -91,11 +114,11 @@ def test_resource_visibility_and_editing_follow_ownership(platform):
     principal=adapter.app.state.auth.current(other['access_token'])
     root=adapter.runtime.initialize(principal)
     adapter.runtime.sync_resources(root,principal)
-    assert identifier in json.loads((root/'backend/config/common_testcase_cfg.json').read_text('utf-8'))
+    assert identifier in read_document(root/'backend/config/common_testcase_cfg.json')
     client.put('/api/datasets/'+identifier,headers=h,json={'name':'private again','visibility':'private'})
     assert identifier not in {row['id'] for row in client.get('/api/datasets',headers=h2).json()}
     adapter.runtime.sync_resources(root,principal)
-    assert identifier not in json.loads((root/'backend/config/common_testcase_cfg.json').read_text('utf-8'))
+    assert identifier not in read_document(root/'backend/config/common_testcase_cfg.json')
     assert not (root/'testsuite/TestSuite'/identifier).exists()
 
 
@@ -110,12 +133,12 @@ def test_published_reports_revoke_shared_copies(platform):
     from app.yellow_runtime import write_json
     write_json(path,{'example':{'id':'example','status':'completed','published_filepath':report.relative_to(source).as_posix()}})
     runtime.sync_resources(target,other)
-    records=json.loads((target/'backend/config/publishedReportTasks.json').read_text('utf-8'))
+    records=read_document(target/'backend/config/publishedReportTasks.json')
     assert len(records)==1
     shared=next(iter(records.values()))
     assert shared['can_edit'] is False
     copied=target/shared['published_filepath'];assert copied.read_bytes()==report.read_bytes()
     write_json(path,{})
     runtime.sync_resources(target,other)
-    assert json.loads((target/'backend/config/publishedReportTasks.json').read_text('utf-8'))=={}
+    assert read_document(target/'backend/config/publishedReportTasks.json')=={}
     assert not copied.exists()

@@ -7,6 +7,7 @@ paperAgent - arXiv 每日论文自动化处理服务
 以 REST API 形式对外提供，支持异步任务执行和结果查询。
 
 """
+from state_storage import open_state, state_exists, state_isfile
 import json
 import ast
 import os
@@ -204,11 +205,11 @@ def extract_json_from_response(model_response):
 
 def download_pdf(url, save_path):
     """下载PDF文件"""
-    if os.path.exists(save_path):
+    if state_exists(save_path):
         logger.info(f'{save_path} 已存在，跳过下载')
         return save_path
     response = requests.get(url, verify=True, proxies=proxies)
-    with open(save_path, 'wb') as f:
+    with open_state(save_path, 'wb') as f:
         f.write(response.content)
     logger.info(f'{save_path} 已下载')
     return save_path
@@ -339,7 +340,7 @@ def run_demo_pipeline():
         update_status(running=False, current_stage='done', current_progress='快速演示完成', last_run_status='success', last_run_time=datetime.datetime.now().isoformat(), last_run_paper_count=len(papers))
         result = {'papers': papers, 'recommendation': recommendation, 'timestamp': datetime.datetime.now().isoformat()}
         result_path = os.path.join(PAPER_RESULT_DIR, f'demo_{datetime.date.today().isoformat()}.json')
-        with open(result_path, 'w', encoding='utf-8') as f:
+        with open_state(result_path, 'w', encoding='utf-8') as f:
             json.dump(result, f, ensure_ascii=False, indent=2)
     except Exception as e:
         logger.error(f'快速演示失败: {e}')
@@ -379,7 +380,7 @@ def list_results():
     try:
         for f in os.listdir(PAPER_RESULT_DIR):
             file_path = os.path.join(PAPER_RESULT_DIR, f)
-            if os.path.isfile(file_path):
+            if state_isfile(file_path):
                 ext = os.path.splitext(f)[1].lower()
                 if ext in ('.xlsx', '.csv', '.json'):
                     stat = os.stat(file_path)
@@ -395,7 +396,7 @@ def download_result(filename):
     if '..' in filename or '/' in filename or '\\' in filename:
         return (jsonify({'error': '非法的文件名'}), 400)
     file_path = os.path.join(PAPER_RESULT_DIR, filename)
-    if not os.path.exists(file_path):
+    if not state_exists(file_path):
         return (jsonify({'error': f'文件 {filename} 不存在'}), 404)
     ext = os.path.splitext(filename)[1].lower()
     mime_map = {'.xlsx': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', '.csv': 'text/csv; charset=utf-8', '.json': 'application/json; charset=utf-8'}
@@ -423,7 +424,7 @@ def get_latest_demo():
             return (jsonify({'error': '暂无演示结果'}), 404)
         latest = max(json_files, key=lambda f: os.path.getmtime(os.path.join(PAPER_RESULT_DIR, f)))
         file_path = os.path.join(PAPER_RESULT_DIR, latest)
-        with open(file_path, 'r', encoding='utf-8') as f:
+        with open_state(file_path, 'r', encoding='utf-8') as f:
             data = json.load(f)
         return (jsonify(data), 200)
     except Exception as e:
@@ -457,7 +458,7 @@ def load_all_local_papers():
         except Exception as e:
             logger.warning(f'读取本地分析文件失败 {fname}: {e}')
     search_dir = PAPER_SEARCH_DIR
-    if os.path.exists(search_dir):
+    if state_exists(search_dir):
         for fname in os.listdir(search_dir):
             if not fname.endswith('.csv'):
                 continue
@@ -663,9 +664,9 @@ def get_search_csv():
     username = request.args.get('username', 'anonymous').strip()
     safe_username = re.sub('[^\\w\\-_]', '_', username)
     latest_path = os.path.join(PAPER_SEARCH_DIR, f'latest_{safe_username}.csv')
-    if not os.path.exists(latest_path):
+    if not state_exists(latest_path):
         return (jsonify({'error': '暂无搜索结果'}), 404)
-    with open(latest_path, 'r', encoding='utf_8_sig') as f:
+    with open_state(latest_path, 'r', encoding='utf_8_sig') as f:
         csv_content = f.read()
     return Response(csv_content, mimetype='text/csv; charset=utf-8', headers={'Content-Disposition': f'attachment; filename=search_{safe_username}_latest.csv'})
 
@@ -675,6 +676,6 @@ def download_search_result(filename):
     if '..' in filename or '/' in filename or '\\' in filename:
         return (jsonify({'error': '非法的文件名'}), 400)
     file_path = os.path.join(PAPER_SEARCH_DIR, filename)
-    if not os.path.exists(file_path):
+    if not state_exists(file_path):
         return (jsonify({'error': f'文件 {filename} 不存在'}), 404)
     return send_file(file_path, mimetype='text/csv; charset=utf-8', as_attachment=True, download_name=filename)

@@ -508,3 +508,14 @@ class AuthService:
             if not deleted:
                 db.execute("INSERT OR REPLACE INTO revoked_legacy_tokens(token_hash, expires_at) VALUES (?, ?)",
                            (self._token_hash(token), int(time.time()) + SESSION_LIFETIME))
+
+    def page_session(self,token:str) -> dict:
+        """A server-verified page bootstrap, containing no bearer credential."""
+        profile=self.current(token)
+        with closing(self._connection()) as db:
+            row=db.execute('SELECT expires_at FROM sessions WHERE token_hash=?',(self._token_hash(token),)).fetchone()
+        if row:expires=row['expires_at']
+        else:
+            payload=token.split('.',1)[0]
+            expires=json.loads(base64.urlsafe_b64decode(payload+'='*(-len(payload)%4)))['exp']
+        return {'profile':profile,'expires_at':expires,'fingerprint':hashlib.sha256(token.encode()).hexdigest()}

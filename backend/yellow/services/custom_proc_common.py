@@ -9,6 +9,7 @@
   2. 读取 --config <tmp.json> 传入的运行参数。
   3. 通过 backend/config/tasks.json 跨进程读写任务状态（与上层 RULER 子进程一致）。
 """
+from state_storage import open_state, state_exists, state_isfile
 import json
 import os
 import platform
@@ -20,7 +21,7 @@ def _find_import_root():
     """向上查找 backend 目录（services/utils/call_api 所在），供子进程 import 项目模块。"""
     d = os.path.dirname(os.path.abspath(__file__))
     while True:
-        if os.path.isdir(os.path.join(d, 'services')) and os.path.isfile(os.path.join(d, 'run_test_server.py')):
+        if os.path.isdir(os.path.join(d, 'services')) and state_isfile(os.path.join(d, 'run_test_server.py')):
             return d
         parent = os.path.dirname(d)
         if parent == d:
@@ -41,7 +42,7 @@ def parse_config():
     if len(sys.argv) < 3 or sys.argv[1] != '--config':
         raise ValueError('Usage: python script.py --config <config_file>')
     config_file = sys.argv[2]
-    with open(config_file, 'r', encoding='utf-8') as f:
+    with open_state(config_file, 'r', encoding='utf-8') as f:
         content = f.read()
     return json.loads(content)
 

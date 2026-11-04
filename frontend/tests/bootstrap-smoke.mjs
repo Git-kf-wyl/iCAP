@@ -3,6 +3,7 @@ import vm from 'node:vm'
 import { readFile } from 'node:fs/promises'
 import { resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import {createHash} from 'node:crypto'
 const win=new Window({url:'https://icapblue.test/',settings:{disableCSSFileLoading:true,disableJavaScriptFileLoading:true}})
 const mode=process.argv[2]||'fresh'
 for(const key of ['window','document','navigator','location','history','localStorage','sessionStorage','Node','Element','HTMLElement','SVGElement','ShadowRoot','Document','DocumentFragment','HTMLInputElement','HTMLTextAreaElement','HTMLSelectElement','MutationObserver','Event','CustomEvent','NodeFilter']){
@@ -51,6 +52,11 @@ process.on('uncaughtException',e=>{errors.push(String(e?.stack||e))})
 const dist=resolve('dist');const html=await readFile(resolve(dist,'index.html'),'utf8');win.document.body.innerHTML=html.match(/<body>([\s\S]*?)<\/body>/)[1];
 win.navigator.sendBeacon=()=>true;for(const match of html.matchAll(/<script>([\s\S]*?)<\/script>/g))vm.runInThisContext(match[1]);
 const entry=html.match(/src="([^\"]+\.js)"/)[1]
+if(mode==='server-session'){
+ const script=win.document.createElement('script');script.id='icap-session';script.type='application/json'
+ script.textContent=JSON.stringify({profile:{id:'test',username:'test',role:'user',has_security_questions:true},expires_at:Math.floor(Date.now()/1000)+300,fingerprint:createHash('sha256').update('test-only-token').digest('hex')})
+ win.document.head.appendChild(script)
+}
 try{await import(pathToFileURL(resolve(dist,entry.slice(1))))}catch(e){errors.push(String(e.stack||e))}
 await new Promise(r=>setTimeout(r,3500))
 if(mode==='navigation'){
@@ -70,5 +76,6 @@ if(mode==='navigation'){
 }
 console.log(JSON.stringify({mode,path:win.location.pathname,text:win.document.querySelector('#app')?.textContent?.slice(0,600),errors,requests},null,2))
 const output=win.document.querySelector('#app')?.textContent||''
-const expected=mode==='offline'?output.includes('重新加载'):mode==='navigation'?win.location.pathname==='/modelSquare':mode==='valid'?output.includes('云核心网 AI 创新平台'):win.location.pathname==='/login'&&output.includes('登录平台')
+if(mode==='server-session'&&requests.includes('/api/auth/me'))errors.push('Server session bootstrap triggered an unnecessary auth request')
+const expected=mode==='offline'?output.includes('重新加载'):mode==='navigation'?win.location.pathname==='/modelSquare':['valid','server-session'].includes(mode)?output.includes('云核心网 AI 创新平台'):win.location.pathname==='/login'&&output.includes('登录平台')
 process.exit(errors.length||!expected?1:0)

@@ -21,10 +21,14 @@ import shutil
 
 import httpx
 from fastapi import HTTPException
+from state_storage import register_state_root,read_document,write_document,state_exists,state_isfile,state_location,close_state_root
 
 CODE = Path(__file__).resolve().parents[1] / 'yellow'
 
 def write_json(path: Path, value):
+    if state_location(path):
+        write_document(path,value)
+        return
     path.parent.mkdir(parents=True,exist_ok=True)
     temp=path.with_name(path.name+'.'+secrets.token_hex(5)+'.tmp')
     with temp.open('w',encoding='utf-8') as f:
@@ -58,8 +62,9 @@ class YellowRuntime:
         self.workers={}
         self.lock=threading.RLock()
         self.base.mkdir(parents=True,exist_ok=True)
+        register_state_root(self.base)
         self.catalog=self.base/'resources.json'
-        if not self.catalog.exists():write_json(self.catalog,{})
+        if not state_exists(self.catalog):write_json(self.catalog,{})
         atexit.register(self.shutdown)
 
     def workspace(self, actor):
@@ -73,13 +78,13 @@ class YellowRuntime:
 
     def _initialize(self,actor):
         root=self.workspace(actor)
-        first=not (root/'backend/config/tasks.json').exists()
+        first=not state_exists(root/'backend/config/tasks.json')
         for folder in ['backend/config','backend/database','backend/report/output','uploads','outputs','logs','testsuite/TestSuite','testsuite/TestSuiteRulerII','testsuite/TestSuiteDev','paper_agent_results']:
             (root/folder).mkdir(parents=True,exist_ok=True)
         if first:
             for name in ['common_testcase_cfg.json','field_testcase_cfg.json','dev_testcase_cfg.json']:
-                write_json(root/'backend/config'/name,json.loads((CODE/'seed'/name).read_text('utf-8')))
-            for name in ['tasks','evaluationResult','reportTasks','publishedReportTasks','ruler1_cheat','ruler2_cheat','ruler1_cheat_multi','ruler2_cheat_multi','min_cheat','special_model_list','eval_model_list','eval_report_list','training_dataset']:
+                write_json(root/'backend/config'/name,read_document(CODE/'seed'/name))
+            for name in ['tasks','evaluationResult','reportTasks','publishedReportTasks','ruler1_cheat','ruler2_cheat','ruler1_cheat_multi','ruler2_cheat_multi','min_cheat','special_model_list','eval_model_list','eval_report_list','training_dataset','dataset_download_view_count']:
                 write_json(root/'backend/config'/f'{name}.json',{})
             for name in ['model_to_deploy','feedBack_list']:
                 write_json(root/'backend/config'/f'{name}.json',[])
@@ -95,7 +100,7 @@ class YellowRuntime:
                 target.mkdir(exist_ok=True)
                 shutil.copy2(workbook,target/workbook.name)
                 path=root/'backend/config/field_testcase_cfg.json'
-                cfg=json.loads(path.read_text('utf-8'))
+                cfg=read_document(path)
                 cfg['aisf_rewrite']={'dataset_name':'上下文改写','input_path':'testsuite/TestSuiteRulerII/aisf_rewrite','description':'原版上下文改写评测数据',
                     'few_shot_num':0,'few_shot_file_path':[],'subset_list':[],'default_subsets':[],'metric_list':['accuracy'],
                     'testcase_tags':['改写'],'file_list':[workbook.name],'few_file_list':[],'is_field':2,'status':1,
@@ -107,13 +112,14 @@ class YellowRuntime:
             target.mkdir(parents=True,exist_ok=True)
             shutil.copy2(workbook,target/workbook.name)
             path=root/'backend/config/field_testcase_cfg.json'
-            cfg=json.loads(path.read_text('utf-8'))
+            cfg=read_document(path)
             cfg.setdefault('aisf_rewrite',{'dataset_name':'上下文改写','input_path':'testsuite/TestSuiteRulerII/aisf_rewrite',
                 'description':'原版上下文改写评测数据','few_shot_num':0,'few_shot_file_path':[],
                 'subset_list':[],'default_subsets':[],'metric_list':['accuracy'],'testcase_tags':['改写'],
                 'file_list':[workbook.name],'few_file_list':[],'is_field':2,'status':1,'is_open_source':False,
                 'availability':'ready','is_published':True,'register':'admin'})
             write_json(path,cfg)
+        if not state_exists(root/'backend/config/dataset_download_view_count.json'):write_json(root/'backend/config/dataset_download_view_count.json',{})
         return root
 
     def sync_models(self,root,actor,record):
@@ -142,13 +148,13 @@ class YellowRuntime:
         for field in ['common','field','dev']:
             filename=f'{field}_testcase_cfg.json'
             path=root/'backend/config'/filename
-            config=json.loads(path.read_text('utf-8'))
+            config=read_document(path)
             # Remove previously public resources when their owner makes them private.
             for identifier,row in list(config.items()):
                 if row.get('_shared_owner'):
                     info=catalog.get(identifier)
                     source_path=Path(info['workspace'])/'backend/config'/filename if info else None
-                    original=json.loads(source_path.read_text('utf-8')).get(identifier) if source_path and source_path.is_file() else None
+                    original=read_document(source_path).get(identifier) if source_path and state_isfile(source_path) else None
                     if not info or not original or original.get('status')!=1 or (info['visibility']!='public' and actor['role']!='admin'):
                         config.pop(identifier)
                         target=root/(row.get('local_path') or row.get('input_path','__missing'))
@@ -158,8 +164,8 @@ class YellowRuntime:
                 if info['owner_user_id']==actor['id'] or (info['visibility']!='public' and actor['role']!='admin'):continue
                 source_root=Path(info['workspace'])
                 source_cfg=source_root/'backend/config'/filename
-                if not source_cfg.is_file():continue
-                source=json.loads(source_cfg.read_text('utf-8')).get(identifier)
+                if not state_isfile(source_cfg):continue
+                source=read_document(source_cfg).get(identifier)
                 if not source or source.get('status')!=1:continue
                 row=copy.deepcopy(source)
                 relative=row.get('local_path') or row.get('input_path')
@@ -177,13 +183,13 @@ class YellowRuntime:
                 config[identifier]=row
             # Preserve existing Blue uploads in the original Yellow dataset pages.
             if field=='common':
-                allowed_ids={ds['id'] for ds in self.store.snapshot()['datasets'] if can_view(ds,actor) and ds.get('files') and ds.get('category')!='训练集'}
+                allowed_ids={ds['id'] for ds in self.store.snapshot(['datasets'])['datasets'] if can_view(ds,actor) and ds.get('files') and ds.get('category')!='训练集'}
                 for identifier,row in list(config.items()):
                     if row.get('_blue_dataset') and identifier not in allowed_ids:
                         config.pop(identifier)
                         target=root/'testsuite/TestSuite'/identifier
                         if target.is_dir() and target.resolve().is_relative_to((root/'testsuite/TestSuite').resolve()):shutil.rmtree(target)
-                for ds in self.store.snapshot()['datasets']:
+                for ds in self.store.snapshot(['datasets'])['datasets']:
                     if not can_view(ds,actor) or not ds.get('files') or ds.get('category')=='训练集':continue
                     target=root/'testsuite/TestSuite'/ds['id']
                     target.mkdir(parents=True,exist_ok=True)
@@ -194,7 +200,10 @@ class YellowRuntime:
                             src=self.store.uploads/entry.get('storage_name','__missing')
                         if src.is_file():
                             filename=Path(entry.get('name') or entry.get('filename') or src.name).name
-                            shutil.copy2(src,target/filename);files.append(filename)
+                            destination=target/filename
+                            if not destination.is_file() or destination.stat().st_size!=src.stat().st_size or destination.stat().st_mtime_ns!=src.stat().st_mtime_ns:
+                                shutil.copy2(src,destination)
+                            files.append(filename)
                     if files:
                         config[ds['id']]={'dataset_name':ds['name'],'local_path':str(target.relative_to(root)).replace('\\','/'),
                             'few_shot_num':0,'description':ds.get('description',''),'subset_list':['default'],'default_subsets':['default'],
@@ -204,14 +213,14 @@ class YellowRuntime:
             write_json(path,config)
         # Publishing a report explicitly shares its document with logged-in users.
         published_path=root/'backend/config/publishedReportTasks.json'
-        published=json.loads(published_path.read_text('utf-8'))
+        published=read_document(published_path)
         own={key:value for key,value in published.items() if not value.get('_shared_owner')}
         retained=set()
         for source_root in (self.base/'users').glob('*'):
             if source_root==root:continue
             path=source_root/'backend/config/publishedReportTasks.json'
-            if not path.is_file():continue
-            for key,value in json.loads(path.read_text('utf-8')).items():
+            if not state_isfile(path):continue
+            for key,value in read_document(path).items():
                 if value.get('_shared_owner') or value.get('status')!='completed':continue
                 raw=value.get('published_filepath')
                 if not raw:continue
@@ -254,7 +263,7 @@ class YellowRuntime:
                 env.update(YELLOW_WORKSPACE=str(root),YELLOW_WORKER_PORT=str(port),YELLOW_WORKER_SECRET=token,
                            HOME=str(root),USERPROFILE=str(root),PYTHONUNBUFFERED='1',PYTHONIOENCODING='utf-8',
                            NO_PROXY='127.0.0.1,localhost,::1',
-                           PYTHONPATH=os.pathsep.join([str(CODE),str(CODE/'CCNRuler1EvalScope'),str(CODE/'CCNRuler2EvalScope')]))
+                       PYTHONPATH=os.pathsep.join([str(CODE.parent),str(CODE),str(CODE/'CCNRuler1EvalScope'),str(CODE/'CCNRuler2EvalScope')]))
                 log=(root/'runtime.log').open('ab',buffering=0)
                 options={'creationflags':subprocess.CREATE_NO_WINDOW} if os.name=='nt' else {'start_new_session':True}
                 process=subprocess.Popen([sys.executable,str(CODE/'worker.py')],cwd=root,env=env,stdin=subprocess.DEVNULL,stdout=log,stderr=log,**options)
@@ -284,9 +293,10 @@ class YellowRuntime:
                     else:process.terminate()
                 except ProcessLookupError:pass
             record['log'].close()
+        close_state_root(self.base)
 
     def resource_catalog(self):
-        return json.loads(self.catalog.read_text('utf-8'))
+        return read_document(self.catalog)
 
     def register_dataset(self,actor,body):
         identifier=body.get('dataset_id','')

@@ -4,6 +4,7 @@
 由 run_test_server.py 以 subprocess 方式启动，取代原先在服务进程内运行的
 run_eld 线程，使得该测评任务的存活不再依赖 flask 服务进程。
 """
+from state_storage import open_state, state_exists, state_isfile
 import json
 import os
 import sys
@@ -14,7 +15,7 @@ def _find_project_root():
     """向上查找项目根目录，使其下的 backend 包可被 import（backend.xxx 前缀导入）。"""
     d = os.path.dirname(os.path.abspath(__file__))
     while True:
-        if os.path.isfile(os.path.join(d, 'run_test_server.py')) and os.path.isdir(os.path.join(d, 'services')):
+        if state_isfile(os.path.join(d, 'run_test_server.py')) and os.path.isdir(os.path.join(d, 'services')):
             return d
         parent = os.path.dirname(d)
         if parent == d:
@@ -80,7 +81,7 @@ def _build_eld_statistics_json(output_path, model_name_safe, dataset_name, task_
     """在儿童伴读评测完成后，读取输出的Excel文件，生成结构化统计JSON"""
     import glob as glob_mod
     review_dir = os.path.join(output_path, 'reviews', model_name_safe)
-    if not os.path.exists(review_dir):
+    if not state_exists(review_dir):
         print(f'[_build_eld_statistics_json] review_dir not found: {review_dir}')
         return None
     excel_pattern = os.path.join(review_dir, f'{dataset_name}报告_{task_id}.xlsx')
@@ -110,7 +111,7 @@ def _build_eld_statistics_json(output_path, model_name_safe, dataset_name, task_
             print('[_build_eld_statistics_json] No data parsed from statistic sheets')
             return None
         json_file = os.path.join(review_dir, f'{dataset_name}_statistics_{task_id}.json')
-        with open(json_file, 'w', encoding='utf-8') as f:
+        with open_state(json_file, 'w', encoding='utf-8') as f:
             json.dump(all_stats_data, f, ensure_ascii=False, indent=2)
         print(f'[_build_eld_statistics_json] saved: {json_file} (sheets: {list(all_stats_data.keys())})')
         return (json_file, all_stats_data)
@@ -145,10 +146,10 @@ def run_eld_proc(model_config, task_id, model_id, user_req, thread_id):
             dataset_dir = os.path.join(ELD_DATASET_PATH, dataset_name)
             image_zip_path = None
             excel_path = None
-            if os.path.exists(dataset_dir):
+            if state_exists(dataset_dir):
                 for filename in os.listdir(dataset_dir):
                     filepath = os.path.join(dataset_dir, filename)
-                    if os.path.isfile(filepath):
+                    if state_isfile(filepath):
                         ext = os.path.splitext(filename)[1].lower()
                         if ext in ('.zip', '.rar'):
                             image_zip_path = filepath
