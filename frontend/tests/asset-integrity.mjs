@@ -18,7 +18,9 @@ function visit(key){
   seen.add(key)
   const row=manifest[key]
   assert(!row.file.startsWith('assets/charts-'),'Homepage must render before ECharts downloads')
+  assert(!row.file.startsWith('assets/xlsx-'),'Model square must render before the Excel parser downloads')
   for(const dependency of row.imports||[])visit(dependency)
 }
 visit('src/components/homePage.vue')
-console.log('PASS homepage critical modules exclude the full chart runtime')
+visit('src/components/modelSquare/modelSquare.vue')
+console.log('PASS homepage and model square exclude deferred chart/Excel runtimes')

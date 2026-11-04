@@ -238,26 +238,28 @@ class YellowRuntime:
             record=self.workers.get(key)
             if record and record['process'].poll() is None:
                 self.sync_models(root,actor,record)
-                return record
-            if sum(r['process'].poll() is None for r in self.workers.values()) >= 16:
-                raise HTTPException(503,'工作空间运行数量已达上限，请稍后再试')
-            with socket.socket() as sock:
-                sock.bind(('127.0.0.1',0));port=sock.getsockname()[1]
-            token=secrets.token_urlsafe(40)
-            available=self.sync_models(root,actor,{'port':port,'secret':token})
-            env=dict(os.environ)
-            for name in list(env):
-                if name.startswith(('INNOVATION_ADMIN_','SKILL_EVOLVE_')) or name in ('INNOVATION_SECRET_KEY',):env.pop(name,None)
-            env['YELLOW_JUDGE_MODEL']=available[0]['id'] if available else ''
-            env.update(YELLOW_WORKSPACE=str(root),YELLOW_WORKER_PORT=str(port),YELLOW_WORKER_SECRET=token,
-                       HOME=str(root),USERPROFILE=str(root),PYTHONUNBUFFERED='1',PYTHONIOENCODING='utf-8',
-                       NO_PROXY='127.0.0.1,localhost,::1',
-                       PYTHONPATH=os.pathsep.join([str(CODE),str(CODE/'CCNRuler1EvalScope'),str(CODE/'CCNRuler2EvalScope')]))
-            log=(root/'runtime.log').open('ab',buffering=0)
-            options={'creationflags':subprocess.CREATE_NO_WINDOW} if os.name=='nt' else {'start_new_session':True}
-            process=subprocess.Popen([sys.executable,str(CODE/'worker.py')],cwd=root,env=env,stdin=subprocess.DEVNULL,stdout=log,stderr=log,**options)
-            record={'process':process,'port':port,'secret':token,'root':root,'log':log}
-            self.workers[key]=record
+                if record.get('capabilities'):return record
+                process=record['process'];port=record['port'];token=record['secret']
+            else:
+                if sum(r['process'].poll() is None for r in self.workers.values()) >= 16:
+                    raise HTTPException(503,'工作空间运行数量已达上限，请稍后再试')
+                with socket.socket() as sock:
+                    sock.bind(('127.0.0.1',0));port=sock.getsockname()[1]
+                token=secrets.token_urlsafe(40)
+                available=self.sync_models(root,actor,{'port':port,'secret':token})
+                env=dict(os.environ)
+                for name in list(env):
+                    if name.startswith(('INNOVATION_ADMIN_','SKILL_EVOLVE_')) or name in ('INNOVATION_SECRET_KEY',):env.pop(name,None)
+                env['YELLOW_JUDGE_MODEL']=available[0]['id'] if available else ''
+                env.update(YELLOW_WORKSPACE=str(root),YELLOW_WORKER_PORT=str(port),YELLOW_WORKER_SECRET=token,
+                           HOME=str(root),USERPROFILE=str(root),PYTHONUNBUFFERED='1',PYTHONIOENCODING='utf-8',
+                           NO_PROXY='127.0.0.1,localhost,::1',
+                           PYTHONPATH=os.pathsep.join([str(CODE),str(CODE/'CCNRuler1EvalScope'),str(CODE/'CCNRuler2EvalScope')]))
+                log=(root/'runtime.log').open('ab',buffering=0)
+                options={'creationflags':subprocess.CREATE_NO_WINDOW} if os.name=='nt' else {'start_new_session':True}
+                process=subprocess.Popen([sys.executable,str(CODE/'worker.py')],cwd=root,env=env,stdin=subprocess.DEVNULL,stdout=log,stderr=log,**options)
+                record={'process':process,'port':port,'secret':token,'root':root,'log':log}
+                self.workers[key]=record
         deadline=time.monotonic()+150
         while time.monotonic()<deadline:
             if process.poll() is not None:raise HTTPException(503,'Yellow 工作空间启动失败，请查看管理员运行日志')

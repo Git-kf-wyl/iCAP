@@ -33,6 +33,17 @@ def platform(tmp_path,monkeypatch):
 def header(account):return {'Authorization':'Bearer '+account['access_token']}
 
 
+def test_parallel_reads_wait_for_workspace_readiness(platform):
+    from concurrent.futures import ThreadPoolExecutor
+    client,adapter,users,_=platform
+    actor=users[0]
+    paths=['/v1/get_current_full_res','/v1/get_current_multi_full_res','/v1/get_all_published_tasks']
+    with ThreadPoolExecutor(max_workers=3) as pool:
+        responses=list(pool.map(lambda path:client.get(path,headers=header(actor)),paths))
+    assert [response.status_code for response in responses]==[200,200,200]
+    assert len(adapter.runtime.workers)==1
+
+
 def test_source_and_credentials_are_not_public(platform):
     client,adapter,users,admin=platform
     client.cookies.clear()

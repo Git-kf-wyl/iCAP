@@ -23,8 +23,7 @@ import { Delete, Minus, Search } from "@element-plus/icons-vue";
 import { useStore } from "vuex";
 import { isModelAvailable, isLocalChatModel } from "@/utils/ModelUtils.js";
 import dayjs from "dayjs";
-import _ from "lodash"; // 引入lodash
-import * as XLSX from "xlsx";
+import isEqual from "lodash/isEqual.js";
 import { manager_list } from "@/consts/copyrightConsts";
 
 const token = ref("");
@@ -403,7 +402,7 @@ const parseGpuSpecFromText = (gpuSpec) => {
 // 模型货柜能力
 const handelExcellData = async (index) => {
   // 获取Excel文件的二进制数据
-  const response = await fetch("/v1/model_shelf.xlsx");
+  const [response, XLSX] = await Promise.all([fetch("/v1/model_shelf.xlsx"), import("xlsx")]);
   const data = await response.arrayBuffer();
   const workbook = XLSX.read(data, { type: "buffer" });
   const sheetName = workbook.SheetNames[index];
@@ -713,7 +712,7 @@ onMounted(async () => {
   const rawFiltered = toRaw(filteredByDate.value);
 
   // 使用lodash的深度比较
-  const newModelsNotChange = _.isEqual(newModels, rawFiltered);
+  const newModelsNotChange = isEqual(newModels, rawFiltered);
 
   console.log("newModelsNotChange:", newModelsNotChange);
 
