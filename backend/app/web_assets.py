@@ -1,8 +1,12 @@
 """Serve precompressed build files while preserving JavaScript MIME types."""
 import mimetypes
+import re
 from pathlib import Path
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
+
+def versioned_asset(path):
+    return bool(re.search(r'-[A-Za-z0-9_-]{8}-boot2\.[A-Za-z0-9]+$',path))
 
 class WebAssets(StaticFiles):
     async def get_response(self,path,scope):
@@ -19,7 +23,10 @@ class WebAssets(StaticFiles):
             source=Path(self.directory)/path
             compressed=source.with_name(source.name+'.gz')
             if compressed.resolve().is_relative_to(Path(self.directory).resolve()) and compressed.is_file():
-                return FileResponse(compressed,media_type=mimetypes.guess_type(source)[0],headers={'Content-Encoding':'gzip','Vary':'Accept-Encoding'})
+                response=FileResponse(compressed,media_type=mimetypes.guess_type(source)[0],headers={'Content-Encoding':'gzip','Vary':'Accept-Encoding'})
+                if versioned_asset(path):response.headers['Cache-Control']='public, max-age=31536000, immutable'
+                return response
         response=await super().get_response(path,scope)
         if path.endswith(('.js','.css')):response.headers['Vary']='Accept-Encoding'
+        if response.status_code in (200,304) and versioned_asset(path):response.headers['Cache-Control']='public, max-age=31536000, immutable'
         return response

@@ -3,6 +3,7 @@ import json
 from pathlib import Path
 from fastapi import HTTPException
 from fastapi.responses import JSONResponse
+from .web_assets import versioned_asset
 
 def protect_assets(app):
     dist=Path(__file__).resolve().parents[2]/'frontend/dist'
@@ -31,7 +32,12 @@ def protect_assets(app):
             except HTTPException:
                 return JSONResponse({'detail':'请先登录'},status_code=401,headers={'Cache-Control':'no-store'})
         response=await call_next(request)
-        if protected:response.headers['Cache-Control']='private, no-store'
+        if protected:
+            # Feature bundles contain build code, never account data. Keep their
+            # versioned bytes in this browser, while shared caches stay forbidden.
+            response.headers['Cache-Control']=('private, max-age=28800, immutable'
+                if path.startswith('/assets/') and versioned_asset(path) and response.status_code in (200,304)
+                else 'private, no-store')
         response.headers['X-Content-Type-Options']='nosniff'
         response.headers['Referrer-Policy']='same-origin'
         return response

@@ -84,6 +84,16 @@ def test_source_and_credentials_are_not_public(platform):
         for name in row.get('imports',[]):public_assets(name)
     public_assets('index.html')
     public_assets('src/blue/views/Login.vue')
+    entry=manifest['index.html']['file']
+    assert client.get('/'+entry).headers['cache-control']=='public, max-age=31536000, immutable'
+    feature=manifest['src/components/homePage.vue']['file']
+    response=client.get('/'+feature)
+    assert response.status_code==401 and response.headers['cache-control']=='no-store'
+    response=client.get('/'+feature,headers=header(users[0]))
+    assert response.status_code==200 and response.headers['cache-control']=='private, max-age=28800, immutable'
+    response=client.get('/'+feature,headers={**header(users[0]),'Accept-Encoding':'identity'})
+    assert response.status_code==200 and response.headers['cache-control'].startswith('private,')
+    client.cookies.clear()
     for path in ['/.env','/.git/config','/backend/adapter.py','/data/LLMInferencer.py']:
         assert client.get(path).status_code==404
     assert client.get('/api/school/jobs',headers=header(admin)).status_code==404
