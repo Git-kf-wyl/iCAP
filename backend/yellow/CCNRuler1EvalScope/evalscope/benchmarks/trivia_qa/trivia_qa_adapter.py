@@ -1,3 +1,4 @@
+import ast
 # Private iCAP Yellow implementation. Do not publish.
 import csv
 import os
@@ -29,7 +30,7 @@ class TriviaQaAdapter(DataAdapter):
                         for row in reader:
                             assert len(row) == 2
                             question = row[0]
-                            answers = eval(row[1])
+                            answers = ast.literal_eval(row[1])
                             split_data.append({'input': [{'role': 'system', 'content': 'Follow the given examples and answer the question.'}, {'role': 'user', 'content': question}], 'ideal': answers})
                         data_dict[subset_name][split] = split_data
         return data_dict

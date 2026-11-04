@@ -8,6 +8,7 @@ paperAgent - arXiv 每日论文自动化处理服务
 
 """
 import json
+import ast
 import os
 import re
 import time
@@ -571,7 +572,7 @@ def normalize_paper_for_output(paper):
     authors_raw = paper.get('authors', '')
     if isinstance(authors_raw, str) and authors_raw.startswith('[') and authors_raw.endswith(']'):
         try:
-            parsed = eval(authors_raw)
+            parsed = ast.literal_eval(authors_raw)
             if isinstance(parsed, list):
                 authors_raw = '; '.join(parsed)
         except:

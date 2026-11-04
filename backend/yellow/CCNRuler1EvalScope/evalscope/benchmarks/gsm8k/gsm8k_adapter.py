@@ -92,7 +92,7 @@ class GSM8KAdapter(DataAdapter):
             if pred_ans is None:
                 return False
             try:
-                return math.isclose(eval(gold_ans), eval(pred_ans), rel_tol=0, abs_tol=0.0001)
+                return math.isclose(float(gold_ans), float(pred_ans), rel_tol=0, abs_tol=0.0001)
             except:
                 logger.warning(f'##report##Cannot compare two numbers: gold_ans={gold_ans}, pred_ans={pred_ans}')
                 return False

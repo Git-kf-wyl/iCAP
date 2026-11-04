@@ -1,7 +1,7 @@
 # Private iCAP Yellow implementation. Do not publish.
 import base64
 import json
-import pickle
+from safe_data import compressed_pickle_text
 import zlib
 from datetime import datetime
 from evalscope.benchmarks.live_code_bench.prompts import CodeGenerationPromptConstants
@@ -22,7 +22,7 @@ def transform(item):
     try:
         private_test_cases = json.loads(item['private_test_cases'])
     except Exception as e:
-        private_test_cases = json.loads(pickle.loads(zlib.decompress(base64.b64decode(private_test_cases.encode('utf-8')))))
+        private_test_cases = json.loads(compressed_pickle_text(private_test_cases))
     metadata = json.loads(item['metadata'])
     evaluation_sample = json.dumps({'inputs': [t['input'] for t in public_test_cases + private_test_cases], 'outputs': [t['output'] for t in public_test_cases + private_test_cases], 'fn_name': metadata.get('func_name', None)})
     item['evaluation_sample'] = evaluation_sample

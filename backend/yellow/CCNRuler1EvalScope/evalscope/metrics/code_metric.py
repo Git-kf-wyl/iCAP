@@ -20,13 +20,8 @@ def check_input(text, arg):
     return (code_string, function_name)
 
 def compile_func(code_string, function_name):
-    signal.signal(signal.SIGALRM, handle)
-    signal.alarm(10)
-    myMod = compile(code_string, '', 'exec')
-    exec(myMod)
-    func = eval(function_name)
-    signal.alarm(0)
-    return func
+    raise RuntimeError('请使用已隔离的 LiveCodeBench 代码评测')
+
 
 def exec_func(func, arr):
     signal.signal(signal.SIGALRM, handle)

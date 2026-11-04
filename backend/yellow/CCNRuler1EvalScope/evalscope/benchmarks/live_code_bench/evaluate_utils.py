@@ -8,34 +8,9 @@ from .pass_k_utils import compute_metrics_from_results
 logger = get_logger()
 
 def codegen_check_correctness(sample, generation, timeout, debug=True):
-    """Check correctness of code generation with a global timeout.
+    from code_sandbox import check
+    return check(sample,generation,timeout,debug)
 
-    The global timeout is to catch some extreme/rare cases not handled by the
-    timeouts inside `run_test`
-    """
-
-    def _temp_run(sample, generation, debug, result, metadata_list, timeout):
-        from .testing_util import run_test
-        res, metadata = run_test(sample, test=generation, debug=debug, timeout=timeout)
-        result.append(res)
-        metadata_list.append(metadata)
-    manager = multiprocessing.Manager()
-    result = manager.list()
-    metadata_list = manager.list()
-    p = multiprocessing.Process(target=_temp_run, args=(sample, generation, debug, result, metadata_list, timeout))
-    p.start()
-    global_timeout = (timeout + 1) * len(json.loads(sample['input_output'])['inputs'])
-    if debug:
-        logger.info(f'global timeout = {global_timeout}')
-    p.join(timeout=global_timeout)
-    if p.is_alive():
-        p.kill()
-    if not result:
-        in_outs = json.loads(sample['input_output'])
-        result = [[-1 for i in range(len(in_outs['inputs']))]]
-        if debug:
-            logger.info('global timeout occured: alarm went off')
-    return (result[0], metadata_list[0])
 
 def evaluate_generations_by_problem(problem_generations: list, sample: list, debug: bool, timeout: int):
     """Evaluate each problem.
