@@ -7,6 +7,7 @@ import sqlite3
 import subprocess
 import sys
 import tarfile
+import json
 
 release=sys.argv[1]
 if not release.startswith('yellow-') or '/' in release or '..' in release:raise ValueError('invalid release')
@@ -22,6 +23,10 @@ if stage.exists():raise RuntimeError('Staging directory already exists; inspect 
 shutil.copytree('/var/lib/icap',stage,ignore=shutil.ignore_patterns('agentcompass_results','agentcompass','skill-evolution','yellow'))
 # SQLite backup captures a consistent auth database while the old service stays online.
 with sqlite3.connect('/var/lib/icap/auth.sqlite3') as source,sqlite3.connect(stage/'auth.sqlite3') as target:source.backup(target)
+state=stage/'platform.json'
+data=json.loads(state.read_text())
+for key in ('skill_jobs','evaluations','school_jobs','deployments','reports'):data[key]=[]
+state.write_text(json.dumps(data,ensure_ascii=False))
 for path in [stage,*stage.rglob('*')]:
     os.chown(path,account.pw_uid,account.pw_gid);path.chmod(0o700 if path.is_dir() else 0o600)
 runner=Path('/opt/icap/yellow-check-runner.py')

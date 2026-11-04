@@ -104,6 +104,12 @@ def main():
             module=importlib.import_module(module_name)
             loaded[module_name]=module
             module.UPLOAD_FOLDERS=str(root/'uploads')
+            if module_name=='run_test_server':
+                module.init_task()
+                for task in module.tasks.values():
+                    if task.get('status') in ('running','queued'):
+                        task.update(status='failed',process_id=None,description='服务重启中断了评测，请重新提交')
+                module.set_tasks(module.tasks)
             if module_name=='run_test_server' and not (root/'backend/report/template_all.pptx').is_file():
                 from report_fallback import generate
                 module._generate_report_thread=lambda *args,_module=module:generate(_module,*args)

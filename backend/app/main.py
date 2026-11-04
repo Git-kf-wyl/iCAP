@@ -258,13 +258,14 @@ def simulate_legacy_evaluations(store: Store) -> None:
 
 
 async def advance_jobs(store: Store, stop: asyncio.Event, runner: EvaluationRunner,
-                       agent_runner: AgentCompassRunner, worker_tick: float) -> None:
+                       agent_runner: AgentCompassRunner, worker_tick: float, demo: bool=False) -> None:
     """调度循环：学校任务与旧 benchmark 走模拟，Ruler1/Ruler2 与 Agent 评测走真实引擎。"""
     step_timeout = max(worker_tick * 40, 30.0)  # 最后防线：极端卡死时取消本轮 step
     idle = False
     while not stop.is_set():
-        simulate_school_jobs(store)
-        simulate_legacy_evaluations(store)
+        if demo:
+            simulate_school_jobs(store)
+            simulate_legacy_evaluations(store)
         try:
             await asyncio.wait_for(runner.step(), timeout=step_timeout)
             idle = False
@@ -316,7 +317,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         skill_service.start()
-        worker = asyncio.create_task(advance_jobs(store, stop, runner, agent_runner, worker_tick))
+        worker = asyncio.create_task(advance_jobs(store, stop, runner, agent_runner, worker_tick, demo))
         yield
         stop.set()
         await worker
@@ -498,7 +499,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
     @app.get("/api/agent-benchmarks", dependencies=[Depends(authorized)])
     def agent_benchmarks():
         """返回已接入 AgentCompass 的 benchmark 映射（第一版 Dev → swebench_verified）。"""
-        return {"benchmarks": AGENTCOMPASS_BENCHMARKS}
+        return {"benchmarks": AGENTCOMPASS_BENCHMARKS,"enabled":agent_runner.enabled}
 
     @app.get("/api/recommendations")
     def recommendations(scenario: Literal["language", "code", "reasoning", "vision", "telecom"] = "language",
@@ -636,6 +637,10 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
                         default_log: str, config_raw: EvalConfig | None = None,
                         owner: dict | None = None, visibility: Visibility = "private") -> dict:
         """构造评测任务条目。benchmark 为尺子时补齐 ruler_label/config/result，否则保持旧结构。"""
+        if not demo and benchmark not in RULER_IDS and benchmark not in AGENTCOMPASS_IDS:
+            raise HTTPException(503,'该评测未提供执行服务，请使用原版通用/领域评测或 AgentCompass')
+        if not demo and benchmark in AGENTCOMPASS_IDS and not agent_runner.enabled:
+            raise HTTPException(503,'AgentCompass 执行环境尚未启用')
         item = {"id": uid("eval"), "model_id": model["id"], "dataset_id": dataset_id,
                 "benchmark": benchmark, "model_name": model["name"],
                 "dataset_name": find(data["datasets"], dataset_id)["name"],

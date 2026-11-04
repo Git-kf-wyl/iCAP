@@ -160,12 +160,12 @@ async def stream_chat(request:Request,actor=Depends(authorized)):
         yield 'data: [DONE]\n\n'
     return StreamingResponse(stream(),media_type='text/event-stream',headers={'Cache-Control':'no-cache','X-Accel-Buffering':'no'})
 
-def validate_paths(value,root:Path,key=''):
+def validate_paths(value,root:Path,key='',allow_shared=True):
     """Validate every client-provided path before an original handler sees it."""
     if isinstance(value,dict):
-        for k,v in value.items():validate_paths(v,root,k)
+        for k,v in value.items():validate_paths(v,root,k,allow_shared)
     elif isinstance(value,list):
-        for v in value:validate_paths(v,root,key)
+        for v in value:validate_paths(v,root,key,allow_shared)
     elif isinstance(value,str):
         if '\x00' in value:raise HTTPException(422,'参数包含无效字符')
         path_key=key.lower().endswith(('_path','_dir')) or key.lower() in {'filepath','file_path','folder_path','directory','local_path','input_path','path','uuid_val','use_cache','file_list','few_file_list','prompt_file','test_file','filename','file_name','dataset_id','business_name','task_id','model_id','model_name','model_names','dataset','datasets','dataset_name','subset','zip_name','report_name','id'}
@@ -181,7 +181,7 @@ def validate_paths(value,root:Path,key=''):
                     # Public dataset links point only to registered dataset directories.
                     allowed=False
                     for record in runtime.resource_catalog().values():
-                        if record.get('visibility')!='public':continue
+                        if not allow_shared or record.get('visibility')!='public':continue
                         owner=Path(record['workspace']).resolve()
                         if resolved.is_relative_to(owner/'testsuite'):allowed=True;break
                     if not allowed:raise HTTPException(403,'资源路径超出工作空间')
@@ -220,7 +220,7 @@ async def yellow_api(path:str,request:Request,actor=Depends(authorized)):
     if 'application/json' in headers['Content-Type'] and content:
         try:data=json.loads(content)
         except ValueError:raise HTTPException(422,'请求体必须为 JSON')
-        validate_paths(data,root)
+        validate_paths(data,root,allow_shared=path in RUNS or path.startswith(('get_','retrieve/')))
         if isinstance(data,dict):
             # Identity always comes from the authenticated account, never a form.
             for field in ['username','userName','user_id','register','publisher']:

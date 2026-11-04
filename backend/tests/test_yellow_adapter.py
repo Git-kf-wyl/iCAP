@@ -61,10 +61,18 @@ def test_resource_visibility_and_editing_follow_ownership(platform):
     identifier=response.json()['id']
     assert identifier not in {row['id'] for row in client.get('/api/datasets',headers=h2).json()}
     assert client.put('/api/datasets/'+identifier,headers=h2,json={'name':'changed'}).status_code==403
+    assert client.post('/api/datasets/'+identifier+'/files',headers=h,files={'file':('fixture.jsonl',b'{"text":"private fixture"}\n')}).status_code==201
     assert client.put('/api/datasets/'+identifier,headers=h,json={'name':'shared resource','visibility':'public'}).status_code==200
     assert identifier in {row['id'] for row in client.get('/api/datasets',headers=h2).json()}
+    principal=adapter.app.state.auth.current(other['access_token'])
+    root=adapter.runtime.initialize(principal)
+    adapter.runtime.sync_resources(root,principal)
+    assert identifier in json.loads((root/'backend/config/common_testcase_cfg.json').read_text('utf-8'))
     client.put('/api/datasets/'+identifier,headers=h,json={'name':'private again','visibility':'private'})
     assert identifier not in {row['id'] for row in client.get('/api/datasets',headers=h2).json()}
+    adapter.runtime.sync_resources(root,principal)
+    assert identifier not in json.loads((root/'backend/config/common_testcase_cfg.json').read_text('utf-8'))
+    assert not (root/'testsuite/TestSuite'/identifier).exists()
 
 
 def test_published_reports_revoke_shared_copies(platform):

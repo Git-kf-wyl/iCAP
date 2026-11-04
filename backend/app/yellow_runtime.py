@@ -142,10 +142,13 @@ class YellowRuntime:
             for identifier,row in list(config.items()):
                 if row.get('_shared_owner'):
                     info=catalog.get(identifier)
-                    if not info or (info['visibility']!='public' and actor['role']!='admin'):
+                    source_path=Path(info['workspace'])/'backend/config'/filename if info else None
+                    original=json.loads(source_path.read_text('utf-8')).get(identifier) if source_path and source_path.is_file() else None
+                    if not info or not original or original.get('status')!=1 or (info['visibility']!='public' and actor['role']!='admin'):
                         config.pop(identifier)
                         target=root/(row.get('local_path') or row.get('input_path','__missing'))
                         if target.is_symlink():target.unlink()
+                        elif target.is_dir() and target.resolve().is_relative_to((root/'testsuite').resolve()):shutil.rmtree(target)
             for identifier,info in catalog.items():
                 if info['owner_user_id']==actor['id'] or (info['visibility']!='public' and actor['role']!='admin'):continue
                 source_root=Path(info['workspace'])
@@ -169,6 +172,12 @@ class YellowRuntime:
                 config[identifier]=row
             # Preserve existing Blue uploads in the original Yellow dataset pages.
             if field=='common':
+                allowed_ids={ds['id'] for ds in self.store.snapshot()['datasets'] if can_view(ds,actor) and ds.get('files') and ds.get('category')!='训练集'}
+                for identifier,row in list(config.items()):
+                    if row.get('_blue_dataset') and identifier not in allowed_ids:
+                        config.pop(identifier)
+                        target=root/'testsuite/TestSuite'/identifier
+                        if target.is_dir() and target.resolve().is_relative_to((root/'testsuite/TestSuite').resolve()):shutil.rmtree(target)
                 for ds in self.store.snapshot()['datasets']:
                     if not can_view(ds,actor) or not ds.get('files') or ds.get('category')=='训练集':continue
                     target=root/'testsuite/TestSuite'/ds['id']

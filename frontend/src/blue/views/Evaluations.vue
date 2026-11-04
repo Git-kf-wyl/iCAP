@@ -14,7 +14,7 @@ const rows = ref([]), models = ref([]), datasets = ref([]), rulers = ref([]), di
 let timer
 const names = { queued: '排队中', running: '运行中', paused: '已暂停', completed: '已完成', cancelled: '已取消', failed: '失败' }
 const statusType = (status) => (status === 'completed' ? 'success' : ['cancelled', 'failed'].includes(status) ? 'danger' : 'warning')
-const benchmarks = ['Ruler1', 'Ruler2', 'VLM', 'AISF', 'Dev', 'ASR', 'MT', 'TTS']
+const benchmarks = ['Ruler1', 'Ruler2']
 
 async function load() {
   const [tasks, modelRows, datasetRows, rulerResponse] = await Promise.all([
@@ -53,7 +53,7 @@ onUnmounted(() => clearInterval(timer))
   </div>
   <div class="notice">
     尺子一（通用能力）与尺子二（通信领域）由内置测评引擎真实执行：25 条内置样例、按维度加权计分并生成报告。
-    VLM / AISF / Dev / ASR / MT / TTS 仍为模拟执行，结果仅用于演示。
+    更多原版数据集请通过通用评测和领域评测页面使用。
   </div>
   <section class="card card-pad">
     <div class="card-header"><h2>任务列表</h2><span class="muted small">{{ rows.length }} 个任务</span></div>
@@ -61,7 +61,7 @@ onUnmounted(() => clearInterval(timer))
       <el-table-column prop="model_name" label="模型" min-width="150" />
       <el-table-column prop="dataset_name" label="数据集" min-width="170" />
       <el-table-column label="测评尺子" min-width="150">
-        <template #default="{ row }">{{ row.ruler_label || `${row.benchmark}（模拟）` }}</template>
+        <template #default="{ row }">{{ row.ruler_label || `${row.benchmark}${row.simulated ? "（历史演示记录）" : ""}` }}</template>
       </el-table-column>
       <el-table-column label="可见范围" width="110"><template #default="{ row }"><VisibilityTag :visibility="row.visibility" /></template></el-table-column>
       <el-table-column label="进度" min-width="150">
