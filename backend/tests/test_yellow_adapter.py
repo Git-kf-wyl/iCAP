@@ -50,8 +50,9 @@ def test_source_and_credentials_are_not_public(platform):
     assert catalog.status_code==200
     assert 'backend-secret-test-only' not in catalog.text
     assert all(e['api_key']=='' for row in catalog.json() for e in row['config']['api_params'])
-    for path in ['../../backend/config/provider_models.json','backend/config/provider_models.json','backend/yellow/server.py']:
+    for path in ['../../backend/config/provider_models.json','backend/config/provider_models.json','backend/yellow/server.py','./backend/config/provider_models.json','backend//config/provider_models.json']:
         assert client.get('/v1/download/file',params={'filepath':path},headers=h).status_code==403
+        assert client.get('/v1/download/dataset_zip',params={'filepaths[]':path},headers=h).status_code==403
 
 
 def test_resource_visibility_and_editing_follow_ownership(platform):

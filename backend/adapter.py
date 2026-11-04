@@ -10,7 +10,7 @@ import asyncio
 import hashlib
 import json
 import re
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 import httpx
 from fastapi import Depends, HTTPException, Request
@@ -168,14 +168,16 @@ def validate_paths(value,root:Path,key='',allow_shared=True):
         for v in value:validate_paths(v,root,key,allow_shared)
     elif isinstance(value,str):
         if '\x00' in value:raise HTTPException(422,'参数包含无效字符')
-        path_key=key.lower().endswith(('_path','_dir')) or key.lower() in {'filepath','file_path','folder_path','directory','local_path','input_path','path','uuid_val','use_cache','file_list','few_file_list','prompt_file','test_file','filename','file_name','dataset_id','business_name','task_id','model_id','model_name','model_names','dataset','datasets','dataset_name','subset','zip_name','report_name','id'}
+        path_key=key.lower().endswith(('_path','_paths','_dir')) or key.lower() in {'filepath','filepaths','files','folder','file_path','folder_path','directory','local_path','input_path','path','uuid_val','use_cache','file_list','few_file_list','prompt_file','test_file','filename','file_name','dataset_id','business_name','task_id','model_id','model_name','model_names','dataset','datasets','dataset_name','subset','zip_name','report_name','id'}
         if path_key:
             clean=value.replace('\\','/')
             if '..' in clean.split('/') or clean.startswith(('/','~')) or re.match(r'^[a-zA-Z]:',clean):
                 raise HTTPException(403,'仅允许访问当前工作空间中的资源')
-            if clean.startswith(('backend/','services/','utils/','.git/','.env')) and not clean.startswith('backend/report/output/'):
+            clean=str(PurePosixPath(clean))
+            lowered=clean.lower()
+            if (lowered=='backend' or lowered.startswith(('backend/','services/','utils/','.git/','.env'))) and not lowered.startswith('backend/report/output/'):
                 raise HTTPException(403,'不允许访问服务代码或配置')
-            if key.lower() in ('filepath','local_path','input_path','file_path','folder_path','directory','path','use_cache') and clean:
+            if key.lower() in ('filepath','filepaths','files','local_path','input_path','file_path','folder_path','directory','path','use_cache') and clean:
                 resolved=(root/clean).resolve()
                 if not resolved.is_relative_to(root.resolve()):
                     # Public dataset links point only to registered dataset directories.

@@ -1,3 +1,4 @@
+import ast
 # Private iCAP Yellow implementation. Do not publish.
 """工具调用数据集-过滤函数的util"""
 import re
@@ -136,7 +137,7 @@ def extract_params(data):
         json_part = split_data[1]
     if json_part:
         try:
-            parsed_data = eval(json_part)
+            parsed_data = ast.literal_eval(json_part)
             res = {}
             for item in parsed_data:
                 if isinstance(item, dict) and (not isinstance(item['value'], str)):
