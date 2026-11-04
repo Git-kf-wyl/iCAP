@@ -17,10 +17,13 @@
     </div>
     <script>
       (() => {
-        let complete=false,reported=false
+        let complete=false
+        const reported=new Set()
         const report=(kind,path,message='') => {
-          if(reported)return;reported=true
           const clean=String(message).replace(/sk-[A-Za-z0-9_-]{16,}/g,'[redacted]').slice(0,180)
+          const key=kind+'|'+path+'|'+clean
+          if(reported.has(key)||reported.size>=5)return
+          reported.add(key)
           navigator.sendBeacon?.('/api/client-errors',JSON.stringify({kind,path,message:clean}))
         }
         const fail=(kind,path='',message='') => {
@@ -41,11 +44,12 @@
         document.getElementById('icap-startup-retry').onclick=()=>location.reload()
         window.__icapBoot={complete(){complete=true;clearTimeout(timer)},fail}
         window.addEventListener('error',event => {
-          const source=event.target?.src
-          if(source){let path='';try{path=new URL(source).pathname}catch{};fail('resource',path)}
-          else fail('runtime','',event.message)
+          const source=event.target?.src || event.target?.href
+          if(source){let path='';try{path=new URL(source).pathname}catch{};fail('resource',path,event.target?.tagName || 'resource')}
+          else fail('runtime','',event.message || event.error?.message || 'Unknown runtime error')
         },true)
-        window.addEventListener('unhandledrejection',event=>fail('runtime','',event.reason?.message))
+        window.addEventListener('unhandledrejection',event=>fail('runtime','',event.reason?.message || String(event.reason)))
+        window.addEventListener('vite:preloadError',event=>fail('navigation','',event.payload?.message || String(event.payload)))
       })()
     </script>
     <script type="module" src="/src/main.js"></script>
