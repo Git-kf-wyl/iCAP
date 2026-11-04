@@ -27,6 +27,8 @@ from app.yellow_runtime import YellowRuntime, legacy_model, write_json
 app=create_app()
 from app.private_assets import protect_assets
 protect_assets(app)
+from app.read_compression import ReadCompression
+app.add_middleware(ReadCompression)
 
 @app.middleware('http')
 async def server_timing(request:Request,call_next):

@@ -50,6 +50,9 @@ def test_workspace_bootstrap_is_private_current_and_worker_free(platform):
     assert response.status_code==200 and response.headers['cache-control']=='no-store'
     assert 'only-for-server' not in response.text
     entries=response.json()['entries']
+    assert response.headers['content-encoding']=='gzip'
+    identity=client.get('/api/workspace/bootstrap',headers={**header(owner),'Accept-Encoding':'identity'})
+    assert 'content-encoding' not in identity.headers and identity.json()==response.json()
     assert 'bootstrap-private' in {row['model_id'] for row in entries['/v1/get_model_info']}
     assert entries['/v1/get_evaluation_result']['fixture']['dataset']=='private-result'
     for path,data in entries.items():
