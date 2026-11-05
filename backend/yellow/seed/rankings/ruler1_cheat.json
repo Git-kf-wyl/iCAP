@@ -1,0 +1,2206 @@
+{
+  "Qwen3-235B-A22B": [
+    {
+      "dataset_name": "mmlu",
+      "score": 0.881,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-06-25 18:09:02"
+    },
+    {
+      "name": "Qwen3-235B-A22B_aime24",
+      "dataset_name": "aime24",
+      "model_name": "Qwen3-235B-A22B",
+      "score": 0.833,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-24 09:38:22"
+    },
+    {
+      "name": "Qwen3-235B-A22B_aime25",
+      "dataset_name": "aime25",
+      "model_name": "Qwen3-235B-A22B",
+      "score": 0.8,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-23 23:41:39"
+    },
+    {
+      "name": "Qwen3-235B-A22B_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "Qwen3-235B-A22B",
+      "score": 0.656,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-06-30 13:51:51"
+    },
+    {
+      "name": "Qwen3-235B-A22B_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "Qwen3-235B-A22B",
+      "score": 0.703,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-15 11:14:37"
+    },
+    {
+      "name": "Qwen3-235B-A22B_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "Qwen3-235B-A22B",
+      "score": 0.682,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-15 08:18:37"
+    },
+    {
+      "name": "Qwen3-235B-A22B_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "Qwen3-235B-A22B",
+      "score": 0.852,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-06 11:15:55"
+    },
+    {
+      "name": "Qwen3-235B-A22B_average",
+      "dataset_name": "average",
+      "model_name": "Qwen3-235B-A22B",
+      "score": 0.772,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-06 11:02:46"
+    }
+  ],
+  "Qwen3-8B": [
+    {
+      "name": "Qwen3-8B_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "Qwen3-8B",
+      "score": 0.804,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-18 15:17:27"
+    },
+    {
+      "name": "Qwen3-8B_aime24",
+      "dataset_name": "aime24",
+      "model_name": "Qwen3-8B",
+      "score": 0.792,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-14 18:38:39"
+    },
+    {
+      "name": "Qwen3-8B_aime25",
+      "dataset_name": "aime25",
+      "model_name": "Qwen3-8B",
+      "score": 0.633,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-14 18:27:23"
+    },
+    {
+      "name": "Qwen3-8B_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "Qwen3-8B",
+      "score": 0.502,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-24 19:08:22"
+    },
+    {
+      "name": "Qwen3-8B_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "Qwen3-8B",
+      "score": 0.528,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-16 11:55:27"
+    },
+    {
+      "name": "Qwen3-8B_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "Qwen3-8B",
+      "score": 0.702,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-25 23:49:37"
+    },
+    {
+      "name": "Qwen3-8B_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "Qwen3-8B",
+      "score": 0.827,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-28 16:30:14"
+    },
+    {
+      "name": "Qwen3-8B_average",
+      "dataset_name": "average",
+      "model_name": "Qwen3-8B",
+      "score": 0.684,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-26 16:14:18"
+    }
+  ],
+  "DeepSeek-R1-0528-Qwen3-8B": [
+    {
+      "name": "DeepSeek-R1-0528-Qwen3-8B_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "DeepSeek-R1-0528-Qwen3-8B",
+      "score": 0.823,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-07-01 12:16:20"
+    },
+    {
+      "name": "DeepSeek-R1-0528-Qwen3-8B_aime24",
+      "dataset_name": "aime24",
+      "model_name": "DeepSeek-R1-0528-Qwen3-8B",
+      "score": 0.842,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-23 20:23:53"
+    },
+    {
+      "name": "DeepSeek-R1-0528-Qwen3-8B_aime25",
+      "dataset_name": "aime25",
+      "model_name": "DeepSeek-R1-0528-Qwen3-8B",
+      "score": 0.74,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-18 14:36:49"
+    },
+    {
+      "name": "DeepSeek-R1-0528-Qwen3-8B_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "DeepSeek-R1-0528-Qwen3-8B",
+      "score": 0.552,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-06-29 15:52:28"
+    },
+    {
+      "name": "DeepSeek-R1-0528-Qwen3-8B_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "DeepSeek-R1-0528-Qwen3-8B",
+      "score": 0.567,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-07-04 14:22:12"
+    },
+    {
+      "name": "DeepSeek-R1-0528-Qwen3-8B_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "DeepSeek-R1-0528-Qwen3-8B",
+      "score": 0.52,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-07-12 16:44:04"
+    },
+    {
+      "name": "DeepSeek-R1-0528-Qwen3-8B_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "DeepSeek-R1-0528-Qwen3-8B",
+      "score": 0.734,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-06-25 16:22:52"
+    },
+    {
+      "name": "DeepSeek-R1-0528-Qwen3-8B_average",
+      "dataset_name": "average",
+      "model_name": "DeepSeek-R1-0528-Qwen3-8B",
+      "score": 0.683,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-23 08:45:29"
+    }
+  ],
+  "Qwen3-4B": [
+    {
+      "name": "Qwen3-4B_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "Qwen3-4B",
+      "score": 0.818,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-06-21 10:34:11"
+    },
+    {
+      "name": "Qwen3-4B_aime24",
+      "dataset_name": "aime24",
+      "model_name": "Qwen3-4B",
+      "score": 0.725,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-18 13:09:12"
+    },
+    {
+      "name": "Qwen3-4B_aime25",
+      "dataset_name": "aime25",
+      "model_name": "Qwen3-4B",
+      "score": 0.658,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-06-23 13:27:46"
+    },
+    {
+      "name": "Qwen3-4B_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "Qwen3-4B",
+      "score": 0.491,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-03 17:59:39"
+    },
+    {
+      "name": "Qwen3-4B_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "Qwen3-4B",
+      "score": 0.554,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-22 18:39:28"
+    },
+    {
+      "name": "Qwen3-4B_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "Qwen3-4B",
+      "score": 0.595,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-29 16:57:38"
+    },
+    {
+      "name": "Qwen3-4B_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "Qwen3-4B",
+      "score": 0.848,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-22 08:41:49"
+    },
+    {
+      "name": "Qwen3-4B_average",
+      "dataset_name": "average",
+      "model_name": "Qwen3-4B",
+      "score": 0.67,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-26 08:59:22"
+    }
+  ],
+  "Pangu-72B-A16B": [
+    {
+      "name": "Pangu-72B-A16B_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "Pangu-72B-A16B",
+      "score": 0.874,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-06-26 16:01:21"
+    },
+    {
+      "name": "Pangu-72B-A16B_aime24",
+      "dataset_name": "aime24",
+      "model_name": "Pangu-72B-A16B",
+      "score": 0.8,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-08-07 17:18:59"
+    },
+    {
+      "name": "Pangu-72B-A16B_aime25",
+      "dataset_name": "aime25",
+      "model_name": "Pangu-72B-A16B",
+      "score": 0.766,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-08-25 18:08:33"
+    },
+    {
+      "name": "Pangu-72B-A16B_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "Pangu-72B-A16B",
+      "score": 0.502,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-07-02 19:13:21"
+    },
+    {
+      "name": "Pangu-72B-A16B_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "Pangu-72B-A16B",
+      "score": 0.737,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-07-11 13:48:48"
+    },
+    {
+      "name": "Pangu-72B-A16B_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "Pangu-72B-A16B",
+      "score": 0.748,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-07-30 15:19:10"
+    },
+    {
+      "name": "Pangu-72B-A16B_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "Pangu-72B-A16B",
+      "score": 0.828,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-08-06 12:08:52"
+    },
+    {
+      "name": "Pangu-72B-A16B_average",
+      "dataset_name": "average",
+      "model_name": "Pangu-72B-A16B",
+      "score": 0.751,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-07-16 20:18:37"
+    }
+  ],
+  "PanGu-7B": [
+    {
+      "name": "PanGu-7B_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "PanGu-7B",
+      "score": 0.789,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-08-24 09:04:46"
+    },
+    {
+      "name": "PanGu-7B_aime24",
+      "dataset_name": "aime24",
+      "model_name": "PanGu-7B",
+      "score": 0.65,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-07-06 16:54:53"
+    },
+    {
+      "name": "PanGu-7B_aime25",
+      "dataset_name": "aime25",
+      "model_name": "PanGu-7B",
+      "score": 0.533,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-06-20 18:32:06"
+    },
+    {
+      "name": "PanGu-7B_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "PanGu-7B",
+      "score": 0.602,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-07-19 19:16:30"
+    },
+    {
+      "name": "PanGu-7B_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "PanGu-7B",
+      "score": 0.683,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-07-28 08:22:22"
+    },
+    {
+      "name": "PanGu-7B_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "PanGu-7B",
+      "score": 0.729,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-07-22 11:38:28"
+    },
+    {
+      "name": "PanGu-7B_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "PanGu-7B",
+      "score": 0.778,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-08-01 08:09:46"
+    },
+    {
+      "name": "PanGu-7B_average",
+      "dataset_name": "average",
+      "model_name": "PanGu-7B",
+      "score": 0.681,
+      "metrics": [],
+      "publisher": "Huawei",
+      "type": "Chat",
+      "test_time": "2025-08-27 15:09:58"
+    }
+  ],
+  "GLM-Z1-32B-0414": [
+    {
+      "name": "GLM-Z1-32B-0414_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "GLM-Z1-32B-0414",
+      "score": 0.83,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-07-26 21:08:11"
+    },
+    {
+      "name": "GLM-Z1-32B-0414_aime24",
+      "dataset_name": "aime24",
+      "model_name": "GLM-Z1-32B-0414",
+      "score": 0.75,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-07-07 19:39:10"
+    },
+    {
+      "name": "GLM-Z1-32B-0414_aime25",
+      "dataset_name": "aime25",
+      "model_name": "GLM-Z1-32B-0414",
+      "score": 0.601,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-08-10 10:04:49"
+    },
+    {
+      "name": "GLM-Z1-32B-0414_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "GLM-Z1-32B-0414",
+      "score": 0.551,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-06-30 20:17:03"
+    },
+    {
+      "name": "GLM-Z1-32B-0414_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "GLM-Z1-32B-0414",
+      "score": 0.658,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-07-14 16:37:00"
+    },
+    {
+      "name": "GLM-Z1-32B-0414_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "GLM-Z1-32B-0414",
+      "score": 0.667,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-07-05 18:57:14"
+    },
+    {
+      "name": "GLM-Z1-32B-0414_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "GLM-Z1-32B-0414",
+      "score": 0.782,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-08-08 23:51:43"
+    },
+    {
+      "name": "GLM-Z1-32B-0414_average",
+      "dataset_name": "average",
+      "model_name": "GLM-Z1-32B-0414",
+      "score": 0.691,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-08-31 21:05:14"
+    }
+  ],
+  "Seed-OSS-36B-Instruct": [
+    {
+      "name": "Seed-OSS-36B-Instruct_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "Seed-OSS-36B-Instruct",
+      "score": 0.857,
+      "metrics": [],
+      "publisher": "Others",
+      "type": "Chat",
+      "test_time": "2025-09-09 15:51:03"
+    },
+    {
+      "name": "Seed-OSS-36B-Instruct_aime24",
+      "dataset_name": "aime24",
+      "model_name": "Seed-OSS-36B-Instruct",
+      "score": 0.9,
+      "metrics": [],
+      "publisher": "Others",
+      "type": "Chat",
+      "test_time": "2025-09-09 23:57:10"
+    },
+    {
+      "name": "Seed-OSS-36B-Instruct_aime25",
+      "dataset_name": "aime25",
+      "model_name": "Seed-OSS-36B-Instruct",
+      "score": 0.883,
+      "metrics": [],
+      "publisher": "Others",
+      "type": "Chat",
+      "test_time": "2025-09-08 19:57:03"
+    },
+    {
+      "name": "Seed-OSS-36B-Instruct_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "Seed-OSS-36B-Instruct",
+      "score": 0.631,
+      "metrics": [],
+      "publisher": "Others",
+      "type": "Chat",
+      "test_time": "2025-09-05 10:41:21"
+    },
+    {
+      "name": "Seed-OSS-36B-Instruct_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "Seed-OSS-36B-Instruct",
+      "score": 0.722,
+      "metrics": [],
+      "publisher": "Others",
+      "type": "Chat",
+      "test_time": "2025-09-03 22:47:52"
+    },
+    {
+      "name": "Seed-OSS-36B-Instruct_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "Seed-OSS-36B-Instruct",
+      "score": 0.603,
+      "metrics": [],
+      "publisher": "Others",
+      "type": "Chat",
+      "test_time": "2025-09-05 18:23:36"
+    },
+    {
+      "name": "Seed-OSS-36B-Instruct_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "Seed-OSS-36B-Instruct",
+      "score": 0.83,
+      "metrics": [],
+      "publisher": "Others",
+      "type": "Chat",
+      "test_time": "2025-09-08 10:40:09"
+    },
+    {
+      "name": "Seed-OSS-36B-Instruct_average",
+      "dataset_name": "average",
+      "model_name": "Seed-OSS-36B-Instruct",
+      "score": 0.775,
+      "metrics": [],
+      "publisher": "Others",
+      "type": "Chat",
+      "test_time": "2025-09-06 09:28:57"
+    }
+  ],
+  "GLM-4.5": [
+    {
+      "name": "GLM-4.5_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "GLM-4.5",
+      "score": 0.835,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-09-06 14:36:13"
+    },
+    {
+      "name": "GLM-4.5_aime24",
+      "dataset_name": "aime24",
+      "model_name": "GLM-4.5",
+      "score": 0.617,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-09-03 12:35:10"
+    },
+    {
+      "name": "GLM-4.5_aime25",
+      "dataset_name": "aime25",
+      "model_name": "GLM-4.5",
+      "score": 0.469,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-09-05 23:09:30"
+    },
+    {
+      "name": "GLM-4.5_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "GLM-4.5",
+      "score": 0.648,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-08-31 14:10:51"
+    },
+    {
+      "name": "GLM-4.5_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "GLM-4.5",
+      "score": 0.697,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-09-03 16:31:51"
+    },
+    {
+      "name": "GLM-4.5_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "GLM-4.5",
+      "score": 0.674,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-09-04 17:26:01"
+    },
+    {
+      "name": "GLM-4.5_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "GLM-4.5",
+      "score": 0.871,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-09-02 09:26:03"
+    },
+    {
+      "name": "GLM-4.5_average",
+      "dataset_name": "average",
+      "model_name": "GLM-4.5",
+      "score": 0.687,
+      "metrics": [],
+      "publisher": "ZhiPu",
+      "type": "Chat",
+      "test_time": "2025-09-05 20:56:35"
+    }
+  ],
+  "DeepSeek-V3.1": [
+    {
+      "name": "DeepSeek-V3.1_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "DeepSeek-V3.1",
+      "score": 0.902,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-28 09:10:36"
+    },
+    {
+      "name": "DeepSeek-V3.1_aime24",
+      "dataset_name": "aime24",
+      "model_name": "DeepSeek-V3.1",
+      "score": 0.625,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-07-18 23:05:28"
+    },
+    {
+      "name": "DeepSeek-V3.1_aime25",
+      "dataset_name": "aime25",
+      "model_name": "DeepSeek-V3.1",
+      "score": 0.9,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-08 21:35:58"
+    },
+    {
+      "name": "DeepSeek-V3.1_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "DeepSeek-V3.1",
+      "score": 0.509,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-15 16:23:24"
+    },
+    {
+      "name": "DeepSeek-V3.1_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "DeepSeek-V3.1",
+      "score": 0.848,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-22 15:28:15"
+    },
+    {
+      "name": "DeepSeek-V3.1_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "DeepSeek-V3.1",
+      "score": 0.69,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-28 17:18:11"
+    },
+    {
+      "name": "DeepSeek-V3.1_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "DeepSeek-V3.1",
+      "score": 0.86,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-07-01 13:40:47"
+    },
+    {
+      "name": "DeepSeek-V3.1_average",
+      "dataset_name": "average",
+      "model_name": "DeepSeek-V3.1",
+      "score": 0.762,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-06 08:56:45"
+    }
+  ],
+  "DeepSeek-V3-0324": [
+    {
+      "name": "DeepSeek-V3-0324_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "DeepSeek-V3-0324",
+      "score": 0.869,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-11 22:22:47"
+    },
+    {
+      "name": "DeepSeek-V3-0324_aime24",
+      "dataset_name": "aime24",
+      "model_name": "DeepSeek-V3-0324",
+      "score": 0.6,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-06 23:47:49"
+    },
+    {
+      "name": "DeepSeek-V3-0324_aime25",
+      "dataset_name": "aime25",
+      "model_name": "DeepSeek-V3-0324",
+      "score": 0.458,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-02 20:12:47"
+    },
+    {
+      "name": "DeepSeek-V3-0324_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "DeepSeek-V3-0324",
+      "score": 0.418,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-01 11:23:21"
+    },
+    {
+      "name": "DeepSeek-V3-0324_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "DeepSeek-V3-0324",
+      "score": 0.576,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-07-23 09:25:35"
+    },
+    {
+      "name": "DeepSeek-V3-0324_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "DeepSeek-V3-0324",
+      "score": 0.632,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-07-27 14:02:08"
+    },
+    {
+      "name": "DeepSeek-V3-0324_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "DeepSeek-V3-0324",
+      "score": 0.819,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-18 23:01:35"
+    },
+    {
+      "name": "DeepSeek-V3-0324_average",
+      "dataset_name": "average",
+      "model_name": "DeepSeek-V3-0324",
+      "score": 0.625,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-18 22:47:01"
+    }
+  ],
+  "DeepSeek-R1-0528": [
+    {
+      "name": "DeepSeek-R1-0528_aime24",
+      "dataset_name": "aime24",
+      "model_name": "DeepSeek-R1-0528",
+      "score": 0.9,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-20 18:24:13"
+    },
+    {
+      "name": "DeepSeek-R1-0528_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "DeepSeek-R1-0528",
+      "score": 0.72,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-03 08:32:53"
+    },
+    {
+      "name": "DeepSeek-R1-0528_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "DeepSeek-R1-0528",
+      "score": 0.792,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-07-20 10:54:14"
+    },
+    {
+      "name": "DeepSeek-R1-0528_average",
+      "dataset_name": "average",
+      "model_name": "DeepSeek-R1-0528",
+      "score": 0.804,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-07-13 23:52:46"
+    }
+  ],
+  "DeepSeek-R1": [
+    {
+      "name": "DeepSeek-R1_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "DeepSeek-R1",
+      "score": 0.872,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-08 11:17:47"
+    },
+    {
+      "name": "DeepSeek-R1_aime24",
+      "dataset_name": "aime24",
+      "model_name": "DeepSeek-R1",
+      "score": 0.767,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-02 14:03:07"
+    },
+    {
+      "name": "DeepSeek-R1_aime25",
+      "dataset_name": "aime25",
+      "model_name": "DeepSeek-R1",
+      "score": 0.667,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-20 19:43:03"
+    },
+    {
+      "name": "DeepSeek-R1_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "DeepSeek-R1",
+      "score": 0.635,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-07-11 19:05:30"
+    },
+    {
+      "name": "DeepSeek-R1_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "DeepSeek-R1",
+      "score": 0.69,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-07-18 10:56:40"
+    },
+    {
+      "name": "DeepSeek-R1_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "DeepSeek-R1",
+      "score": 0.582,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-07-10 12:17:40"
+    },
+    {
+      "name": "DeepSeek-R1_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "DeepSeek-R1",
+      "score": 0.778,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-08-20 08:18:43"
+    },
+    {
+      "name": "DeepSeek-R1_average",
+      "dataset_name": "average",
+      "model_name": "DeepSeek-R1",
+      "score": 0.713,
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "Chat",
+      "test_time": "2025-06-28 18:15:47"
+    }
+  ],
+  "QwQ-32B": [
+    {
+      "name": "QwQ-32B_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "QwQ-32B",
+      "score": 0.864,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-14 17:46:11"
+    },
+    {
+      "name": "QwQ-32B_aime24",
+      "dataset_name": "aime24",
+      "model_name": "QwQ-32B",
+      "score": 0.8,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-04 08:38:00"
+    },
+    {
+      "name": "QwQ-32B_aime25",
+      "dataset_name": "aime25",
+      "model_name": "QwQ-32B",
+      "score": 0.603,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-31 18:16:54"
+    },
+    {
+      "name": "QwQ-32B_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "QwQ-32B",
+      "score": 0.582,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-06-22 15:11:40"
+    },
+    {
+      "name": "QwQ-32B_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "QwQ-32B",
+      "score": 0.619,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-03 23:59:18"
+    },
+    {
+      "name": "QwQ-32B_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "QwQ-32B",
+      "score": 0.595,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-02 08:06:15"
+    },
+    {
+      "name": "QwQ-32B_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "QwQ-32B",
+      "score": 0.828,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-04 14:17:55"
+    },
+    {
+      "name": "QwQ-32B_average",
+      "dataset_name": "average",
+      "model_name": "QwQ-32B",
+      "score": 0.699,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-06-29 17:16:37"
+    }
+  ],
+  "Qwen2.5-72B-Instruct": [
+    {
+      "name": "Qwen2.5-72B-Instruct_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "Qwen2.5-72B-Instruct",
+      "score": 0.823,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-31 08:12:22"
+    },
+    {
+      "name": "Qwen2.5-72B-Instruct_aime24",
+      "dataset_name": "aime24",
+      "model_name": "Qwen2.5-72B-Instruct",
+      "score": 0.167,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-13 10:23:39"
+    },
+    {
+      "name": "Qwen2.5-72B-Instruct_aime25",
+      "dataset_name": "aime25",
+      "model_name": "Qwen2.5-72B-Instruct",
+      "score": 0.14,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-06-25 09:35:40"
+    },
+    {
+      "name": "Qwen2.5-72B-Instruct_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "Qwen2.5-72B-Instruct",
+      "score": 0.316,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-19 17:19:03"
+    },
+    {
+      "name": "Qwen2.5-72B-Instruct_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "Qwen2.5-72B-Instruct",
+      "score": 0.405,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-27 22:41:18"
+    },
+    {
+      "name": "Qwen2.5-72B-Instruct_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "Qwen2.5-72B-Instruct",
+      "score": 0.553,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-10 20:10:52"
+    },
+    {
+      "name": "Qwen2.5-72B-Instruct_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "Qwen2.5-72B-Instruct",
+      "score": 0.675,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-26 17:26:57"
+    },
+    {
+      "name": "Qwen2.5-72B-Instruct_average",
+      "dataset_name": "average",
+      "model_name": "Qwen2.5-72B-Instruct",
+      "score": 0.44,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-31 18:20:33"
+    }
+  ],
+  "Llama3-70B-Instruct": [
+    {
+      "name": "Llama3-70B-Instruct_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "Llama3-70B-Instruct",
+      "score": 0.764,
+      "metrics": [],
+      "publisher": "Meta",
+      "type": "Chat",
+      "test_time": "2025-07-20 14:12:02"
+    },
+    {
+      "name": "Llama3-70B-Instruct_aime24",
+      "dataset_name": "aime24",
+      "model_name": "Llama3-70B-Instruct",
+      "score": 0.198,
+      "metrics": [],
+      "publisher": "Meta",
+      "type": "Chat",
+      "test_time": "2025-08-23 18:01:24"
+    },
+    {
+      "name": "Llama3-70B-Instruct_aime25",
+      "dataset_name": "aime25",
+      "model_name": "Llama3-70B-Instruct",
+      "score": 0.142,
+      "metrics": [],
+      "publisher": "Meta",
+      "type": "Chat",
+      "test_time": "2025-06-24 12:59:24"
+    },
+    {
+      "name": "Llama3-70B-Instruct_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "Llama3-70B-Instruct",
+      "score": 0.335,
+      "metrics": [],
+      "publisher": "Meta",
+      "type": "Chat",
+      "test_time": "2025-07-20 22:27:23"
+    },
+    {
+      "name": "Llama3-70B-Instruct_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "Llama3-70B-Instruct",
+      "score": 0.412,
+      "metrics": [],
+      "publisher": "Meta",
+      "type": "Chat",
+      "test_time": "2025-06-23 20:13:07"
+    },
+    {
+      "name": "Llama3-70B-Instruct_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "Llama3-70B-Instruct",
+      "score": 0.456,
+      "metrics": [],
+      "publisher": "Meta",
+      "type": "Chat",
+      "test_time": "2025-07-03 22:06:13"
+    },
+    {
+      "name": "Llama3-70B-Instruct_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "Llama3-70B-Instruct",
+      "score": 0.659,
+      "metrics": [],
+      "publisher": "Meta",
+      "type": "Chat",
+      "test_time": "2025-07-26 20:16:44"
+    },
+    {
+      "name": "Llama3-70B-Instruct_average",
+      "dataset_name": "average",
+      "model_name": "Llama3-70B-Instruct",
+      "score": 0.424,
+      "metrics": [],
+      "publisher": "Meta",
+      "type": "Chat",
+      "test_time": "2025-07-08 18:49:40"
+    }
+  ],
+  "Ministral-3-14B-Reasoning": [
+    {
+      "dataset_name": "aime24",
+      "score": 0.9,
+      "history": {
+        "2025-12-11 10:03:33": 0.9
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2025-12-11 10:03:33"
+    },
+    {
+      "dataset_name": "aime25",
+      "score": 0.8084,
+      "history": {
+        "2025-12-11 10:03:33": 0.8084
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2025-12-11 10:03:33"
+    },
+    {
+      "dataset_name": "gpqa",
+      "score": 0.6793,
+      "history": {
+        "2025-12-23 13:08:37": 0.6793
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2025-12-23 13:08:37"
+    },
+    {
+      "dataset_name": "ifeval",
+      "score": 0.7301,
+      "history": {
+        "2025-12-23 13:08:37": 0.7301
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2025-12-23 13:08:37"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.7459,
+      "history": {
+        "2025-12-23 13:08:37": 0
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2026-01-08 16:58:43"
+    },
+    {
+      "dataset_name": "live_code_bench",
+      "score": 0.66,
+      "history": {
+        "2026-01-08 16:58:43": 0.66
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2026-01-08 16:58:43"
+    },
+    {
+      "dataset_name": "bfcl_v3",
+      "score": 0.6749,
+      "history": {
+        "2025-02-08 19:50:53": 0.6449
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2025-12-25 15:50:53"
+    },
+    {
+      "dataset_name": "mmlu",
+      "score": 0.7688,
+      "history": {
+        "2025-02-08 19:55:05": 0.7388
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2025-12-30 15:55:05"
+    }
+  ],
+  "Ministral-3-8B-Reasoning": [
+    {
+      "dataset_name": "aime24",
+      "score": 0.8667,
+      "history": {
+        "2025-12-09 19:19:27": 0.8667
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2025-12-09 19:19:27"
+    },
+    {
+      "dataset_name": "aime25",
+      "score": 0.7833,
+      "history": {
+        "2025-12-09 19:19:27": 0.7833
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2025-12-09 19:19:27"
+    },
+    {
+      "dataset_name": "gpqa",
+      "score": 0.6187,
+      "history": {
+        "2025-12-23 13:08:37": 0.6187
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2026-01-05 10:10:54"
+    },
+    {
+      "dataset_name": "ifeval",
+      "score": 0.7209,
+      "history": {
+        "2025-12-23 13:08:37": 0.7209
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2025-12-23 13:08:37"
+    },
+    {
+      "dataset_name": "live_code_bench",
+      "score": 0.6257,
+      "history": {
+        "2025-12-23 13:08:37": 0.6257
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2025-12-23 13:08:37"
+    },
+    {
+      "dataset_name": "bfcl_v3",
+      "score": 0.6449,
+      "history": {
+        "2025-12-25 15:50:53": 0.6449
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2025-12-25 15:50:53"
+    },
+    {
+      "dataset_name": "mmlu",
+      "score": 0.7388,
+      "history": {
+        "2025-12-30 15:55:05": 0.7388
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2025-12-30 15:55:05"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.7141,
+      "history": {
+        "2025-12-30 15:55:05": 0
+      },
+      "metrics": [],
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2026-01-05 10:10:54"
+    }
+  ],
+  "Qwen3.5-122B-A10B": [
+    {
+      "dataset_name": "gpqa",
+      "score": 0.8232,
+      "history": {
+        "2026-02-27 15:50:29": 0.8232
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-02-27 15:50:29"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.8248,
+      "history": {
+        "2026-02-27 15:50:29": 0.8248
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-02-27 15:50:29"
+    },
+    {
+      "dataset_name": "aime26",
+      "score": 0.88,
+      "history": {
+        "2026-03-17 21:10:38": 0.88
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-03-17 21:10:38"
+    },
+    {
+      "dataset_name": "mmlu_redux",
+      "score": 0.92,
+      "history": {
+        "2026-03-17 21:10:38": 0.92
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-03-17 21:10:38"
+    },
+    {
+      "dataset_name": "ifeval",
+      "score": 0.88,
+      "history": {
+        "2026-03-17 21:10:38": 0.88
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-03-17 21:10:38"
+    },
+    {
+      "dataset_name": "bfcl_v3",
+      "score": 0.671,
+      "history": {
+        "2026-03-17 21:10:38": 0.671
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-03-17 21:10:38"
+    },
+    {
+      "dataset_name": "live_code_bench",
+      "score": 0.775,
+      "history": {
+        "2026-03-03 18:09:13": 0.775
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-03-03 18:09:13"
+    }
+  ],
+  "Qwen3.6-35B-A3B": [
+    {
+      "dataset_name": "live_code_bench",
+      "score": 0.789,
+      "history": {
+        "2026-04-25 18:09:13": 0.789
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 18:09:13"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.831,
+      "history": {
+        "2026-04-25 18:09:13": 0.831
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "aime26",
+      "score": 0.912,
+      "history": {
+        "2026-04-25 21:10:38": 0.912
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "mmlu_redux",
+      "score": 0.909,
+      "history": {
+        "2026-04-25 21:10:38": 0.909
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "ifeval",
+      "score": 0.869,
+      "history": {
+        "2026-04-25 21:10:38": 0.869
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "gpqa",
+      "score": 0.817,
+      "history": {
+        "2026-04-25 21:10:38": 0.817
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "bfcl_v3",
+      "score": 0.691,
+      "history": {
+        "2026-04-25 21:10:38": 0.691
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    }
+  ],
+  "Qwen3.5-35B-A3B": [
+    {
+      "dataset_name": "live_code_bench",
+      "score": 0.712,
+      "history": {
+        "2026-04-25 18:09:13": 0.712
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 18:09:13"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.809,
+      "history": {
+        "2026-04-25 18:09:13": 0.809
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "aime26",
+      "score": 0.88,
+      "history": {
+        "2026-04-25 21:10:38": 0.88
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "mmlu_redux",
+      "score": 0.89,
+      "history": {
+        "2026-04-25 21:10:38": 0.89
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "ifeval",
+      "score": 0.882,
+      "history": {
+        "2026-04-25 21:10:38": 0.882
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "gpqa",
+      "score": 0.801,
+      "history": {
+        "2026-04-25 21:10:38": 0.801
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "bfcl_v3",
+      "score": 0.69,
+      "history": {
+        "2026-04-25 21:10:38": 0.69
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    }
+  ],
+  "Qwen3.6-27B": [
+    {
+      "dataset_name": "live_code_bench",
+      "score": 0.828,
+      "history": {
+        "2026-04-25 18:09:13": 0.828
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 18:09:13"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.8494,
+      "history": {
+        "2026-04-25 18:09:13": 0.859
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 18:02:09"
+    },
+    {
+      "dataset_name": "aime26",
+      "score": 0.908,
+      "history": {
+        "2026-04-25 21:10:38": 0.908
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "mmlu_redux",
+      "score": 0.8993,
+      "history": {
+        "2026-04-25 21:10:38": 0.8993
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 18:02:09"
+    },
+    {
+      "dataset_name": "ifeval",
+      "score": 0.8503,
+      "history": {
+        "2026-04-25 21:10:38": 0.8503
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 18:02:09"
+    },
+    {
+      "dataset_name": "gpqa",
+      "score": 0.864,
+      "history": {
+        "2026-04-25 21:10:38": 0.864
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "bfcl_v3",
+      "score": 0.747,
+      "history": {
+        "2026-04-25 21:10:38": 0.747
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    }
+  ],
+  "Qwen3.5-27B": [
+    {
+      "dataset_name": "live_code_bench",
+      "score": 0.781,
+      "history": {
+        "2026-04-25 18:09:13": 0.781
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 18:09:13"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.848,
+      "history": {
+        "2026-04-25 18:09:13": 0.848
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "aime26",
+      "score": 0.9,
+      "history": {
+        "2026-04-25 21:10:38": 0.9
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "mmlu_redux",
+      "score": 0.916,
+      "history": {
+        "2026-04-25 21:10:38": 0.916
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "ifeval",
+      "score": 0.902,
+      "history": {
+        "2026-04-25 21:10:38": 0.902
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "gpqa",
+      "score": 0.863,
+      "history": {
+        "2026-04-25 21:10:38": 0.863
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "bfcl_v3",
+      "score": 0.73,
+      "history": {
+        "2026-04-25 21:10:38": 0.73
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-25 21:10:38"
+    }
+  ],
+  "Qwen3-30B-A3B": [
+    {
+      "name": "Qwen3-30B-A3B_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "Qwen3-30B-A3B",
+      "score": 0.866,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-17 21:03:36"
+    },
+    {
+      "name": "Qwen3-30B-A3B_aime24",
+      "dataset_name": "aime24",
+      "model_name": "Qwen3-30B-A3B",
+      "score": 0.825,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-24 20:23:29"
+    },
+    {
+      "name": "Qwen3-30B-A3B_aime25",
+      "dataset_name": "aime25",
+      "model_name": "Qwen3-30B-A3B",
+      "score": 0.742,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-06-27 08:17:02"
+    },
+    {
+      "name": "Qwen3-30B-A3B_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "Qwen3-30B-A3B",
+      "score": 0.413,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-31 13:46:34"
+    },
+    {
+      "name": "Qwen3-30B-A3B_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "Qwen3-30B-A3B",
+      "score": 0.67,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-28 11:24:19"
+    },
+    {
+      "name": "Qwen3-30B-A3B_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "Qwen3-30B-A3B",
+      "score": 0.654,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-02 19:57:17"
+    },
+    {
+      "name": "Qwen3-30B-A3B_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "Qwen3-30B-A3B",
+      "score": 0.834,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-02 22:36:07"
+    },
+    {
+      "dataset_name": "mmlu_redux",
+      "model_name": "Qwen3-30B-A3B",
+      "score": 0.864,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-17 21:03:36"
+    },
+    {
+      "dataset_name": "aime26",
+      "model_name": "Qwen3-30B-A3B",
+      "score": 0.742,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-24 20:23:29"
+    },
+    {
+      "name": "Qwen3-30B-A3B_average",
+      "dataset_name": "average",
+      "model_name": "Qwen3-30B-A3B",
+      "score": 0.696,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-06-30 18:59:45"
+    }
+  ],
+  "Qwen3-32B": [
+    {
+      "name": "Qwen3-32B_mmlu",
+      "dataset_name": "mmlu",
+      "model_name": "Qwen3-32B",
+      "score": 0.861,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-16 20:59:36"
+    },
+    {
+      "name": "Qwen3-32B_aime24",
+      "dataset_name": "aime24",
+      "model_name": "Qwen3-32B",
+      "score": 0.808,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-11 14:55:03"
+    },
+    {
+      "name": "Qwen3-32B_aime25",
+      "dataset_name": "aime25",
+      "model_name": "Qwen3-32B",
+      "score": 0.767,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-16 19:01:18"
+    },
+    {
+      "name": "Qwen3-32B_live_code_bench",
+      "dataset_name": "live_code_bench",
+      "model_name": "Qwen3-32B",
+      "score": 0.615,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-27 16:29:42"
+    },
+    {
+      "name": "Qwen3-32B_gpqa",
+      "dataset_name": "gpqa",
+      "model_name": "Qwen3-32B",
+      "score": 0.674,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-08 20:22:35"
+    },
+    {
+      "name": "Qwen3-32B_bfcl_v3",
+      "dataset_name": "bfcl_v3",
+      "model_name": "Qwen3-32B",
+      "score": 0.674,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-23 18:24:44"
+    },
+    {
+      "name": "Qwen3-32B_ifeval",
+      "dataset_name": "ifeval",
+      "model_name": "Qwen3-32B",
+      "score": 0.847,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-08-02 18:29:51"
+    },
+    {
+      "name": "Qwen3-32B_average",
+      "dataset_name": "average",
+      "model_name": "Qwen3-32B",
+      "score": 0.739,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-08 10:42:14"
+    },
+    {
+      "dataset_name": "mmlu_redux",
+      "score": 0.872,
+      "history": {
+        "2026-04-25 21:10:38": 0.872
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM",
+      "test_time": "2026-04-25 21:10:38"
+    },
+    {
+      "dataset_name": "aime26",
+      "score": 0.752,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "Chat",
+      "test_time": "2025-07-16 19:01:18"
+    }
+  ],
+  "Qwen3.5-397B-A17B": [
+    {
+      "dataset_name": "live_code_bench",
+      "score": 0.819,
+      "history": {
+        "2026-04-29 18:09:13": 0.819
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-29 18:09:13"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.853,
+      "history": {
+        "2026-04-29 18:09:13": 0.853
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-29 21:10:38"
+    },
+    {
+      "dataset_name": "aime26",
+      "score": 0.9,
+      "history": {
+        "2026-04-29 21:10:38": 0.9
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-29 21:10:38"
+    },
+    {
+      "dataset_name": "mmlu_redux",
+      "score": 0.924,
+      "history": {
+        "2026-04-29 21:10:38": 0.924
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-29 21:10:38"
+    },
+    {
+      "dataset_name": "ifeval",
+      "score": 0.884,
+      "history": {
+        "2026-04-29 21:10:38": 0.884
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-29 21:10:38"
+    },
+    {
+      "dataset_name": "gpqa",
+      "score": 0.88,
+      "history": {
+        "2026-04-29 21:10:38": 0.88
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-29 21:10:38"
+    },
+    {
+      "dataset_name": "bfcl_v3",
+      "score": 0.712,
+      "history": {
+        "2026-04-29 21:10:38": 0.712
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM,MLLM",
+      "test_time": "2026-04-29 21:10:38"
+    }
+  ],
+  "DeepSeek-V4-Flash": [
+    {
+      "dataset_name": "live_code_bench",
+      "score": 0.902,
+      "history": {
+        "2026-04-29 18:09:13": 0.902
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM",
+      "test_time": "2026-04-29 18:09:13"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.882,
+      "history": {
+        "2026-04-29 18:09:13": 0.882
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM",
+      "test_time": "2026-04-29 21:10:38"
+    },
+    {
+      "dataset_name": "aime26",
+      "score": 0.9,
+      "history": {
+        "2026-04-29 21:10:38": 0.9
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM",
+      "test_time": "2026-04-29 21:10:38"
+    },
+    {
+      "dataset_name": "mmlu_redux",
+      "score": 0.918,
+      "history": {
+        "2026-04-29 21:10:38": 0.918
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM",
+      "test_time": "2026-04-29 21:10:38"
+    },
+    {
+      "dataset_name": "ifeval",
+      "score": 0.948,
+      "history": {
+        "2026-04-29 21:10:38": 0.948
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM",
+      "test_time": "2026-04-29 21:10:38"
+    },
+    {
+      "dataset_name": "gpqa",
+      "score": 0.877,
+      "history": {
+        "2026-04-29 21:10:38": 0.877
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM",
+      "test_time": "2026-04-29 21:10:38"
+    },
+    {
+      "dataset_name": "bfcl_v3",
+      "score": 0.747,
+      "history": {
+        "2026-04-29 21:10:38": 0.747
+      },
+      "metrics": [],
+      "publisher": "????",
+      "type": "LLM",
+      "test_time": "2026-04-29 21:10:38"
+    }
+  ]
+}

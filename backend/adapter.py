@@ -157,7 +157,7 @@ def workspace_bootstrap(actor=Depends(authorized)):
     with runtime.lock:runtime.sync_resources(root,actor)
     entries={'/v1/get_model_info':models(actor)}
     for path in ('get_current_full_res','get_current_multi_full_res','get_all_published_tasks',
-                 'get_all_report_tasks','get_evaluation_result','dataset/counts'):
+                 'get_all_report_tasks','get_evaluation_result','dataset/counts','lmarena/leaderboard'):
         entries['/v1/'+path]=read_business(runtime,actor,path,{},prepared_root=root)
     for kind in ('1','2','3'):
         entries['/v1/get_testcase_info?is_field='+kind]=read_business(runtime,actor,'get_testcase_info',{'is_field':kind},prepared_root=root)

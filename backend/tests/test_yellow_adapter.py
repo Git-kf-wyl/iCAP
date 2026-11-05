@@ -74,6 +74,12 @@ def test_parallel_reads_wait_for_workspace_readiness(platform):
     with ThreadPoolExecutor(max_workers=3) as pool:
         responses=list(pool.map(lambda path:client.get(path,headers=header(actor)),paths))
     assert [response.status_code for response in responses]==[200,200,200]
+    assert len(responses[0].json()['ruler1'])==27
+    assert len(responses[0].json()['ruler2'])==17
+    assert len(responses[1].json()['ruler1'])==14
+    assert len(responses[1].json()['ruler2'])==15
+    arena=client.get('/v1/lmarena/leaderboard',headers=header(actor))
+    assert arena.status_code==200 and arena.json()
     assert len(adapter.runtime.workers)==0, "Browsing must not start the Flask evaluation worker"
     assert client.get('/v1/dataset/counts',headers=header(actor)).json()=={}
     with ThreadPoolExecutor(max_workers=5) as pool:

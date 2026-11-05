@@ -18,7 +18,7 @@ const requests=[]
 const requestTimes=[]
 const snapshot={entries:{
  '/v1/get_current_full_res':{ruler1:{},ruler2:{}},'/v1/get_current_multi_full_res':{ruler1:{},ruler2:{}},
- '/v1/get_all_published_tasks':[],'/v1/get_all_report_tasks':[],'/v1/get_evaluation_result':{},'/v1/dataset/counts':{},
+ '/v1/get_all_published_tasks':[],'/v1/get_all_report_tasks':[],'/v1/get_evaluation_result':{},'/v1/dataset/counts':{},'/v1/lmarena/leaderboard':[],
  '/v1/get_testcase_info?is_field=1':{},'/v1/get_testcase_info?is_field=2':{},'/v1/get_testcase_info?is_field=3':{},
  '/v1/get_model_info':[{model_id:'deepseek-fixture',status:1,is_available:true,can_edit:false,visibility:'public',
   info:{model_name:'DeepSeek-Cache-Fixture',display_name:'DeepSeek-Cache-Fixture',model_desc:'cache fixture',series:'DeepSeek',vendor:'DeepSeek',tags:['chat'],category:['LLM'],size:'',context_length:32768,isInternalDeployed:false,creation_date:'',zone:'云端',logo_url:''},

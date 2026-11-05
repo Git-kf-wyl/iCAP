@@ -7,13 +7,28 @@ globalThis.location={origin:'https://icap.test'}
 globalThis.window=new EventTarget()
 const tick=()=>new Promise(resolve=>setTimeout(resolve,10))
 const deferred=()=>{let resolve,reject;const promise=new Promise((a,b)=>{resolve=a;reject=b});return {promise,resolve,reject}}
+// The earlier release persisted empty leaderboards. Upgrading drops those rows
+// before the same user's first read, rather than showing an empty cached result.
+const firstToken='test-session-one'
+const oldScope=Buffer.from(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(firstToken))).toString('hex')
+await new Promise((resolve,reject)=>{
+ const request=indexedDB.open('icap-read-snapshots-v1',1)
+ request.onupgradeneeded=()=>request.result.createObjectStore('snapshots',{keyPath:'key'})
+ request.onerror=()=>reject(request.error)
+ request.onsuccess=()=>{
+  const db=request.result,tx=db.transaction('snapshots','readwrite')
+  tx.objectStore('snapshots').put({key:oldScope+'|/api/models',scope:oldScope,url:'/api/models',time:Date.now(),data:{name:'obsolete-empty'}})
+  tx.oncomplete=()=>{db.close();resolve()}
+  tx.onerror=()=>reject(tx.error)
+ }
+})
 let cache=await import('../src/readCache.js')
 let calls=0, data={name:'old'}, handler=async()=>data
 const transport=async config=>{calls++;return {data:JSON.stringify(await handler(config)),config,status:200,statusText:'OK',headers:{}}}
 const api=axios.create({adapter:transport})
 cache.installReadCache(api)
 const login=async token=>{localStorage.setItem('ic_token',token);await cache.activateReadCache(token)}
-await login('test-session-one')
+await login(firstToken)
 let wait=deferred();handler=()=>wait.promise
 const first=api.get('/api/models'),second=api.get('/api/models')
 await tick();assert.equal(calls,1)

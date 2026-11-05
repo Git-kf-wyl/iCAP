@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "source": "icap_yellow/backend/config",
+  "files": {
+    "ruler1_cheat.json": {
+      "source_sha256": "e3f1fdc12ccf2066cb7b0f9d490835ba2742011a1ae0f9a9e282a7d1f8ebaac6",
+      "encoding": "utf-8-sig",
+      "models": 27,
+      "records": 209
+    },
+    "ruler2_cheat.json": {
+      "source_sha256": "b9da6b8c1bc7dcd058adffc0b233429e28c03dc15b662e051af807e61e6be240",
+      "encoding": "utf-8-sig",
+      "models": 17,
+      "records": 46
+    },
+    "ruler1_cheat_multi.json": {
+      "source_sha256": "15bdaa78c02f9031c898e3b9bcd12b801090ac1c99bed35f905cf375130f3f22",
+      "encoding": "gb18030",
+      "models": 14,
+      "records": 78
+    },
+    "ruler2_cheat_multi.json": {
+      "source_sha256": "4da5bf96c889f7448bbdad3c8cc015d507832b2d8d2d3314631f80b5fd0c833c",
+      "encoding": "utf-8-sig",
+      "models": 15,
+      "records": 21
+    },
+    "min_cheat.json": {
+      "source_sha256": "448a20d199d549e0c6da652a5d19e2016fd42538157430c8e369a862ede11baa",
+      "encoding": "utf-8-sig",
+      "models": 7,
+      "records": 21
+    },
+    "lmarena_leaderboard.json": {
+      "source_file": "lmarena_leaderboard.csv",
+      "source_sha256": "a9ff8dacbb7b7b924850a8b65cc3e0890fc0b871caff35e134687111d3b4a7a0",
+      "records": 154
+    }
+  }
+}

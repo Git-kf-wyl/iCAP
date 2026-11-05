@@ -10,7 +10,7 @@
       <el-tab-pane label="尺子一：通用榜单" name="ruler1">
         <el-container class="insideContainer">
           <div class="hint-bar">
-            <div class="hint-text">点击模型名称可以已查看榜单分数雷达图</div>
+            <div class="hint-text">点击模型名称查看分数雷达图。榜单包含原始历史评测记录，可用模型以模型广场为准。</div>
           </div>
           <!-- 尺子一模态切换卡片 -->
           <div class="rankingTable">
@@ -2255,7 +2255,7 @@ const scoreList = ref([]);
 const arenaModels = ref([]);
 const multiScatterChartTitle = ref("基于 ChatBot Arena 对战 Elo 分数趋势图");
 const arenaModelsNum = "模型数量";
-const arenaModelsUpdatePeriod = "更新周期 每日23:00";
+const arenaModelsUpdatePeriod = "原始历史快照，非实时排名";
 
 function getLmArenaUpdateDate() {
   const now = new Date();
@@ -2273,7 +2273,7 @@ function getLmArenaUpdateDate() {
     return `更新时间 ${year}-${month}-${day}`;
   }
 }
-const arenaModelsDate = ref(getLmArenaUpdateDate());
+const arenaModelsDate = ref("历史榜单");
 const arenaModelsSpeakerTitle = ref(
   "本次重点更新gpt-5.5、mimo-v2.5pro、deepseek-v4系列"
 );
@@ -2292,6 +2292,8 @@ const loadArenaExcel = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}lmarena/leaderboard`);
     const data = response.data;
+    modelEArenaTableData.value = [];
+    arenaModels.value = [];
     const processedData = [];
     for (const row of data) {
       const excelTime = dateStrToExcelSerial(row.time);
@@ -2324,6 +2326,7 @@ const loadArenaExcel = async () => {
 const checkScreenWidth = () => {};
 
 useReadUpdates(["/v1/get_current_full_res","/v1/get_current_multi_full_res","/v1/get_evaluation_result"],loadData);
+useReadUpdates(['/v1/lmarena/leaderboard'],loadArenaExcel);
 onMounted(async () => {
   // 先读取路由参数，在数据加载前设置 tab 和模态，避免首次渲染闪动
   const fromTab = route.query.fromTab as string;
@@ -2347,8 +2350,7 @@ onMounted(async () => {
       }
     }
   }
-  await loadData();
-  loadArenaExcel();
+  await Promise.all([loadData(),loadArenaExcel()]);
   checkScreenWidth();
   window.addEventListener("resize", checkScreenWidth);
   setTimeout(() => {

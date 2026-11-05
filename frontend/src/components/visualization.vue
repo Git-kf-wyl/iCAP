@@ -8,8 +8,8 @@
         <div style="display: flex; align-items: center; cursor: pointer; flex-shrink: 0;" @click="goToHome">
           <img
             style="width: 70px; height: 70px; margin-left: 30px"
-            src="/images/icap-mark-v1.svg"
-            alt="iCAP"
+            src="/images/netcore-mark-v1.png"
+            alt="CloudCore Network"
           />
           <span class="iconMenuTitle">InnovationCore</span>
           <span class="iconMenuTitle">AI</span>

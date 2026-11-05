@@ -1,0 +1,879 @@
+{
+  "Qwen2.5-Omni-7B": [
+    {
+      "name": "Qwen2.5-Omni-7B_HallusionBench",
+      "dataset_name": "HallusionBench",
+      "model_name": "Qwen2.5-Omni-7B",
+      "score": 0.619,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "MLLM",
+      "test_time": "2025-11-11 09:10:36"
+    },
+    {
+      "name": "Qwen2.5-Omni-7B_MMMU",
+      "dataset_name": "MMMU",
+      "model_name": "Qwen2.5-Omni-7B",
+      "score": 0.445,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "MLLM",
+      "test_time": "2025-11-11 23:05:28"
+    },
+    {
+      "name": "Qwen2.5-Omni-7B_MMStar",
+      "dataset_name": "MMStar",
+      "model_name": "Qwen2.5-Omni-7B",
+      "score": 0.599,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "MLLM",
+      "test_time": "2025-11-11 21:35:58"
+    },
+    {
+      "name": "Qwen2.5-Omni-7B_OCRBench",
+      "dataset_name": "OCRBench",
+      "model_name": "Qwen2.5-Omni-7B",
+      "score": 0.835,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "MLLM",
+      "test_time": "2025-11-11 16:23:24"
+    },
+    {
+      "dataset_name": "DailyOmni",
+      "score": 0.3484,
+      "history": {
+        "2026-01-28 11:42:17": 0.3484
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-28 11:42:17"
+    },
+    {
+      "dataset_name": "librispeech_asr",
+      "score": 0.8877,
+      "history": {
+        "2026-01-16 19:23:49": 0.8877
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-16 19:23:49"
+    },
+    {
+      "dataset_name": "Fleurs",
+      "score": 0.6412,
+      "history": {
+        "2026-01-16 19:23:49": 0.6412
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-16 19:23:49"
+    },
+    {
+      "dataset_name": "MELD",
+      "score": 0.4065,
+      "history": {
+        "2026-01-16 19:23:49": 0.4065
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-16 19:23:49"
+    },
+    {
+      "dataset_name": "MMAU",
+      "score": 0.547,
+      "history": {
+        "2026-01-13 16:22:36": 0.547
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-13 16:22:36"
+    },
+    {
+      "dataset_name": "MMAR",
+      "score": 0.479,
+      "history": {
+        "2026-01-13 16:21:57": 0.479
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-13 16:21:57"
+    },
+    {
+      "dataset_name": "Video-MME",
+      "score": 0.677,
+      "history": {
+        "2026-01-13 16:50:06": 0.677
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-13 16:50:06"
+    },
+    {
+      "dataset_name": "WorldSense",
+      "score": 0.365,
+      "history": {
+        "2026-01-20 21:03:14": 0.365
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-20 21:03:14"
+    },
+    {
+      "dataset_name": "ScreenSpot_Pro",
+      "score": 0.13,
+      "history": {
+        "2025-09-26 16:45:18": 0.13
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2025-09-26 16:45:18"
+    },
+    {
+      "dataset_name": "MVBench",
+      "score": 0.63,
+      "history": {
+        "2026-02-02 17:53:52": 0.63
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-02-02 17:53:52"
+    }
+  ],
+  "Qwen3-VL-8B": [
+    {
+      "name": "Qwen3-VL-8B_HallusionBench",
+      "dataset_name": "HallusionBench",
+      "model_name": "Qwen3-VL-8B",
+      "score": 0.567,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "MLLM",
+      "test_time": "2025-11-10 09:10:36"
+    },
+    {
+      "name": "Qwen3-VL-8B_MMMU",
+      "dataset_name": "MMMU",
+      "model_name": "Qwen3-VL-8B",
+      "score": 0.327,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "MLLM",
+      "test_time": "2025-11-10 23:05:28"
+    },
+    {
+      "name": "Qwen3-VL-8B_MMStar",
+      "dataset_name": "MMStar",
+      "model_name": "Qwen3-VL-8B",
+      "score": 0.551,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "MLLM",
+      "test_time": "2025-11-10 21:35:58"
+    },
+    {
+      "name": "Qwen3-VL-8B_OCRBench",
+      "dataset_name": "OCRBench",
+      "model_name": "Qwen3-VL-8B",
+      "score": 0.897,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "MLLM",
+      "test_time": "2025-11-10 16:23:24"
+    },
+    {
+      "dataset_name": "ScreenSpot_Pro",
+      "score": 0.1126,
+      "history": {
+        "2025-09-26 16:45:18": 0.1126
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2025-11-10 16:45:18"
+    }
+  ],
+  "Qwen3-VL-4B": [
+    {
+      "name": "Qwen3-VL-4B_HallusionBench",
+      "dataset_name": "HallusionBench",
+      "model_name": "Qwen3-VL-4B",
+      "score": 0.647,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "MLLM",
+      "test_time": "2025-11-10 09:10:36"
+    },
+    {
+      "name": "Qwen3-VL-4B_MMMU",
+      "dataset_name": "MMMU",
+      "model_name": "Qwen3-VL-4B",
+      "score": 0.329,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "MLLM",
+      "test_time": "2025-11-10 23:05:28"
+    },
+    {
+      "name": "Qwen3-VL-4B_MMStar",
+      "dataset_name": "MMStar",
+      "model_name": "Qwen3-VL-4B",
+      "score": 0.482,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "MLLM",
+      "test_time": "2025-11-10 21:35:58"
+    },
+    {
+      "name": "Qwen3-VL-4B_OCRBench",
+      "dataset_name": "OCRBench",
+      "model_name": "Qwen3-VL-4B",
+      "score": 0.871,
+      "metrics": [],
+      "publisher": "Alibaba",
+      "type": "MLLM",
+      "test_time": "2025-11-10 16:23:24"
+    },
+    {
+      "dataset_name": "ScreenSpot_Pro",
+      "score": 0.1,
+      "history": {
+        "2025-09-26 16:45:18": 0.1
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2025-11-10 16:45:18"
+    }
+  ],
+  "Qwen3-Omni-DPO": [
+    {
+      "dataset_name": "MMStar",
+      "score": 0.683,
+      "history": {
+        "2026-01-29 14:50:19": 0.683
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-29 14:50:19"
+    },
+    {
+      "dataset_name": "MMMU",
+      "score": 0.664,
+      "history": {
+        "2026-01-30 16:04:49": 0.664
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-30 16:04:49"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.449,
+      "history": {
+        "2026-01-29 14:50:19": 0.673
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-31 14:29:24"
+    },
+    {
+      "dataset_name": "MVBench",
+      "score": 0.5,
+      "history": {
+        "2026-01-31 14:29:24": 0.5
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-31 14:29:24"
+    }
+  ],
+  "Qwen3-Omni-30B-A3B-Instruct": [
+    {
+      "dataset_name": "MMStar",
+      "score": 0.693,
+      "history": {
+        "2026-01-29 20:10:07": 0.693
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-29 20:10:07"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.647,
+      "history": {
+        "2026-01-29 20:10:07": 0.647
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-30 19:56:01"
+    },
+    {
+      "dataset_name": "MMMU",
+      "score": 0.65,
+      "history": {
+        "2026-01-30 16:04:49": 0.65
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-30 16:04:49"
+    },
+    {
+      "dataset_name": "HallusionBench",
+      "score": 0.3586,
+      "history": {
+        "2026-01-30 16:04:49": 0.3586
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-30 16:04:49"
+    },
+    {
+      "dataset_name": "OCRBench",
+      "score": 0.86,
+      "history": {
+        "2026-01-30 16:04:49": 0.86
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-30 16:04:49"
+    },
+    {
+      "dataset_name": "Fleurs",
+      "score": 0.8587,
+      "history": {
+        "2026-01-31 10:48:50": 0.8587
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-31 10:48:50"
+    },
+    {
+      "dataset_name": "MELD",
+      "score": 0.5226,
+      "history": {
+        "2026-01-31 09:45:19": 0.5226
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-31 09:45:19"
+    },
+    {
+      "dataset_name": "MMAR",
+      "score": 0.612,
+      "history": {
+        "2026-01-31 09:45:19": 0.612
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-31 09:45:19"
+    },
+    {
+      "dataset_name": "MMAU",
+      "score": 0.646,
+      "history": {
+        "2026-01-30 19:56:01": 0.646
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-30 19:56:01"
+    },
+    {
+      "dataset_name": "Video-MME",
+      "score": 0.6,
+      "history": {
+        "2026-01-30 19:56:01": 0.6
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-30 19:56:01"
+    },
+    {
+      "dataset_name": "WorldSense",
+      "score": 0.397,
+      "history": {
+        "2026-01-30 19:56:01": 0.397
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-30 19:56:01"
+    },
+    {
+      "dataset_name": "librispeech_asr",
+      "score": 0.9209,
+      "history": {
+        "2026-01-30 19:56:01": 0.9209
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-30 19:56:01"
+    },
+    {
+      "dataset_name": "MVBench",
+      "score": 0.52,
+      "history": {
+        "2026-01-31 14:29:24": 0.52
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "MLLM",
+      "test_time": "2026-01-31 14:29:24"
+    }
+  ],
+  "Qwen3.5-27B": [
+    {
+      "dataset_name": "MMMU",
+      "score": 0.81,
+      "history": {
+        "2026-03-11 11:15:07": 0.81
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2026-03-11 11:15:07"
+    },
+    {
+      "dataset_name": "Video-MME",
+      "score": 0.785,
+      "history": {
+        "2026-03-11 11:15:07": 0.785
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2026-03-11 11:15:07"
+    },
+    {
+      "dataset_name": "HallusionBench",
+      "score": 0.697,
+      "history": {
+        "2026-03-11 11:15:07": 0.697
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2026-03-11 11:15:07"
+    },
+    {
+      "dataset_name": "MMStar",
+      "score": 0.801,
+      "history": {
+        "2026-03-11 11:15:07": 0.801
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2026-03-11 11:15:07"
+    },
+    {
+      "dataset_name": "MVBench",
+      "score": 0.728,
+      "history": {
+        "2026-03-11 11:15:07": 0.728
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2026-03-11 11:15:07"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.7642,
+      "history": {
+        "2026-03-11 11:15:07": 0.7642
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2026-03-11 11:15:07"
+    }
+  ],
+  "Qwen3.5-122B-A10B": [
+    {
+      "dataset_name": "MMMU",
+      "score": 0.826,
+      "history": {
+        "2026-03-10 15:24:01": 0.826
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-03-10 15:24:01"
+    },
+    {
+      "dataset_name": "Video-MME",
+      "score": 0.811,
+      "history": {
+        "2026-03-11 11:15:07": 0.811
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-03-11 11:15:07"
+    },
+    {
+      "dataset_name": "HallusionBench",
+      "score": 0.692,
+      "history": {
+        "2026-03-11 11:15:07": 0.692
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-03-11 11:15:07"
+    },
+    {
+      "dataset_name": "MMStar",
+      "score": 0.814,
+      "history": {
+        "2026-03-11 11:15:07": 0.814
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-03-11 11:15:07"
+    },
+    {
+      "dataset_name": "MVBench",
+      "score": 0.731,
+      "history": {
+        "2026-03-11 11:15:07": 0.731
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-03-11 11:15:07"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.7748,
+      "history": {
+        "2026-03-10 15:24:01": 0.7748
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-03-12 15:24:01"
+    }
+  ],
+  "Qwen3-VL-32B-Instruct": [
+    {
+      "dataset_name": "MMMU",
+      "score": 0.662,
+      "history": {
+        "2026-03-09 11:46:55": 0.662
+      },
+      "metrics": [],
+      "publisher": "阿里巴巴",
+      "type": "MLLM",
+      "test_time": "2026-03-09 11:46:55"
+    },
+    {
+      "dataset_name": "MMStar",
+      "score": 0.73,
+      "history": {
+        "2026-03-09 11:46:55": 0.73
+      },
+      "metrics": [],
+      "publisher": "阿里巴巴",
+      "type": "MLLM",
+      "test_time": "2026-03-09 11:46:55"
+    },
+    {
+      "dataset_name": "HallusionBench",
+      "score": 0.585,
+      "history": {
+        "2026-03-09 11:46:55": 0.585
+      },
+      "metrics": [],
+      "publisher": "阿里巴巴",
+      "type": "MLLM",
+      "test_time": "2026-03-09 11:46:55"
+    },
+    {
+      "dataset_name": "Video-MME",
+      "score": 0.714,
+      "history": {
+        "2026-03-09 11:46:55": 0.714
+      },
+      "metrics": [],
+      "publisher": "阿里巴巴",
+      "type": "MLLM",
+      "test_time": "2026-03-09 11:46:55"
+    },
+    {
+      "dataset_name": "MVBench",
+      "score": 0.663,
+      "history": {
+        "2026-03-09 11:46:55": 0.663
+      },
+      "metrics": [],
+      "publisher": "阿里巴巴",
+      "type": "MLLM",
+      "test_time": "2026-03-09 11:46:55"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.6708,
+      "history": {
+        "2026-03-09 11:46:55": 0.6708
+      },
+      "metrics": [],
+      "publisher": "阿里巴巴",
+      "type": "MLLM",
+      "test_time": "2026-03-09 11:46:55"
+    }
+  ],
+  "Qwen3.5-397B-A17B": [
+    {
+      "dataset_name": "MMStar",
+      "score": 0.8273,
+      "history": {
+        "2026-06-02 22:28:22": 0.8273
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-06-17 23:09:37"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.8224,
+      "history": {
+        "2026-06-02 22:28:22": 0.0
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-06-17 23:05:09"
+    },
+    {
+      "dataset_name": "MMMU",
+      "score": 0.8378,
+      "history": {
+        "2026-06-02 22:25:54": 0.8078,
+        "2026-06-17 23:09:48": 0.8378
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-06-17 23:09:48"
+    },
+    {
+      "dataset_name": "Video-MME",
+      "score": 0.802,
+      "history": {
+        "2026-06-02 22:28:57": 0.672,
+        "2026-06-17 23:05:09": 0.802
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-06-17 23:05:09"
+    }
+  ],
+  "Qwen3-14B": [
+    {
+      "dataset_name": "gpqa",
+      "score": 0.6477,
+      "history": {
+        "2026-05-31 11:20:59": 0.6477
+      },
+      "metrics": [],
+      "publisher": "华为",
+      "type": "LLM",
+      "test_time": "2026-05-31 11:20:59"
+    },
+    {
+      "dataset_name": "ifeval",
+      "score": 0.8632,
+      "history": {
+        "2026-05-31 11:20:59": 0.8632
+      },
+      "metrics": [],
+      "publisher": "华为",
+      "type": "LLM",
+      "test_time": "2026-05-31 11:20:59"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.7554,
+      "history": {
+        "2026-05-31 11:20:59": 0.7554
+      },
+      "metrics": [],
+      "publisher": "华为",
+      "type": "LLM",
+      "test_time": "2026-05-31 11:20:59"
+    }
+  ],
+  "Qwen3.5-4B": [
+    {
+      "dataset_name": "gpqa",
+      "score": 0.7348,
+      "history": {
+        "2026-05-31 11:23:42": 0.7348
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-05-31 11:23:42"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.7348,
+      "history": {
+        "2026-05-31 11:23:42": 0.7348
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-05-31 11:23:42"
+    }
+  ],
+  "DeepSeek-V4-Flash_w8a8_mtp": [
+    {
+      "dataset_name": "ifeval",
+      "score": 1.0,
+      "history": {
+        "2026-06-04 21:38:00": 1.0
+      },
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "LLM",
+      "test_time": "2026-06-04 21:38:00"
+    },
+    {
+      "dataset_name": "average",
+      "score": 1.0,
+      "history": {
+        "2026-06-04 21:38:00": 1.0
+      },
+      "metrics": [],
+      "publisher": "DeepSeek",
+      "type": "LLM",
+      "test_time": "2026-06-04 21:38:00"
+    }
+  ],
+  "Qwen3.6-27B": [
+    {
+      "dataset_name": "MMMU",
+      "score": 0.63,
+      "history": {
+        "2026-06-04 15:49:29": 0.63
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-06-04 15:49:29"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.6433,
+      "history": {
+        "2026-06-04 15:49:29": 0.63
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-06-17 16:09:36"
+    },
+    {
+      "dataset_name": "MMStar",
+      "score": 0.69,
+      "history": {
+        "2026-06-17 16:11:24": 0.69
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-06-17 16:11:24"
+    },
+    {
+      "dataset_name": "Video-MME",
+      "score": 0.61,
+      "history": {
+        "2026-06-17 16:09:36": 0.61
+      },
+      "metrics": [],
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-06-17 16:09:36"
+    }
+  ],
+  "gemma-4-12B": [
+    {
+      "dataset_name": "Video-MME",
+      "score": 0.7687,
+      "history": {
+        "2026-06-17 20:55:27": 0.251,
+        "2026-06-18 11:11:53": 0.251
+      },
+      "metrics": [],
+      "publisher": "谷歌",
+      "type": "LLM,MLLM",
+      "test_time": "2026-06-18 11:11:53"
+    },
+    {
+      "dataset_name": "average",
+      "score": 0.3273,
+      "history": {
+        "2026-06-17 20:55:27": 0.25
+      },
+      "metrics": [],
+      "publisher": "谷歌",
+      "type": "LLM,MLLM",
+      "test_time": "2026-06-18 11:12:42"
+    },
+    {
+      "dataset_name": "MMMU",
+      "score": 0.7789,
+      "history": {
+        "2026-06-17 23:12:30": 0.3889
+      },
+      "metrics": [],
+      "publisher": "谷歌",
+      "type": "LLM,MLLM",
+      "test_time": "2026-06-17 23:12:30"
+    },
+    {
+      "dataset_name": "MMStar",
+      "score": 0.742,
+      "history": {
+        "2026-06-18 11:12:42": 0.342
+      },
+      "metrics": [],
+      "publisher": "谷歌",
+      "type": "LLM,MLLM",
+      "test_time": "2026-06-18 11:12:42"
+    }
+  ]
+}

@@ -1,0 +1,1291 @@
+{
+  "Qwen3-32B-w8a8": [
+    {
+      "dataset_name": "operations",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "om_alarm_diag",
+                  "score": 0.9103
+                },
+                {
+                  "name": "om_mml_generate",
+                  "score": 0.699
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.8046,
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2025-09-30 15:03:20"
+    }
+  ],
+  "Qwen3-32B": [
+    {
+      "dataset_name": "aisf_llm_gaixie",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "外挂fewshot库",
+                  "score": 0.9655
+                },
+                {
+                  "name": "不外挂fewshot库",
+                  "score": 0.9125
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.939,
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2026-08-05 17:54:58",
+      "history": {
+        "2026-04-25 15:03:20": 0.9408,
+        "2026-08-05 17:55:23": 0.925
+      }
+    },
+    {
+      "dataset_name": "operations",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "om_alarm_diag",
+                  "score": 0.9103
+                },
+                {
+                  "name": "om_mml_generate",
+                  "score": 0.699
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.8046,
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2025-09-30 15:03:20"
+    },
+    {
+      "dataset_name": "aisf_llm_yitu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "单意图",
+                  "score": 0.9102244389027432
+                },
+                {
+                  "name": "两意图",
+                  "score": 0.6345381526104418
+                },
+                {
+                  "name": "三意图",
+                  "score": 0.41333333333333333
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7309,
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2026-08-05 17:43:38",
+      "history": {
+        "2026-04-2 15:03:20": 0.6527
+      }
+    },
+    {
+      "dataset_name": "aisf_memory_cuiqu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆萃取-信息点提取",
+                  "score": 0.9219
+                },
+                {
+                  "name": "记忆萃取-更新",
+                  "score": 0.7544
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.843,
+      "test_time": "2026-08-05 20:04:48",
+      "history": {
+        "2026-07-02 15:10:36": 0.7566
+      }
+    }
+  ],
+  "Qwen3.5-27B": [
+    {
+      "dataset_name": "aisf_llm_yitu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "单意图",
+                  "score": 0.9351620947630923
+                },
+                {
+                  "name": "两意图",
+                  "score": 0.7791164658634538
+                },
+                {
+                  "name": "三意图",
+                  "score": 0.5266666666666666
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.8098,
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-08-05 17:45:50",
+      "history": {
+        "2026-04-2 15:03:20": 0.747
+      }
+    },
+    {
+      "dataset_name": "aisf_memory_cuiqu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆萃取-信息点提取",
+                  "score": 0.9531
+                },
+                {
+                  "name": "记忆萃取-更新",
+                  "score": 0.8947
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.9256,
+      "test_time": "2026-08-05 18:03:18",
+      "history": {
+        "2026-07-02 15:10:36": 0.9256
+      }
+    },
+    {
+      "dataset_name": "aisf_llm_gaixie",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "不外挂fewshot库",
+                  "score": 0.9609
+                },
+                {
+                  "name": "外挂fewshot库",
+                  "score": 0.9804
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.9707,
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-08-06 16:53:32",
+      "history": {
+        "2026-08-06 16:53:54": 0.945
+      }
+    },
+    {
+      "dataset_name": "aisf_memory_zhaohui",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆召回-查询扩写",
+                  "score": 0.7707
+                },
+                {
+                  "name": "记忆召回-总结过滤",
+                  "score": 0.8846
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7953,
+      "test_time": "2026-08-05 18:03:18",
+      "publisher": "阿里",
+      "type": "LLM,MLLM"
+    }
+  ],
+  "Qwen3.6-35B-A3B": [
+    {
+      "dataset_name": "operations",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "om_alarm_diag",
+                  "score": 0.9103
+                },
+                {
+                  "name": "om_mml_generate",
+                  "score": 0.699
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.8046,
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2025-09-30 15:03:20"
+    }
+  ],
+  "Qwen3.6-27B": [
+    {
+      "dataset_name": "aisf_llm_gaixie",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "外挂fewshot库",
+                  "score": 0.9767
+                },
+                {
+                  "name": "不外挂fewshot库",
+                  "score": 0.9423
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.9595,
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-08-06 16:52:53",
+      "history": {
+        "2026-04-25 15:03:20": 0.9522,
+        "2026-08-06 16:53:09": 0.94
+      }
+    },
+    {
+      "dataset_name": "aisf_llm_yitu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "单意图",
+                  "score": 0.9201995012468828
+                },
+                {
+                  "name": "两意图",
+                  "score": 0.8232931726907631
+                },
+                {
+                  "name": "三意图",
+                  "score": 0.58
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.8261,
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2026-08-05 17:44:53",
+      "history": {
+        "2026-04-2 15:03:20": 0.7745
+      }
+    },
+    {
+      "dataset_name": "operations",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "om_alarm_diag",
+                  "score": 0.9103
+                },
+                {
+                  "name": "om_mml_generate",
+                  "score": 0.699
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.8046,
+      "publisher": "阿里",
+      "type": "LLM,MLLM",
+      "test_time": "2025-09-30 15:03:20"
+    },
+    {
+      "dataset_name": "aisf_memory_cuiqu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆萃取-信息点提取",
+                  "score": 0.9609
+                },
+                {
+                  "name": "记忆萃取-更新",
+                  "score": 0.8596
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.9132,
+      "test_time": "2026-08-05 18:02:26",
+      "publisher": "阿里",
+      "type": "LLM,MLLM"
+    },
+    {
+      "dataset_name": "aisf_memory_zhaohui",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆召回-查询扩写",
+                  "score": 0.9012
+                },
+                {
+                  "name": "记忆召回-总结过滤",
+                  "score": 0.8461538461538461
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.8893,
+      "test_time": "2026-08-05 18:02:26",
+      "publisher": "阿里",
+      "type": "LLM,MLLM"
+    }
+  ],
+  "Qwen3-Next-80B-A3B-Instruct": [
+    {
+      "dataset_name": "operations",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "om_alarm_diag",
+                  "score": 0.9016
+                },
+                {
+                  "name": "om_mml_generate",
+                  "score": 0.6991
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.8003,
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2025-10-11 20:43:38"
+    }
+  ],
+  "QwQ-32B": [
+    {
+      "dataset_name": "operations",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "om_alarm_diag",
+                  "score": 0.947
+                },
+                {
+                  "name": "om_mml_generate",
+                  "score": 0.663
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.805,
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2025-11-17 15:03:20"
+    }
+  ],
+  "Qwen3-30B-A3B": [
+    {
+      "dataset_name": "aisf_32b",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "aisf_perceptionplan_32b",
+                  "score": 0.9441
+                },
+                {
+                  "name": "aisf_clarify_32b",
+                  "score": 0.7716
+                },
+                {
+                  "name": "aisf_intentcategory_32b",
+                  "score": 0.9297
+                },
+                {
+                  "name": "aisf_functioncall_32b",
+                  "score": 0.5314
+                },
+                {
+                  "name": "aisf_memory_forever_32b",
+                  "score": 0.7487
+                },
+                {
+                  "name": "aisf_box_param_extract_32b",
+                  "score": 0.8968
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7704,
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2025-11-17 15:03:20"
+    },
+    {
+      "dataset_name": "aisf_8b",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "aisf_memory_travel_agent_8b",
+                  "score": 0.8775
+                },
+                {
+                  "name": "aisf_memory_attribute_extract_8b",
+                  "score": 0.6288
+                },
+                {
+                  "name": "aisf_memory_topic_8b",
+                  "score": 0.968
+                },
+                {
+                  "name": "aisf_memory_fact_8b",
+                  "score": 0.9685
+                },
+                {
+                  "name": "aisf_memory_intent_classify_8b",
+                  "score": 0.94
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.8766,
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2025-11-17 15:03:20"
+    },
+    {
+      "dataset_name": "aisf_4b",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "aisf_box_scene_classify_4b",
+                  "score": 0.9505
+                },
+                {
+                  "name": "aisf_box_param_extract_4b",
+                  "score": 0.5073
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7289,
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2025-11-17 15:03:20"
+    }
+  ],
+  "Ministral-3-14B-Reasoning": [
+    {
+      "dataset_name": "operations",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "om_alarm_diag",
+                  "score": 0.906
+                },
+                {
+                  "name": "om_mml_generate",
+                  "score": 0.6549
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.78,
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2025-12-05 21:20:41",
+      "history": {
+        "2025-12-05 21:20:41": 0.606
+      }
+    }
+  ],
+  "Ministral-3-8B-Reasoning": [
+    {
+      "dataset_name": "operations",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "om_alarm_diag",
+                  "score": 0.865
+                },
+                {
+                  "name": "om_mml_generate",
+                  "score": 0.496
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.6805,
+      "publisher": "Ministral",
+      "type": "LLM",
+      "test_time": "2025-12-08 15:03:20"
+    }
+  ],
+  "Qwen3-8B": [
+    {
+      "dataset_name": "aisf_memory_zhaohui",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆召回-查询扩写",
+                  "score": 0.716
+                },
+                {
+                  "name": "记忆召回-总结过滤",
+                  "score": 0.6666666666666666
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7054,
+      "test_time": "2026-08-06 10:44:09",
+      "history": {
+        "2026-07-02 15:10:36": 0.6781
+      }
+    }
+  ],
+  "DeepSeek-V4-Flash-0731-w8a8": [
+    {
+      "dataset_name": "aisf_llm_gaixie",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "不外挂fewshot库",
+                  "score": 0.9302
+                },
+                {
+                  "name": "外挂fewshot库",
+                  "score": 0.9571
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.94365,
+      "publisher": "DeepSeek",
+      "type": "LLM",
+      "test_time": "2026-08-06 16:51:29",
+      "history": {
+        "2026-08-06 16:51:59": 0.94365
+      }
+    },
+    {
+      "dataset_name": "aisf_llm_yitu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "单意图",
+                  "score": 0.9201995012468828
+                },
+                {
+                  "name": "两意图",
+                  "score": 0.6987951807228916
+                },
+                {
+                  "name": "三意图",
+                  "score": 0.5066666666666667
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7735,
+      "publisher": "DeepSeek",
+      "type": "LLM",
+      "test_time": "2026-08-05 17:44:21"
+    },
+    {
+      "dataset_name": "aisf_memory_cuiqu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆萃取-信息点提取",
+                  "score": 0.9688
+                },
+                {
+                  "name": "记忆萃取-更新",
+                  "score": 0.8596
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.9174,
+      "test_time": "2026-08-05 20:02:23",
+      "publisher": "DeepSeek",
+      "type": "LLM"
+    },
+    {
+      "dataset_name": "aisf_memory_zhaohui",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆召回-查询扩写",
+                  "score": 0.6861
+                },
+                {
+                  "name": "记忆召回-总结过滤",
+                  "score": 0.7919
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7089,
+      "test_time": "2026-08-05 20:02:23",
+      "publisher": "DeepSeek",
+      "type": "LLM"
+    }
+  ],
+  "DeepSeek-V4-Flash-0731": [
+    {
+      "dataset_name": "aisf_llm_yitu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "单意图",
+                  "score": 0.9251870324189526
+                },
+                {
+                  "name": "两意图",
+                  "score": 0.7429718875502008
+                },
+                {
+                  "name": "三意图",
+                  "score": 0.52
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7925,
+      "publisher": "DeepSeek",
+      "type": "LLM",
+      "test_time": "2026-08-05 17:44:21"
+    },
+    {
+      "dataset_name": "aisf_memory_cuiqu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆萃取-信息点提取",
+                  "score": 0.9766
+                },
+                {
+                  "name": "记忆萃取-更新",
+                  "score": 0.887
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.93439173553719,
+      "test_time": "2026-08-05 20:02:23",
+      "publisher": "DeepSeek",
+      "type": "LLM"
+    },
+    {
+      "dataset_name": "aisf_memory_zhaohui",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆召回-查询扩写",
+                  "score": 0.6984
+                },
+                {
+                  "name": "记忆召回-总结过滤",
+                  "score": 0.8718
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7358141078838174,
+      "test_time": "2026-08-05 20:02:23",
+      "publisher": "DeepSeek",
+      "type": "LLM"
+    }
+  ],
+  "DeepSeek-V4-Flash-w8a8": [
+    {
+      "dataset_name": "aisf_llm_gaixie",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "不外挂fewshot库",
+                  "score": 0.8929
+                },
+                {
+                  "name": "外挂fewshot库",
+                  "score": 0.9385
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.9157,
+      "publisher": "DeepSeek",
+      "type": "LLM",
+      "test_time": "2026-08-06 16:55:50",
+      "history": {
+        "2026-08-06 16:56:05": 0.9157
+      }
+    },
+    {
+      "dataset_name": "aisf_llm_yitu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "单意图",
+                  "score": 0.9326683291770573
+                },
+                {
+                  "name": "两意图",
+                  "score": 0.678714859437751
+                },
+                {
+                  "name": "三意图",
+                  "score": 0.44666666666666666
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7622,
+      "publisher": "DeepSeek",
+      "type": "LLM",
+      "test_time": "2026-08-05 22:21:14"
+    },
+    {
+      "dataset_name": "aisf_memory_cuiqu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆萃取-信息点提取",
+                  "score": 0.9453
+                },
+                {
+                  "name": "记忆萃取-更新",
+                  "score": 0.6316
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7975,
+      "test_time": "2026-08-05 22:22:16",
+      "publisher": "DeepSeek",
+      "type": "LLM"
+    },
+    {
+      "dataset_name": "aisf_memory_zhaohui",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆召回-查询扩写",
+                  "score": 0.709
+                },
+                {
+                  "name": "记忆召回-总结过滤",
+                  "score": 0.78
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7243,
+      "test_time": "2026-08-05 22:22:16",
+      "publisher": "DeepSeek",
+      "type": "LLM"
+    }
+  ],
+  "Qwen3.5-122B-A10B": [
+    {
+      "dataset_name": "aisf_llm_gaixie",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "不外挂fewshot库",
+                  "score": 0.92
+                },
+                {
+                  "name": "外挂fewshot库",
+                  "score": 0.9628
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.9414,
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2026-08-06 16:56:18",
+      "history": {
+        "2026-08-06 16:56:32": 0.9414
+      }
+    },
+    {
+      "dataset_name": "aisf_llm_yitu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "单意图",
+                  "score": 0.9376558603491272
+                },
+                {
+                  "name": "两意图",
+                  "score": 0.5542168674698795
+                },
+                {
+                  "name": "三意图",
+                  "score": 0.30666666666666664
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.6995,
+      "publisher": "阿里",
+      "type": "LLM",
+      "test_time": "2026-08-05 22:54:08"
+    },
+    {
+      "dataset_name": "aisf_memory_cuiqu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆萃取-信息点提取",
+                  "score": 0.688
+                },
+                {
+                  "name": "记忆萃取-更新",
+                  "score": 0.7632
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.8719,
+      "test_time": "2026-08-05 22:53:43",
+      "publisher": "阿里",
+      "type": "LLM"
+    },
+    {
+      "dataset_name": "aisf_memory_zhaohui",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆召回-查询扩写",
+                  "score": 0.8078
+                },
+                {
+                  "name": "记忆召回-总结过滤",
+                  "score": 0.8846153846153846
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.8244,
+      "test_time": "2026-08-05 22:53:43",
+      "publisher": "阿里",
+      "type": "LLM"
+    }
+  ],
+  "openpangu-2.0-flash": [
+    {
+      "dataset_name": "aisf_llm_gaixie",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "不外挂fewshot库",
+                  "score": 0.838
+                },
+                {
+                  "name": "外挂fewshot库",
+                  "score": 0.8966
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.8673,
+      "publisher": "华为",
+      "type": "LLM",
+      "test_time": "2026-08-06 16:55:10",
+      "history": {
+        "2026-08-06 16:55:27": 0.8673
+      }
+    },
+    {
+      "dataset_name": "aisf_llm_yitu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "单意图",
+                  "score": 0.9125
+                },
+                {
+                  "name": "两意图",
+                  "score": 0.616
+                },
+                {
+                  "name": "三意图",
+                  "score": 0.32666666666666666
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7096,
+      "publisher": "华为",
+      "type": "LLM",
+      "test_time": "2026-08-06 14:57:14"
+    },
+    {
+      "dataset_name": "aisf_memory_cuiqu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆萃取-信息点提取",
+                  "score": 0.5938
+                },
+                {
+                  "name": "记忆萃取-更新",
+                  "score": 0.8158
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7048,
+      "test_time": "2026-08-06 14:55:22",
+      "publisher": "华为",
+      "type": "LLM"
+    },
+    {
+      "dataset_name": "aisf_memory_zhaohui",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆召回-查询扩写",
+                  "score": 0.8413
+                },
+                {
+                  "name": "记忆召回-总结过滤",
+                  "score": 0.78
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.81065,
+      "test_time": "2026-08-06 14:55:22",
+      "publisher": "华为",
+      "type": "LLM"
+    }
+  ],
+  "openpangu-2.0-pro": [
+    {
+      "dataset_name": "aisf_llm_gaixie",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "不外挂fewshot库",
+                  "score": 0.9078
+                },
+                {
+                  "name": "外挂fewshot库",
+                  "score": 0.9507
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.9292,
+      "publisher": "华为",
+      "type": "LLM",
+      "test_time": "2026-08-07 09:16:35",
+      "history": {
+        "2026-08-07 09:17:00": 0.9292
+      }
+    },
+    {
+      "dataset_name": "aisf_llm_yitu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "单意图",
+                  "score": 0.94
+                },
+                {
+                  "name": "两意图",
+                  "score": 0.752
+                },
+                {
+                  "name": "三意图",
+                  "score": 0.4933
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7972,
+      "publisher": "华为",
+      "type": "LLM",
+      "test_time": "2026-08-05 16:22:59"
+    },
+    {
+      "dataset_name": "aisf_memory_cuiqu",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆萃取-信息点提取",
+                  "score": 0.9688
+                },
+                {
+                  "name": "记忆萃取-更新",
+                  "score": 0.8596
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.9142,
+      "test_time": "2026-08-05 18:04:14",
+      "publisher": "华为",
+      "type": "LLM"
+    },
+    {
+      "dataset_name": "aisf_memory_zhaohui",
+      "metrics": [
+        {
+          "categories": [
+            {
+              "subsets": [
+                {
+                  "name": "记忆召回-查询扩写",
+                  "score": 0.8466
+                },
+                {
+                  "name": "记忆召回-总结过滤",
+                  "score": 0.7308
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "score": 0.7887,
+      "test_time": "2026-08-05 18:04:14",
+      "publisher": "华为",
+      "type": "LLM"
+    }
+  ]
+}

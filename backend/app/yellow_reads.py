@@ -4,7 +4,7 @@ from state_storage import read_document,state_exists
 
 FAST_READS={'get_current_full_res','get_current_multi_full_res','get_all_published_tasks',
             'get_all_report_tasks','get_testcase_info','dataset/counts','get_run_test_progress_list',
-            'get_eval_report','get_eval_model','get_evaluation_result'}
+            'get_eval_report','get_eval_model','get_evaluation_result','lmarena/leaderboard'}
 
 def read_business(runtime,actor,path,query,*,prepared_root=None):
     root=prepared_root or runtime.initialize(actor)
@@ -18,6 +18,9 @@ def read_business(runtime,actor,path,query,*,prepared_root=None):
         return {key:row for key,row in read(kind+'_testcase_cfg.json').items() if row.get('status')==1}
     if path=='dataset/counts':return read('dataset_download_view_count.json')
     if path=='get_evaluation_result':return read('evaluationResult.json')
+    if path=='lmarena/leaderboard':
+        from .historical_rankings import arena_rows
+        return arena_rows(read('lmarena_leaderboard.json', []))
     if path in {'get_all_report_tasks','get_all_published_tasks'}:
         rows=read('publishedReportTasks.json' if path=='get_all_published_tasks' else 'reportTasks.json')
         result=[{**row,'id':key} for key,row in rows.items()]

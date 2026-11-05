@@ -1,0 +1,100 @@
+{
+  "glm-5": [
+    {
+      "dataset_name": "ruler1",
+      "score": 72.1
+    },
+    {
+      "dataset_name": "ruler2",
+      "score": 50.0
+    },
+    {
+      "dataset_name": "tool",
+      "score": 50.0
+    }
+  ],
+  "gemini-3-pro-preview-thinking": [
+    {
+      "dataset_name": "ruler1",
+      "score": 72.1
+    },
+    {
+      "dataset_name": "ruler2",
+      "score": 46.7
+    },
+    {
+      "dataset_name": "tool",
+      "score": 55.6
+    }
+  ],
+  "Claude-Sonnet 4.5(Thinking)": [
+    {
+      "dataset_name": "ruler1",
+      "score": 46.5
+    },
+    {
+      "dataset_name": "ruler2",
+      "score": 35.0
+    },
+    {
+      "dataset_name": "tool",
+      "score": 27.8
+    }
+  ],
+  "Grok-4": [
+    {
+      "dataset_name": "ruler1",
+      "score": 65.1
+    },
+    {
+      "dataset_name": "ruler2",
+      "score": 58.3
+    },
+    {
+      "dataset_name": "tool",
+      "score": 44.4
+    }
+  ],
+  "DeepSeek-v3.2": [
+    {
+      "dataset_name": "ruler1",
+      "score": 67.4
+    },
+    {
+      "dataset_name": "ruler2",
+      "score": 46.7
+    },
+    {
+      "dataset_name": "tool",
+      "score": 50.0
+    }
+  ],
+  "Qwen3-Max": [
+    {
+      "dataset_name": "ruler1",
+      "score": 60.4
+    },
+    {
+      "dataset_name": "ruler2",
+      "score": 58.3
+    },
+    {
+      "dataset_name": "tool",
+      "score": 61.1
+    }
+  ],
+  "Kimi-K2-Thinking": [
+    {
+      "dataset_name": "ruler1",
+      "score": 55.8
+    },
+    {
+      "dataset_name": "ruler2",
+      "score": 58.3
+    },
+    {
+      "dataset_name": "tool",
+      "score": 61.1
+    }
+  ]
+}

@@ -120,6 +120,8 @@ class YellowRuntime:
                 'availability':'ready','is_published':True,'register':'admin'})
             write_json(path,cfg)
         if not state_exists(root/'backend/config/dataset_download_view_count.json'):write_json(root/'backend/config/dataset_download_view_count.json',{})
+        from .historical_rankings import import_rankings
+        import_rankings(root, CODE/'seed/rankings')
         return root
 
     def sync_models(self,root,actor,record):

@@ -5,7 +5,7 @@ import {reactive} from 'vue'
 // account endpoints, file bodies and execution commands always use the network.
 const paths = new Set(['/v1/get_model_info','/v1/get_current_full_res','/v1/get_current_multi_full_res',
   '/v1/get_testcase_info','/v1/dataset/counts','/v1/get_all_published_tasks','/v1/get_all_report_tasks',
-  '/v1/get_evaluation_result','/v1/get_run_test_progress_list','/api/models','/api/datasets','/api/evaluations','/api/skill-evolution/capabilities'])
+  '/v1/get_evaluation_result','/v1/lmarena/leaderboard','/v1/get_run_test_progress_list','/api/models','/api/datasets','/api/evaluations','/api/skill-evolution/capabilities'])
 const bootstrapPaths = new Set([...paths].filter(path=>path.startsWith('/v1/') && !path.endsWith('get_run_test_progress_list')))
 const records = new Map(), inflight = new Map(), listeners = new Set()
 const MAX_AGE = 20 * 60 * 1000
@@ -21,10 +21,17 @@ export function onReadUpdate(listener) { listeners.add(listener); return ()=>lis
 function db() {
   if (!globalThis.indexedDB) return Promise.resolve(null)
   if (!database) database = new Promise(resolve=>{
-    const request = indexedDB.open('icap-read-snapshots-v1',1)
+    const request = indexedDB.open('icap-read-snapshots-v1',2)
     const timer=setTimeout(()=>resolve(null),300)
-    request.onupgradeneeded=()=>request.result.createObjectStore('snapshots',{keyPath:'key'})
-    request.onsuccess=()=>{clearTimeout(timer);resolve(request.result)}
+    request.onupgradeneeded=()=>{
+      if(request.result.objectStoreNames.contains('snapshots'))request.transaction.objectStore('snapshots').clear()
+      else request.result.createObjectStore('snapshots',{keyPath:'key'})
+    }
+    request.onsuccess=()=>{
+      clearTimeout(timer)
+      request.result.onversionchange=()=>request.result.close()
+      resolve(request.result)
+    }
     request.onerror=request.onblocked=()=>{clearTimeout(timer);resolve(null)}
   })
   return database
