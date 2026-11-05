@@ -322,6 +322,12 @@ async def yellow_api(path:str,request:Request,actor=Depends(authorized)):
                 row=published.get(data.get('id',''),{})
                 if row.get('_shared_owner'):raise HTTPException(403,'只有报告发布者可以修改报告')
             if path in RUNS:
+                # Original engines also check CSV membership after adapter auth.
+                # Derive those lists from persisted roles, never from client input.
+                with runtime.lock:
+                    membership='user\n'+'\n'.join(app.state.auth.evaluator_usernames())+'\n'
+                    for group in ('admin_member','ruler2_member','aisf_member','aisf_user_member'):
+                        (root/'backend/database'/f'{group}.csv').write_text(membership,encoding='utf-8')
                 data['eval_type']='service'
                 data.setdefault('evaluationType','language')
                 data['assessmentType']='通用评估(Ruler1)' if path=='run_testcase_ruler1' else '领域评估(Ruler2)'

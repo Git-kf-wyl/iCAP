@@ -132,6 +132,12 @@ def test_admin_publication_reaches_all_accounts_through_original_handler(platfor
         assert next(row['score'] for row in rows if row['dataset_name']=='mmlu')==0.75
         assert any(row['model_id']==model for row in client.get('/v1/get_evaluation_result',headers=header(account)).json().values())
     assert len(adapter.runtime.workers)==1,'All evaluators must use the same task workspace'
+    # No task starts: missing execution fields are rejected by the old handler.
+    response=client.post('/v1/run_testcase_ruler1',headers=header(manager),json={'model_id':model,'datasets':[]})
+    assert response.status_code==400,response.text
+    members=(root/'backend/database/admin_member.csv').read_text('utf-8').splitlines()
+    assert manager['username'] in members and admin['username'] in members
+    assert viewer['username'] not in members
 
 
 def test_html_bootstrap_verifies_session_without_exposing_credential(platform):

@@ -193,6 +193,10 @@ class AuthService:
         return {"id": "admin", "username": self.admin_user, "phone": None,
                 "email": None, "role": "admin", "has_security_questions": False}
 
+    def evaluator_usernames(self) -> list[str]:
+        with closing(self._connection()) as db:
+            return sorted({self.admin_user, *(row['username'] for row in db.execute("SELECT username FROM users WHERE role='admin'"))})
+
     def _issue_session(self, db: sqlite3.Connection, subject: str) -> str:
         token = secrets.token_urlsafe(32)
         timestamp = int(time.time())
