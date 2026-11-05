@@ -1,12 +1,14 @@
 """FastAPI read models; browsing never needs to launch the Flask evaluator."""
 from datetime import datetime
 from state_storage import read_document,state_exists
+from .evaluation_policy import EVALUATION_READS, evaluation_actor
 
 FAST_READS={'get_current_full_res','get_current_multi_full_res','get_all_published_tasks',
             'get_all_report_tasks','get_testcase_info','dataset/counts','get_run_test_progress_list',
             'get_eval_report','get_eval_model','get_evaluation_result','lmarena/leaderboard'}
 
 def read_business(runtime,actor,path,query,*,prepared_root=None):
+    if path in EVALUATION_READS:actor=evaluation_actor(actor)
     root=prepared_root or runtime.initialize(actor)
     if prepared_root is None:
         with runtime.lock:runtime.sync_resources(root,actor)

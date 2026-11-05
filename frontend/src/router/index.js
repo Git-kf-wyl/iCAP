@@ -134,6 +134,7 @@ const router = createRouter({
             path: '/modelEvaluation/onlineEvaluation',
             name: 'onlineEvaluation',
             component: onlineEvaluation,
+            meta: { evaluatorOnly: true },
         },
         { path: '/dataCenter/evalDatasetDevelopment', name: 'evalDatasetDevelopment', component: evalDatasetDevelopment },
         { path: '/dataCenter/trainDatasetDevelopment', name: 'trainDatasetDevelopment', component: trainDatasetDevelopment },
@@ -193,6 +194,7 @@ router.beforeEach(async to => {
         const valid=await useAuth().validateNavigation(() => router.replace({path:'/login',query:{redirect:router.currentRoute.value.fullPath}}))
         if (!valid && !to.meta.public) return {path:'/login',query:{redirect:to.fullPath}}
         if (valid && to.meta.public) return '/'
+        if(valid && to.meta.evaluatorOnly && useAuth().role !== 'admin')return '/modelEvaluation/onlineAssessment'
         if(valid){activateReadCache(token);if(!router.currentRoute.value.matched.length || router.currentRoute.value.meta.authPage)startWorkspaceBootstrap()}
     }
     // Load the authenticated frame alongside the destination, rather than after it.

@@ -66,7 +66,11 @@ export const getLogs = (requestData) => {
 };
 
 export const updateScore = (requestData) => {
-  return axios.get(API_BASE_URL + 'update_top_chart', { params: requestData })
+  const array = value => Array.isArray(value) ? value : value == null ? [] : [value];
+  return axios.get(API_BASE_URL + 'update_top_chart', { params: {
+    'task_id[]': array(requestData['task_id[]'] ?? requestData.task_id),
+    'testcase[]': array(requestData['testcase[]'] ?? requestData.testcase),
+  } })
 };
 
 export const updateResult = (requestData) => {

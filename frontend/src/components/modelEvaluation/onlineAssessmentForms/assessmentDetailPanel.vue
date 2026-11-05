@@ -776,13 +776,13 @@
           show-stops
           show-input
         ></el-slider>
-        <el-button type="primary" @click="submitScoreUpdate">提交分数</el-button>
+        <el-button v-if="canEvaluate" type="primary" @click="submitScoreUpdate">提交分数</el-button>
       </div>
       <div v-else-if="!isinterpretation && !isChildStudy && !isRuler2">
         <h1 class="title" style="margin-right: 20px">手动修改结果</h1>
         <el-radio v-model="input3" :label="1">对</el-radio>
         <el-radio v-model="input3" :label="0">错</el-radio>
-        <el-button type="primary" @click="submitScoreUpdate">提交修改</el-button>
+        <el-button v-if="canEvaluate" type="primary" @click="submitScoreUpdate">提交修改</el-button>
       </div>
       <h1 class="title" v-if="!isinterpretation && !isChildStudy && !isRuler2">备注</h1>
       <el-input
@@ -809,6 +809,8 @@
 </template>
 
 <script lang="ts" setup>
+import {useEvaluationAccess} from '@/evaluationAccess';
+const {canEvaluate}=useEvaluationAccess();
 import { ref, computed, watch, onMounted } from "vue";
 import {
   ArrowDown,

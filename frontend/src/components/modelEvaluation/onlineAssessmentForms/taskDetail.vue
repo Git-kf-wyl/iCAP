@@ -4,7 +4,7 @@
       <span style="padding: 0 10px"></span>
       <img src="/images/return.png" class="returnicon" @click="goBack" />
       <span style="padding: 0 20px;"></span>
-      <span @click="goBack" style="color: #969696;cursor: pointer;" v-if="!singleDataset">我的评测任务</span>
+      <span @click="goBack" style="color: #969696;cursor: pointer;" v-if="!singleDataset">评测任务</span>
       <span style="padding: 0 8px;font-size:18px;font-weight:600;" v-if="!singleDataset">/</span>
       <span style="font-size:18px;font-weight:600;">评测详情</span>
     </div>
@@ -111,13 +111,13 @@
               type="primary"
               style="margin-left: 16px"
               @click="asyncScoreClick"
-              v-if="!isinterpretation && !isChildStudy && !singleDataset && !isRuler2"
+              v-if="canEvaluate && !isinterpretation && !isChildStudy && !singleDataset && !isRuler2"
             >分数同步</el-button>
             <el-button
               type="primary"
               style="margin-left: 16px"
               @click="asyncScoreClick"
-              v-if="isinterpretation"
+              v-if="canEvaluate && isinterpretation"
             >提交修改</el-button>
           </div>
           <!-- <div>
@@ -164,6 +164,8 @@
 </template>
 
 <script lang="ts" setup>
+import {useEvaluationAccess} from '@/evaluationAccess';
+const {canEvaluate}=useEvaluationAccess();
 import { ref, computed, onMounted, watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { get_datasets } from "@/api/dataSetApi";

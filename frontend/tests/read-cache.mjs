@@ -80,6 +80,19 @@ handler=async()=>({ok:true})
 const beforeAuth=calls;await restored.get('/api/auth/me');await restored.get('/api/auth/me')
 assert.equal(calls,beforeAuth+2,'authentication must never use a data snapshot')
 
+// A different administrator publishes while this viewer's page stays open.
+cache.invalidateReads();handler=async()=>({score:1})
+await restored.get('/v1/get_current_full_res');await restored.get('/api/models')
+globalThis.fetch=async()=>new Response(JSON.stringify({revision:'new-admin-publication'}),{status:200})
+await cache.checkEvaluationRevision()
+handler=async()=>({score:2})
+assert.equal((await restored.get('/v1/get_current_full_res')).data.score,2)
+assert.equal((await restored.get('/api/models')).data.score,1,'shared refresh preserves unrelated snapshots')
+await restored.get('/v1/update_top_chart')
+handler=async()=>({score:3})
+assert.equal((await restored.get('/v1/get_current_full_res')).data.score,3,'legacy GET publication must invalidate rankings')
+cache.invalidateReads();handler=async()=>({ok:true})
+
 await restored.get('/api/models');Date.now=()=>clock()+16000
 handler=async()=>{throw new Error('offline')}
 assert.deepEqual((await restored.get('/api/models')).data,{ok:true});await tick()

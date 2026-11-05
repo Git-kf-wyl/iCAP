@@ -36,6 +36,7 @@
             </el-tooltip>
           </span>
           <el-button
+            v-if="canEvaluate"
             type="success"
             size="small"
             @click="batchUpdateTopChart"
@@ -46,7 +47,7 @@
               <Upload />
             </el-icon>更新榜单
           </el-button>
-          <el-button type="warning" size="small" @click="openUploadDialog" style="margin-right: 8px;">
+          <el-button v-if="canEvaluate" type="warning" size="small" @click="openUploadDialog" style="margin-right: 8px;">
             <el-icon style="margin-right: 4px;">
               <UploadFilled />
             </el-icon>上传本地结果
@@ -88,22 +89,8 @@
           fixed="left"
         />
         <el-table-column label="模型" sortable show-overflow-tooltip align="center" prop="model_id">
-          <template #default="{ row, $index }">
-            <template v-if="editingRowIndex === $index">
-              <el-input
-                v-model="editingModelName"
-                size="small"
-                style="width: 140px;"
-                @keyup.enter="confirmInlineEdit(row, $index)"
-                @blur="confirmInlineEdit(row, $index)"
-              />
-            </template>
-            <span
-              v-else
-              @click="startInlineEdit(row, $index)"
-              style="cursor: pointer; border-bottom: 1px dashed #ccc;"
-            >{{ row.model_id }}</span>
-          </template>
+          <template #default="{ row }"><span>{{ row.model_id }}</span></template>
+
         </el-table-column>
         <el-table-column prop="model_type" label="模型类型" min-width="80" align="center" />
         <el-table-column label="测试集" show-overflow-tooltip align="center">
@@ -146,14 +133,14 @@
                 </el-icon>
               </el-button>
             </el-tooltip>
-            <el-tooltip content="删除结果信息" placement="top">
+            <el-tooltip v-if="canEvaluate" content="删除结果信息" placement="top">
               <el-button link type="primary" size="large" @click="openDeleteByID(row.id)">
                 <el-icon>
                   <Delete />
                 </el-icon>
               </el-button>
             </el-tooltip>
-            <el-tooltip content="更新榜单" placement="top">
+            <el-tooltip v-if="canEvaluate" content="更新榜单" placement="top">
               <el-button
                 link
                 type="primary"
@@ -180,12 +167,12 @@
         <div>
           <el-form label-width="100px" label-position="left" size="small">
             <el-form-item label="模型名称">
-              <el-input v-model="editingModelName" placeholder="请输入模型名称" style="width: 100%;" />
+              <el-input v-model="editingModelName" readonly style="width: 100%;" />
             </el-form-item>
           </el-form>
           <div
             style="font-size: 12px; color: #909399; margin-top: -8px; margin-left: 100px;"
-          >修改后将以此名称更新榜单</div>
+          >发布后所有用户都能看到更新后的榜单。</div>
         </div>
         <template #footer>
           <el-button @click="modelEditDialogVisible = false">取消</el-button>
@@ -217,6 +204,7 @@
               <template #default="{ row, $index }">
                 <el-input
                   v-model="batchTasks[$index].modelName"
+                  readonly
                   size="small"
                   style="width: 160px;"
                 />
@@ -354,6 +342,10 @@
 
 <script lang="ts" setup>
 import { ref, onMounted, computed, reactive } from "vue";
+import { useAuth } from '@/blue/stores/auth';
+import { useReadUpdates } from '@/useReadUpdates';
+const auth = useAuth();
+const canEvaluate = computed(() => auth.role === 'admin');
 import { useRouter, useRoute } from "vue-router";
 import { ElMessage, ElMessageBox, ElLoading } from "element-plus";
 import {
@@ -433,7 +425,6 @@ const formatSeconds = computed(() => (seconds) => {
 const modelEditDialogVisible = ref(false);
 const editingModelName = ref("");
 const editingRow = ref(null);
-const editingRowIndex = ref(-1);
 
 const asyncScore = (row) => {
   editingModelName.value = row.model_id || row.model_name || "";
@@ -452,13 +443,7 @@ const confirmModelEdit = () => {
     model_id: editingModelName.value,
   }).then(
     (res) => {
-      // 更新本地数据，使表格立即反映修改
-      const target = data_list.arr.find(
-        (item) => item.task_id === row.task_id && item.dataset === row.dataset
-      );
-      if (target) {
-        target.model_id = editingModelName.value;
-      }
+      getTasksList();
       ElMessage({ type: "success", message: "更新成功" });
     },
     (err) => {
@@ -468,23 +453,6 @@ const confirmModelEdit = () => {
 };
 
 // 行内编辑
-const startInlineEdit = (row, index) => {
-  editingRowIndex.value = index;
-  editingModelName.value = row.model_id;
-};
-
-const confirmInlineEdit = (row, index) => {
-  if (editingRowIndex.value === -1) return;
-  const newName = editingModelName.value.trim();
-  if (!newName) {
-    ElMessage({ type: "warning", message: "模型名称不能为空" });
-    return;
-  }
-  // 更新本地数据
-  row.model_id = newName;
-  editingRowIndex.value = -1;
-};
-
 // 多选与批量更新榜单
 const tableRef = ref(null);
 const selectedTasks = ref([]);
@@ -539,16 +507,7 @@ const confirmBatchUpdate = () => {
   if (batchTasks.value.length === 0) return;
   batchUpdating.value = true;
 
-  const taskIds = batchTasks.value.map((t) => t.task_id);
-  // 收集所有测试集（所有选中任务的 dataset 并集）
-  const allTestcases = [
-    ...new Set(batchTasks.value.flatMap((t) => t.datasets)),
-  ];
-
-  updateScore({
-    "task_id[]": taskIds,
-    "testcase[]": allTestcases,
-  }).then(
+  Promise.all(batchTasks.value.map(task => updateScore({task_id: [task.task_id], testcase: task.datasets}))).then(
     (res) => {
       batchUpdating.value = false;
       batchUpdateDialogVisible.value = false;
@@ -897,24 +856,11 @@ const getTasksList = () => {
       ...item,
       rowId: String(item.task_id) + "__" + (item.dataset || ""),
     }));
-    // 从 localStorage 读取任务列表页传递过来的模型名称覆盖（跨页面、跨标签页共享）
-    try {
-      const modelOverrides = JSON.parse(
-        localStorage.getItem("evalModelOverrides") || "{}"
-      );
-      data_list.arr.forEach((item) => {
-        const key = item.rowId;
-        if (modelOverrides[key] && modelOverrides[key] !== item.model_id) {
-          item.model_id = modelOverrides[key];
-        }
-      });
-    } catch (e) {
-      console.warn("读取 evalModelOverrides 失败", e);
-    }
     loading.value = false;
   });
 };
 
+useReadUpdates(['/v1/get_evaluation_result'],getTasksList);
 onMounted(() => {
   getTasksList();
 });

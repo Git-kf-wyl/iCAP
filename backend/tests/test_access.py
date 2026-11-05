@@ -121,7 +121,7 @@ def test_dataset_files_follow_visibility_and_owner_rules(workspace):
     assert client.delete(f"/api/datasets/{public['id']}", headers=headers(admin)).status_code == 200
 
 
-def test_public_evaluation_cannot_expose_private_dependencies(workspace):
+def test_evaluations_are_shared_and_only_admin_can_create_or_change_them(workspace):
     client, owner, other, admin = workspace
     for model_id, visibility in (("hidden-model", None), ("shared-model", "public")):
         response = client.post("/api/models", json=model_payload(model_id, visibility), headers=headers(owner))
@@ -140,22 +140,22 @@ def test_public_evaluation_cannot_expose_private_dependencies(workspace):
     for model_id, dataset_id, visibility in cases:
         response = client.post("/api/evaluations", json={
             "model_id": model_id, "dataset_id": dataset_id, "visibility": visibility,
-        }, headers=headers(owner))
+        }, headers=headers(admin))
         assert response.status_code == 201, response.text
         evaluation_ids.append(response.json()["id"])
     visible_to_other = {row["id"] for row in client.get("/api/evaluations", headers=headers(other)).json()}
-    assert visible_to_other == {evaluation_ids[3]}
+    assert visible_to_other == set(evaluation_ids)
     visible_to_admin = {row["id"] for row in client.get("/api/evaluations", headers=headers(admin)).json()}
     assert set(evaluation_ids) <= visible_to_admin
     assert client.patch(f"/api/evaluations/{evaluation_ids[0]}", json={"action": "cancel"},
                         headers=headers(admin)).status_code == 200
     for identifier in evaluation_ids[:3]:
-        assert client.get(f"/api/evaluations/{identifier}", headers=headers(other)).status_code == 404
+        assert client.get(f"/api/evaluations/{identifier}", headers=headers(other)).status_code == 200
     assert client.patch(f"/api/evaluations/{evaluation_ids[3]}", json={"action": "cancel"},
                         headers=headers(other)).status_code == 403
     assert client.post("/api/evaluations", json={"model_id": "hidden-model",
                                                   "dataset_id": public_dataset["id"]},
-                       headers=headers(other)).status_code == 404
+                       headers=headers(other)).status_code == 403
     assert client.post("/api/evaluations", json={"model_id": "shared-model",
                                                   "dataset_id": private_dataset["id"]},
-                       headers=headers(other)).status_code == 404
+                       headers=headers(other)).status_code == 403

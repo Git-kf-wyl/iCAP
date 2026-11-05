@@ -1,7 +1,8 @@
-"""Private per-account workspaces for the original Yellow business services.
+"""Private workspaces for the original Yellow business services.
 
 The public adapter authenticates every request. Workers bind loopback only and
-require a random process secret; accounts never share mutable config or output.
+require a random process secret. The adapter selects one administrator workspace
+for shared evaluation tasks/results, while other account resources stay isolated.
 """
 from __future__ import annotations
 
@@ -120,8 +121,9 @@ class YellowRuntime:
                 'availability':'ready','is_published':True,'register':'admin'})
             write_json(path,cfg)
         if not state_exists(root/'backend/config/dataset_download_view_count.json'):write_json(root/'backend/config/dataset_download_view_count.json',{})
-        from .historical_rankings import import_rankings
-        import_rankings(root, CODE/'seed/rankings')
+        if actor['id']=='admin':
+            from .historical_rankings import import_rankings
+            import_rankings(root, CODE/'seed/rankings')
         return root
 
     def sync_models(self,root,actor,record):

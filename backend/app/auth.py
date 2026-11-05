@@ -124,6 +124,8 @@ class AuthService:
                     SELECT id, email, lower(email), phone, email, password_salt, password_hash,
                            0, failed_attempts, locked_until, created_at FROM users_legacy""")
                 db.execute("DROP TABLE users_legacy")
+            if 'role' not in {r['name'] for r in db.execute('PRAGMA table_info(users)')}:
+                db.execute("ALTER TABLE users ADD COLUMN role TEXT NOT NULL DEFAULT 'user' CHECK(role IN ('user','admin'))")
             db.execute("""CREATE TABLE IF NOT EXISTS security_questions (
                 user_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
                 position INTEGER NOT NULL CHECK(position BETWEEN 0 AND 2),
@@ -184,7 +186,7 @@ class AuthService:
     @staticmethod
     def _public_user(row: sqlite3.Row | dict) -> dict:
         return {"id": row["id"], "username": row["username"], "phone": row["phone"],
-                "email": row["email"], "role": "user",
+                "email": row["email"], "role": row['role'],
                 "has_security_questions": bool(row["has_security_questions"])}
 
     def _admin(self) -> dict:

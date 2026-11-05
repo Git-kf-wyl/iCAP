@@ -3,7 +3,6 @@ import { computed, reactive, ref, watch } from 'vue'
 import { ElMessage } from 'element-plus'
 import { api } from '../../api'
 import RulerPicker from './RulerPicker.vue'
-import VisibilityField from '../VisibilityField.vue'
 
 const props = defineProps({
   visible: { type: Boolean, required: true },
@@ -18,7 +17,7 @@ const form = reactive({
   model_ids: [],
   dataset_id: '',
   benchmark: 'Ruler1',
-  visibility: 'private',
+  visibility: 'public',
   use_default: true,
   config: { sample_limit: 5, sample_limits: {}, sync_scores: false },
 })
@@ -109,7 +108,7 @@ function close() {
           <el-option v-for="other in ['VLM', 'AISF', 'Dev', 'ASR', 'MT', 'TTS']" :key="other" :label="`${other}（模拟执行）`" :value="other" />
         </el-select>
       </el-form-item>
-      <VisibilityField v-model="form.visibility" />
+      <el-alert title="评测任务与结果全平台共享，仅管理员可以发起和管理评测。" type="info" :closable="false" />
     </el-form>
 
     <template v-if="isRuler">

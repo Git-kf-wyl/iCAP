@@ -2,7 +2,8 @@
 
 Blue accounts, model registry, Skill/Hermes and AgentCompass remain native APIs.
 Yellow's original business routes run in private per-account workspaces; no
-Nginx routing, corporate SSO, upstream model credentials or old scores are used.
+Nginx routing, corporate SSO or upstream model credentials are used. Evaluation
+tasks and published rankings are shared; only administrators may change them.
 """
 from __future__ import annotations
 from state_storage import read_document,state_exists,state_isfile
@@ -14,6 +15,7 @@ import re
 import time
 import logging
 from collections import deque
+from contextlib import nullcontext, closing
 from pathlib import Path, PurePosixPath
 
 import httpx
@@ -22,6 +24,7 @@ from fastapi.responses import JSONResponse, Response, StreamingResponse
 
 from app.main import create_app, ChatInput, DatasetInput, now
 from app.access import require_edit
+from app.evaluation_policy import EVALUATION_READS, EVALUATION_WRITES, evaluation_actor, evaluation_route, require_evaluator
 from app.yellow_runtime import YellowRuntime, legacy_model, write_json
 
 app=create_app()
@@ -49,6 +52,7 @@ from app.hub_downloads import HubDownloads
 hubs=HubDownloads(runtime,app.state.store)
 native_chat=next(r.endpoint for r in app.router.routes if getattr(r,'path','')=='/api/agents/chat/stream')
 boot_reports={}
+evaluation_write_lock=asyncio.Lock()
 
 @app.post('/v1/dataset/update/view')
 async def dataset_view(request:Request):
@@ -155,13 +159,24 @@ def workspace_bootstrap(actor=Depends(authorized)):
     from app.yellow_reads import read_business
     root=runtime.initialize(actor)
     with runtime.lock:runtime.sync_resources(root,actor)
+    shared_actor=evaluation_actor(actor)
+    shared_root=runtime.initialize(shared_actor)
     entries={'/v1/get_model_info':models(actor)}
     for path in ('get_current_full_res','get_current_multi_full_res','get_all_published_tasks',
                  'get_all_report_tasks','get_evaluation_result','dataset/counts','lmarena/leaderboard'):
-        entries['/v1/'+path]=read_business(runtime,actor,path,{},prepared_root=root)
+        entries['/v1/'+path]=read_business(runtime,actor,path,{},prepared_root=shared_root if path in EVALUATION_READS else root)
     for kind in ('1','2','3'):
         entries['/v1/get_testcase_info?is_field='+kind]=read_business(runtime,actor,'get_testcase_info',{'is_field':kind},prepared_root=root)
-    return {'entries':entries}
+    return {'entries':entries,'evaluation_revision':evaluation_revision(actor)['revision']}
+
+@app.get('/api/evaluation/revision')
+def evaluation_revision(actor=Depends(authorized)):
+    from state_storage import state_location,database
+    root=runtime.initialize(evaluation_actor(actor))
+    location=state_location(root/'backend/config/tasks.json')
+    with closing(database(location[0]).connect()) as conn:
+        rows=list(conn.execute("SELECT name,updated_ns FROM documents WHERE name IN ('backend/config/tasks.json','backend/config/evaluationResult.json','backend/config/ruler1_cheat.json','backend/config/ruler2_cheat.json','backend/config/ruler1_cheat_multi.json','backend/config/ruler2_cheat_multi.json','backend/config/reportTasks.json','backend/config/publishedReportTasks.json') ORDER BY name"))
+    return {'revision':hashlib.sha256(json.dumps(rows).encode()).hexdigest()}
 
 @app.get('/v1/get_model_info')
 def model_info(actor=Depends(authorized)):
@@ -279,15 +294,17 @@ def clean_response(value,secrets_to_hide=()):
 
 @app.api_route('/v1/{path:path}',methods=['GET','POST','PUT','PATCH','DELETE'])
 async def yellow_api(path:str,request:Request,actor=Depends(authorized)):
+    if path in EVALUATION_WRITES:require_evaluator(actor)
     if path in DENIED or path.startswith(EXTERNAL_PREFIXES):
         raise HTTPException(503,'此功能依赖的外部服务尚未部署；当前账户与模型访问由 iCAP 管理')
     if path=='run_simultaneous_interpretation':raise HTTPException(422,'当前 DeepSeek 接口不支持语音识别或语音合成')
-    root=await asyncio.to_thread(runtime.initialize,actor)
     query=list(request.query_params.multi_items())
+    workspace_actor=evaluation_actor(actor) if evaluation_route(path,query) else actor
+    root=await asyncio.to_thread(runtime.initialize,workspace_actor)
     for key,value in query:validate_paths(value,root,key.removesuffix('[]'))
     from app.yellow_reads import FAST_READS,read_business
     if request.method=='GET' and path in FAST_READS:
-        result=await asyncio.to_thread(read_business,runtime,actor,path,dict(query))
+        result=await asyncio.to_thread(read_business,runtime,workspace_actor,path,dict(query))
         if result is not None:return clean_response(result)
     data=None;content=await request.body()
     headers={'Content-Type':request.headers.get('content-type','application/json')}
@@ -342,10 +359,10 @@ async def yellow_api(path:str,request:Request,actor=Depends(authorized)):
                 filename=value.filename or ''
                 if '/' in filename or '\\' in filename or filename.startswith('.'):raise HTTPException(422,'文件名不能包含路径')
             else:validate_paths(str(value),root,key)
-    record=await asyncio.to_thread(runtime.get,actor)
+    record=await asyncio.to_thread(runtime.get,workspace_actor)
     headers['X-iCAP-Worker']=record['secret']
     target=f"http://127.0.0.1:{record['port']}/v1/{path}"
-    async with httpx.AsyncClient(timeout=180,trust_env=False) as client:
+    async with evaluation_write_lock if path in EVALUATION_WRITES else nullcontext(), httpx.AsyncClient(timeout=180,trust_env=False) as client:
         try:response=await client.request(request.method,target,params=query,content=content,headers=headers)
         except httpx.HTTPError:raise HTTPException(503,'业务服务连接中断，请稍后重试')
     media=response.headers.get('content-type','application/json')

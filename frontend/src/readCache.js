@@ -7,6 +7,8 @@ const paths = new Set(['/v1/get_model_info','/v1/get_current_full_res','/v1/get_
   '/v1/get_testcase_info','/v1/dataset/counts','/v1/get_all_published_tasks','/v1/get_all_report_tasks',
   '/v1/get_evaluation_result','/v1/lmarena/leaderboard','/v1/get_run_test_progress_list','/api/models','/api/datasets','/api/evaluations','/api/skill-evolution/capabilities'])
 const bootstrapPaths = new Set([...paths].filter(path=>path.startsWith('/v1/') && !path.endsWith('get_run_test_progress_list')))
+const evaluationPaths=new Set(['/v1/get_current_full_res','/v1/get_current_multi_full_res','/v1/lmarena/leaderboard','/v1/get_evaluation_result','/v1/get_run_test_progress_list','/v1/get_all_report_tasks','/v1/get_all_published_tasks','/api/evaluations'])
+let evaluationRevision='', revisionTimer, revisionPending=false
 const records = new Map(), inflight = new Map(), listeners = new Set()
 const MAX_AGE = 20 * 60 * 1000
 let session = '', scope = '', epoch = 0, ready = Promise.resolve(), database, boot = null
@@ -21,7 +23,7 @@ export function onReadUpdate(listener) { listeners.add(listener); return ()=>lis
 function db() {
   if (!globalThis.indexedDB) return Promise.resolve(null)
   if (!database) database = new Promise(resolve=>{
-    const request = indexedDB.open('icap-read-snapshots-v1',2)
+    const request = indexedDB.open('icap-read-snapshots-v1',3)
     const timer=setTimeout(()=>resolve(null),300)
     request.onupgradeneeded=()=>{
       if(request.result.objectStoreNames.contains('snapshots'))request.transaction.objectStore('snapshots').clear()
@@ -48,6 +50,7 @@ async function disk(action, value) {
   } catch { return [] }
 }
 export function clearReadCache() {
+  clearInterval(revisionTimer);revisionTimer=null;evaluationRevision=''
   epoch++;session='';scope='';records.clear();inflight.clear();boot=null;ready=Promise.resolve()
   failures.clear();readCacheStatus.stale=false
   // Queue the clear before a subsequent login queues its reads/writes.
@@ -57,6 +60,8 @@ export function clearReadCache() {
 export function activateReadCache(token) {
   if (!token || token===session) return ready
   epoch++;session=token;scope='';records.clear();inflight.clear();boot=null
+  evaluationRevision=''
+  if(globalThis.document && !revisionTimer){revisionTimer=setInterval(checkEvaluationRevision,10000);revisionTimer.unref?.()}
   const generation=epoch
   ready=(async()=>{
     if (!globalThis.crypto?.subtle) return
@@ -94,6 +99,27 @@ export function invalidateReads() {
   epoch++;records.clear();inflight.clear();boot=null
   void disk('clear');announce('*')
 }
+export function invalidateEvaluationReads() {
+  epoch++;inflight.clear();boot=null
+  for(const [url,row] of records)if(evaluationPaths.has(new URL(url,'https://icap.invalid').pathname)){
+    records.delete(url);void disk('delete',row.key)
+  }
+  for(const path of evaluationPaths)announce(path)
+}
+export async function checkEvaluationRevision() {
+  if(!session || revisionPending || globalThis.document?.visibilityState==='hidden')return
+  const token=session
+  revisionPending=true
+  try{
+    const response=await fetch('/api/evaluation/revision',{headers:{Authorization:'Bearer '+token},cache:'no-store'})
+    if(!response.ok || token!==session)return
+    const data=await response.json()
+    if(token!==session)return
+    if(typeof data.revision==='string' && data.revision!==evaluationRevision){
+      evaluationRevision=data.revision;invalidateEvaluationReads()
+    }
+  }catch{}finally{revisionPending=false}
+}
 export function retryReads() {
   for(const row of records.values())row.time=Math.min(row.time,Date.now()-16000)
   announce('*')
@@ -108,7 +134,7 @@ export function startWorkspaceBootstrap(client=axios) {
   current.promise=(async()=>{
     await ready
     const response=await client.get('/api/workspace/bootstrap',{timeout:12000,silentError:true,icapBootstrap:true})
-    if(token===session && generation===epoch)seedReads(response.data.entries)
+    if(token===session && generation===epoch){seedReads(response.data.entries);evaluationRevision=response.data.evaluation_revision || ''}
   })().catch(()=>{}).finally(()=>{if(boot===current)boot=null})
   boot=current
   return current.promise
@@ -127,6 +153,7 @@ export function installReadCache(client) {
     const eligible=method==='get' && sameOrigin && paths.has(path) && !config.signal && !config.cancelToken && !config.responseType
     if(!eligible || !session || localStorage.getItem('ic_token')!==session) {
       const response=await network(config)
+      if(sameOrigin && path==='/v1/update_top_chart')invalidateEvaluationReads()
       if(sameOrigin && !['get','head','options'].includes(method) && !path.startsWith('/api/auth/') && !path.startsWith('/v1/get_') && !path.includes('/chat') && !path.startsWith('/v1/dataset/update/'))invalidateReads()
       return response
     }

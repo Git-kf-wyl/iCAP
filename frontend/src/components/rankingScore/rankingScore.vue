@@ -10,7 +10,7 @@
       <el-tab-pane label="尺子一：通用榜单" name="ruler1">
         <el-container class="insideContainer">
           <div class="hint-bar">
-            <div class="hint-text">点击模型名称查看分数雷达图。榜单包含原始历史评测记录，可用模型以模型广场为准。</div>
+            <div class="hint-text">榜单全平台共享，由管理员评测后发布。点击模型名称查看分数雷达图，可用模型以模型广场为准。</div>
           </div>
           <!-- 尺子一模态切换卡片 -->
           <div class="rankingTable">

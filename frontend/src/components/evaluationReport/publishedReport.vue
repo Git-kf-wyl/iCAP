@@ -9,7 +9,7 @@
 
         <div class="report-header-buttons" style="justify-content: space-between;">
             <div class="report-type-section">
-                <el-button type="primary" class="customButton" @click="uploadReport()">发布报告</el-button>
+                <el-button v-if="canEvaluate" type="primary" class="customButton" @click="uploadReport()">发布报告</el-button>
             </div>
 
             <el-table :data="tempTasksData" stripe height="750px" :header-cell-style="tableHeaderStyle"
@@ -70,7 +70,7 @@
                                 </el-icon>
                             </el-button>
                         </el-tooltip>
-                        <el-tooltip v-if="row.can_edit !== false" content="删除" placement="top">
+                        <el-tooltip v-if="canEvaluate && row.can_edit !== false" content="删除" placement="top">
                             <el-button link type="danger" size="large" :disabled="row.status === 'running'"
                                 @click="handleDeleteTask(row)">
                                 <el-icon>
@@ -78,7 +78,7 @@
                                 </el-icon>
                             </el-button>
                         </el-tooltip>
-                        <el-tooltip v-if="row.can_edit !== false" content="更新" placement="top">
+                        <el-tooltip v-if="canEvaluate && row.can_edit !== false" content="更新" placement="top">
                             <el-button link type="primary" size="large" :disabled="row.status !== 'completed'"
                                 @click="handleUpdateReport(row)">
                                 <el-icon>
@@ -206,6 +206,8 @@
 </template>
 
 <script setup lang="ts">
+import {useEvaluationAccess} from '@/evaluationAccess';
+const {canEvaluate}=useEvaluationAccess();
 import {useReadUpdates} from '@/useReadUpdates.js';
 import { ref, computed, onMounted, onBeforeUnmount, onActivated, onDeactivated } from "vue";
 import { useRouter } from "vue-router";

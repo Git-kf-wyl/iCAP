@@ -173,7 +173,7 @@
                     <el-icon><DataLine /></el-icon>
                     <span class="menuItem">测评服务</span>
                   </template>
-                  <el-menu-item index="/modelEvaluation/onlineAssessment" route="/modelEvaluation/onlineAssessment" v-if="!!auth.token || hasCreatedTask">
+                  <el-menu-item index="/modelEvaluation/onlineAssessment" route="/modelEvaluation/onlineAssessment" v-if="!!auth.token">
                     <el-icon><DataBoard /></el-icon>
                     <span style="font-weight:500">任务列表</span>
                   </el-menu-item>
@@ -181,7 +181,7 @@
                     <el-icon><DataBoard /></el-icon>
                     <span style="font-weight:500">评测结果</span>
                   </el-menu-item>
-                  <el-menu-item index="/modelEvaluation/onlineEvaluation" route="/modelEvaluation/onlineEvaluation" v-if="!!auth.token">
+                  <el-menu-item index="/modelEvaluation/onlineEvaluation" route="/modelEvaluation/onlineEvaluation" v-if="auth.role === 'admin'">
                     <el-icon><DataAnalysis /></el-icon>
                     <span style="font-weight:500">在线评估</span>
                   </el-menu-item>
@@ -404,8 +404,6 @@ import {
   registerFeedbackInfo,
 } from "@/api/dataService.js";
 import { ElMessage, ElMessageBox } from "element-plus";
-import {evaluator_list} from  "@/consts/copyrightConsts";
-import { getList } from "@/api/runService.js";
 
 const route = useRoute();
 const router = useRouter();
@@ -420,7 +418,6 @@ const isPopupVisible = ref(false);
 const currentModule = ref('maas');
 
 // 当前用户是否创建过任务，用于决定是否展示“任务列表”菜单
-const hasCreatedTask = ref(false);
 
 // 根据路由 path 自动推导当前模块
 function resolveModuleFromPath(path: string): string {
@@ -466,16 +463,6 @@ const goToChat = () => {
 onMounted(()=>{
   useAIModelStore().fetchModels();
   currentModule.value = resolveModuleFromPath(route.path);
-  console.log('ttokon',token.value)
-  // 检查当前用户是否创建过任务，若有则对当前用户展示“任务列表”选项
-  if (!evaluator_list.includes(token.value)) {
-    getList().then((res) => {
-      const tasks = Array.isArray(res.data) ? res.data : [];
-      hasCreatedTask.value = tasks.some((task) => task.creator === token.value);
-    }).catch(() => {
-      hasCreatedTask.value = false;
-    });
-  }
 })
 
 // 监听路由变化自动同步模块，确保从首页跳转时左侧菜单正确切换

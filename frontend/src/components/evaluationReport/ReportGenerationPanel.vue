@@ -9,7 +9,7 @@
 
     <div class="report-header-buttons" style="justify-content: space-between;">
       <div class="report-type-section">
-        <el-button type="primary" class="customButton" @click="dialogVisible = true">生成报告</el-button>
+        <el-button v-if="canEvaluate" type="primary" class="customButton" @click="dialogVisible = true">生成报告</el-button>
         <el-button type="primary" class="customButton" @click="router.push('/PublishedReport');">
           已发布报告
           <el-icon>
@@ -103,7 +103,7 @@
                 </el-icon>
               </el-button>
             </el-tooltip>
-            <el-tooltip content="发布" placement="top">
+            <el-tooltip v-if="canEvaluate" content="发布" placement="top">
               <el-button
                 link
                 type="primary"
@@ -116,7 +116,7 @@
                 </el-icon>
               </el-button>
             </el-tooltip>
-            <el-tooltip content="删除" placement="top">
+            <el-tooltip v-if="canEvaluate" content="删除" placement="top">
               <el-button
                 link
                 type="danger"
@@ -255,6 +255,8 @@
 </template>
 
 <script setup lang="ts">
+import {useEvaluationAccess} from '@/evaluationAccess';
+const {canEvaluate}=useEvaluationAccess();
 import { ref, computed, watch, onMounted, onBeforeUnmount } from "vue";
 import { useRouter } from "vue-router";
 import { ElMessage, ElMessageBox, UploadInstance } from "element-plus";

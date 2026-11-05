@@ -368,9 +368,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
             # An unstored model is from the public provider catalog.
             return model is None or can_view(model, principal)
 
-        evaluations = [row for row in data["evaluations"]
-                       if can_view(row, principal) and model_allowed(row["model_id"])
-                       and row["dataset_id"] in dataset_ids]
+        evaluations = data["evaluations"]
         evaluation_ids = {row["id"] for row in evaluations}
         return {
             "models": [row for row in data["models"] if can_view(row, principal)],
@@ -665,7 +663,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
         return item
 
     @app.post("/api/evaluations", status_code=201)
-    def create_evaluation(body: EvalInput, principal: dict = Depends(authorized)):
+    def create_evaluation(body: EvalInput, principal: dict = Depends(admin_authorized)):
         model = registry.get_model(body.model_id, principal)
         if body.config is not None and body.benchmark in RULER_IDS:
             # 请求期即校验逐维度取样配置，非法维度 key/条数直接 422，不落库
@@ -675,13 +673,13 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
             require_view(find(data["datasets"], body.dataset_id), principal)
             item = _make_eval_item(data, benchmark=body.benchmark, model=model,
                                    dataset_id=body.dataset_id, default_log="任务已提交",
-                                   config_raw=body.config, owner=principal, visibility=body.visibility)
+                                   config_raw=body.config, owner=principal, visibility='public')
             data["evaluations"].insert(0, item)
             return item
         return store.update(op)
 
     @app.post("/api/evaluations/batch", status_code=201)
-    def create_batch_evaluations(body: BatchEvalInput, principal: dict = Depends(authorized)):
+    def create_batch_evaluations(body: BatchEvalInput, principal: dict = Depends(admin_authorized)):
         if len(set(body.model_ids)) != len(body.model_ids):
             raise HTTPException(422, "模型不能重复")
         models = [registry.get_model(identifier, principal) for identifier in body.model_ids]
@@ -691,7 +689,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
             for model in models:
                 task = _make_eval_item(data, benchmark=body.benchmark, model=model,
                                        dataset_id=dataset["id"], default_log="并行评测任务已提交",
-                                       owner=principal, visibility=body.visibility)
+                                       owner=principal, visibility='public')
                 data["evaluations"].insert(0, task)
                 created.append(task)
             return created
@@ -709,7 +707,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
         return {"state": task["status"], "result": None, "progress": task["progress"]}
 
     @app.patch("/api/evaluations/{identifier}")
-    def action_evaluation(identifier: str, body: TaskAction, principal: dict = Depends(authorized)):
+    def action_evaluation(identifier: str, body: TaskAction, principal: dict = Depends(admin_authorized)):
         find(scoped_data(principal)["evaluations"], identifier)
         def op(data):
             task = require_edit(find(data["evaluations"], identifier), principal)

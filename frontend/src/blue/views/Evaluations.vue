@@ -10,7 +10,7 @@ import { useAuth } from '../stores/auth'
 const route = useRoute()
 const router = useRouter()
 const auth = useAuth()
-function canManage(row) { return auth.role === 'admin' || (row.owner_user_id != null && String(row.owner_user_id) === auth.userId) }
+function canManage(row) { return auth.role === 'admin' }
 const rows = ref([]), models = ref([]), datasets = ref([]), rulers = ref([]), dialog = ref(false)
 let timer
 const names = { queued: '排队中', running: '运行中', paused: '已暂停', completed: '已完成', cancelled: '已取消', failed: '失败' }
@@ -51,7 +51,7 @@ useReadUpdates(["/api/evaluations"],load)
       <h1>评测任务</h1>
       <p class="subtitle">选择测评尺子发起任务，实时查看进度、维度得分与用例级明细。</p>
     </div>
-    <el-button type="primary" @click="openDialog">+ 发起评测</el-button>
+    <el-button v-if="auth.role === 'admin'" type="primary" @click="openDialog">+ 发起评测</el-button>
   </div>
   <div class="notice">
     尺子一（通用能力）与尺子二（通信领域）由内置测评引擎真实执行：25 条内置样例、按维度加权计分并生成报告。
@@ -59,7 +59,7 @@ useReadUpdates(["/api/evaluations"],load)
   </div>
   <section class="card card-pad">
     <div class="card-header"><h2>任务列表</h2><span class="muted small">{{ rows.length }} 个任务</span></div>
-    <el-table :data="rows" empty-text="暂无任务，点击右上角发起评测">
+    <el-table :data="rows" empty-text="暂无评测任务">
       <el-table-column prop="model_name" label="模型" min-width="150" />
       <el-table-column prop="dataset_name" label="数据集" min-width="170" />
       <el-table-column label="测评尺子" min-width="150">

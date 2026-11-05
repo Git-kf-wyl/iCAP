@@ -152,7 +152,7 @@
             <el-tooltip
               content="重新测评"
               placement="top"
-              v-if="manager_list.includes(token) && (row.status !== 'running' && !isinterpretation(row)) || (row.status === 'paused')"
+              v-if="manager_list.includes(token) && ((row.status !== 'running' && !isinterpretation(row)) || row.status === 'paused')"
             >
               <el-button
                 link
@@ -458,13 +458,14 @@
           <el-form-item label="模型名称">
             <el-input
               v-model="currentRowModelName"
+              readonly
               placeholder="请输入模型名称"
               style="width: 100%;"
             />
           </el-form-item>
         </el-form>
         <div style="font-size: 12px; color: #909399; margin-top: -8px; margin-left: 100px;">
-          修改后将以此名称推送到结果列表
+          发布后所有用户都能看到评测结果和榜单。
         </div>
       </div>
       <template #footer>
@@ -689,16 +690,10 @@ const filterHandler = (
   return row[property] === value;
 };
 
-// 当前用户是否为评测管理员（管理员可查看全部任务，普通用户仅可查看自己创建的任务）
+// 评测任务全平台共享，写操作仅管理员可用。
 const isManager = computed(() => manager_list.includes(token.value));
 
-// 用户可见的任务数据：管理员展示全部，普通用户仅展示自己创建的任务
-const userScopedTaskData = computed(() => {
-  if (isManager.value) {
-    return data_list.arr;
-  }
-  return data_list.arr.filter((row) => row.creator === token.value);
-});
+const userScopedTaskData = computed(() => data_list.arr);
 
 const loadFilter = () => {
   assessmentTypeFilters.value = getUniqueFilters(
@@ -819,47 +814,15 @@ const runLogClose = () => {
   clearInterval(interval1);
 };
 
-const reloadSubmit = () => {
-  writeEvaluationResult({
-    task_id: reloadTaskId.value,
-    dataset_names: reloadSelectData.value,
-    model_id: currentRowModelName.value,
-  }).then(
-    (res) => {
-      reloadDialogVisible.value = false;
-      ElMessage({
-        type: "success",
-        message: "更新成功",
-      });
-      // 将修改后的模型名称存入 localStorage，用于覆盖评测结果页面拉取的旧值
-      // 使用 (task_id + '__' + dataset) 作为 key，确保精确定位到行
-      try {
-        const modelOverrides = JSON.parse(localStorage.getItem('evalModelOverrides') || '{}');
-        reloadSelectData.value.forEach((dataset) => {
-          const key = String(reloadTaskId.value) + '__' + dataset;
-          modelOverrides[key] = currentRowModelName.value;
-        });
-        localStorage.setItem('evalModelOverrides', JSON.stringify(modelOverrides));
-      } catch (e) {
-        console.warn('保存 evalModelOverrides 失败', e);
-      }
-      // 同步调用 updateScore（update_top_chart）接口更新榜单上的模型名称
-      reloadSelectData.value.forEach((dataset) => {
-        updateScore({
-          task_id: reloadTaskId.value,
-          testcase: [dataset],
-          model_id: currentRowModelName.value,
-        });
-      });
-    },
-    (err) => {
-      reloadDialogVisible.value = false;
-      ElMessage({
-        type: "error",
-        message: "更新失败" + err,
-      });
-    }
-  );
+const reloadSubmit = async () => {
+  try {
+    await writeEvaluationResult({task_id: reloadTaskId.value, dataset_names: reloadSelectData.value});
+    await updateScore({task_id: [reloadTaskId.value], testcase: reloadSelectData.value});
+    reloadDialogVisible.value = false;
+    ElMessage.success("评测结果与榜单已发布，所有用户可见");
+  } catch (err) {
+    ElMessage.error("发布失败，请重试：" + (err.response?.data?.detail || err.message));
+  }
 };
 
 const runLog = async (ID) => {

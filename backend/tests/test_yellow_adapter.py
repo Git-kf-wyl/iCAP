@@ -35,7 +35,7 @@ def header(account):return {'Authorization':'Bearer '+account['access_token']}
 
 
 def test_workspace_bootstrap_is_private_current_and_worker_free(platform):
-    client,adapter,users,_=platform
+    client,adapter,users,admin=platform
     client.cookies.clear()
     assert client.get('/api/workspace/bootstrap').status_code==401
     owner,other=users
@@ -43,7 +43,7 @@ def test_workspace_bootstrap_is_private_current_and_worker_free(platform):
         'name':'private model','provider':'Local','visibility':'private',
         'endpoints':[{'url':'https://example.test/v1','api_key':'only-for-server'}]})
     assert response.status_code==201,response.text
-    actor=adapter.app.state.auth.current(owner['access_token'])
+    actor=adapter.app.state.auth.current(admin['access_token'])
     root=adapter.runtime.initialize(actor)
     write_document(root/'backend/config/evaluationResult.json',{'fixture':{'model_id':'bootstrap-private','dataset':'private-result'}})
     response=client.get('/api/workspace/bootstrap',headers=header(owner))
@@ -60,7 +60,7 @@ def test_workspace_bootstrap_is_private_current_and_worker_free(platform):
         assert actual.status_code==200 and actual.json()==data,path
     other_entries=client.get('/api/workspace/bootstrap',headers=header(other)).json()['entries']
     assert 'bootstrap-private' not in {row['model_id'] for row in other_entries['/v1/get_model_info']}
-    assert 'fixture' not in other_entries['/v1/get_evaluation_result']
+    assert other_entries['/v1/get_evaluation_result']==entries['/v1/get_evaluation_result']
     assert not adapter.runtime.workers
     write_document(root/'backend/config/evaluationResult.json',{})
     assert client.get('/api/workspace/bootstrap',headers=header(owner)).json()['entries']['/v1/get_evaluation_result']=={}
@@ -86,6 +86,52 @@ def test_parallel_reads_wait_for_workspace_readiness(platform):
         responses=list(pool.map(lambda _:client.post('/v1/dataset/update/view',json={'dataset':'fixture','is_field':1},headers=header(actor)),range(20)))
     assert all(response.status_code==200 for response in responses)
     assert client.get('/v1/dataset/counts',headers=header(actor)).json()['1']['fixture']['view_count']==20
+
+
+def test_only_persisted_admin_roles_can_change_shared_evaluations(platform):
+    from app.evaluation_policy import EVALUATION_WRITES
+    client,adapter,users,admin=platform
+    viewer,manager=users
+    for path in EVALUATION_WRITES:
+        response=client.request('GET' if path=='update_top_chart' else 'POST','/v1/'+path,headers=header(viewer),json={})
+        assert response.status_code==403,path
+    assert not adapter.runtime.workers
+    with adapter.app.state.auth._transaction() as db:
+        db.execute("UPDATE users SET role='admin' WHERE id=?",(manager['id'],))
+    assert client.get('/api/auth/me',headers=header(manager)).json()['role']=='admin'
+    assert client.get('/api/auth/me',headers=header(viewer)).json()['role']=='user'
+    root=adapter.runtime.initialize(adapter.app.state.auth.current(admin['access_token']))
+    before=client.get('/api/evaluation/revision',headers=header(viewer)).json()
+    write_document(root/'backend/config/tasks.json',{'completed-fixture':{'id':'completed-fixture','status':'completed','creator':'admin'}})
+    for account in (viewer,manager,admin):
+        assert client.get('/v1/get_run_test_progress_list',headers=header(account)).json()[0]['id']=='completed-fixture'
+    assert client.get('/api/evaluation/revision',headers=header(viewer)).json()!=before
+
+
+def test_admin_publication_reaches_all_accounts_through_original_handler(platform):
+    client,adapter,users,admin=platform
+    manager,viewer=users
+    with adapter.app.state.auth._transaction() as db:
+        db.execute("UPDATE users SET role='admin' WHERE id=?",(manager['id'],))
+    model='shared-evaluation-fixture'
+    response=client.post('/api/models',headers=header(admin),json={'id':model,'name':model,'provider':'Local',
+        'endpoints':[{'url':'https://example.test/v1','api_key':'test-only'}]})
+    assert response.status_code==201
+    root=adapter.runtime.initialize(adapter.app.state.auth.current(admin['access_token']))
+    task={'id':'publication-fixture','task_id':'publication-fixture','name':'shared result','model_id':model,'model_name':model,
+          'status':'completed','creator':'admin','assessmentType':'通用评估(Ruler1)','createTime':'2026-11-05 10:00:00',
+          'taskConfig':{'assessmentType':'通用评估(Ruler1)','evaluationType':'language','dataset_args':[{'testcase_tags':[]}]},
+          'result':{model:[{'dataset_name':'mmlu','score':0.75,'create_time':'2026-11-05 10:00:00'}]}}
+    write_document(root/'backend/config/tasks.json',{'publication-fixture':task})
+    response=client.post('/v1/write_evaluation_result',headers=header(manager),json={'task_id':'publication-fixture','dataset_names':['mmlu']})
+    assert response.status_code==200,response.text
+    response=client.get('/v1/update_top_chart',headers=header(manager),params={'task_id[]':'publication-fixture','testcase[]':'mmlu'})
+    assert response.status_code==200,response.text
+    for account in (viewer,manager,admin):
+        rows=client.get('/v1/get_current_full_res',headers=header(account)).json()['ruler1'][model]['result']
+        assert next(row['score'] for row in rows if row['dataset_name']=='mmlu')==0.75
+        assert any(row['model_id']==model for row in client.get('/v1/get_evaluation_result',headers=header(account)).json().values())
+    assert len(adapter.runtime.workers)==1,'All evaluators must use the same task workspace'
 
 
 def test_html_bootstrap_verifies_session_without_exposing_credential(platform):
