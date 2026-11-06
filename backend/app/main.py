@@ -34,6 +34,7 @@ from .evaluation.agentcompass_adapter import (AGENTCOMPASS_BENCHMARKS, AGENTCOMP
 from .model_registry import ModelInput, ModelRegistry
 from .store import Store
 from .skill_evolution.service import SkillService
+from .skill_evolution.files import ManagedFiles
 
 load_dotenv(Path(__file__).resolve().parents[2] / ".env")
 
@@ -304,6 +305,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
     auth = AuthService(base, secret, admin_user, admin_password, demo)
     registry = ModelRegistry(store)
     skill_service = SkillService(store, registry)
+    skill_service.files = ManagedFiles(store)
     stop = asyncio.Event()
     runner = EvaluationRunner(store, registry, live=(not demo), stop=stop)
     agent_runner = AgentCompassRunner(
@@ -354,6 +356,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
         return principal
 
     app.include_router(skill_service.router(authorized))
+    app.include_router(skill_service.files.router(authorized))
     app.state.skill_service = skill_service
 
     def scoped_data(principal: dict) -> dict:

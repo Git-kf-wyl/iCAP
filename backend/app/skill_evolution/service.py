@@ -19,7 +19,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import FileResponse
 
 from ..access import ownership, require_edit, require_view, visible
-from .schemas import JobInput
+from .schemas import JobInput, PRESETS, result_weights
 
 BACKEND = Path(__file__).resolve().parents[2]
 TERMINAL = {"completed", "failed", "cancelled", "interrupted"}
@@ -31,10 +31,10 @@ def now():
 
 def resource_name(name):
     p = PurePosixPath(name.replace("\\", "/"))
-    if p.is_absolute() or not p.parts or any(x in {"..", "."} for x in p.parts) or ":" in name:
+    if p.is_absolute() or not p.parts or any(x in {"..", "."} for x in p.parts) or ":" in name or "\x00" in name:
         raise HTTPException(422, "资源文件名须为相对路径，不能包含 .. 或盘符")
-    if p.suffix.lower() not in {".md", ".txt", ".json", ".csv"} or any(x.startswith(".") for x in p.parts):
-        raise HTTPException(422, "资源只支持普通 md、txt、json、csv 文件")
+    if p.suffix.lower() not in {".md", ".txt", ".json", ".jsonl", ".csv", ".tsv", ".py", ".js", ".sh", ".yaml", ".yml"} or any(x.startswith(".") for x in p.parts):
+        raise HTTPException(422, "文本附属资源支持 md、txt、json、jsonl、csv、tsv、py、js、sh、yaml、yml 文件")
     return str(p)
 
 
@@ -91,6 +91,7 @@ class SkillService:
                       and (runtime / "READY").is_file() and (runtime / "venv/bin/hermes").is_file()
                       and shutil.which("bwrap"))
         return {"models": models, "execution_modes": ["direct"] + (["hermes"] if hermes else []),
+                "presets": PRESETS, "limits": {"cases": 10000, "input_bytes": 50000000},
                 "upstream_commit": "61f8870e61c37f59781178f49247f7581aeddba7",
                 "engines": [{"id": "opt", "name": "A · 业务推荐", "features": ["结构化编辑", "成功／失败分组", "拒绝经验"]},
                             {"id": "enhanced", "name": "B · 复杂场景进阶", "features": ["结构化编辑", "大模型对照与知识提炼", "经验池", "停滞探索"]}]}
@@ -128,18 +129,58 @@ class SkillService:
             value.pop("logs", None)
         else:
             cfg = row["config"]
-            value["config"] = {k: v for k, v in cfg.items() if k not in {"dataset", "resources"}}
+            value["config"] = {k: v for k, v in cfg.items() if k not in {"dataset", "resources", "managed_assets"}}
         return value
 
-    def prepare(self, body):
+    def prepare(self, body, principal=None):
         cfg = body.model_dump()
         assets = {resource_name(r.name): r.content for r in body.resources}
         if set(assets) & {"SKILL.md", "dataset.json", "rubric.md"}:
             raise HTTPException(422, "SKILL.md、dataset.json 和 rubric.md 是保留文件名，请为附属资源使用其他名称")
+        if any(name.startswith("managed/") for name in assets):
+            raise HTTPException(422, "managed/ 是上传资源保留目录，请更换附属资源文件名")
         if len(assets) != len(body.resources):
             raise HTTPException(422, "资源文件名不能重复")
         cfg["resources"] = [{"name": k, "content": v} for k, v in assets.items()]
+        managed = {}
+        files = getattr(self, "files", None)
+        def register(meta):
+            name = "managed/" + meta["id"] + "/" + Path(meta["path"]).name
+            managed[name] = {"name": name, "source_path": meta["path"], "size": meta["size"]}
+            return name
+        if body.managed_file_ids:
+            if files is None or principal is None:
+                raise HTTPException(422, "文件管理服务不可用")
+            for meta in files.selected(principal, body.managed_file_ids):
+                register(meta)
+        def resolve_asset(name, cid):
+            if not isinstance(name, str) or not name:
+                raise HTTPException(422, f"用例 {cid} 缺少有效资源文件路径")
+            if name in assets:
+                return name
+            if files is None or principal is None:
+                raise HTTPException(422, f"用例 {cid} 的资源未上传：{name}")
+            try:
+                return register(files.resolve(principal, name, body.managed_file_ids or None))
+            except HTTPException:
+                raise HTTPException(422, f"用例 {cid} 的资源不存在或无权访问，请从文件管理复制路径：{name}") from None
         if body.operation == "bootstrap":
+            reference_length = sum(len(r.content) for r in body.resources)
+            for resource in managed.values():
+                path = Path(resource["source_path"])
+                if path.suffix.lower() not in {".md", ".txt", ".json", ".jsonl", ".csv", ".tsv", ".py", ".js", ".sh", ".yaml", ".yml"}:
+                    raise HTTPException(422, "生成 Skill 的参考文件只支持文本或脚本源码，请先将二进制资料转换为文本")
+                if resource["size"] > 800000:
+                    raise HTTPException(422, "生成 Skill 的参考资料不能超过 200000 字符")
+                try:
+                    reference_length += len(path.read_text(encoding="utf-8-sig"))
+                except (UnicodeError, OSError):
+                    raise HTTPException(422, "生成 Skill 的参考文件不存在、不可读或不是 UTF-8 编码") from None
+                if reference_length > 200000:
+                    raise HTTPException(422, "生成 Skill 的参考资料不能超过 200000 字符")
+            if reference_length > 200000:
+                raise HTTPException(422, "生成 Skill 的参考资料不能超过 200000 字符")
+            cfg["managed_assets"] = list(managed.values())
             return cfg
         dataset = copy.deepcopy(body.dataset)
         ids = set()
@@ -162,6 +203,17 @@ class SkillService:
                     raise HTTPException(422, f"用例 {cid} 的步骤标识须唯一，步骤权重须大于 0 且不超过 100")
                 step_ids.add(sid)
                 step["step_id"] = sid
+            if item.get("pre_condition") not in (None, []):
+                raise HTTPException(422, f"用例 {cid} 的非空 pre_condition 暂不支持；不允许执行宿主机初始化命令")
+            item.setdefault("pre_condition", [])
+            try:
+                weights = {**cfg["output_weights"], **result_weights(item.get("output_weights", {}))}
+            except ValueError as exc:
+                raise HTTPException(422, f"用例 {cid}：{exc}") from None
+            if item.get("input_path"):
+                if body.execution_mode != "hermes":
+                    raise HTTPException(422, f"用例 {cid} 含 input_path，文件操作需要 Hermes 执行")
+                item["input_path"] = resolve_asset(item["input_path"], cid)
             messages = []
             if not isinstance(item.get("input"), list):
                 raise HTTPException(422, f"用例 {cid} 的 input 必须是数组")
@@ -178,7 +230,11 @@ class SkillService:
                         raise HTTPException(422, f"用例 {cid} 的消息 JSON 无法解析")
                     if not isinstance(parsed, list):
                         raise HTTPException(422, f"用例 {cid} 的消息须为数组")
+                    if kind == "list" and not isinstance(data, list):
+                        raise HTTPException(422, f"用例 {cid} 的 list.data 必须是消息数组；JSON 字符串请使用 json 类型")
                     messages.extend(parsed)
+                else:
+                    raise HTTPException(422, f"用例 {cid} 的 input.type 仅支持 text、list、json")
             if not messages or any(not isinstance(m, dict) or m.get("role") not in {"system", "developer", "user", "assistant"}
                                    or not isinstance(m.get("content"), str) for m in messages):
                 raise HTTPException(422, f"用例 {cid} 需要有效的纯文本消息数组")
@@ -187,6 +243,13 @@ class SkillService:
             outputs = item.get("output") or [{"type": "onlyllm", "data": "rubric.md"}]
             if not isinstance(outputs, list) or not outputs:
                 raise HTTPException(422, f"用例 {cid} 的 output 须为数组")
+            output_kinds = [o.get("type") for o in outputs if isinstance(o, dict)]
+            if any(not isinstance(kind, str) for kind in output_kinds):
+                raise HTTPException(422, f"用例 {cid} 的 output.type 必须是支持的类型名称")
+            if "tool" in output_kinds and "device_state" in output_kinds:
+                raise HTTPException(422, f"用例 {cid} 不能同时包含 tool 与 device_state；请拆分用例")
+            if any(output_kinds.count(kind) > 1 for kind in set(output_kinds) if kind != "text"):
+                raise HTTPException(422, f"用例 {cid} 的同种结果判据只能出现一次")
             for output in outputs:
                 if not isinstance(output, dict):
                     raise HTTPException(422, f"用例 {cid} 的 output 条目必须是对象")
@@ -194,20 +257,33 @@ class SkillService:
                 if kind not in {"onlyllm", "word", "format", "text", "file", "tool", "device_state"}:
                     raise HTTPException(422, f"用例 {cid} 含不支持的结果类型")
                 if kind == "device_state":
-                    raise HTTPException(422, "当前未配置设备服务，不能校验真实设备状态；Hermes 可执行终端和文件工具")
-                if body.execution_mode == "direct" and kind == "tool":
-                    raise HTTPException(422, "单 API 模式无法校验真实设备状态，请使用文本、关键词、JSON 格式或 Rubric 判据")
+                    if body.execution_mode != "hermes" or not item.get("input_path") or Path(item["input_path"]).suffix.lower() != ".xlsx":
+                        raise HTTPException(422, f"用例 {cid} 的 device_state 需要 Hermes 和已上传的 input_path XLSX 工作簿")
+                    from .spreadsheet import validate_expectation
+                    try:
+                        validate_expectation(output.get("data"))
+                    except ValueError as exc:
+                        raise HTTPException(422, f"用例 {cid} 的表格判据无效：{exc}") from None
                 if kind == "onlyllm":
-                    name = output.get("data") or "rubric.md"
-                    if not isinstance(name, str) or (name != "rubric.md" and name not in assets):
-                        raise HTTPException(422, f"用例 {cid} 的 Rubric 文件未上传，可改为 rubric.md 使用页面评审标准")
+                    raw_name = output.get("data")
+                    if raw_name is not None and not isinstance(raw_name, str):
+                        raise HTTPException(422, f"用例 {cid} 的 onlyllm.data 必须是 Rubric 文件路径字符串")
+                    name = raw_name or "rubric.md"
+                    if name != "rubric.md":
+                        name = resolve_asset(name, cid)
+                        if Path(name).suffix.lower() not in {".md", ".txt"}:
+                            raise HTTPException(422, f"用例 {cid} 的 Rubric 必须是 md/txt 文本文件")
                     if name == "rubric.md" and not body.rubric.strip():
                         raise HTTPException(422, "请填写非空评审标准")
                     output["data"] = name
-                if kind == "format" and not output.get("data") and not body.format_example.strip():
-                    raise HTTPException(422, f"用例 {cid} 缺少 JSON 格式示例")
-                if kind == "format":
+                if kind == "word":
+                    rules = output.get("data")
+                    if not isinstance(rules, dict) or any(not isinstance(rules.get(k, []), list) or any(not isinstance(v, str) for v in rules.get(k, [])) for k in ("whitelist", "blacklist")):
+                        raise HTTPException(422, f"用例 {cid} 的 word.data 需要 whitelist/blacklist 字符串数组")
+                if kind == "format" and weights.get(kind, 0) > 0:
                     example = output.get("data") or body.format_example
+                    if not example:
+                        raise HTTPException(422, f"用例 {cid} 的 output.format.data 为空：请在高级参数填写 OUTPUT_FORMAT_EXAMPLE，或将 format 权重设为 0")
                     try:
                         if isinstance(example, str):
                             example = json.loads(example)
@@ -215,26 +291,27 @@ class SkillService:
                             raise ValueError()
                     except ValueError:
                         raise HTTPException(422, f"用例 {cid} 的格式示例必须是 JSON 对象或数组")
+                    output["data"] = example
                 if kind == "file":
                     data = output.get("data")
                     name = output.get("expect_path") or (data.get("expect_path") if isinstance(data, dict) else None)
-                    if name not in assets:
-                        raise HTTPException(422, f"用例 {cid} 的期望文件未作为附属资源上传")
+                    name = resolve_asset(name, cid)
+                    if Path(name).suffix.lower() not in {".txt", ".md", ".json", ".csv"}:
+                        raise HTTPException(422, f"用例 {cid} 的 file 判据期望文件只支持文本")
                     # Upstream reads these fields separately from data. Never allow
                     # user-supplied host paths to reach either engine.
                     actual = output.get("actual_path") or (data.get("actual_path") if isinstance(data, dict) else None) or "result.txt"
                     output.update(data="", expect_path=name, actual_path=resource_name(actual) if body.execution_mode == "hermes" else "")
-            if not any(body.output_weights.get(o["type"], 0) > 0 for o in outputs):
+            if not any(weights.get(o["type"], 0) > 0 for o in outputs):
                 raise HTTPException(422, f"用例 {cid} 没有权重大于 0 的结果判据")
             item["output"] = outputs
-            item["output_weights"] = cfg["output_weights"]
-            # No arbitrary filesystem or environment hooks are accepted from a dataset.
-            item.pop("pre_condition", None)
+            item["output_weights"] = weights
         cfg["dataset"] = dataset
+        cfg["managed_assets"] = list(managed.values())
         return cfg
 
     def create(self, body, principal):
-        cfg = self.prepare(body)
+        cfg = self.prepare(body, principal)
         caps = self.capabilities(principal)
         if body.execution_mode not in caps["execution_modes"]:
             raise HTTPException(422, "服务器尚未启用 Hermes 执行环境，请选择单 API 执行")
@@ -249,18 +326,40 @@ class SkillService:
             row = {"id": "skill-" + uuid.uuid4().hex[:16], "name": body.name.strip(), "engine": body.engine,
                    "operation": body.operation, "execution_mode": body.execution_mode, "status": "queued", "progress": 0,
                    "created_at": now(), "updated_at": now(), "logs": [], "result": None, "error": "",
-                   "current_round": 0, "model_calls": 0, "case_count": min(len(body.dataset), body.cases_limit or 200),
+                   "current_round": 0, "model_calls": 0, "case_count": min(len(body.dataset), body.cases_limit or len(body.dataset)),
                    "config": cfg, "principal": {"id": principal["id"], "role": principal["role"]},
                    **ownership(principal, body.visibility)}
             directory = self.root / row["id"]
+            snapshot_size = sum(asset["size"] for asset in cfg.get("managed_assets", []))
+            existing_size = sum(asset.get("size", 0)
+                                for job in self.store.snapshot(['skill_jobs']).get("skill_jobs", [])
+                                if job.get("owner_user_id") == principal["id"]
+                                for asset in job.get("config", {}).get("managed_assets", []))
+            if existing_size + snapshot_size > 4 * 1024 ** 3:
+                raise HTTPException(413, "任务文件快照超过个人 4 GB 配额，请联系管理员归档旧任务后重试")
+            if shutil.disk_usage(self.root).free < snapshot_size + 256 * 1024 ** 2:
+                raise HTTPException(507, "服务器空间不足以保存任务文件快照，请联系管理员释放空间")
             try:
                 directory.mkdir(mode=0o700)
             except OSError:
                 raise HTTPException(503, "任务存储目录不可写，请联系管理员检查数据目录权限") from None
             try:
+                assets_dir = directory / "assets"
+                assets_dir.mkdir(mode=0o700)
+                if cfg.get("managed_assets"):
+                    with self.files.lock:
+                        for resource in cfg["managed_assets"]:
+                            # Revalidate ownership at copy time; later deletion cannot affect resume.
+                            meta = self.files.resolve(principal, resource["source_path"])
+                            target = assets_dir / resource["name"]
+                            target.parent.mkdir(parents=True, exist_ok=True)
+                            shutil.copyfile(meta["path"], target)
+                    for resource in cfg["managed_assets"]:
+                        resource.pop("source_path", None)
+                row["workspace_path"] = str(directory.resolve())
                 self.store.update(lambda data: data.setdefault("skill_jobs", []).insert(0, row),collections=['skill_jobs'])
             except Exception:
-                directory.rmdir()
+                shutil.rmtree(directory)
                 raise
         return self.public(row, True)
 

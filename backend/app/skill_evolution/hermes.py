@@ -50,14 +50,21 @@ class InferenceRelay:
 
             def do_POST(self):
                 # /<task-token>/<role>/v1/chat/completions
+                # Drain small invalid-route requests before closing, otherwise Windows
+                # may reset the socket before the caller can receive the 404 response.
+                try:
+                    size = int(self.headers.get("Content-Length", "0"))
+                except ValueError:
+                    return self.reply(400, {"error": {"message": "Invalid request length"}})
+                if not 0 < size <= 8_000_000:
+                    return self.reply(413, {"error": {"message": "Request too large"}})
+                self.connection.settimeout(30)
+                raw_body = self.rfile.read(size)
                 parts = self.path.split("/")
                 if len(parts) != 6 or not secrets.compare_digest(parts[1], relay.token) or parts[2] not in models or parts[3:] != ["v1", "chat", "completions"]:
                     return self.reply(404, {"error": {"message": "Unknown route"}})
                 try:
-                    size = int(self.headers.get("Content-Length", "0"))
-                    if not 0 < size <= 8_000_000:
-                        return self.reply(413, {"error": {"message": "Request too large"}})
-                    body = json.loads(self.rfile.read(size))
+                    body = json.loads(raw_body)
                     streaming = body.get("stream", False)
                     response = request(parts[2], body)
                     if not streaming:
@@ -121,6 +128,17 @@ def install_runner(relay, cfg, models, assets, fatal_errors):
     from src.self_evolve.evaluators.components.session_analyzer import SessionAnalyzer
 
     original_process = SessionAnalyzer._analyze_process
+    original_tool = SessionAnalyzer._analyze_tool
+    def analyze_tool(self, *, trajectory, expected_tool):
+        if isinstance(expected_tool, dict) and "__icap_spreadsheet__" in expected_tool:
+            from .spreadsheet import grade
+            baseline = os.environ.get("ICAP_SPREADSHEET_BASELINE")
+            workspace = os.environ.get("ICAP_HERMES_WORKSPACE")
+            if not baseline or not workspace:
+                raise ValueError("表格用例未提供隔离工作簿或可信基线")
+            return grade(Path(workspace), expected_tool["__icap_spreadsheet__"], baseline_path=Path(baseline))
+        return original_tool(self, trajectory=trajectory, expected_tool=expected_tool)
+    SessionAnalyzer._analyze_tool = analyze_tool
 
     def analyze_process(self, *, trajectory, key_steps):
         score, details = original_process(self, trajectory=trajectory, key_steps=key_steps)
@@ -169,6 +187,28 @@ def install_runner(relay, cfg, models, assets, fatal_errors):
                 target = root / resource["name"]
                 target.parent.mkdir(parents=True, exist_ok=True)
                 target.write_text(resource["content"], encoding="utf-8")
+        item = next((item for item in cfg["dataset"] if str(item["id"]) == str(case_id)), {})
+        baseline = Path(item["input_path"]) if item.get("input_path") else None
+        os.environ.pop("ICAP_SPREADSHEET_BASELINE", None)
+        if baseline:
+            if not baseline.resolve().is_relative_to(assets.resolve()) or not baseline.is_file() or baseline.is_symlink():
+                raise ValueError("用例输入文件不在已快照的任务资源中")
+            shutil.copyfile(baseline, workspace / "input.xlsx" if baseline.suffix.lower() == ".xlsx" else workspace / baseline.name)
+            os.environ["ICAP_SPREADSHEET_BASELINE"] = str(baseline.resolve())
+            input_text += "\n\n平台已将本用例输入工作簿放到当前目录 input.xlsx。只能读取本用例资源，结果须保存到当前目录 output.xlsx。"
+        # Binary workbooks are staged per case, never the whole uploaded spreadsheet collection.
+        for resource in cfg.get("managed_assets", []):
+            source = (assets / resource["name"]).resolve()
+            if str(source) in judge_files or source.suffix.lower() in {".xlsx", ".xls", ".zip"}:
+                continue
+            # Managed JSON datasets may contain the expected answers. Do not expose them to the agent.
+            if source.suffix.lower() == ".json":
+                continue
+            target = workspace / "references" / source.name
+            if target.exists():
+                target = workspace / resource["name"]
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(source, target)
         role = "large" if self.config.hermes_env.get("ICAP_MODEL_ROLE") == "large" else "exec"
         config = {"model": {"default": models[role]["name"], "provider": "custom", "base_url": relay.url(role), "api_key": "icap-task-relay"},
                   "terminal": {"backend": "local", "cwd": str(workspace)},

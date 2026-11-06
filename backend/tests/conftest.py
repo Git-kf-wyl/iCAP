@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import hashlib
+import uuid
 import shutil
 from pathlib import Path
 
@@ -17,9 +18,12 @@ _TMP_ROOT = Path(__file__).resolve().parents[1] / ".pytest-tmp"
 
 @pytest.fixture(scope="session")
 def _session_tmp_root() -> Path:
-    _TMP_ROOT.mkdir(parents=True, exist_ok=True)
-    yield _TMP_ROOT
-    shutil.rmtree(_TMP_ROOT, ignore_errors=True)
+    # Independent pytest processes must not erase each other's SQLite fixtures.
+    session_root = _TMP_ROOT / ('session-' + uuid.uuid4().hex)
+    session_root.mkdir(parents=True, exist_ok=True)
+    yield session_root
+    assert session_root.resolve().is_relative_to(_TMP_ROOT.resolve())
+    shutil.rmtree(session_root, ignore_errors=True)
 
 
 @pytest.fixture()
