@@ -142,20 +142,6 @@
                     <el-icon><Coin /></el-icon>
                     <span style="font-weight:500">测试集仓库</span>
                   </el-menu-item>
-                  <el-sub-menu index="/dataCenter/dataGovernance" class="insideMenu">
-                    <template #title>
-                      <el-icon><Management /></el-icon>
-                      <span class="menuItem" style="font-weight: 500;">数据治理</span>
-                    </template>
-                    <el-sub-menu index="/dataCenter/dataGovernance/aisfCompanion" class="thirdLevelMenu">
-                      <template #title>
-                        <span class="thirdLevelTitle" style="font-weight: 700;">AISF-伴学</span>
-                      </template>
-                      <el-menu-item index="/dataCenter/datasetAnnotation" route="/dataCenter/datasetAnnotation">
-                        <span style="font-weight:500; padding-left: 16px;">在线标注</span>
-                      </el-menu-item>
-                    </el-sub-menu>
-                  </el-sub-menu>
                 </el-sub-menu>
                 <el-sub-menu index="/modelEvaluation" class="insideMenu">
                   <template #title>
