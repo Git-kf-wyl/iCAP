@@ -25,6 +25,7 @@ from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field, StrictInt
 
+from . import harness_eval
 from .access import Visibility, can_view, ownership, require_edit, require_view, visible
 from .auth import AuthService, source_ip
 from .evaluation import (RULER_IDS, RULER_SPECS, EvaluationRunner, flatten_cases,
@@ -108,6 +109,7 @@ class EvalConfig(BaseModel):
     """
     sample_limit: int = Field(default=5, ge=1, le=10)
     sample_limits: dict[str, StrictInt] | None = None
+    sample_ids: list[str] | None = None
     max_tokens: int = Field(default=1024, ge=16, le=8192)
     temperature: float = Field(default=0.0, ge=0, le=2)
     sync_scores: bool = False
@@ -135,7 +137,7 @@ def resolve_sample_limits(spec, config: dict | None) -> dict[str, int] | None:
 class EvalInput(BaseModel):
     model_id: str
     dataset_id: str
-    benchmark: Literal["Ruler1", "Ruler2", "VLM", "AISF", "Dev", "ASR", "MT", "TTS"] = "Ruler1"
+    benchmark: Literal["Ruler1", "Ruler2", "VLM", "AISF", "Dev", "ASR", "MT", "TTS", "Gaia", "TerminalBench2.1"] = "Ruler1"
     visibility: Visibility = "private"
     config: EvalConfig | None = None
 
@@ -144,7 +146,7 @@ class BatchEvalInput(BaseModel):
     """批量评测请求：不支持 config，子任务使用对应尺子的默认参数。"""
     model_ids: list[str] = Field(min_length=1, max_length=4)
     dataset_id: str
-    benchmark: Literal["Ruler1", "Ruler2", "VLM", "AISF", "Dev", "ASR", "MT", "TTS"] = "Ruler1"
+    benchmark: Literal["Ruler1", "Ruler2", "VLM", "AISF", "Dev", "ASR", "MT", "TTS", "Gaia", "TerminalBench2.1"] = "Ruler1"
     visibility: Visibility = "private"
 
 
@@ -357,6 +359,7 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
 
     app.include_router(skill_service.router(authorized))
     app.include_router(skill_service.files.router(authorized))
+    app.include_router(harness_eval.router(authorized))
     app.state.skill_service = skill_service
 
     def scoped_data(principal: dict) -> dict:
@@ -661,6 +664,8 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
             mapping = AGENTCOMPASS_BENCHMARKS[benchmark]
             item["agent"] = {"benchmark": mapping["benchmark"], "harness": mapping["harness"],
                              "environment": mapping["environment"]}
+            # 逐题取样等参数要落到 config，执行器 build_run_kwargs 从这里读 sample_ids
+            item["config"] = config_raw.model_dump() if config_raw else {}
             item["simulated"] = False
             item["result"] = None
         return item

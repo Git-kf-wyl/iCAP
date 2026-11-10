@@ -20,7 +20,7 @@ _VENDOR_DIR = Path(__file__).resolve().parents[2] / "vendor"
 if str(_VENDOR_DIR) not in sys.path:
     sys.path.insert(0, str(_VENDOR_DIR))
 
-# iCAP benchmark 枚举值 → AgentCompass 组件映射（第一版只接 Dev）
+# iCAP benchmark 枚举值 → AgentCompass 组件映射
 AGENTCOMPASS_BENCHMARKS: dict[str, dict] = {
     "Dev": {
         "benchmark": "swebench_verified",
@@ -29,6 +29,29 @@ AGENTCOMPASS_BENCHMARKS: dict[str, dict] = {
         "model_api_protocol": "openai-chat",
         "harness_params": {"step_limit": 100, "command_timeout": 2400},
         "environment_params": {"resources": {"cpu": 2, "memory_mb": 4096}},
+        "benchmark_params": {},
+    },
+    # GAIA：纯问答/推理类，host_process 环境；naive_search_agent 需要
+    # SERPER_API_KEY / JINA_API_KEY 才能用搜索工具，缺省时只依赖模型自身知识。
+    "Gaia": {
+        "benchmark": "gaia",
+        "harness": "naive_search_agent",
+        "environment": "host_process",
+        "model_api_protocol": "openai-chat",
+        "harness_params": {"max_iterations": 30},
+        "environment_params": {},
+        "benchmark_params": {},
+        "needs_judge": True,
+    },
+    # Terminal-Bench 2.1：每题一个官方镜像，由 terminalbench2_1_docker recipe
+    # 从 task.toml 的 environment.docker_image 注入。
+    "TerminalBench2.1": {
+        "benchmark": "terminal_bench_2_1",
+        "harness": "terminus2",
+        "environment": "docker",
+        "model_api_protocol": "openai-chat",
+        "harness_params": {},
+        "environment_params": {},
         "benchmark_params": {},
     },
 }
@@ -51,6 +74,14 @@ def build_run_kwargs(task: dict, model: dict, endpoint: dict, api_key: str,
     benchmark_params = dict(mapping.get("benchmark_params") or {})
     if config.get("sample_ids"):
         benchmark_params["sample_ids"] = [str(x) for x in config["sample_ids"]]
+    if mapping.get("needs_judge") and "judge_model" not in benchmark_params:
+        # 需要 LLM 判分的 benchmark（如 GAIA）用同一端点做裁判
+        benchmark_params["judge_model"] = {
+            "id": model["id"],
+            "base_url": (endpoint.get("url") or "").rstrip("/"),
+            "api_key": api_key or "",
+            "api_protocol": mapping["model_api_protocol"],
+        }
     return {
         "benchmark": mapping["benchmark"],
         "harness": mapping["harness"],

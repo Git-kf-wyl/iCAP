@@ -106,6 +106,7 @@ function close() {
         <el-select v-model="form.benchmark" style="width:100%">
           <el-option v-for="ruler in rulerList" :key="ruler.id" :label="`${ruler.label}（${ruler.scope}）`" :value="ruler.id" />
           <el-option v-for="other in ['VLM', 'AISF', 'Dev', 'ASR', 'MT', 'TTS']" :key="other" :label="`${other}（模拟执行）`" :value="other" />
+          <el-option v-for="agent in ['Gaia', 'TerminalBench2.1']" :key="agent" :label="`${agent}（AgentCompass 真实执行）`" :value="agent" />
         </el-select>
       </el-form-item>
       <el-alert title="评测任务与结果全平台共享，仅管理员可以发起和管理评测。" type="info" :closable="false" />

@@ -11,6 +11,7 @@ const evaluationReport = () => import('../components/rankingScore/evaluationRepo
 const textConversation = () => import('@/components/experienceCenter/textConversation.vue');
 const chatPage = () => import('@/components/experienceCenter/textConversation.vue');
 const onlineAssessment = () => import('@/components/modelEvaluation/onlineAssessment.vue');
+const harnessOnlineAssessment = () => import('@/components/harnessEvaluation/harnessOnlineAssessment.vue');
 const datasetRegister = () => import('@/components/dataCenter/datasetDevelopmentForm/datasetRegister.vue');
 const datasetDetail = () => import('@/components/dataCenter/datasetDevelopmentForm/datasetDetail.vue');
 const evalDatasetDevelopment = () => import('@/components/dataCenter/evalDatasetDevelopment.vue');
@@ -97,6 +98,11 @@ const router = createRouter({
             path: '/modelEvaluation/onlineAssessment',
             name: 'onlineAssessment',
             component: onlineAssessment,
+        },
+        {
+            path: '/harnessEval/online',
+            name: 'harnessOnlineAssessment',
+            component: harnessOnlineAssessment,
         },
         {
             path: '/modelEvaluation/multipleEvaluation/evaluationResult',

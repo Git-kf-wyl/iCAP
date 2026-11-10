@@ -142,7 +142,6 @@
 
               <!-- ===== 数据&评测 模块菜单 ===== -->
               <template v-if="currentModule === 'dataEval'">
-                <el-menu-item index="/agentcompass"><el-icon><Compass /></el-icon><span class="menuItem">AgentCompass 测评</span></el-menu-item>
                 <el-menu-item index="/datasets/manage"><el-icon><Files /></el-icon><span class="menuItem">我的数据资源</span></el-menu-item>
                 <el-sub-menu index="/dataCenter" class="insideMenu">
                   <template #title>
@@ -171,7 +170,7 @@
                 <el-sub-menu index="/modelEvaluation" class="insideMenu">
                   <template #title>
                     <el-icon><DataLine /></el-icon>
-                    <span class="menuItem">测评服务</span>
+                    <span class="menuItem">模型评测服务</span>
                   </template>
                   <el-menu-item index="/modelEvaluation/onlineAssessment" route="/modelEvaluation/onlineAssessment" v-if="!!auth.token">
                     <el-icon><DataBoard /></el-icon>
@@ -184,6 +183,26 @@
                   <el-menu-item index="/modelEvaluation/onlineEvaluation" route="/modelEvaluation/onlineEvaluation" v-if="auth.role === 'admin'">
                     <el-icon><DataAnalysis /></el-icon>
                     <span style="font-weight:500">在线评估</span>
+                  </el-menu-item>
+                </el-sub-menu>
+                <el-sub-menu index="/harnessEval" class="insideMenu">
+                  <template #title>
+                    <el-icon><Cpu /></el-icon>
+                    <span class="menuItem">harness评测</span>
+                  </template>
+                  <el-menu-item index="/harnessEval/online" route="/harnessEval/online" v-if="!!auth.token">
+                    <el-icon><DataBoard /></el-icon>
+                    <span style="font-weight:500">harness在线评估</span>
+                  </el-menu-item>
+                </el-sub-menu>
+                <el-sub-menu index="/agentEval" class="insideMenu">
+                  <template #title>
+                    <el-icon><Compass /></el-icon>
+                    <span class="menuItem">agent评测服务</span>
+                  </template>
+                  <el-menu-item index="/agentcompass" route="/agentcompass">
+                    <el-icon><DataAnalysis /></el-icon>
+                    <span style="font-weight:500">agentCompass在线评估</span>
                   </el-menu-item>
                 </el-sub-menu>
                 <el-sub-menu index="/evalMap" class="insideMenu">
@@ -425,6 +444,9 @@ function resolveModuleFromPath(path: string): string {
   if (path.startsWith('/skill-evolution')) return 'app';
   if (path.startsWith('/agentcompass')) return 'dataEval';
   if (path.startsWith('/datasets/manage')) return 'dataEval';
+  if (path.startsWith('/harnessEval')) return 'dataEval';
+  if (path.startsWith('/agentEval')) return 'dataEval';
+  if (path.startsWith('/harnessBench')) return 'dataEval';
   if (path.startsWith('/chat')) return 'app'; // Chat助手归在Agent应用下
   if (path.startsWith('/agent') || path === '/dataCenter/huggingfaceDownload' || path === '/dataCenter/modelscopeDownload') return 'app';
   if (path.startsWith('/dataCenter') || path.startsWith('/modelEvaluation') || path.startsWith('/evalMap')) return 'dataEval';
@@ -498,6 +520,10 @@ const toggleCollapse = () => {
 };
 
 const validMenuPaths = [
+  "/harnessEval",
+  "/harnessEval/online",
+  "/agentEval",
+  "/agentcompass",
   "/evalMap",
   "/evalMap/benchmarks",
   "/evalMap/capabilities",
