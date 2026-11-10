@@ -102,23 +102,13 @@
             />-->
               <!-- ===== MaaS服务 模块菜单 ===== -->
               <template v-if="currentModule === 'maas'">
-                <el-menu-item index="/models/manage"><el-icon><Setting /></el-icon><span class="menuItem">模型连接管理</span></el-menu-item>
-                <el-menu-item index="/operations"><el-icon><Monitor /></el-icon><span class="menuItem">服务监控</span></el-menu-item>
                 <el-menu-item index="/rankingScore" route="/rankingScore">
                   <el-icon><Histogram /></el-icon>
                   <span class="menuItem">模型榜单</span>
                 </el-menu-item>
-                <el-menu-item index="/modelSelection" route="/modelSelection">
-                  <el-icon><Connection /></el-icon>
-                  <span class="menuItem">模型选型</span>
-                </el-menu-item>
                 <el-menu-item index="/modelSquare" route="/modelSquare">
                   <el-icon><Box /></el-icon>
                   <span class="menuItem">模型广场</span>
-                </el-menu-item>
-                <el-menu-item index="/modelDeploy" route="/modelDeploy">
-                  <el-icon><Cpu /></el-icon>
-                  <span class="menuItem">模型部署</span>
                 </el-menu-item>
                 <el-sub-menu index="/userStatistics" class="insideMenu">
                   <template #title>
