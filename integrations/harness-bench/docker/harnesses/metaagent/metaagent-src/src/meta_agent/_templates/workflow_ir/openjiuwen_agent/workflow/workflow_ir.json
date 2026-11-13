@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "name": "Structured echo",
+  "nodes": [
+    {"id": "start", "type": "start", "inputs": {"query": "${query}", "payload": "${payload}"}},
+    {"id": "end", "type": "end", "inputs": {"message": "${start.query}", "payload": "${start.payload}"}}
+  ],
+  "edges": [{"source": "start", "target": "end"}]
+}

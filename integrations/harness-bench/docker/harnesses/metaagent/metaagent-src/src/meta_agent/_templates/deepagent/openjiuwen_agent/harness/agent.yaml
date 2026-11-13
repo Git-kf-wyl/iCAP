@@ -1,0 +1,14 @@
+card: {name: Business DeepAgent}
+model:
+  model_client_config:
+    client_provider: FusionMind
+    transport_name: fusionmind
+  model_request_config: {model: "${ENV:MODEL_NAME}"}
+system_prompt: Follow the configured business Skill and answer concisely.
+workspace: {root_path: "${ENV:META_AGENT_WORKSPACE}", language: en}
+skills: [openjiuwen_agent/skills]
+language: en
+enable_sys_operation: false
+enable_task_loop: false
+enable_read_image_multimodal: false
+max_iterations: 5

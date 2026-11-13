@@ -216,7 +216,7 @@ async def stream_chat(request:Request,actor=Depends(authorized)):
     key=hashlib.sha256((str(data.get('chat_id','default'))+'|'+str(identifier)).encode()).hexdigest()
     path=root/'chats'/f'{key}.json'
     history=read_document(path) if state_isfile(path) else []
-    body=ChatInput(model_id=identifier,message=query,history=history[-20:],thinking=bool(data.get('isThink')),
+    body=ChatInput(model_id=identifier,message=query,history=history[-20:],thinking=bool(data.get('isThink')),reasoning_effort=data.get('reasoning_effort'),
                    **{k:config[k] for k in ['top_p','temperature','top_k','max_tokens'] if config.get(k) is not None})
     response=await native_chat(body,actor)
     async def stream():

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent评测</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root { --bg:#ffffff; --panel:#f7f8fa; --border:#e5e7eb; --text:#1f2328; --muted:#6b7280; --accent:#2563eb; --ok:#16a34a; --bad:#dc2626; --warn:#d97706; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--text); }
+    header { display:flex; align-items:center; gap:24px; padding:18px 28px; border-bottom:1px solid var(--border); background:var(--panel); }
+    header h1 { font-size:24px; margin:0; }
+    nav { display:flex; gap:8px; flex-wrap:wrap; }
+    nav button { background:transparent; color:var(--muted); border:1px solid var(--border); padding:10px 20px; border-radius:8px; cursor:pointer; font-size:16px; min-width:132px; text-align:center; }
+    nav button.active { color:var(--accent); border-color:var(--accent); background:rgba(37,99,235,.08); }
+    main { padding:24px; max-width:1200px; margin:0 auto; }
+    h2 { font-size:16px; margin:0 0 16px; }
+    .cards { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+    .card { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; }
+    .card h3 { margin:0 0 12px; font-size:14px; color:var(--muted); }
+    .item { padding:8px 10px; border-bottom:1px solid var(--border); }
+    .item:last-child { border-bottom:none; }
+    .item .id { font-weight:600; font-size:14px; }
+    .item .desc { color:var(--muted); font-size:12px; margin-top:2px; }
+    form { display:block; }
+    label { display:block; font-size:14px; color:var(--muted); margin-bottom:4px; }
+    input, select, textarea { width:100%; padding:8px 10px; background:#ffffff; color:var(--text); border:1px solid #eceef1; border-radius:4px; font-size:15px; font-family:inherit; }
+    textarea { font-family:monospace; resize:vertical; }
+    input::placeholder, textarea::placeholder { color:#9ca3af; }
+    .full { grid-column:1 / -1; }
+    .run-mode-tabs { display:flex; gap:8px; margin-bottom:16px; }
+    .run-mode-tabs button { background:transparent; border:1px solid var(--border); color:var(--muted); padding:8px 16px; border-radius:6px; cursor:pointer; font-size:14px; }
+    .run-mode-tabs button.active { color:var(--accent); border-color:var(--accent); background:rgba(37,99,235,.08); }
+    .cmd-preview { font-family:monospace; background:var(--panel); color:var(--muted); }
+    button.primary { background:#CE0E2D; color:#fff; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-size:14px; }
+    button.primary:disabled { opacity:.5; cursor:not-allowed; }
+    table { width:100%; border-collapse:collapse; font-size:13px; }
+    th, td { text-align:left; padding:8px 10px; border-bottom:1px solid var(--border); }
+    th { color:var(--muted); font-weight:600; }
+    tr.clickable { cursor:pointer; }
+    tr.clickable:hover { background:rgba(0,0,0,.04); }
+    .tag { display:inline-block; padding:2px 8px; border-radius:10px; font-size:12px; }
+    .tag.correct { background:rgba(22,163,74,.12); color:var(--ok); }
+    .tag.incorrect { background:rgba(220,38,38,.12); color:var(--bad); }
+    .tag.error { background:rgba(217,119,6,.12); color:var(--warn); }
+    .muted { color:var(--muted); }
+    .kpis { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:20px; }
+    .kpi { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:14px; }
+    .kpi .label { font-size:12px; color:var(--muted); }
+    .kpi .value { font-size:22px; font-weight:700; margin-top:6px; }
+    .back { background:transparent; border:1px solid var(--border); color:var(--muted); padding:6px 14px; border-radius:6px; cursor:pointer; margin-bottom:16px; }
+    .empty { color:var(--muted); padding:24px; text-align:center; }
+    .result-box { grid-column:1/-1; background:#f7f8fa; border:1px solid var(--border); border-radius:6px; padding:12px; font-size:13px; word-break:break-all; }
+    .pagination { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-top:14px; font-size:13px; color:var(--muted); }
+    .pagination .controls { display:flex; align-items:center; gap:8px; }
+    .pagination button { background:#fff; border:1px solid var(--border); color:var(--text); padding:4px 12px; border-radius:6px; cursor:pointer; font-size:13px; }
+    .pagination button:disabled { opacity:.4; cursor:not-allowed; }
+    .pagination input { width:60px; padding:4px 6px; border:1px solid var(--border); border-radius:6px; font-size:13px; text-align:center; }
+    .pagination .refresh-btn { background:var(--accent); color:#fff; border:1px solid var(--accent); }
+    .pagination .refresh-btn:hover { opacity:.9; }
+
+    /* 对比评估 */
+    .compare-btn { background:var(--accent); color:#fff; border:1px solid var(--accent); padding:4px 14px; border-radius:6px; cursor:pointer; font-size:13px; margin-left:12px; }
+    .compare-go { margin-left:8px; padding:4px 14px; font-size:13px; }
+    .compare-go:disabled { opacity:.4; cursor:not-allowed; }
+    .compare-selected { background:rgba(37,99,235,.08); }
+    .compare-table-wrap { overflow-x:auto; }
+    .compare-table { border-collapse:collapse; width:100%; font-size:13px; }
+    .compare-table th, .compare-table td { border:1px solid var(--border); padding:8px 10px; vertical-align:top; text-align:left; }
+    .compare-table th { background:var(--panel); font-weight:600; white-space:nowrap; }
+    .compare-table .dim-head { width:90px; }
+    .compare-table .dim-label { font-weight:600; white-space:nowrap; background:var(--panel); }
+    .dim-id { font-weight:600; margin-bottom:4px; }
+    .dim-params { font-size:12px; color:var(--muted); }
+    .dim-param { display:flex; gap:6px; margin:1px 0; }
+    .dim-key { color:var(--muted); white-space:nowrap; }
+    .dim-val { word-break:break-all; }
+    .compare-legend { display:flex; flex-wrap:wrap; gap:16px; margin-bottom:12px; font-size:13px; }
+    .compare-legend-item { display:flex; align-items:center; gap:6px; }
+    .compare-legend-dot { width:12px; height:12px; border-radius:3px; display:inline-block; flex-shrink:0; }
+    .compare-col-chart { display:flex; align-items:flex-end; justify-content:center; gap:2px; padding:8px 4px 0; }
+    .compare-col { width:90px; flex-shrink:0; display:flex; flex-direction:column; align-items:center; }
+    .compare-col-val { font-size:11px; font-weight:600; margin-bottom:4px; white-space:nowrap; }
+    .compare-col-bar-wrap { width:100%; height:160px; display:flex; align-items:flex-end; justify-content:center; border-bottom:1px solid var(--border); }
+    .compare-col-bar { width:100%; background:var(--accent); border-radius:3px 3px 0 0; min-height:2px; }
+    .compare-col-label { font-size:12px; color:var(--muted); margin-top:6px; text-align:center; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:100%; }
+    .compare-metric { margin-bottom:18px; }
+    .compare-metric-title { font-size:13px; font-weight:600; color:var(--text); margin-bottom:8px; }
+
+    .markdown h1, .markdown h2, .markdown h3 { margin-top:1.2em; margin-bottom:.5em; }
+    .markdown h1 { font-size:22px; }
+    .markdown h2 { font-size:18px; }
+    .markdown h3 { font-size:15px; }
+    .markdown p, .markdown li { font-size:14px; line-height:1.7; }
+    .markdown code { background:#eef1f5; padding:2px 5px; border-radius:4px; font-size:13px; }
+    .markdown pre { background:#12151b; color:#e6e8ee; padding:12px; border-radius:6px; overflow-x:auto; }
+    .markdown pre code { background:transparent; color:inherit; padding:0; }
+    .markdown table { border:1px solid var(--border); }
+    .markdown th, .markdown td { border:1px solid var(--border); }
+    .markdown a { color:var(--accent); }
+    .markdown blockquote { border-left:3px solid var(--border); margin:0; padding-left:12px; color:var(--muted); }
+    .bench-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .bench-card { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; display:flex; flex-direction:column; }
+    .bench-card .name { font-weight:700; color:#000; font-size:15px; }
+    .bench-card .desc { color:var(--muted); font-size:13px; margin-top:8px; flex:1; }
+    .bench-card-actions { display:flex; gap:8px; margin-top:12px; }
+    .action-btn { flex:1; padding:8px 0; border-radius:6px; cursor:pointer; font-size:13px; border:1px solid var(--accent); background:#fff; color:var(--accent); }
+    .action-btn.danger { border-color:var(--bad); background:var(--bad); color:#fff; }
+    .action-btn:disabled { border-color:var(--border); color:var(--muted); cursor:not-allowed; }
+    .action-btn.danger:disabled { background:var(--border); border-color:var(--border); color:#fff; cursor:not-allowed; }
+    .modal { position:fixed; inset:0; background:rgba(0,0,0,.5); display:flex; align-items:center; justify-content:center; z-index:100; }
+    .modal-content { background:#fff; border-radius:10px; width:80%; max-width:900px; max-height:80vh; display:flex; flex-direction:column; }
+    .modal-header { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-bottom:1px solid var(--border); }
+    .modal-header span { font-weight:700; font-size:16px; color:#000; }
+    .modal-close { background:none; border:none; font-size:26px; cursor:pointer; color:var(--muted); line-height:1; }
+    .modal-body { padding:20px 24px; overflow-y:auto; }
+    .bench-card-top { display:flex; align-items:center; justify-content:space-between; }
+    .status-tag { display:inline-block; padding:3px 10px; border-radius:10px; font-size:12px; }
+    .status-tag.ready { background:rgba(22,163,74,.12); color:var(--ok); }
+    .status-tag.download { background:transparent; border:1px solid var(--accent); color:var(--accent); padding:3px 10px; border-radius:10px; font-size:12px; cursor:pointer; }
+    .status-tag.download:disabled { opacity:.5; cursor:not-allowed; }
+    .param-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+    .param-group-title { font-size:16px; color:var(--text); font-weight:600; margin:18px 0 10px; border-bottom:1px solid var(--border); padding-bottom:6px; }
+    .param-field { display:flex; flex-direction:column; }
+    .param-label { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
+    .param-label label { margin:0; font-size:15px; color:var(--text); font-weight:500; }
+    .required { color:var(--bad); }
+    .help-icon { width:18px; height:18px; border:1px solid var(--border); border-radius:50%; color:var(--muted); font-size:12px; line-height:16px; text-align:center; cursor:pointer; user-select:none; flex:none; }
+    .help-icon:hover { color:var(--accent); border-color:var(--accent); }
+    .bool-field { display:flex; align-items:center; gap:6px; min-height:38px; font-size:14px; }
+    .bool-field input { width:auto; }
+    .help-overlay { position:fixed; inset:0; z-index:200; }
+    .help-popover { position:fixed; z-index:201; background:#fff; border:1px solid var(--border); border-radius:8px; box-shadow:0 8px 24px rgba(0,0,0,.15); padding:12px 14px; max-width:340px; font-size:13px; }
+    .help-popover .flag { font-weight:700; color:var(--accent); margin-bottom:6px; font-family:monospace; }
+    .help-popover .text { color:var(--muted); line-height:1.6; white-space:pre-line; }
+
+    .run-info-toggle { cursor:pointer; user-select:none; }
+    .run-specs { display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-bottom:20px; }
+    .run-spec { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:14px; }
+    .run-spec .spec-id { font-weight:700; color:#000; font-size:14px; margin-bottom:8px; }
+    .spec-table { width:100%; border-collapse:collapse; font-size:12px; }
+    .spec-table td { padding:5px 8px; border-bottom:1px solid var(--border); word-break:break-all; vertical-align:top; }
+    .spec-table .spec-k { color:var(--muted); white-space:nowrap; font-family:monospace; width:1%; }
+    .spec-table .spec-v { color:var(--text); }
+    .analysis-block { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; max-height:640px; overflow-y:auto; }
+    .log-block { background:var(--panel); border:1px solid var(--border); border-radius:8px; padding:16px; max-height:640px; overflow-y:auto; }
+    .log-block pre { margin:0; white-space:pre-wrap; word-break:break-all; font-family:monospace; font-size:12px; line-height:1.5; color:var(--text); }
+    .json-tree { font-family:monospace; font-size:12px; line-height:1.5; max-height:70vh; overflow-y:auto; }
+    .json-tree details { margin:2px 0; }
+    .json-tree summary { cursor:pointer; color:var(--text); list-style:none; user-select:none; }
+    .json-tree summary::before { content:'▸ '; color:var(--muted); }
+    .json-tree details[open] > summary::before { content:'▾ '; }
+    .json-tree .json-children { margin-left:16px; border-left:1px solid var(--border); padding-left:8px; }
+    .json-tree .json-row { margin:1px 0; }
+    .json-tree .json-key { color:var(--accent); }
+    .json-tree .json-colon { color:var(--muted); margin-right:4px; }
+    .json-tree .json-meta { color:var(--muted); margin-left:6px; }
+    .json-tree .json-val { color:var(--text); }
+    .json-tree .json-str { color:var(--ok); word-break:break-all; }
+    .json-tree .json-null { color:var(--muted); font-style:italic; }
+    .run-help-icon { display:inline-block; width:18px; height:18px; border:1px solid var(--border); border-radius:50%; color:var(--muted); font-size:12px; line-height:16px; text-align:center; cursor:pointer; user-select:none; margin-left:8px; vertical-align:middle; }
+    .run-help-icon:hover { color:var(--accent); border-color:var(--accent); }
+    .analyzer-group h3 { font-size:14px; color:var(--text); margin:16px 0 8px; border-bottom:1px solid var(--border); padding-bottom:4px; }
+    .analyzer-item { margin-bottom:10px; }
+    .analyzer-name { font-weight:700; font-size:13px; font-family:monospace; color:var(--accent); }
+    .analyzer-desc { font-size:13px; color:var(--text); margin-top:2px; }
+    .analyzer-params { font-size:12px; color:var(--muted); margin-top:2px; }
+    .as-section { margin:6px 0; }
+    .as-section summary { cursor:pointer; font-size:14px; font-weight:600; color:var(--text); user-select:none; list-style:none; }
+    .as-section summary::before { content:'▸ '; color:var(--muted); }
+    .as-section[open] > summary::before { content:'▾ '; }
+    .as-section .as-body { margin-left:14px; border-left:1px solid var(--border); padding-left:10px; margin-top:4px; }
+    .as-section .as-sub > summary { font-weight:500; font-size:13px; }
+  </style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <h1>Agent评测</h1>
+    <nav>
+      <button :class="{active: activeTab==='benchmarks' && !detail}" @click="showTab('benchmarks')">公开测评集</button>
+      <button :class="{active: activeTab==='selfbuilt' && !detail}" @click="showTab('selfbuilt')">自建测评集</button>
+      <button :class="{active: activeTab==='harnesses' && !detail}" @click="showTab('harnesses')">Harnesses</button>
+      <button :class="{active: activeTab==='tasks' && !detail}" @click="showTab('tasks')">任务管理</button>
+    </nav>
+  </header>
+
+  <main>
+    <!-- 详情页（覆盖显示） -->
+    <div v-if="detail">
+      <button class="back" @click="closeDetail">← 返回任务管理</button>
+      <h2>{{ detail.benchmark }} / {{ detail.model }} / {{ detail.run_id }}</h2>
+      <h2 class="run-info-toggle" @click="showRunInfo = !showRunInfo">{{ showRunInfo ? '▾' : '▸' }} 任务信息</h2>
+      <div v-if="showRunInfo" class="run-specs">
+        <div class="run-spec" v-for="s in runSpecs" :key="s.key">
+          <div class="spec-id">{{ s.key }}：{{ s.id || '—' }}</div>
+          <table v-if="flattenParams(s.params).length" class="spec-table">
+            <tbody>
+              <tr v-for="p in flattenParams(s.params)" :key="p.key">
+                <td class="spec-k">{{ p.key }}</td>
+                <td class="spec-v">{{ p.value }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div v-else class="muted">（无参数）</div>
+        </div>
+      </div>
+
+      <h2 class="run-info-toggle" @click="showStats = !showStats">{{ showStats ? '▾' : '▸' }} 统计指标</h2>
+      <div v-if="showStats" class="kpis">
+        <div class="kpi"><div class="label">正确率 <span class="run-help-icon" @click.stop="showHelp({flag:'正确率', help:'待补充'}, $event, 200)">?</span></div><div class="value">{{ fmtRate(kpiCorrect) }}</div>
+          <div class="muted" style="font-size:12px">{{ kpiCounts }}</div></div>
+        <div class="kpi"><div class="label">用例执行时间</div><div class="value">{{ fmtDuration(kpiWall) }}</div></div>
+        <div class="kpi"><div class="label">平均每条用例时延</div><div class="value">{{ fmtSeconds(kpiAvgLatency) }}</div></div>
+        <div class="kpi"><div class="label">token 消耗数</div><div class="value">{{ fmtNumber(kpiTotalTokens) }}</div></div>
+        <div class="kpi"><div class="label">平均 token 消耗</div><div class="value">{{ fmtNumber(kpiAvgTokens) }}</div></div>
+        <div class="kpi"><div class="label">有效用例平均轨迹步数 <span class="run-help-icon" @click.stop="showHelp({flag:'有效用例平均轨迹步数', help:'只统计 completed（成功跑完）用例的平均轨迹步数；区别于 analysis_summary 的 BasicMetricAnalyzer.total_steps.mean（统计全部用例含失败，会被步数少的失败用例拉低，如 43 条 completed 均值 26.58 vs 全量 50 条 24.06）。'}, $event, 200)">?</span></div><div class="value">{{ fmtNumber(kpiAvgSteps) }}</div></div>
+      </div>
+
+      <h2 class="run-info-toggle" @click="showAnalysis = !showAnalysis">{{ showAnalysis ? '▾' : '▸' }} 结果分析 <span class="run-help-icon" @click.stop="openAnalyzerHelp" title="查看分析器说明">?</span></h2>
+      <div v-if="showAnalysis" class="markdown analysis-block">
+        <div v-if="analysisMarkdown" v-html="renderAnalysisSummary(analysisMarkdown)"></div>
+        <div v-else class="empty">无分析数据</div>
+      </div>
+
+      <h2 class="run-info-toggle" @click="showLog = !showLog">{{ showLog ? '▾' : '▸' }} 系统日志</h2>
+      <div v-if="showLog" class="log-block">
+        <pre v-if="runLog">{{ runLog }}</pre>
+        <div v-else class="empty">无日志数据</div>
+      </div>
+
+      <h2 class="run-info-toggle" @click="showDetail = !showDetail">{{ showDetail ? '▾' : '▸' }} 任务明细</h2>
+      <template v-if="showDetail">
+        <table v-if="detailTasks.length">
+          <thead><tr><th>task_id</th><th>结果</th><th>步数</th><th>时延</th><th>token</th></tr></thead>
+          <tbody>
+            <tr v-for="t in pagedDetailTasks" :key="t.task_id" class="clickable" @click="openTaskDetail(t)">
+              <td>{{ t.task_id }}</td>
+              <td><span class="tag" :class="t.outcome">{{ t.outcome }}</span></td>
+              <td>{{ t.steps === null ? '—' : t.steps }}</td>
+              <td>{{ fmtSeconds(t.latency_seconds) }}</td>
+              <td>{{ t.tokens ? fmtNumber(totalOf(t.tokens)) : '—' }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div v-if="detailTasks.length" class="pagination">
+          <span>共 {{ totalDetailPages }} 页 · 第 {{ detailPage }} / {{ totalDetailPages }} 页</span>
+          <div class="controls">
+            <button :disabled="detailPage <= 1" @click="goToDetailPage(detailPage - 1)">上一页</button>
+            <button :disabled="detailPage >= totalDetailPages" @click="goToDetailPage(detailPage + 1)">下一页</button>
+            <span>跳转至</span>
+            <input v-model.number="detailJump" type="number" min="1" :max="totalDetailPages" placeholder="页码" @keyup.enter="jumpToDetailPage">
+            <button @click="jumpToDetailPage">跳转</button>
+          </div>
+        </div>
+        <div v-else class="empty">无任务明细</div>
+      </template>
+    </div>
+
+    <!-- 公开测评集页 -->
+    <div v-else-if="activeTab==='benchmarks'">
+      <h2>公开测评集</h2>
+      <div class="bench-grid">
+        <div class="bench-card" v-for="b in publicBenchmarks" :key="b.id">
+          <div class="bench-card-top">
+            <div class="name">{{ b.id }}</div>
+            <span v-if="isReady(b.id)" class="status-tag ready">就绪</span>
+            <button v-else class="status-tag download" @click.stop="downloadBenchmark(b.id)" :disabled="downloadingId===b.id">{{ downloadingId===b.id ? '下载中…' : '下载' }}</button>
+          </div>
+          <div class="desc">{{ b.description }}</div>
+          <div class="bench-card-actions">
+            <button class="action-btn" @click="selectBenchmark(b.id)">详细描述</button>
+            <button class="action-btn" :disabled="!isReady(b.id)" @click="previewBenchmark(b.id)">预览</button>
+            <button class="action-btn danger" :disabled="!isReady(b.id)" @click="deleteBenchmark(b.id)">删除</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 自建测评集页 -->
+    <div v-else-if="activeTab==='selfbuilt'">
+      <h2>自建测评集</h2>
+      <div class="bench-grid">
+        <div class="bench-card" v-for="b in selfBuiltBenchmarks" :key="b.id">
+          <div class="bench-card-top">
+            <div class="name">{{ b.id }}</div>
+            <span v-if="isReady(b.id)" class="status-tag ready">就绪</span>
+            <button v-else class="status-tag download" @click.stop="downloadBenchmark(b.id)" :disabled="downloadingId===b.id">{{ downloadingId===b.id ? '下载中…' : '下载' }}</button>
+          </div>
+          <div class="desc">{{ b.description }}</div>
+          <div class="bench-card-actions">
+            <button class="action-btn" @click="selectBenchmark(b.id)">详细描述</button>
+            <button class="action-btn" :disabled="!isReady(b.id)" @click="previewBenchmark(b.id)">预览</button>
+            <button class="action-btn danger" :disabled="!isReady(b.id)" @click="deleteBenchmark(b.id)">删除</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Harnesses 页 -->
+    <div v-else-if="activeTab==='harnesses'">
+      <h2>Harnesses</h2>
+      <div class="bench-grid">
+        <div class="bench-card" v-for="h in components.harnesses" :key="h.id">
+          <div class="bench-card-top">
+            <div class="name">{{ h.id }}</div>
+          </div>
+          <div class="desc">{{ h.description }}</div>
+          <div class="bench-card-actions">
+            <button class="action-btn" @click="selectHarness(h.id)">详细描述</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 任务管理页 -->
+    <div v-else-if="activeTab==='tasks'">
+      <h2>创建任务</h2>
+      <div class="run-mode-tabs">
+        <button type="button" @click="openRunForm">表单启动</button>
+        <button type="button" @click="openCliForm">CLI 命令启动</button>
+      </div>
+
+      <div v-if="showRunModal" class="modal" @click.self="closeRunForm">
+        <div class="modal-content" style="max-width:1100px">
+          <div class="modal-header">
+            <span>表单启动</span>
+            <button class="modal-close" @click="closeRunForm">×</button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="submitRun">
+        <div class="param-grid">
+          <div class="param-field">
+            <div class="param-label"><label>Benchmark <span class="required">*</span></label><span class="help-icon" @click.stop="showHelp({flag:'benchmark', help:'Benchmark id（评测集，如 swebench_verified）'}, $event)">?</span></div>
+            <select v-model="runForm.benchmark">
+              <option value="">请选择</option>
+              <option v-for="b in components.benchmarks" :key="b.id" :value="b.id">{{ b.id }}</option>
+            </select>
+          </div>
+          <div class="param-field">
+            <div class="param-label"><label>Harness <span class="required">*</span></label><span class="help-icon" @click.stop="showHelp({flag:'harness', help:'Harness id（agent 框架，如 mini_swe_agent）'}, $event)">?</span></div>
+            <select v-model="runForm.harness">
+              <option value="">请选择</option>
+              <option v-for="h in components.harnesses" :key="h.id" :value="h.id">{{ h.id }}</option>
+            </select>
+          </div>
+          <div class="param-field">
+            <div class="param-label"><label>Model <span class="required">*</span></label><span class="help-icon" @click.stop="showHelp({flag:'model', help:'Model id（模型命名空间，如 qwen3.5-plus）'}, $event)">?</span></div>
+            <input v-model="runForm.model" placeholder="qwen3.5-plus">
+          </div>
+        </div>
+
+        <div v-for="g in runParamGroups" :key="g.group">
+          <h3 class="param-group-title">{{ g.group }}<span v-if="groupHelpFor(g.group)" class="help-icon" @click.stop="showGroupHelp(g.group, $event)">?</span></h3>
+          <div class="param-grid">
+            <div v-for="d in g.items" :key="d.key" class="param-field">
+              <div class="param-label">
+                <label>{{ d.flag }}<span v-if="d.required" class="required">*</span></label>
+                <span class="help-icon" @click.stop="showHelp(d, $event)">?</span>
+              </div>
+              <input v-if="d.type==='text'" v-model="runForm[d.key]" :placeholder="d.placeholder">
+              <input v-else-if="d.type==='number'" v-model.number="runForm[d.key]" type="number" :placeholder="d.placeholder" :min="d.min">
+              <textarea v-else-if="d.type==='json'" v-model="runForm[d.key]" rows="3" :placeholder="d.placeholder"></textarea>
+              <select v-else-if="d.type==='select'" v-model="runForm[d.key]">
+                <option v-for="o in d.options" :key="o" :value="o">{{ o }}</option>
+              </select>
+              <label v-else-if="d.type==='bool'" class="bool-field"><input type="checkbox" v-model="runForm[d.key]"><span>启用</span></label>
+            </div>
+          </div>
+        </div>
+
+        <div class="param-grid" style="margin-top:16px">
+          <div class="full">
+            <label>命令预览</label>
+            <input class="cmd-preview" :value="previewCommand" readonly placeholder="填写 benchmark/harness/model 后自动生成">
+          </div>
+          <div class="full">
+            <button class="primary" type="submit" :disabled="loading">{{ loading ? '启动中…' : '创建任务' }}</button>
+          </div>
+          <div v-if="runValidation" class="result-box full">
+            <div v-if="runValidation.pass" style="color:#1a7f37;font-weight:600">✓ 校验通过，开始创建任务</div>
+            <div v-else>
+              <div style="color:var(--bad);font-weight:600">✗ 校验未通过：</div>
+              <ul style="margin:4px 0 0 18px;color:var(--bad)"><li v-for="(e,i) in runValidation.errors" :key="i">{{ e }}</li></ul>
+            </div>
+          </div>
+          <div v-if="startResult" class="result-box full">
+            <div v-if="startResult.started">已启动，PID {{ startResult.pid }}</div>
+            <div v-else style="color:var(--bad)">{{ startResult.error || '启动失败' }}</div>
+            <div v-if="startResult.command" style="margin-top:6px">{{ startResult.command }}</div>
+            <div v-if="startResult.started" class="muted" style="margin-top:6px">已加入下方评测任务列表</div>
+          </div>
+        </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="showCliModal" class="modal" @click.self="closeCliForm">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span>CLI 命令启动</span>
+            <button class="modal-close" @click="closeCliForm">×</button>
+          </div>
+          <div class="modal-body">
+            <form @submit.prevent="submitCli">
+        <div class="full">
+          <label>完整 CLI 命令（以 agentcompass run 或 python -m agentcompass.cli run 开头）</label>
+          <textarea v-model="cliCommand" rows="5" placeholder="agentcompass run browsecomp_zh openai_chat qwen3.5-plus --model-base-url https://... --model-api-key ..."></textarea>
+        </div>
+        <div class="full">
+          <button class="primary" type="submit" :disabled="cliLoading">{{ cliLoading ? '启动中…' : '创建任务' }}</button>
+        </div>
+        <div v-if="cliValidation" class="result-box">
+          <div v-if="cliValidation.pass" style="color:#1a7f37;font-weight:600">✓ 校验通过，开始创建任务</div>
+          <div v-else>
+            <div style="color:var(--bad);font-weight:600">✗ 校验未通过：</div>
+            <ul style="margin:4px 0 0 18px;color:var(--bad)"><li v-for="(e,i) in cliValidation.errors" :key="i">{{ e }}</li></ul>
+          </div>
+        </div>
+        <div v-if="cliResult" class="result-box">
+          <div v-if="cliResult.started">已启动，PID {{ cliResult.pid }}</div>
+          <div v-else style="color:var(--bad)">{{ cliResult.error || '启动失败' }}</div>
+          <div v-if="cliResult.command" style="margin-top:6px">{{ cliResult.command }}</div>
+          <div v-if="cliResult.started" class="muted" style="margin-top:6px">已加入下方评测任务列表</div>
+        </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div v-if="completionNotice" class="result-box" style="margin-top:12px">{{ completionNotice }}</div>
+
+      <h2 style="margin-top:32px">
+        评测任务列表
+        <button type="button" class="compare-btn" @click="toggleCompareMode">{{ compareMode ? '退出选择' : '对比评估' }}</button>
+        <button v-if="compareMode" type="button" class="primary compare-go" :disabled="compareSelected.length < 2" @click="startCompare">开始对比（已选 {{ compareSelected.length }}）</button>
+      </h2>
+      <table v-if="runs.length">
+        <thead><tr><th v-if="compareMode" style="width:40px"></th><th>任务名</th><th>Benchmark</th><th>Model</th><th>Harness</th><th>时间</th><th>运行总时间</th><th>状态</th><th>进度</th></tr></thead>
+        <tbody>
+          <tr v-for="r in pagedRuns" :key="r.benchmark+'/'+r.model+'/'+r.run_id" :class="['clickable', compareMode && isSelected(r) ? 'compare-selected' : '']" @click="compareMode ? toggleSelectRun(r) : openDetail(r)">
+            <td v-if="compareMode"><input type="checkbox" :checked="isSelected(r)" @click.stop @change="toggleSelectRun(r)"></td>
+            <td>{{ r.run_id }}</td>
+            <td>{{ r.benchmark }}</td>
+            <td>{{ r.model }}</td>
+            <td>{{ r.harness }}</td>
+            <td class="muted">{{ fmtTime(r.started_at) }}</td>
+            <td class="muted">{{ fmtDuration(r.total_wall_seconds) }}</td>
+            <td><span class="tag" :class="statusTagClass(r.status)">{{ r.status || '—' }}</span></td>
+            <td>{{ fmtProgress(r) }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div v-if="runs.length" class="pagination">
+        <span>共 {{ totalRuns }} 条测评任务 · 第 {{ runsPage }} / {{ totalRunsPages }} 页</span>
+        <div class="controls">
+          <button :disabled="runsPage <= 1" @click="goToRunsPage(runsPage - 1)">上一页</button>
+          <button :disabled="runsPage >= totalRunsPages" @click="goToRunsPage(runsPage + 1)">下一页</button>
+          <span>跳转至</span>
+          <input v-model.number="runsJump" type="number" min="1" :max="totalRunsPages" placeholder="页码" @keyup.enter="jumpToRunsPage">
+          <button @click="jumpToRunsPage">跳转</button>
+          <button class="refresh-btn" @click="refreshRuns">刷新列表</button>
+          <span v-if="refreshNotice" :style="refreshNotice.ok ? 'color:var(--ok)' : 'color:var(--bad)'" style="font-size:13px">{{ refreshNotice.ok ? '✓' : '✗' }} {{ refreshNotice.text }}</span>
+        </div>
+      </div>
+      <div v-else class="empty">暂无评测任务</div>
+
+      <div v-if="comparePanelOpen" class="modal" @click.self="closeCompare">
+        <div class="modal-content" style="max-width:1100px">
+          <div class="modal-header">
+            <span>对比评估</span>
+            <button class="modal-close" @click="closeCompare">×</button>
+          </div>
+          <div class="modal-body">
+            <div v-if="compareLoading" class="empty">加载中…</div>
+            <template v-else-if="compareTasks.length">
+              <h3 style="margin:0 0 12px">任务信息</h3>
+              <div class="compare-table-wrap">
+                <table class="compare-table">
+                  <thead><tr><th class="dim-head">维度</th><th v-for="t in compareTasks" :key="t.key">{{ t.run_id }}</th></tr></thead>
+                  <tbody>
+                    <tr v-for="d in compareDims" :key="d.key">
+                      <td class="dim-label">{{ d.label }}</td>
+                      <td v-for="t in compareTasks" :key="t.key">
+                        <div class="dim-id">{{ t[d.key].id }}</div>
+                        <div class="dim-params">
+                          <div v-for="p in t[d.key].params" :key="p.key" class="dim-param"><span class="dim-key">{{ p.key }}</span><span class="dim-val">{{ p.value }}</span></div>
+                          <div v-if="!t[d.key].params.length" class="muted">（无参数）</div>
+                        </div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h3 style="margin:20px 0 8px">统计指标对比</h3>
+              <div class="compare-legend">
+                <span v-for="t in compareTasks" :key="t.key" class="compare-legend-item">
+                  <span class="compare-legend-dot" :style="{ background: t.color }"></span>{{ t.run_id }}
+                </span>
+              </div>
+              <div v-for="m in compareMetrics" :key="m.key" class="compare-metric">
+                <div class="compare-metric-title">{{ m.label }}</div>
+                <div class="compare-col-chart">
+                  <div v-for="t in compareTasks" :key="t.key" class="compare-col">
+                    <div class="compare-col-val" :style="{ color: t.color }">{{ cmpFmt(t, m) }}</div>
+                    <div class="compare-col-bar-wrap">
+                      <div class="compare-col-bar" :style="{ height: cmpPct(t, m) + '%', background: t.color }"></div>
+                    </div>
+                    <div class="compare-col-label" :title="t.run_id" :style="{ color: t.color }">{{ t.run_id }}</div>
+                  </div>
+                </div>
+              </div>
+            </template>
+            <div v-else class="empty">无可对比数据</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- benchmark 详细描述弹窗 -->
+  <div v-if="showBenchmarkModal" class="modal" @click.self="closeBenchmarkModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>{{ selectedBenchmark }}</span>
+        <button class="modal-close" @click="closeBenchmarkModal">×</button>
+      </div>
+      <div class="modal-body">
+        <div v-if="benchmarkLoading" class="empty">加载中…</div>
+        <div v-else-if="benchmarkDoc && benchmarkDoc.found" class="markdown" v-html="renderMarkdown(benchmarkDoc.content)"></div>
+      </div>
+    </div>
+  </div>
+  <!-- 预览弹窗 -->
+  <div v-if="showPreviewModal" class="modal" @click.self="closePreviewModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>{{ previewTitle }}（前 {{ previewData ? previewData.tasks.length : 0 }} 条 / 共 {{ previewData ? previewData.total : 0 }} 条）</span>
+        <button class="modal-close" @click="closePreviewModal">×</button>
+      </div>
+      <div class="modal-body">
+        <div v-if="previewLoading" class="empty">加载中…</div>
+        <div v-else-if="previewData && previewData.ok">
+          <table>
+            <thead><tr><th>task_id</th><th>category</th><th>question</th></tr></thead>
+            <tbody>
+              <tr v-for="t in previewData.tasks" :key="t.task_id">
+                <td>{{ t.task_id }}</td>
+                <td>{{ t.category }}</td>
+                <td>{{ t.question }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div v-else class="empty">{{ previewData && previewData.error ? previewData.error : '加载失败' }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- harness 详细描述弹窗 -->
+  <div v-if="showHarnessModal" class="modal" @click.self="closeHarnessModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>{{ selectedHarness }}</span>
+        <button class="modal-close" @click="closeHarnessModal">×</button>
+      </div>
+      <div class="modal-body">
+        <div v-if="harnessLoading" class="empty">加载中…</div>
+        <div v-else-if="harnessDoc && harnessDoc.found" class="markdown" v-html="renderMarkdown(harnessDoc.content)"></div>
+        <div v-else class="empty">暂无描述</div>
+      </div>
+    </div>
+  </div>
+  <!-- 任务详情弹窗 -->
+  <div v-if="showTaskDetailModal" class="modal" @click.self="closeTaskDetail">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>{{ taskDetailData ? taskDetailData.task_id : '' }}</span>
+        <button class="modal-close" @click="closeTaskDetail">×</button>
+      </div>
+      <div class="modal-body">
+        <div v-if="taskDetailLoading" class="empty">加载中…</div>
+        <div v-else-if="taskDetailData && taskDetailData.data" class="json-tree" v-html="renderJsonTree(taskDetailData.data, '', 0)"></div>
+        <div v-else class="empty">{{ taskDetailData && taskDetailData.error ? taskDetailData.error : '无详情数据' }}</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 分析器说明弹窗 -->
+  <div v-if="showAnalyzerHelp" class="modal" @click.self="closeAnalyzerHelp">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span>分析器（Analyzer）说明</span>
+        <button class="modal-close" @click="closeAnalyzerHelp">×</button>
+      </div>
+      <div class="modal-body">
+        <p class="muted" style="margin-top:0">通用参数：所有分析器都有 <code>only_incorrect</code>（只分析答错样本，默认 false）和 <code>threshold</code>（badcase 分数阈值，默认 0.0）；下面只列各分析器特有参数。</p>
+        <div v-for="g in analyzerHelpGroups" :key="g.group" class="analyzer-group">
+          <h3>{{ g.group }}</h3>
+          <div v-for="a in g.items" :key="a.name" class="analyzer-item">
+            <div class="analyzer-name">{{ a.name }}</div>
+            <div class="analyzer-desc">{{ a.desc }}</div>
+            <div v-if="a.params" class="analyzer-params">参数：{{ a.params }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 参数帮助气泡 -->
+  <div v-if="helpPopover.visible" class="help-overlay" @click="hideHelp"></div>
+  <div v-if="helpPopover.visible" class="help-popover" :style="{ left: helpPopover.x + 'px', top: helpPopover.y + 'px' }">
+    <div class="flag">{{ helpPopover.flag }}</div>
+    <div class="text">{{ helpPopover.text }}</div>
+  </div>
+</div>
+<script src="/static/app.js?v=6"></script>
+</body>
+</html>

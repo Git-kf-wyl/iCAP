@@ -32,7 +32,8 @@ class ChatService {
             userId = 'admin',
             isDeepResearch = false,
             deepResearchType = 'fast',
-            isThink=false
+            isThink=false,
+            reasoningEffort=undefined
         },
         updateMessage = (message) => {
             console.log(message)
@@ -69,7 +70,8 @@ class ChatService {
                     user_id: userId,
                     isDeepResearch: isDeepResearch,
                     deepResearchType: deepResearchType,
-                    isThink:isThink
+                    isThink:isThink,
+                    ...(isThink && reasoningEffort ? {reasoning_effort:reasoningEffort} : {})
                 }),
                 signal    // 透传 signal，用于中断
             });

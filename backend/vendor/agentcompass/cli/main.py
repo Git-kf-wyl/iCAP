@@ -34,9 +34,22 @@ from agentcompass.runtime.orchestration import (
 
 logger = logging.getLogger(__name__)
 
+
+def _cli_version() -> str:
+    """Report the installed distribution version across distribution-name aliases."""
+    from importlib.metadata import PackageNotFoundError, version as package_version
+    for name in ("agentcompass", "agent-eval-agentcompass"):
+        try:
+            return package_version(name)
+        except PackageNotFoundError:
+            continue
+    return "0.0.0"
+
+
 app = App(
     name="agentcompass",
     help="AgentCompass direct evaluation CLI.",
+    version=_cli_version(),
     result_action="return_int_as_exit_code_else_zero",
 )
 list_app = App(
@@ -1052,6 +1065,20 @@ def list_analyzer_command() -> int:
 
 app.command(list_app, name="list")
 app.command(config_app, name="config")
+
+
+@app.command(name="web")
+def web_command(
+    host: Annotated[str, Parameter(help="Bind host")] = "127.0.0.1",
+    port: Annotated[int, Parameter(help="Bind port")] = 8000,
+) -> int:
+    """Launch the local web UI (FastAPI backend + static frontend)."""
+    import uvicorn
+
+    from agentcompass.web.app import app as web_app
+
+    uvicorn.run(web_app, host=host, port=port, log_level="info")
+    return 0
 
 
 def main(argv: list[str] | None = None) -> int:

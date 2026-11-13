@@ -6,7 +6,7 @@
         <el-carousel-item v-for="(slide, index) in carouselSlides" :key="index">
           <div class="carousel-slide" @click="navigateTo(slide.path)">
             <span v-if="index === 1" class="imageReportName">{{reportName}}</span>
-            <img :src="slide.image" :alt="slide.title" class="carousel-image" />
+            <img :src="slide.image" :alt="slide.title" class="carousel-image" decoding="async" :fetchpriority="index === 0 ? 'high' : 'low'" :loading="index === 0 ? 'eager' : 'lazy'" />
           </div>
         </el-carousel-item>
       </el-carousel>
@@ -166,7 +166,7 @@
 
 <script lang="ts" setup>
 import {useReadUpdates} from '@/useReadUpdates.js';
-import { ref, onMounted, onBeforeUnmount, computed, nextTick, defineAsyncComponent } from "vue";
+import { ref, onMounted, onBeforeUnmount, computed, nextTick } from "vue";
 import { useRouter } from "vue-router";
 import {
   Promotion,
@@ -182,7 +182,7 @@ import {
 import { getCurrentFullRes, getMultiModelData } from "@/api/dataService.js";
 import { getAllPublishedTasks } from "@/api/runService.js";
 import { useStore } from "vuex";
-const rankingScoreBarChart = defineAsyncComponent(() => import("@/charts/rankingScoreBarChart.vue"));
+import rankingScoreBarChart from "@/charts/VisibleRankingChart.vue";
 import { ModelService } from "@/services/modelService.js";
 import { useReportPreviewStore } from "@/stores/reportPreview.js";
 
@@ -773,7 +773,9 @@ const refreshHome = async () => {
       audioLoading.value = false;
     }
   })();
-  await Promise.all([reportsReady, llmReady, multiReady]);
+  // A slow report-list request must not hold back independent ranking results.
+  void reportsReady;
+  await Promise.all([llmReady, multiReady]);
   // 合并 ruler2 数据：getCurrentFullRes 包含 aisf_llm_gaixie，
   // getMultiModelData 包含 aisf_banxue、aisf_gui_plan、aisf_gui_vla
   // 注意：两个 API 可能包含相同模型，需要合并 result 数组而非覆盖

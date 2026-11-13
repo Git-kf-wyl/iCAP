@@ -46,7 +46,8 @@ def legacy_model(model: dict, registry, *, full=False) -> dict:
                        'api_key':registry.api_key(endpoint) if full else '',
                        'is_openai_format':True,'is_available':True,'params':values})
     first=model.get('endpoints',[{}])[0] if model.get('endpoints') else {}
-    return {'model_id':model['id'],'status':1,'is_available':bool(params),
+    from .model_thinking import capabilities
+    return {'model_id':model['id'],'status':1,'is_available':bool(params),'thinking_capabilities':capabilities(model),
             'visibility':model.get('visibility','public'),'owner_user_id':model.get('owner_user_id'),
             'can_edit':model.get('can_edit',False),
             'info':{'model_name':model['name'],'display_name':model['name'],'model_desc':model.get('description') or f"{model.get('provider','')} · 已接入 API 服务",

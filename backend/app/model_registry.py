@@ -62,6 +62,14 @@ class ModelInput(BaseModel):
     logo_url: str = Field(default="", max_length=2048)
     visibility: Literal["private", "public"] = "private"
     endpoints: list[EndpointInput] = Field(min_length=1, max_length=20)
+    effort_levels: list[str] = Field(default_factory=list, max_length=12)
+
+    @field_validator('effort_levels')
+    @classmethod
+    def valid_efforts(cls,value):
+        if any(level not in {'minimal','low','medium','high','max','xhigh'} for level in value):
+            raise ValueError('思考档位无效')
+        return list(dict.fromkeys(value))
 
     @field_validator("id", "name", "provider")
     @classmethod
@@ -276,6 +284,7 @@ class ModelRegistry:
             "id": body.id,
             "name": body.name,
             "provider": body.provider,
+            "effort_levels": body.effort_levels if "effort_levels" in body.model_fields_set else (existing or {}).get("effort_levels",[]),
             "logo_url": body.logo_url,
             "source": (existing or {}).get("source", "用户注册"),
             "owner_user_id": existing.get("owner_user_id") if existing is not None else (actor or {}).get("id"),

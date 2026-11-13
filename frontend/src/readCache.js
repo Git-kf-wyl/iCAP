@@ -6,6 +6,7 @@ import {reactive} from 'vue'
 const paths = new Set(['/v1/get_model_info','/v1/get_current_full_res','/v1/get_current_multi_full_res',
   '/v1/get_testcase_info','/v1/dataset/counts','/v1/get_all_published_tasks','/v1/get_all_report_tasks',
   '/v1/get_evaluation_result','/v1/lmarena/leaderboard','/v1/get_run_test_progress_list','/api/models','/api/datasets','/api/evaluations','/api/skill-evolution/capabilities'])
+const homepagePaths = new Set(['/v1/get_current_full_res','/v1/get_current_multi_full_res','/v1/get_all_published_tasks'])
 const bootstrapPaths = new Set([...paths].filter(path=>path.startsWith('/v1/') && !path.endsWith('get_run_test_progress_list')))
 const evaluationPaths=new Set(['/v1/get_current_full_res','/v1/get_current_multi_full_res','/v1/lmarena/leaderboard','/v1/get_evaluation_result','/v1/get_run_test_progress_list','/v1/get_all_report_tasks','/v1/get_all_published_tasks','/api/evaluations'])
 let evaluationRevision='', revisionTimer, revisionPending=false
@@ -183,7 +184,17 @@ export function installReadCache(client) {
       inflight.set(url,promise);return promise
     }
     let row=records.get(url)
-    if(!row && boot && bootstrapPaths.has(path)){await boot.promise;assertSession();row=records.get(url)}
+    if(!row && boot && bootstrapPaths.has(path)){
+      // Bootstrap is an optimization, not a prerequisite for this page's data.
+      // Give a nearly complete snapshot a short chance to avoid duplicate reads.
+      let timer
+      try {
+        if(homepagePaths.has(path))await Promise.race([boot.promise,new Promise(resolve=>{timer=setTimeout(resolve,120)})])
+        else await boot.promise
+      }
+      finally {clearTimeout(timer)}
+      assertSession();row=records.get(url)
+    }
     if(generation!==epoch)throw new axios.CanceledError('Data changed during request',config)
     const freshFor=(path.endsWith('get_run_test_progress_list') || path==='/api/evaluations')?3000:15000
     if(row && Date.now()-row.time<MAX_AGE && generation===epoch) {

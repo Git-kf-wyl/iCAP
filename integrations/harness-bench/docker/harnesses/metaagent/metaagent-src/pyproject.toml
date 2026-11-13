@@ -1,0 +1,88 @@
+[build-system]
+requires = ["setuptools==82.0.1"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "meta-agent"
+version = "0.1.0.dev0"
+description = "MetaAgent orchestration and platform integration for OpenJiuwen"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+  "a2a-sdk[http-server,sqlite]==1.0.0",
+  "aiohttp>=3.14.5,<4",
+  "packaging>=24,<27",
+  "PyYAML>=6.0.3,<7",
+  "openjiuwen[all-a2a,observability,redis,sqlite] @ git+https://gitcode.com/openJiuwen/agent-core.git@4cd9df83855c0504af314655fbd7e2f34a0442fa",
+]
+
+[project.optional-dependencies]
+postgres = ["psycopg[binary]>=3.2,<4", "asyncpg>=0.30,<1"]
+eval = ["langfuse==5.1.0"]
+
+[dependency-groups]
+dev = [
+  "asyncpg>=0.30,<1",
+  "httpx>=0.28,<1",
+  "mcp>=1.26,<2",
+  "mypy>=1.15,<2",
+  "psycopg[binary]>=3.2,<4",
+  "pytest>=9.0.2,<10",
+  "pytest-asyncio>=1.3,<2",
+  "pytest-timeout>=2.4,<3",
+  "ruff>=0.15.10,<0.16",
+  "types-PyYAML>=6.0.12,<7",
+]
+
+[project.scripts]
+meta-agent = "meta_agent.cli:main"
+meta-agent-worker = "agentworker.__main__:main"
+meta-agent-package = "meta_agent.package_build:main"
+
+[project.entry-points."openjiuwen.harness_providers"]
+meta_agent = "meta_agent.team.provider:MetaAgentHarnessProvider"
+
+[tool.uv]
+required-version = ">=0.11.19"
+# The upstream metadata references a branch. Retain the exact resolution
+# from agent-core's lockfile so regenerating our lock cannot move it silently.
+override-dependencies = [
+  "intelli-router @ git+https://gitcode.com/openJiuwen/agent-protocol.git@9164f3673ec78ed09ab4086fc3abf7bf947e58a7#subdirectory=intelli_router",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+meta_agent = ["py.typed", "_templates/**/*"]
+meta_agent_adapter = ["py.typed"]
+agentworker = ["py.typed"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "-ra --strict-markers --import-mode=importlib"
+timeout = 60
+markers = [
+  "integration: exercises the real pinned OpenJiuwen kernel",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+extend-exclude = ["review"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src"]
+
+# The pinned kernel ships no py.typed marker. Our API is checked strictly;
+# kernel boundary behavior is covered by real integration tests.
+[[tool.mypy.overrides]]
+module = ["openjiuwen.*", "google.protobuf.*"]
+ignore_missing_imports = true

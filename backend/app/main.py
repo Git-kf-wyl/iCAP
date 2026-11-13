@@ -190,6 +190,7 @@ class ChatInput(BaseModel):
     message: str = Field(min_length=1, max_length=8000)
     history: list[dict[str, str]] = Field(default_factory=list, max_length=20)
     thinking: bool = False
+    reasoning_effort: str | None = None
     top_k: int | None = Field(default=None, ge=0, le=1000)
     top_p: float | None = Field(default=None, ge=0, le=1)
     temperature: float | None = Field(default=None, ge=0, le=2)
@@ -360,6 +361,8 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
     app.include_router(skill_service.router(authorized))
     app.include_router(skill_service.files.router(authorized))
     app.include_router(harness_eval.router(authorized))
+    from .harness_proxy import router as harness_proxy_router
+    app.include_router(harness_proxy_router(auth))
     app.state.skill_service = skill_service
 
     def scoped_data(principal: dict) -> dict:
@@ -802,7 +805,8 @@ def create_app(data_dir: str | Path | None = None, demo: bool | None = None,
         if model.get("provider", "").lower() != "deepseek" or endpoint.get("self_deployed"):
             payload["top_k"] = body.top_k if body.top_k is not None else endpoint["top_k"]
         schema = endpoint.get("thinking_schema") or {}
-        payload.update(schema.get("enabled" if body.thinking else "disabled", {}))
+        from .model_thinking import apply as apply_thinking
+        apply_thinking(payload,model,endpoint,body.thinking,body.reasoning_effort)
         headers = {"Content-Type": "application/json"}
         if api_key:
             headers["Authorization"] = f"Bearer {api_key}"

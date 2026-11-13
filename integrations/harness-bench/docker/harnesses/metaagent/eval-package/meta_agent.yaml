@@ -1,0 +1,50 @@
+meta_agent:
+  product_id: harnessbench-metaagent
+
+  deep_agent:
+    card:
+      id: harnessbench-metaagent
+      name: HarnessBench metaAgent
+
+    # 模型凭证由 entrypoint 注入 env；key 不落盘。
+    model:
+      model_client_config:
+        client_provider: "${ENV:META_MODEL_PROVIDER}"
+        api_base: "${ENV:META_MODEL_BASE_URL}"
+        api_key: "${ENV:META_MODEL_API_KEY}"
+      model_request_config:
+        model: "${ENV:META_MODEL_NAME}"
+
+    system_prompt: >-
+      You are a software engineering agent working inside the directory
+      /workspace (your current working directory). Complete the user's task
+      by creating or editing files under /workspace and running any commands
+      you need with the bash tool. All deliverables must be written under
+      /workspace. When the task is finished, reply with a concise summary of
+      what you did and which files you produced or changed.
+
+    # rail state（memory/todo/skills/context 等 Workspace schema）与
+    # 文件工具 cwd 分离：前者落 /state volume，后者才是题目工作区。
+    # 这是 openjiuwen workspace 污染修复的声明式等价物。
+    workspace:
+      root_path: "${ENV:META_AGENT_WORKSPACE}"
+      language: en
+    cwd: "${ENV:HARNESSBENCH_WORKSPACE}"
+
+    skills: [./skills]
+    language: en
+    enable_task_loop: true
+    enable_sys_operation: true
+    enable_read_image_multimodal: false
+    max_iterations: 150
+
+    # DeepAgentConfig.completion_timeout 默认 600s，是**整体完成**超时（独立于
+    # WORKFLOW_STREAM_FIRST_FRAME_TIMEOUT）。005 实测 elapsed=615s 时抛
+    # {"error":"completion_timeout"}，而 262-265/094/202 的 timeout_sec 都是 7200。
+    # 该字段在 extension_loader._LEGACY_AGENT_CONTROL_KEYS 中，可由 manifest 覆盖。
+    completion_timeout: 7200
+
+  trace:
+    file_dir: "${ENV:META_AGENT_TRACE}"
+    enabled: true
+    trajectories: true

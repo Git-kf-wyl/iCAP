@@ -1,0 +1,6 @@
+FROM harnessbench/metaagent:0.2.0 AS telemetry
+FROM harnessbench/openjiuwen:0.1.19
+USER root
+COPY --from=telemetry /usr/local/lib/python3.12/site-packages/opentelemetry/exporter /usr/local/lib/python3.12/site-packages/opentelemetry/exporter
+COPY --from=telemetry /usr/local/lib/python3.12/site-packages/opentelemetry/proto /usr/local/lib/python3.12/site-packages/opentelemetry/proto
+USER 1000:1000

@@ -25,7 +25,12 @@ from agentcompass.errors import OptionalDependencyError
 
 logger = logging.getLogger(__name__)
 
+_PACKAGE_NAME = "agentcompass"
+# The published distribution name is not stable ("agentcompass" in earlier
+# releases, "agent-eval-agentcompass" now), so never hardcode a single name:
+# try the known aliases and whatever the installed metadata actually reports.
 _DISTRIBUTION_NAME = "agentcompass"
+_DISTRIBUTION_CANDIDATES: tuple[str, ...] = ("agentcompass", "agent-eval-agentcompass")
 _TAU2_REQUIREMENT = "tau2 @ git+https://github.com/sierra-research/tau2-bench@v1.0.1"
 _POST_INSTALL_REQUIREMENTS: dict[str, tuple[str, ...]] = {
     "taubench": (_TAU2_REQUIREMENT, ),
@@ -70,13 +75,38 @@ def missing_imports(modules: Iterable[str]) -> tuple[str, ...]:
     return tuple(missing)
 
 
-def _distribution() -> importlib.metadata.Distribution:
+def _distribution_candidates() -> tuple[str, ...]:
+    """Known aliases first, then whatever the installed metadata reports."""
+    names = list(_DISTRIBUTION_CANDIDATES)
     try:
-        return importlib.metadata.distribution(_DISTRIBUTION_NAME)
-    except importlib.metadata.PackageNotFoundError as exc:
-        raise OptionalDependencyError(
-            "AgentCompass package metadata is unavailable. Reinstall the project before using optional extras."
-        ) from exc
+        provided = importlib.metadata.packages_distributions().get(_PACKAGE_NAME, ())
+    except Exception:  # metadata backends must never break the error path
+        provided = ()
+    for name in provided:
+        name = str(name or "").strip()
+        if name and name not in names:
+            names.append(name)
+    return tuple(names)
+
+
+def _distribution() -> importlib.metadata.Distribution:
+    for name in _distribution_candidates():
+        try:
+            return importlib.metadata.distribution(name)
+        except importlib.metadata.PackageNotFoundError:
+            continue
+    raise OptionalDependencyError(
+        "AgentCompass package metadata is unavailable. Reinstall the project before using optional extras."
+    )
+
+
+def _distribution_label(distribution: importlib.metadata.Distribution) -> str:
+    """Installed distribution name, used to build installer targets."""
+    try:
+        name = distribution.metadata["Name"]
+    except Exception:
+        name = None
+    return str(name) if name else _DISTRIBUTION_NAME
 
 
 def _direct_url(distribution: importlib.metadata.Distribution) -> dict[str, Any] | None:
@@ -101,7 +131,7 @@ def _local_extra_target(distribution: importlib.metadata.Distribution, extra: st
     if path.is_dir() and (path / "pyproject.toml").is_file():
         return f"{path}[{extra}]"
     if path.is_file():
-        return f"{_DISTRIBUTION_NAME}[{extra}] @ {path.as_uri()}"
+        return f"{_distribution_label(distribution)}[{extra}] @ {path.as_uri()}"
     return None
 
 
@@ -110,7 +140,7 @@ def _extra_target(extra: str) -> str:
     local_target = _local_extra_target(distribution, extra)
     if local_target is not None:
         return local_target
-    return f"{_DISTRIBUTION_NAME}[{extra}]=={distribution.version}"
+    return f"{_distribution_label(distribution)}[{extra}]=={distribution.version}"
 
 
 def _installer_prefix() -> list[str]:

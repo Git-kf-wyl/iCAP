@@ -26,13 +26,13 @@ function emptyEndpoint() {
     max_context_length: 32768, top_k: 40, top_p: 1, temperature: 1 }
 }
 function emptyModel() {
-  return { id: '', name: '', provider: '', logo_url: '', visibility: 'private', endpoints: [emptyEndpoint()] }
+  return { id: '', name: '', provider: '', logo_url: '', visibility: 'private', effort_levels: [], endpoints: [emptyEndpoint()] }
 }
 function edit(model) {
   editingId.value = model?.id || null
   form.value = model ? {
     id: model.id, name: model.name, provider: model.provider, logo_url: model.logo_url || '',
-    visibility: model.visibility || 'private',
+    visibility: model.visibility || 'private', effort_levels: [...(model.effort_levels || [])],
     endpoints: (model.endpoints.length ? model.endpoints : [emptyEndpoint()]).map(endpoint => ({
       ...endpoint, api_key: '',
       thinking_schema: endpoint.thinking_schema && Object.keys(endpoint.thinking_schema).length
@@ -49,7 +49,7 @@ async function load() {
 async function save() {
   const body = { id: form.value.id.trim(), name: form.value.name.trim(),
     provider: form.value.provider.trim(), logo_url: form.value.logo_url.trim(),
-    visibility: form.value.visibility, endpoints: [] }
+    visibility: form.value.visibility, effort_levels: form.value.effort_levels, endpoints: [] }
   if (!body.id || !body.name || !body.provider) return ElMessage.warning('请填写模型 ID、名称和厂商')
   for (const [index, item] of form.value.endpoints.entries()) {
     if (!item.url.trim()) return ElMessage.warning(`请填写端点 ${index + 1} 的 URL`)
@@ -106,6 +106,11 @@ useReadUpdates(["/api/models"],load)
         <el-form-item label="厂商"><el-input v-model="form.provider" maxlength="60" /></el-form-item>
         <el-form-item label="Logo URL（选填）"><el-input v-model="form.logo_url" placeholder="https://..." /></el-form-item>
       </div>
+      <el-form-item label="支持的思考档位（选填）">
+        <el-select v-model="form.effort_levels" multiple placeholder="只选择模型实际支持的档位；仅支持开关时留空" style="width:100%">
+          <el-option v-for="level in ['minimal','low','medium','high','max','xhigh']" :key="level" :value="level" :label="({minimal:'极低',low:'低',medium:'中',high:'高',max:'最高',xhigh:'超高'})[level] + '（' + level + '）'" />
+        </el-select>
+      </el-form-item>
       <VisibilityField v-model="form.visibility" />
       <div v-if="form.visibility === 'public'" class="field-hint">其他登录用户可以使用这个模型对话，调用可能产生 API 费用。</div>
       <div class="endpoint-heading"><h3>API 端点</h3><el-button @click="form.endpoints.push(emptyEndpoint())">+ 添加端点</el-button></div>

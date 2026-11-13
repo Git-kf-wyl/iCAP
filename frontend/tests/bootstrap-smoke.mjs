@@ -82,7 +82,9 @@ if(mode==='fast'){
  }
  if(requests.includes('/api/auth/me'))errors.push('Extra auth request despite verified session')
  if(requests.filter(path=>path==='/api/workspace/bootstrap').length!==1)errors.push('Bootstrap request must be shared')
- if(requests.some(path=>path.startsWith('/v1/')))errors.push('Seeded pages repeated API requests')
+ const homepageReads=new Set(['/v1/get_current_full_res','/v1/get_current_multi_full_res','/v1/get_all_published_tasks'])
+ if(requests.some(path=>path.startsWith('/v1/') && !homepageReads.has(path)))errors.push('Seeded pages repeated API requests')
+ for(const path of homepageReads)if(requests.filter(value=>value===path).length>1)errors.push('Homepage fallback repeated: '+path)
  console.log(JSON.stringify({simulated_network_ms:3000,content_timings:timings}))
 }
 if(mode==='navigation'){

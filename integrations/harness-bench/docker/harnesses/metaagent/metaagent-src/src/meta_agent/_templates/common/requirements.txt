@@ -1,0 +1,3 @@
+# Business-only Python dependencies go here, with pinned versions.
+# Install the matching private MetaAgent wheel/runtime image separately.
+# AgentFlow-only packages do not require MetaAgent or OpenJiuwen.

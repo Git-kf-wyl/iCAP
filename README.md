@@ -1,6 +1,6 @@
 # iCAP 私有 Yellow 重构版
 
-本目录包含非公开业务源码。禁止推送至公开仓库、公开制品库或静态文件目录。原始源码保存在本机 D:/icap/icap_yellow_source；当前工程没有配置 Git 远端。
+本目录包含非公开业务源码。禁止推送至公开仓库、公开制品库或静态文件目录。当前工程使用私有 `icarus0309/iCAP` 仓库；原始 Yellow 源码不具有公开发布许可。
 
 基础版本：Blue 170dd76；Yellow 17862a2c6c58b96e611a99c9e71642906b1ba050。
 
@@ -24,7 +24,9 @@
 
 Hugging Face / ModelScope 下载写入账号资源库，支持私有或公开资源，不依赖原单位 S3。监控使用真实主机指标。代码评测仅在 Linux bubblewrap 隔离器验证通过后启用；隔离器没有网络、服务源码和模型密钥。
 
-原单位设备实验室、VLA 硬件、独立 Dify/Coze/Owl/Harness、外部深度研究及语音/视觉模型服务未提供，页面和接口明确提示不可用。当前仅接入现有 DeepSeek 文本服务；没有导入原仓库的模型凭据或历史得分。
+原单位设备实验室、VLA 硬件、独立 Dify/Coze/Owl、外部深度研究及语音/视觉模型服务未提供，页面和接口明确提示不可用。模型接口由平台模型配置管理；没有导入原仓库的模型凭据或历史得分。
+
+Harness 在线评测已接入服务器维护的 HarnessBench、OpenJiuwen / MetaAgent 适配和 Langfuse 观测界面；AgentCompass 保留平台评测适配与 vendor 执行能力。配套 HarnessBench 源码存放在 `integrations/harness-bench/`。功能调用链、源码来源、运行依赖与已知验证限制见 `docs/SERVER_SYNC_20261113.md`。
 
 ## 发布与回滚
 

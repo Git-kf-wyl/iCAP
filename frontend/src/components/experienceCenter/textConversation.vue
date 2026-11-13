@@ -443,7 +443,8 @@ async function send() {
             userId:token.value,
             isDeepResearch:isDeepResearch.value,
             deepResearchType:deepResearchType.value,
-            isThink:isThink.value
+            isThink:!!agent.params.thinking,
+            reasoningEffort:agent.params.thinking ? (agent.params.reasoning_effort || undefined) : undefined
           },
           (message) => {
             msg.content = message
@@ -1105,13 +1106,7 @@ const displayFileName = computed(() => {
                     </el-select>
                   </div>
                 </el-checkbox-button>
-                <el-checkbox-button v-model="isThink" label="深度思考" border class="thinkBtn">
-                  <div class="icon-transition">
-                    <img src="/images/shendusikao_white.png" :class="{ 'show': isThink }" />
-                    <img src="/images/shendusikao.png" :class="{ 'show': !isThink }" />
-                  </div>
-                  深度思考
-                </el-checkbox-button>
+                <span style="font-size:12px;color:#909399">可在各模型参数中设置思考模式与档位</span>
               </div>
 
               <!-- 右侧分组：包裹两个发送按钮 -->
@@ -1202,6 +1197,16 @@ const displayFileName = computed(() => {
                       <el-tag v-if="!isLocalChatModelById(m)" effect="light" hit round type="warning" size="small">外部模型</el-tag>
                     </span>
                   </el-option>
+                </el-select>
+              </div>
+              <div class="param-item" v-if="modelStore.getModelById(agent.modelId)?.thinking_capabilities?.supports_thinking">
+                <label>思考模式</label>
+                <el-switch v-model="agent.params.thinking" active-text="开启" inactive-text="关闭" />
+              </div>
+              <div class="param-item" v-if="agent.params.thinking && modelStore.getModelById(agent.modelId)?.thinking_capabilities?.reasoning_efforts?.length">
+                <label>思考档位</label>
+                <el-select v-model="agent.params.reasoning_effort" clearable placeholder="模型默认">
+                  <el-option v-for="level in modelStore.getModelById(agent.modelId).thinking_capabilities.reasoning_efforts" :key="level" :value="level" :label="({minimal:'极低',low:'低',medium:'中',high:'高',max:'最高',xhigh:'超高'})[level] || level" />
                 </el-select>
               </div>
               <!-- 滑条参数 -->

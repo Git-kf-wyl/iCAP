@@ -1,0 +1,167 @@
+[
+  {
+    "group": "core",
+    "task_id": "001-meeting-summary",
+    "purpose": "DNSSEC SQLite 崩溃恢复",
+    "environment": "SQLite、事务日志、跨文件证据与语义裁决",
+    "suite": "main",
+    "semantic_judge": true,
+    "task_timeout_sec": 7200,
+    "experimental_task_environments": true,
+    "source": "harness-bench/tasks/001-meeting-summary/instruction.md"
+  },
+  {
+    "group": "core",
+    "task_id": "005-repository-regression-bisect-repair",
+    "purpose": "Git 回归定位与修复",
+    "environment": "真实 Git 历史、bisect、pytest、子进程",
+    "suite": "main",
+    "semantic_judge": false,
+    "task_timeout_sec": 3600,
+    "experimental_task_environments": true,
+    "source": "harness-bench/tasks/005-repository-regression-bisect-repair/instruction.md"
+  },
+  {
+    "group": "core",
+    "task_id": "011-calendar-scheduling-conflict",
+    "purpose": "跨时区排程",
+    "environment": "系统 tzdata、zoneinfo、时间边界",
+    "suite": "main",
+    "semantic_judge": false,
+    "task_timeout_sec": 1800,
+    "experimental_task_environments": true,
+    "source": "harness-bench/tasks/011-calendar-scheduling-conflict/instruction.md"
+  },
+  {
+    "group": "core",
+    "task_id": "030-sql-query-report",
+    "purpose": "可重复执行的 SQL 报表",
+    "environment": "SQLite、视图、幂等性、财务对账",
+    "suite": "main",
+    "semantic_judge": false,
+    "task_timeout_sec": 7200,
+    "experimental_task_environments": true,
+    "source": "harness-bench/tasks/030-sql-query-report/instruction.md"
+  },
+  {
+    "group": "core",
+    "task_id": "110-ooxml-revision-adjudication-recovery",
+    "purpose": "Word 修订包恢复",
+    "environment": "真实 OOXML ZIP/XML、journal、权限与依赖裁决",
+    "suite": "main",
+    "semantic_judge": true,
+    "task_timeout_sec": 7200,
+    "experimental_task_environments": true,
+    "source": "harness-bench/tasks/110-ooxml-revision-adjudication-recovery/instruction.md"
+  },
+  {
+    "group": "office",
+    "task_id": "004-office-docs",
+    "purpose": "销售结算 Word 与 CSV",
+    "environment": "python-docx、lxml、模板保留、金额计算及裁决",
+    "suite": "main",
+    "semantic_judge": true,
+    "task_timeout_sec": 7200,
+    "experimental_task_environments": false,
+    "source": "harness-bench/tasks/004-office-docs/instruction.md"
+  },
+  {
+    "group": "office",
+    "task_id": "259-editable-management-review-deck",
+    "purpose": "可编辑管理汇报 PPTX",
+    "environment": "标准库 ZIP/XML、6页原生OOXML；不要求 PowerPoint 进程",
+    "suite": "main",
+    "semantic_judge": false,
+    "task_timeout_sec": 7200,
+    "experimental_task_environments": false,
+    "source": "harness-bench/tasks/259-editable-management-review-deck/instruction.md"
+  },
+  {
+    "group": "office",
+    "task_id": "261-sales-analysis-formula-workbook",
+    "purpose": "公式销售分析 XLSX",
+    "environment": "公开 spreadsheet_writer、公式、图表、异常清单；不要求 Excel 进程",
+    "suite": "main",
+    "semantic_judge": false,
+    "task_timeout_sec": 7200,
+    "experimental_task_environments": false,
+    "source": "harness-bench/tasks/261-sales-analysis-formula-workbook/instruction.md"
+  },
+  {
+    "group": "office",
+    "task_id": "267-eldercare-research-evidence-report",
+    "purpose": "中英文证据研究报告",
+    "environment": "本地检索CLI、多源引用、计算与文件编码",
+    "suite": "main",
+    "semantic_judge": false,
+    "task_timeout_sec": 7200,
+    "experimental_task_environments": false,
+    "source": "harness-bench/tasks/267-eldercare-research-evidence-report/instruction.md"
+  },
+  {
+    "group": "media",
+    "task_id": "272-video-compression-fidelity-delivery",
+    "purpose": "视频压缩及内容保真",
+    "environment": "agent 与 grader 均需 FFmpeg/ffprobe；H.264/AAC、完整解码",
+    "suite": "main",
+    "semantic_judge": false,
+    "task_timeout_sec": 7200,
+    "experimental_task_environments": false,
+    "source": "harness-bench/tasks/272-video-compression-fidelity-delivery/instruction.md"
+  },
+  {
+    "group": "media",
+    "task_id": "273-safe-skill-archive-packaging",
+    "purpose": "安全技能 ZIP 交付",
+    "environment": "文件大小、SHA256、ZIP 路径约束、入口脚本运行",
+    "suite": "main",
+    "semantic_judge": false,
+    "task_timeout_sec": 7200,
+    "experimental_task_environments": false,
+    "source": "harness-bench/tasks/273-safe-skill-archive-packaging/instruction.md"
+  },
+  {
+    "group": "services",
+    "task_id": "052-local-html-dom-form-extract",
+    "purpose": "预约站点临时占位",
+    "environment": "本地 HTTP 服务、Cookie、CSRF、表单、ICS；仅一次提交",
+    "suite": "main",
+    "semantic_judge": false,
+    "task_timeout_sec": 1800,
+    "experimental_task_environments": true,
+    "source": "harness-bench/tasks/052-local-html-dom-form-extract/instruction.md"
+  },
+  {
+    "group": "services",
+    "task_id": "094-alert-routing-repair",
+    "purpose": "告警路由与静默恢复",
+    "environment": "本地有状态控制面模拟服务、YAML、固定版本校验器",
+    "suite": "main",
+    "semantic_judge": false,
+    "task_timeout_sec": 7200,
+    "experimental_task_environments": true,
+    "source": "harness-bench/tasks/094-alert-routing-repair/instruction.md"
+  },
+  {
+    "group": "frontend",
+    "task_id": "010-support-ticket-router",
+    "purpose": "客服工单交互工作台",
+    "environment": "Node/npm、React/TypeScript/Vite、Playwright/Chromium、多控件状态",
+    "suite": "multimodal26",
+    "semantic_judge": false,
+    "task_timeout_sec": 2400,
+    "experimental_task_environments": false,
+    "source": "harness-bench/suites/multimodal26/tasks/010-support-ticket-router/instruction.md"
+  },
+  {
+    "group": "frontend",
+    "task_id": "014-accessibility-retrofit",
+    "purpose": "无障碍截图标注应用",
+    "environment": "SVG标注坐标、浏览器交互、键盘与移动视口验证",
+    "suite": "multimodal26",
+    "semantic_judge": false,
+    "task_timeout_sec": 2400,
+    "experimental_task_environments": false,
+    "source": "harness-bench/suites/multimodal26/tasks/014-accessibility-retrofit/instruction.md"
+  }
+]
