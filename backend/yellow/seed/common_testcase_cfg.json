@@ -1351,5 +1351,41 @@
     "register": "admin",
     "is_published": true,
     "availability": "dataset_required"
+  },
+  "mmsu": {
+    "dataset_name": "mmsu",
+    "local_path": "./testsuite/TestSuite/mmsu",
+    "few_shot_num": 0,
+    "few_shot_file_path": [],
+    "description": "MMSU 语音理解基准（ICLR 2026）：5000 道四选一听觉题，覆盖 47 个子任务，Perception 2580 + Reasoning 2420。题目需听取音频作答，仅支持音频输入的模型可评测。",
+    "subset_list": [],
+    "default_subsets": [],
+    "metric_list": [
+      "AverageAccuracy"
+    ],
+    "testcase_tags": [
+      "语音",
+      "多模态"
+    ],
+    "content": "",
+    "establish_time": "2026-11-18 10:00:00",
+    "is_open_source": true,
+    "need_llmjudge": false,
+    "file_list": [
+      "train-00000-of-00003.parquet",
+      "train-00001-of-00003.parquet",
+      "train-00002-of-00003.parquet"
+    ],
+    "few_file_list": [],
+    "is_field": "1",
+    "status": 1,
+    "dataSet_cases": "5000",
+    "system_prompt": "",
+    "user_prompt": "",
+    "viewer_users": [],
+    "editor_users": [],
+    "register": "admin",
+    "is_published": true,
+    "availability": "ready"
   }
 }
