@@ -739,15 +739,15 @@ def run_testcase_ruler1():
     required_fields = ['stream', 'model_id', 'limit', 'datasets', 'name', 'assessmentType', 'judge_worker_num', 'dataset_args']
     if any((field not in user_req for field in required_fields)):
         return ({'err_info': 'PARAM_ERR'}, PARAM_ERR)
-    users = []
-    with open_state(ADMIN_MEMBER, 'r', encoding='utf-8') as f:
-        reader = csv.DictReader(f)
-        for row in reader:
-            user_value = row.get('user', '').strip()
-            if user_value:
-                users.append(user_value)
-    if not user_req['username'] or user_req['username'] not in users:
-        return (jsonify({'message': f'用户无权限，请联系管理员添加'}), 400)
+    # users = []
+    # with open_state(ADMIN_MEMBER, 'r', encoding='utf-8') as f:
+    #     reader = csv.DictReader(f)
+    #     for row in reader:
+    #         user_value = row.get('user', '').strip()
+    #         if user_value:
+    #             users.append(user_value)
+    # if not user_req['username'] or user_req['username'] not in users:
+    #     return (jsonify({'message': f'用户无权限，请联系管理员添加'}), 400)
     model_id = user_req['model_id']
     print(os.getcwd())
     with open_state(COMMON_TESTCASE_PATH, 'r', encoding='utf-8') as f:
