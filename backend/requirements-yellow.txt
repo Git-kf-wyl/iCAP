@@ -28,3 +28,5 @@ wcwidth>=0.2,<1
 jionlp>=1.5,<2
 qwen-agent>=0.0.29,<1
 soundfile>=0.13,<1
+# MMSU 语音基准：soundfile 解码后重采样到 16kHz，与官方 HF Audio 口径一致
+soxr>=1.0,<2
