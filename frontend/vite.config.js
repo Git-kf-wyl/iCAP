@@ -20,4 +20,4 @@ export default defineConfig({esbuild:{drop:["console","debugger"]},plugins:[vue(
     if(id.includes('@element-plus/icons-vue'))return 'icons'
     if(id.includes('element-plus'))return 'element-plus'
     if(id.includes('echarts')||id.includes('zrender'))return 'charts'
-  }}}},server:{host:'127.0.0.1',port:5174,proxy:{'/api':'http://127.0.0.1:8082','/v1':'http://127.0.0.1:8082','/ws':{target:'ws://127.0.0.1:8082',ws:true}}}})
+  }}}},server:{host:'127.0.0.1',port:5174,proxy:{'/api':'http://127.0.0.1:8081','/v1':'http://127.0.0.1:8081','/ws':{target:'ws://127.0.0.1:8081',ws:true}}}})

@@ -152,5 +152,5 @@ write('vite.config.js', '''import {fileURLToPath,URL} from 'node:url'
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
 export default defineConfig({plugins:[vue()],resolve:{alias:{'@':fileURLToPath(new URL('./src',import.meta.url))}},
-  build:{sourcemap:false},server:{host:'127.0.0.1',port:5174,proxy:{'/api':'http://127.0.0.1:8082','/v1':'http://127.0.0.1:8082','/ws':{target:'ws://127.0.0.1:8082',ws:true}}}})''')
+  build:{sourcemap:false},server:{host:'127.0.0.1',port:5174,proxy:{'/api':'http://127.0.0.1:8081','/v1':'http://127.0.0.1:8081','/ws':{target:'ws://127.0.0.1:8081',ws:true}}}})''')
 print('Yellow frontend prepared with isolated Blue extensions')
